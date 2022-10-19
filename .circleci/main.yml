@@ -21,9 +21,9 @@ jobs:
       - run:
           name: Build
           command: npm run build
-      - run:
-          name: Run tests
-          command: npm run test
+      #- run:
+      #    name: Run tests
+      #    command: npm run test
       - codecov/upload:
           token: CODECOV_TOKEN
 
