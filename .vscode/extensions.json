@@ -1,0 +1,30 @@
+{
+  "recommendations": [
+    "ionic.ionic",
+    "angular.ng-template",
+    "cyrilletuzi.angular-schematics",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag",
+    "usernamehw.errorlens",
+    "dbaeumer.vscode-eslint",
+    "redstone12.explosion",
+    "tombonnike.vscode-status-bar-format-toggle",
+    "github.copilot",
+    "eamodio.gitlens",
+    "xabikos.javascriptsnippets",
+    "firsttris.vscode-jest-runner",
+    "cmstead.js-codeformer",
+    "pkief.material-icon-theme",
+    "christian-kohler.npm-intellisense",
+    "esbenp.prettier-vscode",
+    "rbbit.typescript-hero",
+    "dskwrk.vscode-generate-getter-setter",
+    "mikael.angular-beastcode",
+    "christian-kohler.path-intellisense",
+    "steoates.autoimport",
+    "infinity1207.angular2-switcher",
+    "simontest.simontest",
+    "quicktype.quicktype",
+    "obenjiro.arrr"
+  ]
+}

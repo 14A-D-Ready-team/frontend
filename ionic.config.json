@@ -1,0 +1,7 @@
+{
+  "name": "ready-app-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

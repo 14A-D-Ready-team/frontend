@@ -1,0 +1,55 @@
+setup: true
+version: 2.1
+
+orbs:
+  node: circleci/node@4.7
+  continuation: circleci/continuation@0.2.0
+
+jobs:
+  format-code:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "a5:0c:71:4b:ba:ef:6b:c4:6e:a2:68:13:b3:85:75:4f"
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Format code
+          command: npm run format || echo ""
+      - run:
+          name: Configure git
+          command: |
+            git config user.email "ready-ci-bot@ready.com"
+            git config user.name "CircleCI Job"
+      - run:
+          name: Commit changes
+          command: |
+            git commit -am "Format code [skip ci]" || 
+            echo "No changes to commit"
+      - run:
+          name: Push changes
+          command: git push origin $CIRCLE_BRANCH
+
+workflows:
+  setup:
+    jobs:
+      - format-code
+      - continuation/continue:
+          requires:
+            - format-code
+          configuration_path: ".circleci/main.yml"
+          parameters: /home/circleci/params.json
+          pre-steps:
+            - run:
+                command: |
+                  if [ -z "${CIRCLE_PULL_REQUEST##*/}" ]
+                  then
+                    RUN_BUILD=false
+                  else
+                    RUN_BUILD=true
+                  fi
+                  echo $RUN_BUILD
+                  echo '{ "run_build": '$RUN_BUILD' }' >> /home/circleci/params.json
