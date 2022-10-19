@@ -23,9 +23,7 @@ jobs:
       - run:
           name: Run tests
           command: npm run test
-      - run:
-          name: Run E2E tests
-          command: npm run e2e
+
       - codecov/upload:
           token: CODECOV_TOKEN
 
