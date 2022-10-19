@@ -45,6 +45,7 @@ module.exports = {
         "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/no-empty-function": ["warn"],
         "prettier/prettier": "off",
+        "prefer-arrow/prefer-arrow-functions": "off",
       },
     },
     {
