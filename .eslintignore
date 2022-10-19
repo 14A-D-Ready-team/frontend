@@ -3,4 +3,3 @@ projects/**/*
 node_modules/**/*
 dist/**/*
 **/*.spec.ts
-**/*.cy.js
