@@ -9,7 +9,7 @@
     "build": "ng build",
     "test": "ng test --code-coverage",
     "lint": "ng lint",
-    "format": "prettier --write \"./**/*.ts\" \"./**/*.html\" \"./**/*.scss\" \"./**/*.json\" \"./**/*.js\" \"./**/*.css\"",
+    "format": "prettier --write \"./**/*.ts\" \"./**/*.css\" \"./**/*.html\" \"./**/*.scss\" \"./**/*.json\" \"./**/*.js\" ",
     "e2e": "cypress run",
     "dev:ssr": "ng run app:serve-ssr",
     "serve:ssr": "node dist/app/server/main.js",
