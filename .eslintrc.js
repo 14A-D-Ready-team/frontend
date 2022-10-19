@@ -1,11 +1,10 @@
 module.exports = {
   root: true,
-  ignorePatterns: ["projects/**/*", ".eslintrc.json"],
   overrides: [
     {
       files: ["*.ts"],
       parserOptions: {
-        project: ["tsconfig.json", "e2e/tsconfig.json"],
+        project: ["tsconfig.json"],
         createDefaultProgram: true,
       },
       extends: [
