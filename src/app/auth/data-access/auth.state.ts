@@ -1,6 +1,11 @@
 import { Injectable } from "@angular/core";
-import { State } from "@ngxs/store";
+import { State, StateToken } from "@ngxs/store";
 
-@State({ name: "auth" })
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AuthStateModel {}
+
+export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
+
+@State<AuthStateModel>({ name: AUTH_STATE_TOKEN })
 @Injectable()
 export class AuthState {}
