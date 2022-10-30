@@ -19,7 +19,5 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "typescript.tsdk": "node_modules\\typescript\\lib",
-  "javascript.validate.enable": false,
-  "typescript.validate.enable": false
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
