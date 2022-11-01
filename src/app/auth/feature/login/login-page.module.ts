@@ -6,6 +6,7 @@ import { IonicModule } from "@ionic/angular";
 import { LoginPageRoutingModule } from "./login-page-routing.module";
 import { LoginPage } from "./login.page";
 import { LoginState } from "./login.state";
+import { ExternalAuthModule } from "@app/shared/external-auth";
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { LoginState } from "./login.state";
     IonicModule,
     LoginPageRoutingModule,
     NgxsModule.forFeature([LoginState]),
+    ExternalAuthModule.forFeature(),
   ],
   declarations: [LoginPage],
   providers: [],

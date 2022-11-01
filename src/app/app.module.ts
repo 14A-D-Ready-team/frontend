@@ -22,7 +22,7 @@ const routeReuseStrategyProvider = {
     AppRoutingModule,
     HttpClientModule,
     NgxsModule.forRoot([], { developmentMode: !environment.production }),
-    ExternalAuthModule,
+    ExternalAuthModule.forRoot(),
   ],
   providers: [routeReuseStrategyProvider],
   bootstrap: [AppComponent],
