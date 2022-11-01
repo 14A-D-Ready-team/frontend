@@ -16,5 +16,6 @@ import { LoginState } from "./login.state";
     NgxsModule.forFeature([LoginState]),
   ],
   declarations: [LoginPage],
+  providers: [],
 })
 export class LoginPageModule {}
