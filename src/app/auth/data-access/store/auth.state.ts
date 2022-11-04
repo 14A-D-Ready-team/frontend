@@ -1,8 +1,10 @@
 import { SocialAuthService } from "@abacritt/angularx-social-login";
-import { ExternalAuthService } from "./../../shared/external-auth/data-access/external-auth.service";
 import { Injectable } from "@angular/core";
+import { ExternalAuthService } from "@shared/external-auth";
 import { State, StateToken } from "@ngxs/store";
-import { of } from "rxjs";
+import { of, switchMap } from "rxjs";
+import { GoogleAuthService } from "../service";
+import { VerifyGoogleAuthDto } from "../dto";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AuthStateModel {}
@@ -15,9 +17,23 @@ export class AuthState {
   constructor(
     private externalAuthService: ExternalAuthService,
     private socialAuthService: SocialAuthService,
-    private,
+    private googleAuthService: GoogleAuthService,
   ) {
     this.externalAuthService.loginDisabled$ = of(false);
-    this.socialAuthService.authState.subscribe({ next: user => {} });
+    this.socialAuthService.authState
+      .pipe(
+        switchMap(user =>
+          user === null
+            ? of(null)
+            : googleAuthService.verify(
+                new VerifyGoogleAuthDto(user.idToken, 0),
+              ),
+        ),
+      )
+      .subscribe({
+        next(value) {
+          console.log(value);
+        },
+      });
   }
 }
