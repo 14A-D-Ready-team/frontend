@@ -11,7 +11,7 @@ export class VerifyGoogleAuth {
   constructor(private idToken: string, private userType: UserType) {}
 }
 
-export class SetAuthResult{
+export class SetAuthResult {
   public static readonly type = "[Auth] SetAuthResult";
 
   constructor() {}

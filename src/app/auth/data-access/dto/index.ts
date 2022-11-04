@@ -1,1 +1,1 @@
-export * from "./verify-google-auth.dto"
+export * from "./verify-google-auth.dto";

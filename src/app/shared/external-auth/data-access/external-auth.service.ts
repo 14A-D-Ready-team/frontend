@@ -12,5 +12,4 @@ export class ExternalAuthService {
   public set loginDisabled$(condition: Observable<boolean>) {
     this.loginDisabledConditions.next(condition);
   }
-  
 }

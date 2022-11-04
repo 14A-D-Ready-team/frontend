@@ -11,10 +11,9 @@ export class VerifyGoogleAuthDto {
   @Expose()
   @IsEnum(UserType)
   public userType: UserType;
-  
+
   constructor(token: string, userType: UserType) {
     this.token = token;
     this.userType = userType;
   }
-
 }
