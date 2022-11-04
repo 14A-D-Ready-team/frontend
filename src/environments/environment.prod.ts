@@ -3,4 +3,7 @@ export const environment = {
   google: {
     clientId: "YOUR_GOOGLE_CLIENT_ID",
   },
+  api: {
+    url: "",
+  },
 };
