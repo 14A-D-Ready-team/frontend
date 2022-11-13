@@ -1,0 +1,122 @@
+@import "/src/global.scss";
+
+.card {
+  @include flex-center;
+  background-color: $card-background;
+  position: fixed;
+  bottom: 0;
+  border-radius: 20px 20px 0px 0px;
+  height: 65vh;
+}
+
+h1 {
+  color: $ready-red;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 5%;
+}
+
+.card form {
+  @include flex-center;
+}
+
+.input-container {
+  max-width: 500px;
+  margin: 0.7rem;
+  position: relative;
+  @include flex-center;
+
+  input {
+    height: 2rem;
+    width: 80%;
+    border-radius: 5rem;
+    font-size: 0.8rem;
+    padding-left: 2rem;
+
+    background-color: white;
+    color: black;
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+  }
+  a {
+    align-self: flex-end;
+    margin: 0.2rem 10%;
+    font-size: 0.8rem;
+    color: #b0b0ae;
+    text-decoration: underline;
+  }
+}
+
+.sign-up {
+  font-size: 0.8rem;
+  color: black;
+  font-weight: 700;
+}
+
+.sign-up-link {
+  font-size: 0.8rem;
+  color: $ready-red;
+}
+
+.decor-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  p {
+    color: #92928e;
+    font-size: 0.8rem;
+    margin: 0rem 0.5rem;
+    font-weight: 500;
+  }
+  .line {
+    width: 35vw;
+    max-width: 400px;
+    height: 0.2rem;
+    background-color: #92928e;
+    border-radius: 20px;
+  }
+}
+
+@mixin other-button {
+  height: 6vh;
+  width: 85vw;
+  font-size: 0.8rem;
+  max-width: 350px;
+  border-radius: 30px;
+  font-weight: 600;
+  margin: 0.5rem;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15),
+    inset 0px 4px 16px rgba(59, 89, 152, 0.25);
+}
+
+.other-container {
+  @include flex-center;
+  margin: 1rem;
+  .facebook-btn {
+    background-color: #2660da;
+    @include other-button();
+  }
+  .google-btn {
+    background-color: #fcfcfa;
+    @include other-button();
+    color: black;
+    border: 0.1rem solid black;
+  }
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  height: 35vh;
+  img {
+    margin: 0.5rem;
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  * {
+    font-size: 16px;
+  }
+}
