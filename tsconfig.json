@@ -14,7 +14,9 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "@app": ["src/app"]
+      "@app/*": ["src/app/*"],
+      "@/*": ["src/*"],
+      "@shared/*": ["src/app/shared/*"]
     }
   },
   "angularCompilerOptions": {
