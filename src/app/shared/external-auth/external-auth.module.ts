@@ -1,4 +1,4 @@
-import { ExternalAuthService } from "./data-access";
+import { ExternalAuthService, LoginDisabledStreamStore } from "./data-access";
 import { NgModule, Optional } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
@@ -16,7 +16,11 @@ export class ExternalAuthBaseModule {}
 
 @NgModule({
   imports: [CommonModule, SocialLoginModule, ExternalAuthBaseModule],
-  providers: [socialAuthConfigProvider, ExternalAuthService],
+  providers: [
+    socialAuthConfigProvider,
+    ExternalAuthService,
+    LoginDisabledStreamStore,
+  ],
   exports: [GoogleLoginButtonDirective],
 })
 export class ExternalAuthRootModule {

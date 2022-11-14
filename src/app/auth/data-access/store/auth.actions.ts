@@ -1,5 +1,5 @@
-import { VerifyGoogleAuthDto } from "./../dto/verify-google-auth.dto";
 import { UserType } from "@app/user";
+import { VerifyGoogleAuthDto } from "../dto";
 
 export class VerifyGoogleAuth {
   public static readonly type = "[Auth] VerifyGoogleAuth";
@@ -9,10 +9,4 @@ export class VerifyGoogleAuth {
   }
 
   constructor(private idToken: string, private userType: UserType) {}
-}
-
-export class SetAuthResult {
-  public static readonly type = "[Auth] SetAuthResult";
-
-  constructor() {}
 }

@@ -1,15 +1,28 @@
+import { SocialAuthService } from "@abacritt/angularx-social-login";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, of, switchMap } from "rxjs";
+import { filter, map, Observable } from "rxjs";
+import { CustomGoogleAuthProvider } from "./custom-google-auth-provider";
+import { LoginDisabledStreamStore } from "./login-disabled-stream.store";
 
 @Injectable()
 export class ExternalAuthService {
-  private loginDisabledConditions = new BehaviorSubject(of(false));
-
   public get loginDisabled$() {
-    return this.loginDisabledConditions.pipe(switchMap(condition => condition));
+    return this.loginDisabledStreamStore.loginDisabled$;
   }
 
   public set loginDisabled$(condition: Observable<boolean>) {
-    this.loginDisabledConditions.next(condition);
+    this.loginDisabledStreamStore.loginDisabled$ = condition;
   }
+
+  public get googleToken$() {
+    return this.socialAuthService.authState.pipe(
+      filter(state => state.provider === CustomGoogleAuthProvider.PROVIDER_ID),
+      map(state => state.idToken),
+    );
+  }
+
+  constructor(
+    private loginDisabledStreamStore: LoginDisabledStreamStore,
+    private socialAuthService: SocialAuthService,
+  ) {}
 }

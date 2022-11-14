@@ -4,12 +4,14 @@ import {
   SocialAuthServiceConfig,
 } from "@abacritt/angularx-social-login";
 import { Provider } from "@angular/core";
-import { CustomGoogleAuthProvider } from "./data-access";
-import { ExternalAuthService } from "./data-access/external-auth.service";
+import {
+  CustomGoogleAuthProvider,
+  LoginDisabledStreamStore,
+} from "./data-access";
 
 export default {
   provide: "SocialAuthServiceConfig",
-  useFactory: (externalAuthService: ExternalAuthService) => {
+  useFactory: (store: LoginDisabledStreamStore) => {
     return {
       autoLogin: false,
       providers: [
@@ -17,12 +19,12 @@ export default {
           id: GoogleLoginProvider.PROVIDER_ID,
           provider: new CustomGoogleAuthProvider(
             environment.google.clientId,
-            externalAuthService.loginDisabled$,
+            store.loginDisabled$,
             { oneTapEnabled: true, scopes: ["email", "profile"] },
           ),
         },
       ],
     } as SocialAuthServiceConfig;
   },
-  deps: [ExternalAuthService],
+  deps: [LoginDisabledStreamStore],
 } as Provider;

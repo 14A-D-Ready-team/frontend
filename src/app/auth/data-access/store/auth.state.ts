@@ -1,13 +1,21 @@
-import { SocialAuthService } from "@abacritt/angularx-social-login";
 import { Injectable } from "@angular/core";
 import { ExternalAuthService } from "@shared/external-auth";
-import { State, StateToken } from "@ngxs/store";
-import { of, switchMap } from "rxjs";
+import { Action, State, StateContext, StateToken, Store } from "@ngxs/store";
+import { map, of, switchMap, tap } from "rxjs";
 import { GoogleAuthService } from "../service";
-import { VerifyGoogleAuthDto } from "../dto";
+import { VerifyGoogleAuth } from "./auth.actions";
+import { UserType } from "@app/user";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AuthStateModel {}
+enum SocialAuthStatus {
+  Idle,
+  Pending,
+  Success,
+  Error,
+}
+
+export interface AuthStateModel {
+  googleVerifyStatus: SocialAuthStatus;
+}
 
 export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
 
@@ -16,24 +24,31 @@ export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
 export class AuthState {
   constructor(
     private externalAuthService: ExternalAuthService,
-    private socialAuthService: SocialAuthService,
     private googleAuthService: GoogleAuthService,
+    private store: Store,
   ) {
-    this.externalAuthService.loginDisabled$ = of(false);
-    this.socialAuthService.authState
+    externalAuthService.loginDisabled$ = of(false);
+
+    externalAuthService.googleToken$
       .pipe(
-        switchMap(user =>
-          user === null
-            ? of(null)
-            : googleAuthService.verify(
-                new VerifyGoogleAuthDto(user.idToken, 0),
-              ),
+        switchMap(idToken =>
+          store.dispatch(new VerifyGoogleAuth(idToken, UserType.Customer)),
         ),
       )
-      .subscribe({
-        next(value) {
-          console.log(value);
-        },
-      });
+      .subscribe();
+  }
+
+  @Action(VerifyGoogleAuth)
+  public verifyGoogleAuth(
+    ctx: StateContext<AuthStateModel>,
+    action: VerifyGoogleAuth,
+  ) {
+    ctx.patchState({ googleVerifyStatus: SocialAuthStatus.Pending });
+
+    return this.googleAuthService.verify(action.dto).pipe(
+      tap(res => {
+        console.log(res);
+      }),
+    );
   }
 }
