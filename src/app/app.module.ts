@@ -8,6 +8,7 @@ import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { environment } from "@/environments/environment";
 import { ExternalAuthModule } from "./shared/external-auth";
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
@@ -22,6 +23,7 @@ const routeReuseStrategyProvider = {
     AppRoutingModule,
     HttpClientModule,
     NgxsModule.forRoot([], { developmentMode: !environment.production }),
+    NgxsReduxDevtoolsPluginModule.forRoot({ disabled: environment.production }),
     ExternalAuthModule.forRoot(),
   ],
   providers: [routeReuseStrategyProvider],

@@ -19,7 +19,10 @@ export interface AuthStateModel {
 
 export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
 
-@State<AuthStateModel>({ name: AUTH_STATE_TOKEN })
+@State<AuthStateModel>({
+  name: AUTH_STATE_TOKEN,
+  defaults: { googleVerifyStatus: SocialAuthStatus.Idle },
+})
 @Injectable()
 export class AuthState {
   constructor(
