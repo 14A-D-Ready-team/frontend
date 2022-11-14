@@ -27,32 +27,42 @@
 
 @import url("https://fonts.cdnfonts.com/css/poppins");
 
+//colors
 $ready-red: #c30b00;
 $ready-yellow: #ffda00;
 $card-background: #f9fbfc;
 
+//font sizes
+$s-font: 0.8em;
+$m-font: 1em;
+$l-font: 1.5em;
+
+//general
 * {
   font-family: "Poppins";
   font-size: 18px;
 }
 
-@mixin flex-center {
+//flex container
+@mixin flex-center($direction) {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
+  flex-direction: $direction;
 }
 
+//default red button
 .ready-btn {
-  height: 6vh;
-  width: 80vw;
+  height: 3em;
+  width: 80%;
   background-color: $ready-red;
-  max-width: 350px;
-  font-size: 1rem;
+  color: white;
+  font-size: $m-font;
   border-radius: 4rem;
+  margin: 0.3em 0em;
   box-shadow: 0px 10px 60px rgba(37, 37, 28, 0.15),
     inset 0px 4px 16px rgba(36, 36, 36, 0.25);
-  margin: 3%;
   font-weight: 500;
 }

@@ -1,122 +1,144 @@
 @import "/src/global.scss";
 
+* {
+  margin: 0;
+  padding: 0;
+  color: black;
+}
+
+body {
+  background-color: #25251c;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 35vh 65vh;
+  width: 100%;
+  height: 100%;
+}
+
+.logo {
+  height: 100%;
+  width: 100%;
+  @include flex-center(column);
+  img {
+    width: 75%;
+    height: auto;
+    margin: 0.5em;
+  }
+}
+
 .card {
-  @include flex-center;
+  height: 100%;
+  width: 100%;
   background-color: $card-background;
-  position: fixed;
-  bottom: 0;
-  border-radius: 20px 20px 0px 0px;
-  height: 65vh;
+  @include flex-center(column);
+  overflow-x: hidden;
+  border-radius: 1em 1em 0em 0em;
 }
 
 h1 {
+  font-size: $l-font;
   color: $ready-red;
-  font-size: 1.5rem;
   font-weight: 600;
-  margin-top: 5%;
 }
 
-.card form {
-  @include flex-center;
+form {
+  @include flex-center(column);
 }
 
 .input-container {
-  max-width: 500px;
-  margin: 0.7rem;
-  position: relative;
-  @include flex-center;
+  @include flex-center(row);
+  margin: 0.4em 0em;
+  border-radius: 2em;
+  width: 85%;
+
+  outline: 0.5px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
 
   input {
-    height: 2rem;
-    width: 80%;
-    border-radius: 5rem;
-    font-size: 0.8rem;
-    padding-left: 2rem;
+    width: 90%;
+    height: 2.5em;
+    border: none;
+    outline: none;
+    font-size: $m-font;
 
-    background-color: white;
+    background-color: transparent;
     color: black;
-    border: 0.5px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
   }
+  img {
+    height: 2em;
+    width: 2em;
+    margin: 0em 1em;
+  }
+}
+
+.pswd-container {
+  @include flex-center(column);
+  margin: 0.5em 0em;
   a {
     align-self: flex-end;
-    margin: 0.2rem 10%;
-    font-size: 0.8rem;
-    color: #b0b0ae;
-    text-decoration: underline;
+    margin: 0 12%;
+    font-size: $s-font;
+    color: #92928e;
   }
 }
 
 .sign-up {
-  font-size: 0.8rem;
-  color: black;
-  font-weight: 700;
-}
-
-.sign-up-link {
-  font-size: 0.8rem;
-  color: $ready-red;
+  margin: 0.5em 0em;
+  font-size: $s-font;
+  p {
+    display: inline-block;
+    font-size: $m-font;
+  }
+  a {
+    font-size: $m-font;
+    margin-left: 0.5em;
+    color: $ready-red;
+  }
 }
 
 .decor-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  max-width: 400px;
-  p {
-    color: #92928e;
-    font-size: 0.8rem;
-    margin: 0rem 0.5rem;
-    font-weight: 500;
-  }
+  margin: 0.3em 0em;
+  @include flex-center(row);
   .line {
-    width: 35vw;
-    max-width: 400px;
-    height: 0.2rem;
+    width: 35%;
+    height: 0.2em;
     background-color: #92928e;
-    border-radius: 20px;
+    border-radius: 0.5em;
+  }
+  p {
+    margin: 0em 0.5em;
+    color: #92928e;
   }
 }
 
 @mixin other-button {
-  height: 6vh;
-  width: 85vw;
-  font-size: 0.8rem;
-  max-width: 350px;
-  border-radius: 30px;
-  font-weight: 600;
-  margin: 0.5rem;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15),
-    inset 0px 4px 16px rgba(59, 89, 152, 0.25);
+  height: 2.5rem;
+  width: 85%;
+  font-size: $m-font;
+  color: white;
+  border-radius: 2em;
+  margin: 0.5em 0em;
 }
 
 .other-container {
-  @include flex-center;
-  margin: 1rem;
-  .facebook-btn {
-    background-color: #2660da;
+  @include flex-center(column);
+  button {
     @include other-button();
+  }
+  .facebook-btn {
+    color: #fcfcfa;
+    background: linear-gradient(264.57deg, #2660da -4.06%, #3c68a0 96.41%);
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15),
+      inset 0px 4px 16px rgba(59, 89, 152, 0.25);
   }
   .google-btn {
-    background-color: #fcfcfa;
-    @include other-button();
-    color: black;
-    border: 0.1rem solid black;
-  }
-}
-
-.logo {
-  display: flex;
-  justify-content: center;
-  height: 35vh;
-  img {
-    margin: 0.5rem;
-  }
-}
-
-@media only screen and (max-width: 300px) {
-  * {
-    font-size: 16px;
+    background: #fcfcfa;
+    color: #25251c;
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 2px rgba(37, 37, 28, 0.15),
+      inset 0px 4px 16px rgba(59, 89, 152, 0.25);
   }
 }
