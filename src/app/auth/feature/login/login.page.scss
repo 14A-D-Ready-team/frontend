@@ -3,7 +3,7 @@
 * {
   margin: 0;
   padding: 0;
-  color: black;
+  color: #25251c;
 }
 
 body {
@@ -20,9 +20,10 @@ body {
 .logo {
   height: 100%;
   width: 100%;
-  @include flex-center(column);
+  @include flex-center(column, center);
   img {
     width: 75%;
+    max-width: 300px;
     height: auto;
     margin: 0.5em;
   }
@@ -32,7 +33,7 @@ body {
   height: 100%;
   width: 100%;
   background-color: $card-background;
-  @include flex-center(column);
+  @include flex-center(column, space-evenly);
   overflow-x: hidden;
   border-radius: 1em 1em 0em 0em;
 }
@@ -44,14 +45,16 @@ h1 {
 }
 
 form {
-  @include flex-center(column);
+  @include flex-center(column, center);
 }
 
 .input-container {
-  @include flex-center(row);
+  @include flex-center(row, center);
   margin: 0.4em 0em;
   border-radius: 2em;
+
   width: 85%;
+  max-width: 400px;
 
   outline: 0.5px solid rgba(0, 0, 0, 0.15);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
@@ -74,7 +77,7 @@ form {
 }
 
 .pswd-container {
-  @include flex-center(column);
+  @include flex-center(column, center);
   margin: 0.5em 0em;
   a {
     align-self: flex-end;
@@ -85,7 +88,6 @@ form {
 }
 
 .sign-up {
-  margin: 0.5em 0em;
   font-size: $s-font;
   p {
     display: inline-block;
@@ -100,9 +102,10 @@ form {
 
 .decor-container {
   margin: 0.3em 0em;
-  @include flex-center(row);
+  @include flex-center(row, center);
   .line {
-    width: 35%;
+    width: 30%;
+    max-width: 150px;
     height: 0.2em;
     background-color: #92928e;
     border-radius: 0.5em;
@@ -114,8 +117,9 @@ form {
 }
 
 @mixin other-button {
-  height: 2.5rem;
+  height: 2.5em;
   width: 85%;
+  max-width: 400px;
   font-size: $m-font;
   color: white;
   border-radius: 2em;
@@ -123,7 +127,7 @@ form {
 }
 
 .other-container {
-  @include flex-center(column);
+  @include flex-center(column, center);
   button {
     @include other-button();
   }
@@ -140,5 +144,17 @@ form {
     border: 0.5px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0px 2px 2px rgba(37, 37, 28, 0.15),
       inset 0px 4px 16px rgba(59, 89, 152, 0.25);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  div {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  div {
+    font-size: 25px;
   }
 }
