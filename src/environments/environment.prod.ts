@@ -1,9 +1,10 @@
 export const environment = {
   production: true,
   google: {
-    clientId: "YOUR_GOOGLE_CLIENT_ID",
+    clientId:
+      "101784584402-d88n8hpcomqdhd10iolmcoh9nrco9mkl.apps.googleusercontent.com",
   },
   api: {
-    url: "",
+    url: "http://localhost:3000",
   },
 };
