@@ -1,2 +1,2 @@
 export * from "./process-response.operator";
-export * from "./response.model";
+export * from "./process-array-response.operator";
