@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Type } from "@angular/core";
+import { ApiException, ErrorCode } from "@app/shared/exceptions";
 import { plainToInstance } from "class-transformer";
 
 export function deserializeResponseData<T>(responseType: Type<T>, data: any) {
@@ -13,8 +14,9 @@ export function deserializeResponseData<T>(responseType: Type<T>, data: any) {
     return instance;
   }
 
-  if (instance instanceof responseType) {
-    return instance;
+  if (!(instance instanceof responseType)) {
+    throw new ApiException(ErrorCode.InvalidApiResponseException);
   }
-  return null;
+
+  return instance;
 }

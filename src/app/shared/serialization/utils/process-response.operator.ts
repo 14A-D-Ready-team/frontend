@@ -1,29 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HttpErrorResponse } from "@angular/common/http";
 import { Type } from "@angular/core";
-import { catchError, map, Observable } from "rxjs";
+import { ApiException, ErrorCode, processApiError } from "@shared/exceptions";
+import { map, Observable } from "rxjs";
 import { deserializeResponseData } from "./deserialize-response-data.util";
 
 export function processResponse<T>(responseType?: Type<T>) {
-  return function (source: Observable<any>): Observable<T | null> {
+  return function (source: Observable<any>): Observable<T> {
     return source.pipe(
       map(response => deserializeResponse<T>(response, responseType)),
-      catchError(err => {
-        if (!(err instanceof HttpErrorResponse)) {
-        }
-        throw err;
-      }),
+      processApiError(),
     );
   };
 }
 
 function deserializeResponse<T>(response: any, responseType?: Type<T>) {
-  if (!response || typeof response !== "object") {
-    return null;
+  if (!responseType) {
+    return response?.data as T;
   }
 
-  if (!responseType) {
-    return response.data as T;
+  if (!response || typeof response !== "object") {
+    throw new ApiException(ErrorCode.InvalidApiResponseException);
   }
 
   return deserializeResponseData(responseType, response.data);

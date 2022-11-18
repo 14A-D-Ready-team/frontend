@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ExternalAuthService } from "@shared/external-auth";
 import { Action, State, StateContext, StateToken, Store } from "@ngxs/store";
-import { map, of, switchMap, tap } from "rxjs";
+import { delay, map, of, switchMap, tap } from "rxjs";
 import { GoogleAuthService } from "../service";
 import { VerifyGoogleAuth } from "./auth.actions";
 import { UserType } from "@app/user";
