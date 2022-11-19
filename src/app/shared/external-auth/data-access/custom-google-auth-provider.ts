@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
@@ -26,7 +27,7 @@ export class CustomGoogleAuthProvider extends GoogleLoginProvider {
             google.accounts.id.initialize({
               client_id: Reflect.get(this, "clientId"),
               auto_select: autoLogin,
-              callback: ({ credential }) => {
+              callback: ({ credential }: { credential: any }) => {
                 const socialUser = Reflect.get(this, "createSocialUser").bind(
                   this,
                 )(credential);
@@ -55,14 +56,14 @@ export class CustomGoogleAuthProvider extends GoogleLoginProvider {
               const scope =
                 Reflect.get(this, "initOptions").scopes instanceof Array
                   ? Reflect.get(this, "initOptions")
-                      .scopes.filter(s => s)
+                      .scopes.filter((s: string) => s)
                       .join(" ")
                   : Reflect.get(this, "initOptions").scopes;
               const tokenClient = google.accounts.oauth2.initTokenClient({
                 client_id: Reflect.get(this, "clientId"),
                 scope,
                 prompt: Reflect.get(this, "initOptions").prompt,
-                callback: tokenResponse => {
+                callback: (tokenResponse: any) => {
                   if (tokenResponse.error) {
                     Reflect.get(this, "_accessToken").error({
                       code: tokenResponse.error,
