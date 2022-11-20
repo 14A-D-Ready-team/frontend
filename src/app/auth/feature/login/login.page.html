@@ -6,14 +6,21 @@
     <div class="header">
       <h1>Bejelentkezés</h1>
     </div>
-    <form action="" class="login-form">
+
+    <form action="" class="login-form" [formGroup]="loginForm">
       <div class="input-container">
         <img
           class="input-icon"
           src="/assets/iconfify-icons/outline/sms.svg"
           alt=""
         />
-        <input type="email" name="" id="email" placeholder="Email" />
+        <input
+          type="email"
+          name=""
+          formControlName="email"
+          id="email"
+          placeholder="Email"
+        />
       </div>
 
       <div class="pswd-container">
@@ -23,12 +30,19 @@
             src="/assets/iconfify-icons/outline/key.svg"
             alt=""
           />
-          <input type="password" name="" id="pswd" placeholder="Jelszó" />
+          <input
+            type="password"
+            name=""
+            formControlName="password"
+            id="pswd"
+            placeholder="Jelszó"
+          />
         </div>
         <a href="" class="forgot-pswd-link">Elfelejtette jelszavát?</a>
       </div>
+      <app-validation-message></app-validation-message>
 
-      <button class="ready-btn">Bejelentkezés</button>
+      <button class="ready-btn" (click)="login()">Bejelentkezés</button>
     </form>
 
     <div class="sign-up-container">
