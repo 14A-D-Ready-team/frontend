@@ -1,8 +1,7 @@
 @import "/src/global.scss";
 
+//setting default font color
 * {
-  margin: 0;
-  padding: 0;
   color: #25251c;
 }
 
@@ -11,29 +10,30 @@ body {
 }
 
 .container {
+  height: 100%;
+  width: 100%;
   display: grid;
   grid-template-rows: 35vh 65vh;
-  width: 100%;
-  height: 100%;
 }
 
-.logo {
+.logo-container {
+  @include flex-center(column, center);
   height: 100%;
   width: 100%;
-  @include flex-center(column, center);
-  img {
+  .logo {
+    height: auto;
     width: 75%;
     max-width: 300px;
-    height: auto;
     margin: 0.5em;
   }
 }
 
+//card that contains the input options
 .card {
+  @include flex-center(column, space-evenly);
   height: 100%;
   width: 100%;
   background-color: $card-background;
-  @include flex-center(column, space-evenly);
   overflow-x: hidden;
   border-radius: 1em 1em 0em 0em;
 }
@@ -44,32 +44,31 @@ h1 {
   font-weight: 600;
 }
 
-form {
+//regular login and password input
+.login-form {
   @include flex-center(column, center);
 }
 
 .input-container {
   @include flex-center(row, center);
-  margin: 0.4em 0em;
+  margin: 0.5em 0em;
   border-radius: 2em;
 
   width: 85%;
-  max-width: 400px;
+  max-width: 500px;
 
   outline: 0.5px solid rgba(0, 0, 0, 0.15);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
 
   input {
-    width: 90%;
     height: 2.5em;
+    width: 90%;
     border: none;
     outline: none;
     font-size: $m-font;
-
-    background-color: transparent;
     color: black;
   }
-  img {
+  .input-icon {
     height: 2em;
     width: 2em;
     margin: 0em 1em;
@@ -79,7 +78,7 @@ form {
 .pswd-container {
   @include flex-center(column, center);
   margin: 0.5em 0em;
-  a {
+  .forgot-pswd-link {
     align-self: flex-end;
     margin: 0 12%;
     font-size: $s-font;
@@ -87,41 +86,43 @@ form {
   }
 }
 
-.sign-up {
-  font-size: $s-font;
-  p {
+//link for sign up
+.sign-up-container {
+  .sign-up-text {
     display: inline-block;
     font-size: $m-font;
+    margin: 0em;
   }
-  a {
+  .sign-up-link {
     font-size: $m-font;
-    margin-left: 0.5em;
+    margin-left: 0.3em;
     color: $ready-red;
   }
 }
 
+//decoration
 .decor-container {
-  margin: 0.3em 0em;
   @include flex-center(row, center);
   .line {
     width: 30%;
-    max-width: 150px;
-    height: 0.2em;
+    max-width: 200px;
+    height: 0.18em;
     background-color: #92928e;
     border-radius: 0.5em;
   }
-  p {
+  .decor-text {
     margin: 0em 0.5em;
     color: #92928e;
+    font-size: $m-font;
   }
 }
 
+//facebook and google login button template
 @mixin other-button {
-  height: 2.5em;
+  height: 2.8em;
   width: 85%;
-  max-width: 400px;
+  max-width: 500px;
   font-size: $m-font;
-  color: white;
   border-radius: 2em;
   margin: 0.5em 0em;
 }
@@ -139,22 +140,29 @@ form {
       inset 0px 4px 16px rgba(59, 89, 152, 0.25);
   }
   .google-btn {
-    background: #fcfcfa;
     color: #25251c;
+    background: #fcfcfa;
     border: 0.5px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0px 2px 2px rgba(37, 37, 28, 0.15),
       inset 0px 4px 16px rgba(59, 89, 152, 0.25);
   }
 }
 
-@media screen and (max-width: 400px) {
+//responsive
+@media screen and (max-height: 750px) {
   div {
-    font-size: 14px;
+    font-size: 13px;
+    .logo-container .logo {
+      max-width: 220px;
+    }
   }
 }
 
 @media screen and (min-width: 600px) {
   div {
     font-size: 25px;
+    .logo-container .logo {
+      max-width: 400px;
+    }
   }
 }
