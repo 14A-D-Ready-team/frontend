@@ -19,5 +19,8 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "explorer.compactFolders": false,
+  "workbench.tree.indent": 12,
+  "workbench.tree.renderIndentGuides": "always"
 }

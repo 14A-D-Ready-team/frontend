@@ -11,11 +11,16 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
+    "strict": true,
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "@app": ["src/app"]
-    }
+      "@app/*": ["src/app/*"],
+      "@/*": ["src/*"],
+      "@shared/*": ["src/app/shared/*"]
+    },
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -45,6 +45,12 @@ module.exports = {
         "@typescript-eslint/no-empty-function": ["warn"],
         "prettier/prettier": "off",
         "prefer-arrow/prefer-arrow-functions": "off",
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/naming-convention": [
+          "error",
+          { selector: "enumMember", format: ["PascalCase", "UPPER_CASE"] },
+        ],
       },
     },
     {
