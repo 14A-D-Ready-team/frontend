@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { ValidationMessageComponent } from './validation-message.component';
+import { ValidationMessageComponent } from "./validation-message.component";
 
-describe('ValidationMessageComponent', () => {
+describe("ValidationMessageComponent", () => {
   let component: ValidationMessageComponent;
   let fixture: ComponentFixture<ValidationMessageComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ValidationMessageComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [ValidationMessageComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ValidationMessageComponent);
@@ -18,7 +18,7 @@ describe('ValidationMessageComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
