@@ -5,9 +5,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { IonicModule } from "@ionic/angular";
 import { LoginPageRoutingModule } from "./login-page-routing.module";
 import { LoginPage } from "./login.page";
-import { LoginState } from "./login.state";
+import { LoginState } from "./store/";
 import { ExternalAuthModule } from "@app/shared/external-auth";
 import { ValidationMessageModule } from "@app/auth/ui";
+import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { ValidationMessageModule } from "@app/auth/ui";
     ExternalAuthModule.forFeature(),
     ReactiveFormsModule,
     ValidationMessageModule,
+    NgxsFormPluginModule,
   ],
   declarations: [LoginPage],
   providers: [],

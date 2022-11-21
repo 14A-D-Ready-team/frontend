@@ -7,7 +7,13 @@
       <h1>Bejelentkezés</h1>
     </div>
 
-    <form action="" class="login-form" [formGroup]="loginForm">
+    <form
+      action=""
+      class="login-form"
+      [formGroup]="loginForm"
+      ngxsForm="login.loginForm"
+      (ngSubmit)="login()"
+    >
       <div class="input-container">
         <img
           class="input-icon"
@@ -42,7 +48,7 @@
       </div>
       <app-validation-message></app-validation-message>
 
-      <button class="ready-btn" (click)="login()">Bejelentkezés</button>
+      <button class="ready-btn" type="submit">Bejelentkezés</button>
     </form>
 
     <div class="sign-up-container">
