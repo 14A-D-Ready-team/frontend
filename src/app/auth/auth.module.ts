@@ -11,7 +11,6 @@ import { AuthService, AuthState, GoogleAuthService } from "./data-access";
     AuthRoutingModule,
     NgxsModule.forFeature([AuthState]),
   ],
-  exports: [AuthRoutingModule],
   providers: [AuthService, GoogleAuthService],
 })
 export class AuthModule {}

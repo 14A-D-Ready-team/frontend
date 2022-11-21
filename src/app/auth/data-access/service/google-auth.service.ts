@@ -2,8 +2,7 @@ import { environment } from "@/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { processResponse } from "@app/shared/serialization";
-import { processArrayResponse } from "@app/shared/serialization/utils/process-array-response.operator";
-import { User } from "@app/user";
+import { User } from "@shared/user";
 import { VerifyGoogleAuthDto } from "../dto";
 
 @Injectable({
