@@ -5,18 +5,24 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list>
-    <ion-item *ngFor="let item of ['asd', 'asd']; let index">
-      <ion-avatar slot="start">
-        <img
-          [src]="'https://picsum.photos/80/80?random=' + index"
-          alt="avatar"
-        />
-      </ion-avatar>
-      <ion-label>{{ item }}</ion-label>
-    </ion-item>
-  </ion-list>
-  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  <ion-grid>
+    <ion-row>
+      <ion-col offset-xl="3" size-xl="6">
+        <ion-list>
+          <ion-item *ngFor="let item of ['asd', 'asd']; let index">
+            <ion-avatar slot="start">
+              <img
+                [src]="'https://picsum.photos/80/80?random=' + index"
+                alt="avatar"
+              />
+            </ion-avatar>
+            <ion-label>{{ item }}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
