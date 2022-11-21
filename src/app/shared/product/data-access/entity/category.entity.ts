@@ -1,4 +1,3 @@
-
 import { Expose } from "class-transformer";
 
 export class Category {
@@ -7,6 +6,4 @@ export class Category {
 
   @Expose()
   public name!: string;
-
-
 }

@@ -9,5 +9,4 @@ export class Option {
 
   @Expose()
   public extraCost!: number;
-
 }
