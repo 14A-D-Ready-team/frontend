@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { CategoryDisplayComponent } from './category-display.component';
+import { CategoryDisplayComponent } from "./category-display.component";
 
-describe('CategoryDisplayComponent', () => {
+describe("CategoryDisplayComponent", () => {
   let component: CategoryDisplayComponent;
   let fixture: ComponentFixture<CategoryDisplayComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CategoryDisplayComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [CategoryDisplayComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CategoryDisplayComponent);
@@ -18,7 +18,7 @@ describe('CategoryDisplayComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
