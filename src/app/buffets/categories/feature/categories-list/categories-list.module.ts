@@ -7,6 +7,7 @@ import { IonicModule } from "@ionic/angular";
 import { CategoriesListPageRoutingModule } from "./categories-list-routing.module";
 
 import { CategoriesListPage } from "./categories-list.page";
+import { CategoryDisplayComponent } from "../../ui/category-display";
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { CategoriesListPage } from "./categories-list.page";
     FormsModule,
     IonicModule,
     CategoriesListPageRoutingModule,
+    CategoryDisplayComponent,
   ],
   declarations: [CategoriesListPage],
 })

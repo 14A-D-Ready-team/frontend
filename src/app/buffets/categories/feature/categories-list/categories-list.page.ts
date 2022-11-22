@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { Category } from "@shared/product";
+import { of } from "rxjs";
 
 @Component({
   selector: "app-categories-list",
@@ -6,6 +8,8 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./categories-list.page.scss"],
 })
 export class CategoriesListPage implements OnInit {
+  public categories$ = of([new Category()]);
+
   constructor() {}
 
   ngOnInit() {}
