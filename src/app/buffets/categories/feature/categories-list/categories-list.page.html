@@ -8,10 +8,13 @@
   <ion-grid>
     <ion-row>
       <ion-col offset-xl="3" size-xl="6">
-        <ion-list>
+        <ion-list *ngIf="vm$ |async as vm">
           <app-buffets-category-display
-            *ngFor="let category of categories$ | async; let index"
-            [category]="category"
+            *ngFor="let categoryState of vm.categoryState; let index; trackBy:categoryById"
+            [category]="categoryState.category"
+            [isEditing]="categoryState.isEditing"
+            (editing)="onEditing(categoryState.category)"
+            (editingStopped)="onEditingStopped(categoryState.category, $event)"
           ></app-buffets-category-display>
         </ion-list>
         <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">

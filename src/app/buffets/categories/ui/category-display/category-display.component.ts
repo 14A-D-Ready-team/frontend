@@ -1,27 +1,35 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from "@angular/core";
 import { Category } from "@shared/product";
 import { IonicModule } from "@ionic/angular";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-buffets-category-display",
-  styleUrls: [],
-  template: `
-    <ion-item>
-      <p>anya</p>
-    </ion-item>
-  `,
+  styleUrls: ["./category-display.component.scss"],
+  templateUrl: "./category-display.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [IonicModule],
+  imports: [CommonModule, IonicModule],
 })
 export class CategoryDisplayComponent implements OnInit {
   @Input()
   public category!: Category;
+
+  @Input()
+  public isEditing = false;
+
+  @Output()
+  public editing = new EventEmitter<void>();
+
+  @Output()
+  public editingStopped = new EventEmitter<boolean>();
 
   constructor() {}
 
