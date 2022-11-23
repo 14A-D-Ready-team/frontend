@@ -21,6 +21,8 @@ import { CategoryEditorFormModel } from "../../utils";
   imports: [CommonModule, ReactiveFormsModule, IonicModule],
 })
 export class CategoryDisplayComponent implements OnInit {
+  // Might not be needed
+  // WARNING: Changing the category's properties won't update the view due to OnPush, might need to use an observable
   @Input()
   public category!: Category;
 
