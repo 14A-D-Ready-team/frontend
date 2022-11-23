@@ -9,6 +9,8 @@ import {
 import { Category } from "@shared/product";
 import { IonicModule } from "@ionic/angular";
 import { CommonModule } from "@angular/common";
+import { FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { CategoryEditorFormModel } from "../../utils";
 
 @Component({
   selector: "app-buffets-category-display",
@@ -16,7 +18,7 @@ import { CommonModule } from "@angular/common";
   templateUrl: "./category-display.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, ReactiveFormsModule, IonicModule],
 })
 export class CategoryDisplayComponent implements OnInit {
   @Input()
@@ -25,17 +27,27 @@ export class CategoryDisplayComponent implements OnInit {
   @Input()
   public isEditing = false;
 
+  @Input()
+  public editorForm!: FormGroup<CategoryEditorFormModel>;
+
   @Output()
   public editing = new EventEmitter<void>();
 
   @Output()
-  public editingStopped = new EventEmitter<boolean>();
+  public editingDone = new EventEmitter<boolean>();
+
+  @Output()
+  public delete = new EventEmitter<void>();
 
   constructor() {}
 
   public ngOnInit() {
     if (!this.category) {
       throw new Error("category property is required");
+    }
+
+    if (!this.editorForm) {
+      throw new Error("editorForm property is required");
     }
   }
 }

@@ -1,5 +1,5 @@
-import { Dictionary } from "@/types";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Category } from "@shared/product";
 import {
   BehaviorSubject,
@@ -10,10 +10,15 @@ import {
   scan,
   startWith,
 } from "rxjs";
+import { CategoryEditorFormModel } from "../../utils";
 
 interface CategoryState {
   category: Category;
   isEditing: boolean;
+}
+
+interface CategoriesListFormModel {
+  categories: FormArray<FormGroup<CategoryEditorFormModel>>;
 }
 
 @Component({
@@ -58,7 +63,16 @@ export class CategoriesListPage {
     }),
   );
 
-  constructor() {}
+  public form: FormGroup<CategoriesListFormModel>;
+
+  constructor(private fb: FormBuilder) {
+    this.form = fb.group<CategoriesListFormModel>({
+      categories: new FormArray<FormGroup<CategoryEditorFormModel>>([
+        new FormGroup<CategoryEditorFormModel>({ name: new FormControl() }),
+        new FormGroup<CategoryEditorFormModel>({ name: new FormControl() }),
+      ]),
+    });
+  }
 
   public onIonInfinite(event: any) {
     console.log(event);
@@ -68,8 +82,12 @@ export class CategoriesListPage {
     this.isEditingSubject.next({ id: category.id, isEditing: true });
   }
 
-  public onEditingStopped(category: Category, isSaved: boolean) {
+  public onEditingDone(category: Category, isSaved: boolean) {
     this.isEditingSubject.next({ id: category.id, isEditing: false });
+  }
+
+  public onDelete(category: Category) {
+    console.log(category);
   }
 
   public categoryById(index: number, el: CategoryState): number {
