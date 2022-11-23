@@ -1,16 +1,17 @@
 <ion-item>
-  <ng-container *ngIf="!isEditing; else editingView">
-    <ion-label>{{ category.name }}</ion-label>
+  <ion-input disabled>Asd</ion-input>
+  <div slot="end">
     <ion-button (click)="editing.emit()" fill="clear" color="medium">
       <ion-icon name="create-outline" slot="icon-only"></ion-icon>
     </ion-button>
     <ion-button fill="clear" color="danger">
       <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
     </ion-button>
-  </ng-container>
+  </div>
 
   <ng-template #editingView>
-    <ion-input></ion-input>
+    <ion-label position="floating">Kategória neve</ion-label>
+    <ion-input placeholder="Enter text"></ion-input>
     <ion-button
       slot="end"
       fill="clear"
