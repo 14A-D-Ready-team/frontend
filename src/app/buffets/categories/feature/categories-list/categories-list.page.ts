@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { Category } from "@shared/product";
+import { Category } from "@shared/category";
 import {
   BehaviorSubject,
   combineLatest,

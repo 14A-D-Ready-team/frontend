@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 
 import { IonicModule } from "@ionic/angular";
 
@@ -8,12 +8,17 @@ import { CategoriesListPageRoutingModule } from "./categories-list-routing.modul
 
 import { CategoriesListPage } from "./categories-list.page";
 import { CategoryDisplayComponent } from "../../ui/category-display";
+import { NgxsModule } from "@ngxs/store";
+import { CategoriesListState } from "./store";
+import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     IonicModule,
+    NgxsModule.forFeature([CategoriesListState]),
+    NgxsFormPluginModule,
     CategoriesListPageRoutingModule,
     CategoryDisplayComponent,
   ],

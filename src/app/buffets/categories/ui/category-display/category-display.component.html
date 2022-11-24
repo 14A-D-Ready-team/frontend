@@ -1,12 +1,6 @@
 <ion-item>
-  <ion-label [style.display]="isEditing ? 'unset' : 'none'" position="floating"
-    >Kategória neve</ion-label
-  >
-  <ion-input
-    class="no-opacity"
-    [disabled]="!isEditing"
-    [formControl]="editorForm.controls.name"
-  ></ion-input>
+  <ion-label [style.display]="isEditing ? 'unset' : 'none'" position="floating">Kategória neve</ion-label>
+  <ion-input class="no-opacity" [formControl]="editorForm.controls.name"></ion-input>
 
   <div slot="end" [style.display]="!isEditing ? 'unset' : 'none'">
     <ion-button fill="clear" color="medium" (click)="editing.emit()">
