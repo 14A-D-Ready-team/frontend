@@ -10,7 +10,15 @@
       <ion-col offset-xl="3" size-xl="6">
         <form [formGroup]="form" ngxsForm="buffetsCategoriesList.form">
           <ion-list *ngIf="vm$ | async as vm">
-            <app-buffets-category-display *ngFor="let categoryState of vm.categoryState; index as i; trackBy:categoryById" [category]="categoryState.category" [editorForm]="form.controls.categories.controls[i]" [isEditing]="categoryState.isEditing" (editing)="onEditing(categoryState.category)" (editingDone)="onEditingDone(categoryState.category, $event)" (delete)="onDelete(categoryState.category)">
+            <app-buffets-category-display
+              *ngFor="let categoryState of vm.categoryState; index as i; trackBy:categoryById"
+              [category]="categoryState.category"
+              [editorForm]="form.controls.categories.controls[i]"
+              [isEditing]="categoryState.isEditing"
+              (editing)="onEditing(categoryState.category)"
+              (editingDone)="onEditingDone(categoryState.category, $event)"
+              (delete)="onDelete(categoryState.category)"
+            >
             </app-buffets-category-display>
           </ion-list>
         </form>
