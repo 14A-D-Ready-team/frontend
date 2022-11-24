@@ -2,7 +2,9 @@ import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
 import { FormControlStatus } from "@angular/forms";
 import { CreateCategoryDto } from "@app/shared/category";
-import { Selector, State, StateToken } from "@ngxs/store";
+import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
+import { CategoriesListPageModule } from "../categories-list.module";
+import { StartEditing } from "./categories-list.actions";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CategoriesListStateModel {
@@ -36,4 +38,7 @@ export class CategoriesListState {
   public static form2(state: CategoriesListStateModel) {
     return state.form;
   }
+
+  @Action(StartEditing)
+  public startEditing(ctx: StateContext<CategoriesListPageModule>) {}
 }
