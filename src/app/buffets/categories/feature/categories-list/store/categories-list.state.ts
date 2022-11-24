@@ -1,12 +1,13 @@
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
 import { FormControlStatus } from "@angular/forms";
-import { State, StateToken } from "@ngxs/store";
+import { CreateCategoryDto } from "@app/shared/category";
+import { Selector, State, StateToken } from "@ngxs/store";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CategoriesListStateModel {
   form: {
-    model: any;
+    model: CreateCategoryDto;
     dirty: boolean;
     status: FormControlStatus;
     errors: Dictionary<any>;
@@ -21,13 +22,18 @@ export const CATEGORIES_LIST_STATE_TOKEN =
   name: CATEGORIES_LIST_STATE_TOKEN,
   defaults: {
     form: {
-      model: {},
+      model: new CreateCategoryDto(),
       dirty: false,
-      status: "DISABLED",
+      status: "VALID",
       errors: {},
       disabled: true,
     },
   },
 })
 @Injectable()
-export class CategoriesListState {}
+export class CategoriesListState {
+  @Selector()
+  public static form2(state: CategoriesListStateModel) {
+    return state.form;
+  }
+}
