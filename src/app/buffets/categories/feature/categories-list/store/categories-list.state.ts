@@ -40,5 +40,8 @@ export class CategoriesListState {
   }
 
   @Action(StartEditing)
-  public startEditing(ctx: StateContext<CategoriesListPageModule>) {}
+  public startEditing(
+    ctx: StateContext<CategoriesListPageModule>,
+    action: StartEditing,
+  ) {}
 }

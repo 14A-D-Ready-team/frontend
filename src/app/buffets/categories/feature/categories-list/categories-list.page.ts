@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { Store } from "@ngxs/store";
 import { Category } from "@shared/category";
 import {
   BehaviorSubject,
@@ -11,6 +12,7 @@ import {
   startWith,
 } from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
+import { StartEditing } from "./store";
 
 interface CategoryState {
   category: Category;
@@ -65,13 +67,14 @@ export class CategoriesListPage {
 
   public form: FormGroup<CategoriesListFormModel>;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private store: Store) {
     this.form = fb.group<CategoriesListFormModel>({
       categories: new FormArray<FormGroup<CategoryEditorFormModel>>([
         new FormGroup<CategoryEditorFormModel>({ name: new FormControl() }),
         new FormGroup<CategoryEditorFormModel>({ name: new FormControl() }),
       ]),
     });
+    store.select(state => console.log(state)).subscribe();
   }
 
   public onIonInfinite(event: any) {
@@ -84,6 +87,7 @@ export class CategoriesListPage {
 
   public onEditingDone(category: Category, isSaved: boolean) {
     this.isEditingSubject.next({ id: category.id, isEditing: false });
+    this.store.dispatch(new StartEditing(category.id));
   }
 
   public onDelete(category: Category) {
