@@ -13,3 +13,7 @@ export class StopEditing {
 
   constructor(public save: boolean) {}
 }
+
+export class UpdateEdited {
+  public static readonly type = "[CategoriesListPage] UpdateEdited";
+}
