@@ -1,21 +1,28 @@
+import { Injectable } from "@angular/core";
 import {
   defaultEntityState,
   EntityStateModel,
   EntityState,
   IdStrategy,
   SetLoading,
+  CreateOrReplace,
+  RemoveAll,
+  SetError,
 } from "@ngxs-labs/entity-state";
-import { Action, State, StateContext, StateToken } from "@ngxs/store";
-import { catchError, filter, of, switchMap, tap } from "rxjs";
+import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
+import { catchError, concat, filter, finalize, of, switchMap, tap } from "rxjs";
 import { CategoryService } from "../category.service";
 import { Category } from "../entity";
 import {
   LoadingFailed,
-  LoadingFinished,
-  StartLoadingAll,
+  LoadingSucceeded,
+  LoadAll,
+  SetAllLoaded,
 } from "./category.actions";
 
-export type CategoryStateModel = EntityStateModel<Category>;
+export type CategoryStateModel = EntityStateModel<Category> & {
+  isAllLoaded: boolean;
+};
 
 export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
   "category",
@@ -23,24 +30,39 @@ export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
 
 @State<CategoryStateModel>({
   name: CATEGORY_STATE_TOKEN,
-  defaults: defaultEntityState(),
+  defaults: { ...defaultEntityState(), isAllLoaded: false },
 })
+@Injectable()
 export class CategoryState extends EntityState<Category> {
+  @Selector()
+  public static isAllLoaded(state: CategoryStateModel) {
+    return state.isAllLoaded;
+  }
+
   constructor(private readonly categoryService: CategoryService) {
     super(CategoryState, "id", IdStrategy.EntityIdGenerator);
   }
 
-  @Action(StartLoadingAll)
-  public loadAll(
-    ctx: StateContext<CategoryStateModel>,
-    action: StartLoadingAll,
-  ) {
+  @Action(LoadAll)
+  public loadAll(ctx: StateContext<CategoryStateModel>, action: LoadAll) {
     ctx.dispatch(new SetLoading(CategoryState, true));
 
     return this.categoryService.findAll().pipe(
-      switchMap(categories => ctx.dispatch(new LoadingFinished(categories))),
+      switchMap(categories =>
+        // 1: If it gets too complex, might create separate actions (LoadingAllSucceeded, LoadingAllFailed)
+        concat(
+          ctx.dispatch(new RemoveAll(CategoryState)),
+          ctx.dispatch(new LoadingSucceeded(categories)),
+        ),
+      ),
       catchError(error => ctx.dispatch(new LoadingFailed(error))),
-      tap({}),
+      finalize(() =>
+        // 1.
+        concat(
+          ctx.dispatch(new SetAllLoaded(true)),
+          ctx.dispatch(new SetLoading(CategoryState, false)),
+        ),
+      ),
     );
   }
 
@@ -48,11 +70,23 @@ export class CategoryState extends EntityState<Category> {
   public loadingFailed(
     ctx: StateContext<CategoryStateModel>,
     action: LoadingFailed,
-  ) {}
+  ) {
+    return ctx.dispatch(new SetError(CategoryState, action.error));
+  }
 
-  @Action(LoadingFinished)
-  public loadingFinished(
+  @Action(LoadingSucceeded)
+  public loadingSucceeded(
     ctx: StateContext<CategoryStateModel>,
-    action: LoadingFinished,
-  ) {}
+    action: LoadingSucceeded,
+  ) {
+    return ctx.dispatch(new CreateOrReplace(CategoryState, action.categories));
+  }
+
+  @Action(SetAllLoaded)
+  public setAllLoaded(
+    ctx: StateContext<CategoryStateModel>,
+    action: SetAllLoaded,
+  ) {
+    ctx.patchState({ isAllLoaded: action.isAllLoaded });
+  }
 }

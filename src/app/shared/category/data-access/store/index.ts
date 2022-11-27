@@ -1,2 +1,2 @@
 export * from "./category.state";
-export * from "./category.state";
+export * as CategoryActions from "./category.actions";

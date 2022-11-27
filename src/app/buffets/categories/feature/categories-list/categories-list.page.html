@@ -4,27 +4,59 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content
+  class="ion-padding"
+  *ngIf="{loading: loading$ | async, error: error$ | async}  as vm"
+>
+  <ion-refresher
+    slot="fixed"
+    [disabled]="vm.loading"
+    (ionRefresh)="handleRefresh($event)"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-grid>
     <ion-row>
       <ion-col offset-xl="3" size-xl="6">
         <form [formGroup]="form" ngxsForm="buffetsCategoriesList.form">
-          <ion-list *ngIf="vm$ | async as vm">
-            <app-buffets-category-display
-              *ngFor="let categoryState of vm.categoryState; index as i; trackBy:categoryById"
-              [category]="categoryState.category"
-              [editorForm]="form.controls.categories.controls[i]"
-              [isEditing]="categoryState.isEditing"
-              (editing)="onEditing(categoryState.category)"
-              (editingDone)="onEditingDone(categoryState.category, $event)"
-              (delete)="onDelete(categoryState.category)"
-            >
-            </app-buffets-category-display>
+          <ion-list>
+            <div *ngIf="vm.loading">
+              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+            </div>
+
+            <ion-card *ngIf="vm.error" color="danger">
+              <ion-card-header>
+                <ion-card-title class="ion-text-center">Hiba</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p>{{ vm.error | json}}</p>
+                <ion-button
+                  (click)="retryLoading()"
+                  class="ion-margin-top"
+                  color="tertiary"
+                  >Újrapróbálkozás</ion-button
+                >
+              </ion-card-content>
+            </ion-card>
+
+            <ng-container *ngIf="!vm.loading && !vm.error">
+              <app-buffets-category-display
+                *ngFor="let editorForm of form.controls.categories.controls; index as i;"
+                [editorForm]="undefined"
+                [isEditing]="false"
+                (editing)="onEditing(editorForm.controls.id.value)"
+                (editingDone)="onEditingDone($event)"
+                (delete)="onDelete(editorForm.controls.id.value)"
+              >
+              </app-buffets-category-display>
+            </ng-container>
           </ion-list>
         </form>
-        <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-          <ion-infinite-scroll-content></ion-infinite-scroll-content>
-        </ion-infinite-scroll>
+        <ion-button (click)="test()">Test</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

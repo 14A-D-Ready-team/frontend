@@ -14,34 +14,31 @@ export class CategoryService {
 
   public create(payload: CreateCategoryDto) {
     return this.httpClient
-      .post(environment.api.url + "/categories", instanceToPlain(payload))
+      .post(environment.api.url + "/category", instanceToPlain(payload))
       .pipe(processResponse(Category));
   }
 
   public findAll() {
     return this.httpClient
-      .get(environment.api.url + "/categories")
+      .get(environment.api.url + "/category")
       .pipe(processArrayResponse(Category));
   }
 
-  public findBOne(id: number) {
+  public findByOne(id: number) {
     return this.httpClient
-      .get(environment.api.url + "/categories/" + id)
+      .get(environment.api.url + "/category/" + id)
       .pipe(processResponse(Category));
   }
 
   public update(id: number, payload: Partial<CreateCategoryDto>) {
     return this.httpClient
-      .patch(
-        environment.api.url + "/categories/" + id,
-        instanceToPlain(payload),
-      )
+      .patch(environment.api.url + "/category/" + id, instanceToPlain(payload))
       .pipe(processResponse(Category));
   }
 
   public delete(id: number) {
     return this.httpClient
-      .delete(environment.api.url + "/categories/" + id)
+      .delete(environment.api.url + "/category/" + id)
       .pipe(processResponse<void>());
   }
 }

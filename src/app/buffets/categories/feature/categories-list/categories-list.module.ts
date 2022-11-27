@@ -11,6 +11,7 @@ import { CategoryDisplayComponent } from "../../ui/category-display";
 import { NgxsModule } from "@ngxs/store";
 import { CategoriesListState } from "./store";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
+import { CategoryDisplaySkeletonComponent } from "../../ui/category-display-skeleton";
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { NgxsFormPluginModule } from "@ngxs/form-plugin";
     NgxsFormPluginModule,
     CategoriesListPageRoutingModule,
     CategoryDisplayComponent,
+    CategoryDisplaySkeletonComponent,
   ],
   declarations: [CategoriesListPage],
 })

@@ -1,23 +1,20 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { Store } from "@ngxs/store";
-import { Category } from "@shared/category";
-import {
-  BehaviorSubject,
-  combineLatest,
-  filter,
-  map,
-  of,
-  scan,
-  startWith,
-} from "rxjs";
+import { Select, Store } from "@ngxs/store";
+import { Category, CategoryActions, CategoryState } from "@shared/category";
+import { Observable, take, tap } from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
-import { StartEditing } from "./store";
-
-interface CategoryState {
-  category: Category;
-  isEditing: boolean;
-}
+import {
+  DiscardEdit,
+  LoadPage,
+  SaveEdit,
+  Edit,
+  Delete,
+  Reload,
+  CategoriesListState,
+} from "./store";
+import { RefresherCustomEvent } from "@ionic/angular";
+import { UpdateForm, UpdateFormValue } from "@ngxs/form-plugin";
 
 interface CategoriesListFormModel {
   categories: FormArray<FormGroup<CategoryEditorFormModel>>;
@@ -29,72 +26,94 @@ interface CategoriesListFormModel {
   styleUrls: ["./categories-list.page.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoriesListPage {
-  public categories$ = of([
-    new Category(1, "Italok"),
-    new Category(2, "Péksütemények"),
-  ]);
+export class CategoriesListPage implements OnInit {
+  @Select()
+  public categories$!: Observable<Category[]>;
 
-  private isEditingSubject = new BehaviorSubject<{
-    id: number;
-    isEditing: boolean;
-  } | null>(null);
+  @Select(CategoryState.loading)
+  public loading$!: Observable<boolean>;
 
-  public isEditing$ = this.isEditingSubject.pipe(
-    filter((x): x is { id: number; isEditing: boolean } => x !== null),
-    scan((acc, curr) => {
-      acc[curr.id] = curr.isEditing;
-      return acc;
-    }, {} as { [key: number]: boolean }),
-    startWith({} as { [key: number]: boolean }),
-  );
-
-  public vm$ = combineLatest([this.categories$, this.isEditing$]).pipe(
-    map(x => {
-      const [categories, isEditing] = x;
-
-      return {
-        categoryState: categories.map(
-          category =>
-            ({
-              category,
-              isEditing: isEditing[category.id],
-            } as CategoryState),
-        ),
-      };
-    }),
-  );
+  @Select(CategoryState.error)
+  public error$!: Observable<any>;
 
   public form: FormGroup<CategoriesListFormModel>;
 
   constructor(private fb: FormBuilder, private store: Store) {
     this.form = fb.group<CategoriesListFormModel>({
       categories: new FormArray<FormGroup<CategoryEditorFormModel>>([
-        new FormGroup<CategoryEditorFormModel>({ name: new FormControl() }),
-        new FormGroup<CategoryEditorFormModel>({ name: new FormControl() }),
+        new FormGroup<CategoryEditorFormModel>({
+          name: new FormControl("sdassda", { nonNullable: true }),
+          id: new FormControl<number>(1, { nonNullable: true }),
+        }),
+        new FormGroup<CategoryEditorFormModel>({
+          name: new FormControl("asdsadsdassd", { nonNullable: true }),
+
+          id: new FormControl<number>(2, { nonNullable: true }),
+        }),
+        new FormGroup<CategoryEditorFormModel>({
+          name: new FormControl("fhfggfg", { nonNullable: true }),
+
+          id: new FormControl<number>(3, { nonNullable: true }),
+        }),
+        new FormGroup<CategoryEditorFormModel>({
+          name: new FormControl("zthrfrr", { nonNullable: true }),
+
+          id: new FormControl<number>(4, { nonNullable: true }),
+        }),
+        /* new FormGroup<CategoryEditorFormModel>({
+          name: new FormControl(),
+          id: new FormControl<number>(5, { nonNullable: true }),
+        }),
+        new FormGroup<CategoryEditorFormModel>({
+          name: new FormControl(),
+          id: new FormControl<number>(6, { nonNullable: true }),
+        }), */
       ]),
     });
-    store.select(state => console.log(state)).subscribe();
   }
 
-  public onIonInfinite(event: any) {
-    console.log(event);
+  public ngOnInit() {
+    this.store.dispatch(new LoadPage());
+    this.store.select(CategoriesListState.form).subscribe(form => {
+      console.log(form);
+    });
   }
 
-  public onEditing(category: Category) {
-    this.isEditingSubject.next({ id: category.id, isEditing: true });
+  public test() {
+    this.form.controls.categories.controls.push(
+      new FormGroup<CategoryEditorFormModel>({
+        name: new FormControl("dsfdfsdfsfdsdfsdsfd", { nonNullable: true }),
+
+        id: new FormControl<number>(5, { nonNullable: true }),
+      }),
+    );
   }
 
-  public onEditingDone(category: Category, isSaved: boolean) {
-    this.isEditingSubject.next({ id: category.id, isEditing: false });
-    this.store.dispatch(new StartEditing(category.id));
+  public retryLoading() {
+    this.store.dispatch(new Reload());
   }
 
-  public onDelete(category: Category) {
-    console.log(category);
+  public handleRefresh(event: any) {
+    const refresherEvent = event as RefresherCustomEvent;
+    return this.store
+      .dispatch(new Reload())
+      .pipe(take(1))
+      .subscribe(() => refresherEvent.detail.complete());
   }
 
-  public categoryById(index: number, el: CategoryState): number {
+  public onEditing(id: number) {
+    this.store.dispatch(new Edit(id));
+  }
+
+  public onEditingDone(isSaved: boolean) {
+    this.store.dispatch(isSaved ? new SaveEdit() : new DiscardEdit());
+  }
+
+  public onDelete(id: number) {
+    this.store.dispatch(new Delete(id));
+  }
+
+  /* public categoryById(index: number, el: CategoryState): number {
     return el.category.id;
-  }
+  } */
 }

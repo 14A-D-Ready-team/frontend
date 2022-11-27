@@ -1,19 +1,31 @@
-export class Reset {
-  public static readonly type = "[CategoriesListPage] Reset";
+export class LoadPage {
+  public static readonly type = "[CategoriesListPage] Load Page";
 }
 
-export class StartEditing {
-  public static readonly type = "[CategoriesListPage] StartEditing";
+export class Edit {
+  public static readonly type = "[CategoriesListPage] Edit";
 
   constructor(public id: number) {}
 }
 
-export class StopEditing {
-  public static readonly type = "[CategoriesListPage] StopEditing";
-
-  constructor(public save: boolean) {}
+export class SaveEdit {
+  public static readonly type = "[CategoriesListPage] Save Edit";
 }
 
-export class UpdateEdited {
-  public static readonly type = "[CategoriesListPage] UpdateEdited";
+export class DiscardEdit {
+  public static readonly type = "[CategoriesListPage] Discard Edit";
+}
+
+export class Delete {
+  public static readonly type = "[CategoriesListPage] Delete";
+
+  constructor(public id: number) {}
+}
+
+export class Reload {
+  public static readonly type = "[CategoriesListPage] Reload";
+}
+
+export class Reset {
+  public static readonly type = "[CategoriesListPage] Reset";
 }
