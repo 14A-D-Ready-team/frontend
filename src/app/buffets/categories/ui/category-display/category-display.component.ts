@@ -41,8 +41,6 @@ export class CategoryDisplayComponent implements OnInit {
   @Output()
   public delete = new EventEmitter<void>();
 
-  constructor() {}
-
   public ngOnInit() {
     if (!this.category) {
       throw new Error("category property is required");
