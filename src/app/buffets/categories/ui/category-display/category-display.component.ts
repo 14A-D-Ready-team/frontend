@@ -29,6 +29,9 @@ export class CategoryDisplayComponent implements OnInit {
   public isEditing = false;
 
   @Input()
+  public editDisabled = false;
+
+  @Input()
   public editorForm: FormGroup<CategoryEditorFormModel> | undefined;
 
   @Output()
@@ -39,11 +42,6 @@ export class CategoryDisplayComponent implements OnInit {
 
   @Output()
   public delete = new EventEmitter<void>();
-
-  public form = new FormGroup<CategoryEditorFormModel>({
-    name: new FormControl("asasd", { nonNullable: true }),
-    id: new FormControl<number>(1, { nonNullable: true }),
-  });
 
   /*   public category$: Observable<Category>;
 

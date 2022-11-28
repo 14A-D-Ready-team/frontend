@@ -26,6 +26,9 @@ export class CategoriesListPage implements OnInit {
   @Select(CategoriesListState.categories)
   public categories$!: Observable<Category[]>;
 
+  @Select(CategoriesListState.editedId)
+  public editedId$!: Observable<number>;
+
   @Select(CategoryState.loading)
   public loading$!: Observable<boolean>;
 
@@ -36,7 +39,7 @@ export class CategoriesListPage implements OnInit {
 
   constructor(private fb: FormBuilder, private store: Store) {
     this.editorForm = fb.group<CategoryEditorFormModel>({
-      id: new FormControl(-1, { nonNullable: true }),
+      id: new FormControl(null),
       name: new FormControl("", { nonNullable: true }),
     });
   }
@@ -69,7 +72,7 @@ export class CategoriesListPage implements OnInit {
     this.store.dispatch(new Delete(id));
   }
 
-  /* public categoryById(index: number, el: CategoryState): number {
-    return el.category.id;
-  } */
+  public categoryById(index: number, el: Category): number {
+    return el.id;
+  }
 }

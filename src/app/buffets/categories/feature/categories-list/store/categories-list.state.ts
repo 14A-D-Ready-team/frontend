@@ -27,12 +27,12 @@ import {
   tap,
 } from "rxjs";
 import { DiscardEdit, Edit, LoadPage, Reload } from "./categories-list.actions";
-import { UpdateFormValue } from "@ngxs/form-plugin";
+import { ResetForm, UpdateFormValue } from "@ngxs/form-plugin";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CategoriesListStateModel {
   editorForm: {
-    model?: CreateCategoryDto;
+    model: CreateCategoryDto | Record<string, never>;
     dirty: boolean;
     status: FormControlStatus;
     errors: Dictionary<any>;
@@ -47,7 +47,7 @@ export const CATEGORIES_LIST_STATE_TOKEN =
   name: CATEGORIES_LIST_STATE_TOKEN,
   defaults: {
     editorForm: {
-      model: new CreateCategoryDto(),
+      model: {},
       dirty: false,
       status: "VALID",
       errors: {},
@@ -64,6 +64,11 @@ export class CategoriesListState {
     categories: Category[],
   ) {
     return categories;
+  }
+
+  @Selector()
+  public static editedId(state: CategoriesListStateModel) {
+    return state.editedId;
   }
 
   @Action(LoadPage)
@@ -88,28 +93,29 @@ export class CategoriesListState {
   @Action(Edit)
   public edit(ctx: StateContext<CategoriesListStateModel>, action: Edit) {
     const state = ctx.getState();
-    if (state.editedId === action.category.id) {
+    // eslint-disable-next-line eqeqeq
+    if (state.editedId != undefined) {
       return;
     }
 
-    return of(state.editedId).pipe(
-      switchMap(editedId => {
-        let before$: Observable<void> = of(undefined);
-        if (editedId) {
-          before$ = ctx.dispatch(new DiscardEdit());
-        }
-        return before$;
+    ctx.patchState({ editedId: action.category.id });
+    return ctx.dispatch(
+      new UpdateFormValue({
+        path: "buffetsCategoriesList.editorForm",
+        value: {
+          ...action.category,
+        },
       }),
-      switchMap(() => {
-        ctx.patchState({ editedId: action.category.id });
-        return ctx.dispatch(
-          new UpdateFormValue({
-            path: "buffetsCategoriesList.editorForm",
-            value: {
-              ...action.category,
-            },
-          }),
-        );
+    );
+  }
+
+  @Action(DiscardEdit)
+  public discardEdit(ctx: StateContext<CategoriesListStateModel>) {
+    ctx.patchState({ editedId: undefined });
+
+    return ctx.dispatch(
+      new ResetForm({
+        path: "buffetsCategoriesList.editorForm",
       }),
     );
   }

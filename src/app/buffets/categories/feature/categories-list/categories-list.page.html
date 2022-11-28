@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Kategóriák</ion-title>
@@ -6,7 +7,7 @@
 
 <ion-content
   class="ion-padding"
-  *ngIf="{loading: loading$ | async, error: error$ | async}  as vm"
+  *ngIf="{loading: loading$ | async, error: error$ | async, editedId : editedId$ | async}  as vm"
 >
   <ion-refresher
     slot="fixed"
@@ -48,9 +49,11 @@
 
             <ng-container *ngIf="!vm.loading && !vm.error">
               <app-buffets-category-display
-                *ngFor="let category of categories$ | async; index as i;"
-                [isEditing]="false"
+                *ngFor="let category of categories$ | async; index as i;trackBy: categoryById"
+                [isEditing]="vm.editedId === category.id"
+                [editDisabled]="vm.editedId != undefined"
                 [category]="category"
+                [editorForm]="vm.editedId === category.id ? editorForm : undefined"
                 (editing)="onEditing(category)"
                 (editingDone)="onEditingDone($event)"
                 (delete)="onDelete(category.id)"

@@ -6,7 +6,7 @@
   <ion-input
     class="no-opacity"
     *ngIf="editorForm"
-    [formControl]="editorForm.controls.name"
+    [formControl]="editorForm.controls.name!"
   ></ion-input>
   <ion-input
     class="no-opacity"
@@ -16,7 +16,12 @@
   ></ion-input>
 
   <div slot="end" [style.display]="!isEditing ? 'unset' : 'none'">
-    <ion-button fill="clear" color="medium" (click)="editing.emit()">
+    <ion-button
+      fill="clear"
+      color="medium"
+      [disabled]="editDisabled"
+      (click)="editing.emit()"
+    >
       <ion-icon name="create-outline" slot="icon-only"></ion-icon>
     </ion-button>
     <ion-button fill="clear" color="danger" (click)="delete.emit()">
