@@ -27,7 +27,7 @@ interface CategoriesListFormModel {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoriesListPage implements OnInit {
-  @Select()
+  @Select(CategoriesListState.categories )
   public categories$!: Observable<Category[]>;
 
   @Select(CategoryState.loading)

@@ -45,7 +45,7 @@
 
             <ng-container *ngIf="!vm.loading && !vm.error">
               <app-buffets-category-display
-                *ngFor="let editorForm of form.controls.categories.controls; index as i;"
+                *ngFor="let category of categories$ | async; index as i;"
                 [editorForm]="undefined"
                 [isEditing]="false"
                 (editing)="onEditing(editorForm.controls.id.value)"

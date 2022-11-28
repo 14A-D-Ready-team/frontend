@@ -23,9 +23,9 @@ import { BehaviorSubject, combineLatest, map, Observable } from "rxjs";
 })
 export class CategoryDisplayComponent implements OnInit {
   @Input()
-  public category$!: Observable<Category>;
-
-  public form$: Observable<FormGroup<CategoryEditorFormModel>>;
+  public set category(value: Category) {
+    this.categorySubject.next(value);
+  }
 
   @Input()
   public isEditing = false;
@@ -44,14 +44,22 @@ export class CategoryDisplayComponent implements OnInit {
   @Output()
   public delete = new EventEmitter<void>();
 
+  /*   public category$: Observable<Category>;
+
+  public form$: Observable<FormGroup<CategoryEditorFormModel>>;
+
   private editorFormSubject: BehaviorSubject<
     FormGroup<CategoryEditorFormModel> | undefined
   >;
 
+  private categorySubject: BehaviorSubject<Category | undefined>; */
+
   constructor() {
-    this.editorFormSubject = new BehaviorSubject<
+    /*  this.editorFormSubject = new BehaviorSubject<
       FormGroup<CategoryEditorFormModel> | undefined
     >(undefined);
+
+    this.categorySubject = new BehaviorSubject<Category | undefined>(undefined);
 
     this.form$ = combineLatest([this.category$, this.editorFormSubject]).pipe(
       map(([category, editorForm]) => {
@@ -66,12 +74,12 @@ export class CategoryDisplayComponent implements OnInit {
         group.disable();
         return group;
       }),
-    );
+    ); */
   }
 
   public ngOnInit() {
-    if (!this.category$) {
-      throw new Error("category$ property is required");
+    if (!this.category) {
+      throw new Error("category property is required");
     }
   }
 }

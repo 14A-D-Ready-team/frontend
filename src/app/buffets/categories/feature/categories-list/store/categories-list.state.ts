@@ -2,6 +2,7 @@ import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
 import { FormControlStatus } from "@angular/forms";
 import {
+  Category,
   CategoryActions,
   CategoryState,
   CreateCategoryDto,
@@ -48,9 +49,9 @@ export const CATEGORIES_LIST_STATE_TOKEN =
 export class CategoriesListState {
   constructor(private store: Store) {}
 
-  @Selector()
-  public static categories(state: CategoriesListStateModel) {
-    return state.form;
+  @Selector([CategoryState.entities])
+  public static categories(state: CategoriesListStateModel, categories: Category[]) {
+    return categories;
   }
 
   @Selector()
