@@ -19,7 +19,10 @@
   <ion-grid>
     <ion-row>
       <ion-col offset-xl="3" size-xl="6">
-        <form [formGroup]="form" ngxsForm="buffetsCategoriesList.form">
+        <form
+          [formGroup]="editorForm"
+          ngxsForm="buffetsCategoriesList.editorForm"
+        >
           <ion-list>
             <div *ngIf="vm.loading">
               <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
@@ -46,17 +49,16 @@
             <ng-container *ngIf="!vm.loading && !vm.error">
               <app-buffets-category-display
                 *ngFor="let category of categories$ | async; index as i;"
-                [editorForm]="undefined"
                 [isEditing]="false"
-                (editing)="onEditing(editorForm.controls.id.value)"
+                [category]="category"
+                (editing)="onEditing(category)"
                 (editingDone)="onEditingDone($event)"
-                (delete)="onDelete(editorForm.controls.id.value)"
+                (delete)="onDelete(category.id)"
               >
               </app-buffets-category-display>
             </ng-container>
           </ion-list>
         </form>
-        <ion-button (click)="test()">Test</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

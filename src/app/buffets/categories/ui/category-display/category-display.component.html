@@ -1,9 +1,19 @@
-<ion-item *ngIf="form$ | async as form" [formGroup]="form">
+<ion-item>
   <ion-label [style.display]="isEditing ? 'unset' : 'none'" position="floating"
     >Kategória neve</ion-label
   >
 
-  <ion-input class="no-opacity" formControlName="name"></ion-input>
+  <ion-input
+    class="no-opacity"
+    *ngIf="editorForm"
+    [formControl]="editorForm.controls.name"
+  ></ion-input>
+  <ion-input
+    class="no-opacity"
+    *ngIf="!editorForm"
+    disabled
+    [value]="category.name"
+  ></ion-input>
 
   <div slot="end" [style.display]="!isEditing ? 'unset' : 'none'">
     <ion-button fill="clear" color="medium" (click)="editing.emit()">

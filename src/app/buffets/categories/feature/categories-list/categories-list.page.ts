@@ -16,10 +16,6 @@ import {
 import { RefresherCustomEvent } from "@ionic/angular";
 import { UpdateForm, UpdateFormValue } from "@ngxs/form-plugin";
 
-interface CategoriesListFormModel {
-  categories: FormArray<FormGroup<CategoryEditorFormModel>>;
-}
-
 @Component({
   selector: "app-categories-list",
   templateUrl: "./categories-list.page.html",
@@ -27,7 +23,7 @@ interface CategoriesListFormModel {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoriesListPage implements OnInit {
-  @Select(CategoriesListState.categories )
+  @Select(CategoriesListState.categories)
   public categories$!: Observable<Category[]>;
 
   @Select(CategoryState.loading)
@@ -36,57 +32,17 @@ export class CategoriesListPage implements OnInit {
   @Select(CategoryState.error)
   public error$!: Observable<any>;
 
-  public form: FormGroup<CategoriesListFormModel>;
+  public editorForm: FormGroup<CategoryEditorFormModel>;
 
   constructor(private fb: FormBuilder, private store: Store) {
-    this.form = fb.group<CategoriesListFormModel>({
-      categories: new FormArray<FormGroup<CategoryEditorFormModel>>([
-        new FormGroup<CategoryEditorFormModel>({
-          name: new FormControl("sdassda", { nonNullable: true }),
-          id: new FormControl<number>(1, { nonNullable: true }),
-        }),
-        new FormGroup<CategoryEditorFormModel>({
-          name: new FormControl("asdsadsdassd", { nonNullable: true }),
-
-          id: new FormControl<number>(2, { nonNullable: true }),
-        }),
-        new FormGroup<CategoryEditorFormModel>({
-          name: new FormControl("fhfggfg", { nonNullable: true }),
-
-          id: new FormControl<number>(3, { nonNullable: true }),
-        }),
-        new FormGroup<CategoryEditorFormModel>({
-          name: new FormControl("zthrfrr", { nonNullable: true }),
-
-          id: new FormControl<number>(4, { nonNullable: true }),
-        }),
-        /* new FormGroup<CategoryEditorFormModel>({
-          name: new FormControl(),
-          id: new FormControl<number>(5, { nonNullable: true }),
-        }),
-        new FormGroup<CategoryEditorFormModel>({
-          name: new FormControl(),
-          id: new FormControl<number>(6, { nonNullable: true }),
-        }), */
-      ]),
+    this.editorForm = fb.group<CategoryEditorFormModel>({
+      id: new FormControl(-1, { nonNullable: true }),
+      name: new FormControl("", { nonNullable: true }),
     });
   }
 
   public ngOnInit() {
     this.store.dispatch(new LoadPage());
-    this.store.select(CategoriesListState.form).subscribe(form => {
-      console.log(form);
-    });
-  }
-
-  public test() {
-    this.form.controls.categories.controls.push(
-      new FormGroup<CategoryEditorFormModel>({
-        name: new FormControl("dsfdfsdfsfdsdfsdsfd", { nonNullable: true }),
-
-        id: new FormControl<number>(5, { nonNullable: true }),
-      }),
-    );
   }
 
   public retryLoading() {
@@ -101,8 +57,8 @@ export class CategoriesListPage implements OnInit {
       .subscribe(() => refresherEvent.detail.complete());
   }
 
-  public onEditing(id: number) {
-    this.store.dispatch(new Edit(id));
+  public onEditing(category: Category) {
+    this.store.dispatch(new Edit(category));
   }
 
   public onEditingDone(isSaved: boolean) {

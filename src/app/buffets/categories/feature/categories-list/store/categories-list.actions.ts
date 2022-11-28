@@ -1,3 +1,5 @@
+import { Category } from "@shared/category";
+
 export class LoadPage {
   public static readonly type = "[CategoriesListPage] Load Page";
 }
@@ -5,7 +7,7 @@ export class LoadPage {
 export class Edit {
   public static readonly type = "[CategoriesListPage] Edit";
 
-  constructor(public id: number) {}
+  constructor(public category: Category) {}
 }
 
 export class SaveEdit {

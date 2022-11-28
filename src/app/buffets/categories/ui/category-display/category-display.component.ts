@@ -23,17 +23,13 @@ import { BehaviorSubject, combineLatest, map, Observable } from "rxjs";
 })
 export class CategoryDisplayComponent implements OnInit {
   @Input()
-  public set category(value: Category) {
-    this.categorySubject.next(value);
-  }
+  public category!: Category;
 
   @Input()
   public isEditing = false;
 
   @Input()
-  public set editorForm(value: FormGroup<CategoryEditorFormModel> | undefined) {
-    this.editorFormSubject.next(value);
-  }
+  public editorForm: FormGroup<CategoryEditorFormModel> | undefined;
 
   @Output()
   public editing = new EventEmitter<void>();
@@ -43,6 +39,11 @@ export class CategoryDisplayComponent implements OnInit {
 
   @Output()
   public delete = new EventEmitter<void>();
+
+  public form = new FormGroup<CategoryEditorFormModel>({
+    name: new FormControl("asasd", { nonNullable: true }),
+    id: new FormControl<number>(1, { nonNullable: true }),
+  });
 
   /*   public category$: Observable<Category>;
 
