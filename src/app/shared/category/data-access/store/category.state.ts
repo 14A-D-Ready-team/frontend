@@ -43,6 +43,11 @@ export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
 @Injectable()
 export class CategoryState extends EntityState<Category> {
   @Selector()
+  public static updateStatus(state: CategoryStateModel) {
+    return state.updateStatus;
+  }
+
+  @Selector()
   public static isAllLoaded(state: CategoryStateModel) {
     return state.isAllLoaded;
   }

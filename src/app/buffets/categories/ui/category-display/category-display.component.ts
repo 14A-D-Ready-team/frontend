@@ -29,6 +29,9 @@ export class CategoryDisplayComponent implements OnInit {
   public isEditing = false;
 
   @Input()
+  public isLoading = false;
+
+  @Input()
   public editDisabled = false;
 
   @Input()
