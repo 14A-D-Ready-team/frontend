@@ -18,10 +18,17 @@ import {
   LoadingSucceeded,
   LoadAll,
   SetAllLoaded,
+  Update,
+  UpdateSucceeded,
 } from "./category.actions";
 
 export type CategoryStateModel = EntityStateModel<Category> & {
   isAllLoaded: boolean;
+  updateStatus?: {
+    loading: boolean;
+    updatedId: number;
+    error?: any;
+  };
 };
 
 export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
@@ -88,5 +95,20 @@ export class CategoryState extends EntityState<Category> {
     action: SetAllLoaded,
   ) {
     ctx.patchState({ isAllLoaded: action.isAllLoaded });
+  }
+
+  @Action(Update)
+  public updateCategory(ctx: StateContext<CategoryStateModel>, action: Update) {
+    ctx.patchState({
+      updateStatus: {
+        loading: true,
+        updatedId: action.payload.id,
+        error: undefined,
+      },
+    });
+
+    return this.categoryService
+      .update(action.payload.id, action.payload)
+      .pipe(switchMap(category => ctx.dispatch(new UpdateSucceeded(category))));
   }
 }

@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { processArrayResponse, processResponse } from "@shared/serialization";
 import { instanceToPlain } from "class-transformer";
-import { CreateCategoryDto } from "./dto";
+import { EditCategoryDto } from "./dto";
 import { Category } from "./entity";
 
 @Injectable({
@@ -12,7 +12,7 @@ import { Category } from "./entity";
 export class CategoryService {
   constructor(private readonly httpClient: HttpClient) {}
 
-  public create(payload: CreateCategoryDto) {
+  public create(payload: EditCategoryDto) {
     return this.httpClient
       .post(environment.api.url + "/category", instanceToPlain(payload))
       .pipe(processResponse(Category));
@@ -30,7 +30,7 @@ export class CategoryService {
       .pipe(processResponse(Category));
   }
 
-  public update(id: number, payload: Partial<CreateCategoryDto>) {
+  public update(id: number, payload: Partial<EditCategoryDto>) {
     return this.httpClient
       .patch(environment.api.url + "/category/" + id, instanceToPlain(payload))
       .pipe(processResponse(Category));

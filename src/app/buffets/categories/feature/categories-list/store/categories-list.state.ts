@@ -5,7 +5,7 @@ import {
   Category,
   CategoryActions,
   CategoryState,
-  CreateCategoryDto,
+  EditCategoryDto,
 } from "@shared/category";
 import { SetError } from "@ngxs-labs/entity-state";
 import {
@@ -26,13 +26,19 @@ import {
   takeWhile,
   tap,
 } from "rxjs";
-import { DiscardEdit, Edit, LoadPage, Reload } from "./categories-list.actions";
+import {
+  DiscardEdit,
+  Edit,
+  LoadPage,
+  Reload,
+  SaveEdit,
+} from "./categories-list.actions";
 import { ResetForm, UpdateFormValue } from "@ngxs/form-plugin";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CategoriesListStateModel {
   editorForm: {
-    model: CreateCategoryDto | Record<string, never>;
+    model: Partial<Category>;
     dirty: boolean;
     status: FormControlStatus;
     errors: Dictionary<any>;
@@ -102,9 +108,7 @@ export class CategoriesListState {
     return ctx.dispatch(
       new UpdateFormValue({
         path: "buffetsCategoriesList.editorForm",
-        value: {
-          ...action.category,
-        },
+        value: action.category,
       }),
     );
   }
@@ -118,5 +122,12 @@ export class CategoriesListState {
         path: "buffetsCategoriesList.editorForm",
       }),
     );
+  }
+
+  @Action(SaveEdit)
+  public saveEdit(ctx: StateContext<CategoriesListStateModel>) {
+    const model = ctx.getState().editorForm.model as Category;
+    const payload = new EditCategoryDto(model);
+    return ctx.dispatch(new CategoryActions.Update(payload));
   }
 }

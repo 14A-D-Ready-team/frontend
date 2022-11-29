@@ -1,3 +1,4 @@
+import { EditCategoryDto } from "../dto";
 import { Category } from "../entity";
 
 export class LoadAll {
@@ -23,4 +24,22 @@ export class SetAllLoaded {
   public static readonly type = "[Category] Set All Loaded";
 
   constructor(public isAllLoaded: boolean) {}
+}
+
+export class Update {
+  public static readonly type = "[Category] Update";
+
+  constructor(public payload: EditCategoryDto) {}
+}
+
+export class UpdateFailed {
+  public static readonly type = "[Category API] Update Failed";
+
+  constructor(public error: any) {}
+}
+
+export class UpdateSucceeded {
+  public static readonly type = "[Category API] Update Succeeded";
+
+  constructor(public category: Category) {}
 }
