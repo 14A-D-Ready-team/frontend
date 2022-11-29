@@ -20,6 +20,7 @@ import {
   SetAllLoaded,
   Update,
   UpdateSucceeded,
+  UpdateFailed,
 } from "./category.actions";
 
 export type CategoryStateModel = EntityStateModel<Category> & {
@@ -107,8 +108,35 @@ export class CategoryState extends EntityState<Category> {
       },
     });
 
-    return this.categoryService
-      .update(action.payload.id, action.payload)
-      .pipe(switchMap(category => ctx.dispatch(new UpdateSucceeded(category))));
+    return this.categoryService.update(action.payload.id, action.payload).pipe(
+      switchMap(category => ctx.dispatch(new UpdateSucceeded(category))),
+      catchError(error => ctx.dispatch(new UpdateFailed(error))),
+    );
+  }
+
+  @Action(UpdateSucceeded)
+  public updateSucceeded(
+    ctx: StateContext<CategoryStateModel>,
+    action: UpdateSucceeded,
+  ) {
+    ctx.patchState({
+      updateStatus: undefined,
+    });
+    return ctx.dispatch(new CreateOrReplace(CategoryState, action.category));
+  }
+
+  @Action(UpdateFailed)
+  public updateFailed(
+    ctx: StateContext<CategoryStateModel>,
+    action: UpdateFailed,
+  ) {
+    const state = ctx.getState();
+    ctx.patchState({
+      updateStatus: {
+        loading: false,
+        error: action.error,
+        updatedId: state.updateStatus?.updatedId || -1,
+      },
+    });
   }
 }

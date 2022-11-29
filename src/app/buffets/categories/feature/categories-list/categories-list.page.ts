@@ -5,7 +5,7 @@ import { Category, CategoryActions, CategoryState } from "@shared/category";
 import { Observable, take, tap } from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
 import {
-  DiscardEdit,
+  StopEdit,
   LoadPage,
   SaveEdit,
   Edit,
@@ -65,7 +65,7 @@ export class CategoriesListPage implements OnInit {
   }
 
   public onEditingDone(isSaved: boolean) {
-    this.store.dispatch(isSaved ? new SaveEdit() : new DiscardEdit());
+    this.store.dispatch(isSaved ? new SaveEdit() : new StopEdit());
   }
 
   public onDelete(id: number) {

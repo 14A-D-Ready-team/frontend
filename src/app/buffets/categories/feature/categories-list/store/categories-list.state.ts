@@ -27,7 +27,7 @@ import {
   tap,
 } from "rxjs";
 import {
-  DiscardEdit,
+  StopEdit as StopEdit,
   Edit,
   LoadPage,
   Reload,
@@ -113,8 +113,8 @@ export class CategoriesListState {
     );
   }
 
-  @Action(DiscardEdit)
-  public discardEdit(ctx: StateContext<CategoriesListStateModel>) {
+  @Action(StopEdit)
+  public stopEdit(ctx: StateContext<CategoriesListStateModel>) {
     ctx.patchState({ editedId: undefined });
 
     return ctx.dispatch(
@@ -128,6 +128,8 @@ export class CategoriesListState {
   public saveEdit(ctx: StateContext<CategoriesListStateModel>) {
     const model = ctx.getState().editorForm.model as Category;
     const payload = new EditCategoryDto(model);
-    return ctx.dispatch(new CategoryActions.Update(payload));
+    return ctx
+      .dispatch(new CategoryActions.Update(payload))
+      .pipe(switchMap(() => ctx.dispatch(new StopEdit())));
   }
 }

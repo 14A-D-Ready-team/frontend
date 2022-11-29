@@ -14,8 +14,8 @@ export class SaveEdit {
   public static readonly type = "[CategoriesListPage] Save Edit";
 }
 
-export class DiscardEdit {
-  public static readonly type = "[CategoriesListPage] Discard Edit";
+export class StopEdit {
+  public static readonly type = "[CategoriesListPage] Stop Edit";
 }
 
 export class Delete {
