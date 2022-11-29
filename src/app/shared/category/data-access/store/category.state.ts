@@ -23,13 +23,15 @@ import {
   UpdateFailed,
 } from "./category.actions";
 
+export interface UpdateStatus {
+  loading: boolean;
+  updatedId: number;
+  error?: any;
+}
+
 export type CategoryStateModel = EntityStateModel<Category> & {
   isAllLoaded: boolean;
-  updateStatus?: {
-    loading: boolean;
-    updatedId: number;
-    error?: any;
-  };
+  updateStatus?: UpdateStatus;
 };
 
 export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(

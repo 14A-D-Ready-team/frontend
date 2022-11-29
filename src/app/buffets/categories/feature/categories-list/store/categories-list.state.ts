@@ -33,7 +33,13 @@ import {
   Reload,
   SaveEdit,
 } from "./categories-list.actions";
-import { ResetForm, UpdateFormValue } from "@ngxs/form-plugin";
+import {
+  ResetForm,
+  SetFormDisabled,
+  SetFormEnabled,
+  UpdateFormStatus,
+  UpdateFormValue,
+} from "@ngxs/form-plugin";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CategoriesListStateModel {
@@ -42,12 +48,15 @@ export interface CategoriesListStateModel {
     dirty: boolean;
     status: FormControlStatus;
     errors: Dictionary<any>;
+    disabled: boolean;
   };
   editedId?: number;
 }
 
 export const CATEGORIES_LIST_STATE_TOKEN =
   new StateToken<CategoriesListStateModel>("buffetsCategoriesList");
+
+const editorFormPath = "buffetsCategoriesList.editorForm";
 
 @State<CategoriesListStateModel>({
   name: CATEGORIES_LIST_STATE_TOKEN,
@@ -57,6 +66,7 @@ export const CATEGORIES_LIST_STATE_TOKEN =
       dirty: false,
       status: "VALID",
       errors: {},
+      disabled: false,
     },
   },
 })
@@ -107,7 +117,7 @@ export class CategoriesListState {
     ctx.patchState({ editedId: action.category.id });
     return ctx.dispatch(
       new UpdateFormValue({
-        path: "buffetsCategoriesList.editorForm",
+        path: editorFormPath,
         value: action.category,
       }),
     );
@@ -117,10 +127,15 @@ export class CategoriesListState {
   public stopEdit(ctx: StateContext<CategoriesListStateModel>) {
     ctx.patchState({ editedId: undefined });
 
-    return ctx.dispatch(
-      new ResetForm({
-        path: "buffetsCategoriesList.editorForm",
-      }),
+    return of(undefined).pipe(
+      switchMap(() =>
+        ctx.dispatch(
+          new ResetForm({
+            path: editorFormPath,
+          }),
+        ),
+      ),
+      switchMap(() => ctx.dispatch(new SetFormEnabled(editorFormPath))),
     );
   }
 
@@ -128,8 +143,11 @@ export class CategoriesListState {
   public saveEdit(ctx: StateContext<CategoriesListStateModel>) {
     const model = ctx.getState().editorForm.model as Category;
     const payload = new EditCategoryDto(model);
-    return ctx
-      .dispatch(new CategoryActions.Update(payload))
-      .pipe(switchMap(() => ctx.dispatch(new StopEdit())));
+
+    return of(undefined).pipe(
+      switchMap(() => ctx.dispatch(new SetFormDisabled(editorFormPath))),
+      switchMap(() => ctx.dispatch(new CategoryActions.Update(payload))),
+      switchMap(() => ctx.dispatch(new StopEdit())),
+    );
   }
 }

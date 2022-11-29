@@ -5,15 +5,25 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" *ngIf="{loading: loading$ | async, error: error$ | async, editedId : editedId$ | async} as vm">
-  <ion-refresher slot="fixed" [disabled]="vm.loading" (ionRefresh)="handleRefresh($event)">
+<ion-content
+  class="ion-padding"
+  *ngIf="{loading: loading$ | async, error: error$ | async, editedId : editedId$ | async} as vm"
+>
+  <ion-refresher
+    slot="fixed"
+    [disabled]="vm.loading"
+    (ionRefresh)="handleRefresh($event)"
+  >
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <ion-grid>
     <ion-row>
       <ion-col offset-xl="3" size-xl="6">
-        <form [formGroup]="editorForm" ngxsForm="buffetsCategoriesList.editorForm">
+        <form
+          [formGroup]="editorForm"
+          ngxsForm="buffetsCategoriesList.editorForm"
+        >
           <ion-list>
             <div *ngIf="vm.loading">
               <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
@@ -28,12 +38,27 @@
               </ion-card-header>
               <ion-card-content>
                 <p>{{ vm.error | json}}</p>
-                <ion-button (click)="retryLoading()" class="ion-margin-top" color="tertiary">Újrapróbálkozás</ion-button>
+                <ion-button
+                  (click)="retryLoading()"
+                  class="ion-margin-top"
+                  color="tertiary"
+                  >Újrapróbálkozás</ion-button
+                >
               </ion-card-content>
             </ion-card>
 
             <ng-container *ngIf="!vm.loading && !vm.error">
-              <app-buffets-category-display *ngFor="let category of categories$ | async; index as i;trackBy: categoryById" [isEditing]="vm.editedId === category.id" [editDisabled]="vm.editedId != undefined" [category]="category" [editorForm]="vm.editedId === category.id ? editorForm : undefined" (editing)="onEditing(category)" (editingDone)="onEditingDone($event)" (delete)="onDelete(category.id)">
+              <app-buffets-category-display
+                *ngFor="let category of categories$ | async; index as i;trackBy: categoryById"
+                [isEditing]="vm.editedId === category.id"
+                [editDisabled]="vm.editedId != undefined"
+                [isLoading]="vm.editedId === category.id && (updateStatus$ | async)?.loading === true"
+                [category]="category"
+                [editorForm]="vm.editedId === category.id ? editorForm : undefined"
+                (editing)="onEditing(category)"
+                (editingDone)="onEditingDone($event)"
+                (delete)="onDelete(category.id)"
+              >
               </app-buffets-category-display>
             </ng-container>
           </ion-list>

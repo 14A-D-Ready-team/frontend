@@ -1,7 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
-import { Category, CategoryActions, CategoryState } from "@shared/category";
+import {
+  Category,
+  CategoryActions,
+  CategoryState,
+  UpdateStatus,
+} from "@shared/category";
 import { Observable, take, tap } from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
 import {
@@ -28,6 +33,9 @@ export class CategoriesListPage implements OnInit {
 
   @Select(CategoriesListState.editedId)
   public editedId$!: Observable<number>;
+
+  @Select(CategoryState.updateStatus)
+  public updateStatus$!: Observable<UpdateStatus | undefined>;
 
   @Select(CategoryState.loading)
   public loading$!: Observable<boolean>;
