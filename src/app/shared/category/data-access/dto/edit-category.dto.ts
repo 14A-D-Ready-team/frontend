@@ -12,8 +12,8 @@ export class EditCategoryDto {
   @MaxLength(80)
   public name: string;
 
-  constructor(category: Category) {
-    this.id = category.id;
-    this.name = category.name;
+  constructor(category?: Category) {
+    this.id = category?.id || -1;
+    this.name = category?.name || "";
   }
 }

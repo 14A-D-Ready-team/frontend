@@ -46,39 +46,6 @@ export class CategoryDisplayComponent implements OnInit {
   @Output()
   public delete = new EventEmitter<void>();
 
-  /*   public category$: Observable<Category>;
-
-  public form$: Observable<FormGroup<CategoryEditorFormModel>>;
-
-  private editorFormSubject: BehaviorSubject<
-    FormGroup<CategoryEditorFormModel> | undefined
-  >;
-
-  private categorySubject: BehaviorSubject<Category | undefined>; */
-
-  constructor() {
-    /*  this.editorFormSubject = new BehaviorSubject<
-      FormGroup<CategoryEditorFormModel> | undefined
-    >(undefined);
-
-    this.categorySubject = new BehaviorSubject<Category | undefined>(undefined);
-
-    this.form$ = combineLatest([this.category$, this.editorFormSubject]).pipe(
-      map(([category, editorForm]) => {
-        if (editorForm) {
-          return editorForm;
-        }
-
-        const group = new FormGroup<CategoryEditorFormModel>({
-          name: new FormControl(category.name + "ASD", { nonNullable: true }),
-          id: new FormControl<number>(category.id, { nonNullable: true }),
-        });
-        group.disable();
-        return group;
-      }),
-    ); */
-  }
-
   public ngOnInit() {
     if (!this.category) {
       throw new Error("category property is required");

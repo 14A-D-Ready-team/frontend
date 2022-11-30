@@ -5,6 +5,7 @@ import {
   Category,
   CategoryActions,
   CategoryState,
+  EditCategoryDto,
   UpdateStatus,
 } from "@shared/category";
 import { Observable, take, tap } from "rxjs";
@@ -19,7 +20,16 @@ import {
   CategoriesListState,
 } from "./store";
 import { RefresherCustomEvent } from "@ionic/angular";
-import { UpdateForm, UpdateFormValue } from "@ngxs/form-plugin";
+import {
+  UpdateForm,
+  UpdateFormValue,
+  UpdateFormErrors,
+} from "@ngxs/form-plugin";
+import {
+  ClassValidatorFormBuilderService,
+  ClassValidatorFormControl,
+  ClassValidatorFormGroup,
+} from "ngx-reactive-form-class-validator";
 
 @Component({
   selector: "app-categories-list",
@@ -45,11 +55,14 @@ export class CategoriesListPage implements OnInit {
 
   public editorForm: FormGroup<CategoryEditorFormModel>;
 
-  constructor(private fb: FormBuilder, private store: Store) {
-    this.editorForm = fb.group<CategoryEditorFormModel>({
-      id: new FormControl(null),
-      name: new FormControl("", { nonNullable: true }),
-    });
+  constructor(private store: Store) {
+    this.editorForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
+      EditCategoryDto,
+      {
+        id: new ClassValidatorFormControl(null),
+        name: new ClassValidatorFormControl(""),
+      },
+    );
   }
 
   public ngOnInit() {
@@ -73,6 +86,7 @@ export class CategoriesListPage implements OnInit {
   }
 
   public onEditingDone(isSaved: boolean) {
+    console.log(this.editorForm.controls.name);
     this.store.dispatch(isSaved ? new SaveEdit() : new StopEdit());
   }
 

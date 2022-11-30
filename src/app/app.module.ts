@@ -11,6 +11,7 @@ import { ExternalAuthModule } from "./shared/external-auth";
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { CategoryModule } from "./shared/category";
+import { ClassValidatorFormBuilderModule } from "ngx-reactive-form-class-validator";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
@@ -27,6 +28,7 @@ const routeReuseStrategyProvider = {
     NgxsReduxDevtoolsPluginModule.forRoot({ disabled: environment.production }),
     NgxsFormPluginModule.forRoot(),
     IonicModule.forRoot(),
+    ClassValidatorFormBuilderModule.forRoot(),
     ExternalAuthModule.forRoot(),
     CategoryModule,
     AppRoutingModule,
