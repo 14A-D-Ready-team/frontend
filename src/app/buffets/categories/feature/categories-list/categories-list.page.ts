@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
 import {
   Category,
@@ -59,7 +65,6 @@ export class CategoriesListPage implements OnInit {
     this.editorForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
       EditCategoryDto,
       {
-        id: new ClassValidatorFormControl(null),
         name: new ClassValidatorFormControl(""),
       },
     );

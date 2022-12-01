@@ -141,8 +141,12 @@ export class CategoriesListState {
 
   @Action(SaveEdit)
   public saveEdit(ctx: StateContext<CategoriesListStateModel>) {
-    const model = ctx.getState().editorForm.model as Category;
-    const payload = new EditCategoryDto(model);
+    const state = ctx.getState();
+    const model = state.editorForm.model;
+    const payload = new EditCategoryDto({
+      ...model,
+      id: state.editedId,
+    } as Category);
 
     return of(undefined).pipe(
       switchMap(() => ctx.dispatch(new SetFormDisabled(editorFormPath))),
