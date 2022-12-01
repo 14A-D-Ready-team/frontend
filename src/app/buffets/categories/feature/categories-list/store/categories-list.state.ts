@@ -16,16 +16,7 @@ import {
   StateToken,
   Store,
 } from "@ngxs/store";
-import {
-  concat,
-  filter,
-  map,
-  Observable,
-  of,
-  switchMap,
-  takeWhile,
-  tap,
-} from "rxjs";
+import { concat, filter, of, switchMap, takeWhile } from "rxjs";
 import {
   StopEdit as StopEdit,
   Edit,
@@ -37,9 +28,9 @@ import {
   ResetForm,
   SetFormDisabled,
   SetFormEnabled,
-  UpdateFormStatus,
   UpdateFormValue,
 } from "@ngxs/form-plugin";
+import { FormControlErrors } from "@shared/extended-form-plugin";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CategoriesListStateModel {
@@ -49,6 +40,7 @@ export interface CategoriesListStateModel {
     status: FormControlStatus;
     errors: Dictionary<any>;
     disabled: boolean;
+    formControlErrors: FormControlErrors;
   };
   editedId?: number;
 }
@@ -67,6 +59,7 @@ const editorFormPath = "buffetsCategoriesList.editorForm";
       status: "VALID",
       errors: {},
       disabled: false,
+      formControlErrors: {},
     },
   },
 })

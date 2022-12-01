@@ -12,6 +12,7 @@ import { NgxsModule } from "@ngxs/store";
 import { CategoriesListState } from "./store";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { CategoryDisplaySkeletonComponent } from "../../ui/category-display-skeleton";
+import { ExtendedFormPluginModule } from "@app/shared/extended-form-plugin";
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { CategoryDisplaySkeletonComponent } from "../../ui/category-display-skel
     IonicModule,
     NgxsModule.forFeature([CategoriesListState]),
     NgxsFormPluginModule,
+    ExtendedFormPluginModule,
     CategoriesListPageRoutingModule,
     CategoryDisplayComponent,
     CategoryDisplaySkeletonComponent,

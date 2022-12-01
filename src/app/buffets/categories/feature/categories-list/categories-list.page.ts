@@ -36,6 +36,7 @@ import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
+import { UpdateFormControlErrors } from "@app/shared/extended-form-plugin";
 
 @Component({
   selector: "app-categories-list",
@@ -91,8 +92,15 @@ export class CategoriesListPage implements OnInit {
   }
 
   public onEditingDone(isSaved: boolean) {
-    console.log(this.editorForm.controls.name);
-    this.store.dispatch(isSaved ? new SaveEdit() : new StopEdit());
+    this.store.dispatch(
+      isSaved
+        ? new SaveEdit()
+        : /* new StopEdit() */ new UpdateFormControlErrors({
+            path: "buffetsCategoriesList.editorForm",
+            controlName: "name",
+            errors: { testError: "This is a test error" },
+          }),
+    );
   }
 
   public onDelete(id: number) {
