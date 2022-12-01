@@ -62,6 +62,10 @@ export class CategoriesListPage implements OnInit {
 
   public editorForm: FormGroup<CategoryEditorFormModel>;
 
+  public testForm = new FormGroup({
+    test: new FormControl("", { validators: [Validators.email] }),
+  });
+
   constructor(private store: Store) {
     this.editorForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
       EditCategoryDto,
@@ -92,15 +96,7 @@ export class CategoriesListPage implements OnInit {
   }
 
   public onEditingDone(isSaved: boolean) {
-    this.store.dispatch(
-      isSaved
-        ? new SaveEdit()
-        : /* new StopEdit() */ new UpdateFormControlErrors({
-            path: "buffetsCategoriesList.editorForm",
-            controlName: "name",
-            errors: { testError: "This is a test error" },
-          }),
-    );
+    this.store.dispatch(isSaved ? new SaveEdit() : new StopEdit());
   }
 
   public onDelete(id: number) {

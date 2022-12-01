@@ -28,3 +28,7 @@
 .no-opacity .native-input[disabled].sc-ion-input-md {
   opacity: 1 !important;
 }
+
+ion-item .item-bottom {
+  min-height: 19px;
+}

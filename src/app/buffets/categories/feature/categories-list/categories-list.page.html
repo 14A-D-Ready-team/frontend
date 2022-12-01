@@ -66,4 +66,9 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-item fill="solid">
+    <ion-label position="floating">Email</ion-label>
+    <ion-input [formControl]="testForm.controls.test"></ion-input>
+    <ion-note slot="error">Invalid email</ion-note>
+  </ion-item>
 </ion-content>

@@ -3,8 +3,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from "@angular/core";
 import { Category } from "@shared/category";
 import { IonicModule } from "@ionic/angular";
@@ -21,7 +23,7 @@ import { BehaviorSubject, combineLatest, map, Observable } from "rxjs";
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, IonicModule],
 })
-export class CategoryDisplayComponent implements OnInit {
+export class CategoryDisplayComponent implements OnInit, OnChanges {
   @Input()
   public category!: Category;
 
@@ -50,5 +52,9 @@ export class CategoryDisplayComponent implements OnInit {
     if (!this.category) {
       throw new Error("category property is required");
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.editorForm);
   }
 }
