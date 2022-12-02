@@ -10,7 +10,7 @@
     maxlength="80"
   ></ion-input>
   <ion-note slot="error">{{
-    editorForm?.controls?.name || firstErrorMessage
+    editorForm?.controls?.name?.errors | firstErrorMessage
   }}</ion-note>
 
   <ion-input

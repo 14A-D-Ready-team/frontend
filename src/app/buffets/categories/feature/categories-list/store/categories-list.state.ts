@@ -135,6 +135,10 @@ export class CategoriesListState {
   @Action(SaveEdit)
   public saveEdit(ctx: StateContext<CategoriesListStateModel>) {
     const state = ctx.getState();
+    if (state.editorForm.status === "INVALID") {
+      return;
+    }
+
     const model = state.editorForm.model;
     const payload = new EditCategoryDto({
       ...model,
