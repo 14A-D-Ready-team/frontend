@@ -1,15 +1,17 @@
 <ion-item>
-  <ion-label [style.display]="isEditing ? 'unset' : 'none'" position="floating"
-    >Kategória szerkesztése</ion-label
-  >
+  <ion-label [style.display]="isEditing ? 'unset' : 'none'" position="floating">
+    Kategória szerkesztése
+  </ion-label>
 
   <ion-input
     class="no-opacity"
     *ngIf="editorForm"
     [formControl]="editorForm.controls.name!"
+    maxlength="80"
   ></ion-input>
-  <ion-note slot="error">Error</ion-note>
-  <ion-note slot="error">Error2</ion-note>
+  <ion-note slot="error">{{
+    editorForm?.controls?.name || firstErrorMessage
+  }}</ion-note>
 
   <ion-input
     class="no-opacity"

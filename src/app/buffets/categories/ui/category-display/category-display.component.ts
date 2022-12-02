@@ -12,18 +12,22 @@ import { Category } from "@shared/category";
 import { IonicModule } from "@ionic/angular";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { CategoryEditorFormModel } from "../../utils";
+import { CategoryEditorFormModel, FirstErrorMessagePipe } from "../../utils";
 import { BehaviorSubject, combineLatest, map, Observable } from "rxjs";
 
 @Component({
   selector: "app-buffets-category-display",
   styleUrls: ["./category-display.component.scss"],
   templateUrl: "./category-display.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IonicModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    IonicModule,
+    FirstErrorMessagePipe,
+  ],
 })
-export class CategoryDisplayComponent implements OnInit, OnChanges {
+export class CategoryDisplayComponent implements OnInit {
   @Input()
   public category!: Category;
 
@@ -52,9 +56,5 @@ export class CategoryDisplayComponent implements OnInit, OnChanges {
     if (!this.category) {
       throw new Error("category property is required");
     }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.editorForm);
   }
 }

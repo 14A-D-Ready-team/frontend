@@ -8,8 +8,10 @@ export class EditCategoryDto {
 
   @Expose()
   @IsString()
-  @MinLength(1)
-  @MaxLength(80)
+  @MinLength(1, { message: "A kategória neve nem lehet üres" })
+  @MaxLength(80, {
+    message: "A kategória neve nem lehet hosszabb 80 karakternél",
+  })
   public name: string;
 
   constructor(category?: Category) {
