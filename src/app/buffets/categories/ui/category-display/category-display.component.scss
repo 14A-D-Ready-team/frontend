@@ -1,0 +1,12 @@
+ion-item {
+  --min-height: 55px;
+  --highlight-background: var(--ion-color-primary);
+  min-height: 75px;
+}
+
+.spinner-container {
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px 0 0;
+  height: 100%;
+}

@@ -4,7 +4,7 @@ import { Action, State, StateContext, StateToken, Store } from "@ngxs/store";
 import { delay, map, of, switchMap, tap } from "rxjs";
 import { GoogleAuthService } from "../service";
 import { VerifyGoogleAuth } from "./auth.actions";
-import { UserType } from "@app/user";
+import { UserType } from "@app/shared/user";
 
 enum SocialAuthStatus {
   Idle,

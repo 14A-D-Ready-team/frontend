@@ -32,3 +32,4 @@ npm-debug.log*
 /www
 /cypress/videos/*
 /.vscode/**
+package-lock.json

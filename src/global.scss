@@ -67,3 +67,7 @@ $l-font: 1.7em;
     inset 0px 4px 16px rgba(36, 36, 36, 0.25);
   font-weight: 500;
 }
+
+.no-opacity .native-input[disabled].sc-ion-input-md {
+  opacity: 1 !important;
+}

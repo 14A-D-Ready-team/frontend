@@ -1,4 +1,4 @@
-import { UserType } from "@app/user";
+import { UserType } from "@shared/user";
 import { VerifyGoogleAuthDto } from "../dto";
 
 export class VerifyGoogleAuth {
