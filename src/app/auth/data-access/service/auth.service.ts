@@ -2,7 +2,7 @@ import { environment } from "@/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { processResponse } from "@app/shared/serialization";
-import { User } from "@app/user";
+import { User } from "@shared/user";
 import { LoginDto } from "../dto";
 
 @Injectable({
