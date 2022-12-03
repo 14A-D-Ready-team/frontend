@@ -19,6 +19,7 @@ import { BehaviorSubject, combineLatest, map, Observable } from "rxjs";
   selector: "app-buffets-category-display",
   styleUrls: ["./category-display.component.scss"],
   templateUrl: "./category-display.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     CommonModule,

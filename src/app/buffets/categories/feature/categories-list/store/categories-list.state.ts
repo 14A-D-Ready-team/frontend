@@ -30,9 +30,8 @@ import {
   SetFormEnabled,
   UpdateFormValue,
 } from "@ngxs/form-plugin";
-import { FormControlErrors } from "@shared/extended-form-plugin";
+import { FormControlErrors } from "@shared/form-extensions";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CategoriesListStateModel {
   editorForm: {
     model: Partial<Category>;
@@ -135,9 +134,12 @@ export class CategoriesListState {
   @Action(SaveEdit)
   public saveEdit(ctx: StateContext<CategoriesListStateModel>) {
     const state = ctx.getState();
+
     if (state.editorForm.status === "INVALID") {
       return;
     }
+
+    console.log(state);
 
     const model = state.editorForm.model;
     const payload = new EditCategoryDto({
