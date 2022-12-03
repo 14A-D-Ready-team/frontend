@@ -10,13 +10,14 @@ import {
 import { SetError } from "@ngxs-labs/entity-state";
 import {
   Action,
+  Actions,
   Selector,
   State,
   StateContext,
   StateToken,
   Store,
 } from "@ngxs/store";
-import { concat, filter, of, switchMap, takeWhile } from "rxjs";
+import { concat, filter, of, switchMap, take, takeWhile, tap } from "rxjs";
 import {
   StopEdit as StopEdit,
   Edit,
@@ -30,7 +31,7 @@ import {
   SetFormEnabled,
   UpdateFormValue,
 } from "@ngxs/form-plugin";
-import { FormControlErrors } from "@shared/form-extensions";
+import { FormControlErrors } from "@shared/extended-form-plugin";
 
 export interface CategoriesListStateModel {
   editorForm: {
@@ -64,7 +65,7 @@ const editorFormPath = "buffetsCategoriesList.editorForm";
 })
 @Injectable()
 export class CategoriesListState {
-  constructor(private store: Store) {}
+  constructor(private store: Store, private actions$: Actions) {}
 
   @Selector([CategoryState.entities])
   public static categories(
@@ -139,17 +140,37 @@ export class CategoriesListState {
       return;
     }
 
-    console.log(state);
-
     const model = state.editorForm.model;
     const payload = new EditCategoryDto({
       ...model,
       id: state.editedId,
     } as Category);
 
+    const original = this.store.selectSnapshot(
+      CategoryState.entityById(payload.id),
+    );
+    payload.omitUnchangedProperties(original);
+
+    if (!payload.hasChanges()) {
+      return ctx.dispatch(new StopEdit());
+    }
+
     return of(undefined).pipe(
       switchMap(() => ctx.dispatch(new SetFormDisabled(editorFormPath))),
       switchMap(() => ctx.dispatch(new CategoryActions.Update(payload))),
+      switchMap(() => {
+        return this.actions$;
+      }),
+      tap(a => console.log(a)),
+      filter(action => {
+        console.log(action);
+        return [
+          CategoryActions.UpdateSucceeded,
+          CategoryActions.UpdateFailed,
+        ].includes(action.type);
+      }),
+      take(1),
+      filter(action => action.type === CategoryActions.UpdateSucceeded),
       switchMap(() => ctx.dispatch(new StopEdit())),
     );
   }

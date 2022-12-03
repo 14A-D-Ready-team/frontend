@@ -17,6 +17,15 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">UpdateStatus</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ (updateStatus$| async )| json}}</p>
+    </ion-card-content>
+  </ion-card>
+
   <ion-grid>
     <ion-row>
       <ion-col offset-xl="3" size-xl="6">

@@ -1,3 +1,4 @@
+import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
 import {
   defaultEntityState,
@@ -9,7 +10,14 @@ import {
   RemoveAll,
   SetError,
 } from "@ngxs-labs/entity-state";
-import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
+import {
+  Action,
+  createSelector,
+  Selector,
+  State,
+  StateContext,
+  StateToken,
+} from "@ngxs/store";
 import { catchError, concat, filter, finalize, of, switchMap, tap } from "rxjs";
 import { CategoryService } from "../category.service";
 import { Category } from "../entity";
@@ -52,6 +60,13 @@ export class CategoryState extends EntityState<Category> {
   @Selector()
   public static isAllLoaded(state: CategoryStateModel) {
     return state.isAllLoaded;
+  }
+
+  public static entityById(id: number) {
+    return createSelector(
+      [CategoryState.entitiesMap],
+      (entities: Dictionary<Category>) => entities[id],
+    );
   }
 
   constructor(private readonly categoryService: CategoryService) {

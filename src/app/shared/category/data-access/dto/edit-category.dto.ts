@@ -18,4 +18,19 @@ export class EditCategoryDto {
     this.id = category?.id || -1;
     this.name = category?.name || "";
   }
+
+  public omitUnchangedProperties(original: Category) {
+    for (const key in this) {
+      if (Object.prototype.hasOwnProperty.call(this, key)) {
+        const value = this[key] as any;
+        if (key !== "id" && value === original[key as keyof typeof original]) {
+          delete this[key];
+        }
+      }
+    }
+  }
+
+  public hasChanges() {
+    return Object.keys(this).filter(k => k !== "id").length > 0;
+  }
 }

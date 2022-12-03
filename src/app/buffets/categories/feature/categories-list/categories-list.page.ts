@@ -1,20 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
 import {
   Category,
-  CategoryActions,
   CategoryState,
   EditCategoryDto,
   UpdateStatus,
 } from "@shared/category";
-import { Observable, take, tap } from "rxjs";
+import { Observable, take } from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
 import {
   StopEdit,
@@ -27,17 +20,9 @@ import {
 } from "./store";
 import { RefresherCustomEvent } from "@ionic/angular";
 import {
-  UpdateForm,
-  UpdateFormValue,
-  UpdateFormErrors,
-} from "@ngxs/form-plugin";
-import {
-  ClassValidatorFormBuilderService,
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
-import { UpdateFormControlErrors } from "@app/shared/extended-form-plugin";
-
 @Component({
   selector: "app-categories-list",
   templateUrl: "./categories-list.page.html",
