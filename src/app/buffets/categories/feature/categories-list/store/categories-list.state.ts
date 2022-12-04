@@ -7,7 +7,7 @@ import {
   CategoryState,
   EditCategoryDto,
 } from "@shared/category";
-import { SetError } from "@ngxs-labs/entity-state";
+import { Remove, SetError } from "@ngxs-labs/entity-state";
 import {
   Action,
   Actions,
@@ -32,6 +32,8 @@ import {
   UpdateFormValue,
 } from "@ngxs/form-plugin";
 import { FormControlErrors } from "@shared/extended-form-plugin";
+import { Platform, ToastController } from "@ionic/angular";
+import { ErrorCode, ExceptionService } from "@app/shared/exceptions";
 
 export interface CategoriesListStateModel {
   editorForm: {
@@ -65,7 +67,12 @@ const editorFormPath = "buffetsCategoriesList.editorForm";
 })
 @Injectable()
 export class CategoriesListState {
-  constructor(private store: Store, private actions$: Actions) {}
+  constructor(
+    private store: Store,
+    private toastController: ToastController,
+    private exceptionService: ExceptionService,
+    public platform: Platform,
+  ) {}
 
   @Selector([CategoryState.entities])
   public static categories(
@@ -155,23 +162,36 @@ export class CategoriesListState {
       return ctx.dispatch(new StopEdit());
     }
 
-    return of(undefined).pipe(
-      switchMap(() => ctx.dispatch(new SetFormDisabled(editorFormPath))),
-      switchMap(() => ctx.dispatch(new CategoryActions.Update(payload))),
-      switchMap(() => {
-        return this.actions$;
-      }),
-      tap(a => console.log(a)),
-      filter(action => {
-        console.log(action);
-        return [
-          CategoryActions.UpdateSucceeded,
-          CategoryActions.UpdateFailed,
-        ].includes(action.type);
-      }),
-      take(1),
-      filter(action => action.type === CategoryActions.UpdateSucceeded),
-      switchMap(() => ctx.dispatch(new StopEdit())),
-    );
+    ctx.dispatch(new SetFormDisabled(editorFormPath));
+
+    return ctx.dispatch(new CategoryActions.Update(payload));
+  }
+
+  @Action(CategoryActions.UpdateSucceeded)
+  public updateSucceeded(ctx: StateContext<CategoriesListStateModel>) {
+    return ctx.dispatch(new StopEdit());
+  }
+
+  @Action(CategoryActions.UpdateFailed)
+  public async updateFailed(
+    ctx: StateContext<CategoriesListStateModel>,
+    action: CategoryActions.UpdateFailed,
+  ) {
+    ctx.dispatch(new SetFormEnabled(editorFormPath));
+
+    const toast = await this.toastController.create({
+      duration: 2000,
+      message: this.exceptionService.getErrorMessage(action.error),
+      header: "Sikertelen mentés",
+      color: "danger",
+      position: this.platform.width() > 600 ? "top" : "bottom",
+    });
+    toast.present();
+
+    if (action.error?.errorCode === ErrorCode.NotFoundException) {
+      const editedId = ctx.getState().editedId;
+      ctx.dispatch(new StopEdit());
+      return ctx.dispatch(new Remove(CategoryState, e => e.id === editedId));
+    }
   }
 }

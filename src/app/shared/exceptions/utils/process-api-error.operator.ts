@@ -1,9 +1,8 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { plainToInstance } from "class-transformer";
 import { catchError, Observable } from "rxjs";
-import { ApiException } from "./api.exception";
 import { ErrorCode } from "./error-code.enum";
-import { InvalidDataException } from "./invalid-data.exception";
+import { ApiException, InvalidDataException } from "./exception-classes";
 
 export function processApiError() {
   return function (source: Observable<any>): Observable<any> {
