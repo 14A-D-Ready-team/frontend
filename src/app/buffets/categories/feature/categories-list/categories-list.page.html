@@ -54,9 +54,24 @@
               >
               </app-buffets-category-display>
             </ng-container>
+
+            <app-buffets-category-display
+              *ngIf="creatingNew$ | async"
+              action="create"
+              [isEditing]="true"
+              [isLoading]="(createStatus$ | async)?.loading === true"
+              [editorForm]="createForm"
+              (editingDone)="onEditingDone($event)"
+            >
+            </app-buffets-category-display>
           </ion-list>
         </form>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button [disabled]="vm.editedId != undefined" (click)="create()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

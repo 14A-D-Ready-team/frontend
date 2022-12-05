@@ -3,6 +3,9 @@ import { Category } from "@shared/category";
 export class LoadPage {
   public static readonly type = "[CategoriesListPage] Load Page";
 }
+export class Create {
+  public static readonly type = "[CategoriesListPage] Create";
+}
 
 export class Edit {
   public static readonly type = "[CategoriesListPage] Edit";

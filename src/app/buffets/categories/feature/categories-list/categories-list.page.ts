@@ -5,7 +5,7 @@ import {
   Category,
   CategoryState,
   EditCategoryDto,
-  UpdateStatus,
+  EditStatus,
 } from "@shared/category";
 import { Observable, take } from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
@@ -17,6 +17,7 @@ import {
   Delete,
   Reload,
   CategoriesListState,
+  Create,
 } from "./store";
 import { RefresherCustomEvent } from "@ionic/angular";
 import {
@@ -33,11 +34,17 @@ export class CategoriesListPage implements OnInit {
   @Select(CategoriesListState.categories)
   public categories$!: Observable<Category[]>;
 
+  @Select(CategoriesListState.creatingNew)
+  public creatingNew$!: Observable<boolean>;
+
   @Select(CategoriesListState.editedId)
   public editedId$!: Observable<number>;
 
   @Select(CategoryState.updateStatus)
-  public updateStatus$!: Observable<UpdateStatus | undefined>;
+  public updateStatus$!: Observable<EditStatus | undefined>;
+
+  @Select(CategoryState.createStatus)
+  public createStatus$!: Observable<EditStatus | undefined>;
 
   @Select(CategoryState.loading)
   public loading$!: Observable<boolean>;
@@ -74,6 +81,10 @@ export class CategoriesListPage implements OnInit {
       .dispatch(new Reload())
       .pipe(take(1))
       .subscribe(() => refresherEvent.detail.complete());
+  }
+
+  public create() {
+    this.store.dispatch(new Create());
   }
 
   public onEditing(category: Category) {

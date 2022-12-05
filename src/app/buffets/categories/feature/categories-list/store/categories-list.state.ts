@@ -24,11 +24,13 @@ import {
   LoadPage,
   Reload,
   SaveEdit,
+  Create,
 } from "./categories-list.actions";
 import {
   ResetForm,
   SetFormDisabled,
   SetFormEnabled,
+  SetFormPristine,
   UpdateFormValue,
 } from "@ngxs/form-plugin";
 import { FormControlErrors } from "@shared/extended-form-plugin";
@@ -45,6 +47,7 @@ export interface CategoriesListStateModel {
     formControlErrors: FormControlErrors;
   };
   editedId?: number;
+  creatingNew: boolean;
 }
 
 export const CATEGORIES_LIST_STATE_TOKEN =
@@ -63,6 +66,7 @@ const editorFormPath = "buffetsCategoriesList.editorForm";
       disabled: false,
       formControlErrors: {},
     },
+    creatingNew: false,
   },
 })
 @Injectable()
@@ -80,6 +84,11 @@ export class CategoriesListState {
     categories: Category[],
   ) {
     return categories;
+  }
+
+  @Selector()
+  public static creatingNew(state: CategoriesListStateModel) {
+    return state.creatingNew;
   }
 
   @Selector()
@@ -104,6 +113,20 @@ export class CategoriesListState {
       ctx.dispatch(new SetError(CategoryState, undefined)),
       ctx.dispatch(new CategoryActions.LoadAll()),
     );
+  }
+
+  @Action(Create)
+  public create(ctx: StateContext<CategoriesListStateModel>) {
+    const state = ctx.getState();
+    // eslint-disable-next-line eqeqeq
+    if (state.editedId != undefined) {
+      return;
+    }
+
+    ctx.patchState({ creatingNew: true });
+
+    ctx.dispatch(new ResetForm({ path: editorFormPath }));
+    ctx.dispatch(new SetFormPristine(editorFormPath));
   }
 
   @Action(Edit)

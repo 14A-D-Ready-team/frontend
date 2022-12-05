@@ -31,15 +31,16 @@ import {
   UpdateFailed,
 } from "./category.actions";
 
-export interface UpdateStatus {
+export interface EditStatus {
   loading: boolean;
-  updatedId: number;
+  editedId: number;
   error?: any;
 }
 
 export type CategoryStateModel = EntityStateModel<Category> & {
   isAllLoaded: boolean;
-  updateStatus?: UpdateStatus;
+  updateStatus?: EditStatus;
+  createStatus?: EditStatus;
 };
 
 export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
@@ -55,6 +56,11 @@ export class CategoryState extends EntityState<Category> {
   @Selector()
   public static updateStatus(state: CategoryStateModel) {
     return state.updateStatus;
+  }
+
+  @Selector()
+  public static createStatus(state: CategoryStateModel) {
+    return state.createStatus;
   }
 
   @Selector()
@@ -125,7 +131,7 @@ export class CategoryState extends EntityState<Category> {
     ctx.patchState({
       updateStatus: {
         loading: true,
-        updatedId: action.payload.id,
+        editedId: action.payload.id,
         error: undefined,
       },
     });
@@ -157,7 +163,7 @@ export class CategoryState extends EntityState<Category> {
       updateStatus: {
         loading: false,
         error: action.error,
-        updatedId: state.updateStatus?.updatedId || -1,
+        editedId: state.updateStatus?.editedId || -1,
       },
     });
   }
