@@ -32,6 +32,14 @@
               <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
             </div>
 
+            <app-ionic-error-card
+              *ngIf="vm.error"
+              [error]="vm.error"
+              header="A kategóriák betöltése sikertelen"
+              (retry)="retryLoading()"
+            >
+            </app-ionic-error-card>
+
             <ng-container *ngIf="!vm.loading && !vm.error">
               <app-buffets-category-display
                 *ngFor="let category of categories$ | async; index as i;trackBy: categoryById"
