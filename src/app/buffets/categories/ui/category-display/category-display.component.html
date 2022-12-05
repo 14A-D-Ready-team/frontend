@@ -9,9 +9,11 @@
     [formControl]="editorForm.controls.name!"
     maxlength="80"
   ></ion-input>
-  <ion-note slot="error">{{
-    editorForm?.controls?.name?.errors | firstErrorMessage
-  }}</ion-note>
+  <ion-note
+    *ngIf="editorForm?.controls?.name?.pristine === false"
+    slot="error"
+    >{{ editorForm?.controls?.name?.errors | firstErrorMessage }}</ion-note
+  >
 
   <ion-input
     class="no-opacity"

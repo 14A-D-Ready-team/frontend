@@ -20,26 +20,25 @@
   <ion-grid>
     <ion-row>
       <ion-col offset-xl="3" size-xl="6">
-        <form
-          [formGroup]="editorForm"
-          ngxsForm="buffetsCategoriesList.editorForm"
-        >
-          <ion-list>
-            <div *ngIf="vm.loading">
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-            </div>
+        <ion-list>
+          <div *ngIf="vm.loading">
+            <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+            <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+            <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+            <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+          </div>
 
-            <app-ionic-error-card
-              *ngIf="vm.error"
-              [error]="vm.error"
-              header="A kategóriák betöltése sikertelen"
-              (retry)="retryLoading()"
-            >
-            </app-ionic-error-card>
-
+          <app-ionic-error-card
+            *ngIf="vm.error"
+            [error]="vm.error"
+            header="A kategóriák betöltése sikertelen"
+            (retry)="retryLoading()"
+          >
+          </app-ionic-error-card>
+          <form
+            [formGroup]="updateForm"
+            ngxsForm="buffetsCategoriesList.updateForm"
+          >
             <ng-container *ngIf="!vm.loading && !vm.error">
               <app-buffets-category-display
                 *ngFor="let category of categories$ | async; index as i;trackBy: categoryById"
@@ -47,7 +46,7 @@
                 [editDisabled]="vm.editedId != undefined"
                 [isLoading]="vm.editedId === category.id && (updateStatus$ | async)?.loading === true"
                 [category]="category"
-                [editorForm]="vm.editedId === category.id ? editorForm : undefined"
+                [editorForm]="vm.editedId === category.id ? updateForm : undefined"
                 (editing)="onEditing(category)"
                 (editingDone)="onEditingDone($event)"
                 (delete)="onDelete(category.id)"
@@ -60,12 +59,12 @@
               action="create"
               [isEditing]="true"
               [isLoading]="(createStatus$ | async)?.loading === true"
-              [editorForm]="createForm"
-              (editingDone)="onEditingDone($event)"
+              [editorForm]="updateForm"
+              (editingDone)="onCreatingDone($event)"
             >
             </app-buffets-category-display>
-          </ion-list>
-        </form>
+          </form>
+        </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>

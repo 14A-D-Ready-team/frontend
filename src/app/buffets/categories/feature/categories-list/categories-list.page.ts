@@ -31,6 +31,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoriesListPage implements OnInit {
+  onCreatingDone($event: boolean) {
+    throw new Error("Method not implemented.");
+  }
   @Select(CategoriesListState.categories)
   public categories$!: Observable<Category[]>;
 
@@ -52,14 +55,19 @@ export class CategoriesListPage implements OnInit {
   @Select(CategoryState.error)
   public error$!: Observable<any>;
 
-  public editorForm: FormGroup<CategoryEditorFormModel>;
+  public createForm: FormGroup<CategoryEditorFormModel>;
 
-  public testForm = new FormGroup({
-    test: new FormControl("", { validators: [Validators.email] }),
-  });
+  public updateForm: FormGroup<CategoryEditorFormModel>;
 
   constructor(private store: Store) {
-    this.editorForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
+    this.createForm = new FormGroup<CategoryEditorFormModel>({
+      name: new FormControl("", {
+        nonNullable: true,
+        validators: [Validators.required, Validators.minLength(3)],
+      }),
+    });
+
+    this.updateForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
       EditCategoryDto,
       {
         name: new ClassValidatorFormControl(""),

@@ -1,6 +1,4 @@
-import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
-import { FormControlStatus } from "@angular/forms";
 import {
   Category,
   CategoryActions,
@@ -10,14 +8,22 @@ import {
 import { Remove, SetError } from "@ngxs-labs/entity-state";
 import {
   Action,
-  Actions,
   Selector,
   State,
   StateContext,
   StateToken,
   Store,
 } from "@ngxs/store";
-import { concat, filter, of, switchMap, take, takeWhile, tap } from "rxjs";
+import {
+  concat,
+  delay,
+  filter,
+  of,
+  switchMap,
+  take,
+  takeWhile,
+  tap,
+} from "rxjs";
 import {
   StopEdit as StopEdit,
   Edit,
@@ -33,19 +39,14 @@ import {
   SetFormPristine,
   UpdateFormValue,
 } from "@ngxs/form-plugin";
-import { FormControlErrors } from "@shared/extended-form-plugin";
+import { NgxsFormState } from "@shared/extended-form-plugin";
 import { Platform, ToastController } from "@ionic/angular";
 import { ErrorCode, ExceptionService } from "@app/shared/exceptions";
 
 export interface CategoriesListStateModel {
-  editorForm: {
-    model: Partial<Category>;
-    dirty: boolean;
-    status: FormControlStatus;
-    errors: Dictionary<any>;
-    disabled: boolean;
-    formControlErrors: FormControlErrors;
-  };
+  updateForm: NgxsFormState<Partial<Category>>;
+  createForm: NgxsFormState<Partial<Category>>;
+
   editedId?: number;
   creatingNew: boolean;
 }
@@ -53,12 +54,21 @@ export interface CategoriesListStateModel {
 export const CATEGORIES_LIST_STATE_TOKEN =
   new StateToken<CategoriesListStateModel>("buffetsCategoriesList");
 
-const editorFormPath = "buffetsCategoriesList.editorForm";
+const updateFormPath = "buffetsCategoriesList.updateForm";
+const createFormPath = "buffetsCategoriesList.createForm";
 
 @State<CategoriesListStateModel>({
   name: CATEGORIES_LIST_STATE_TOKEN,
   defaults: {
-    editorForm: {
+    updateForm: {
+      model: {},
+      dirty: false,
+      status: "VALID",
+      errors: {},
+      disabled: false,
+      formControlErrors: {},
+    },
+    createForm: {
       model: {},
       dirty: false,
       status: "VALID",
@@ -75,7 +85,7 @@ export class CategoriesListState {
     private store: Store,
     private toastController: ToastController,
     private exceptionService: ExceptionService,
-    public platform: Platform,
+    private platform: Platform,
   ) {}
 
   @Selector([CategoryState.entities])
@@ -125,8 +135,10 @@ export class CategoriesListState {
 
     ctx.patchState({ creatingNew: true });
 
-    ctx.dispatch(new ResetForm({ path: editorFormPath }));
-    ctx.dispatch(new SetFormPristine(editorFormPath));
+    return of(undefined).pipe(
+      switchMap(() => ctx.dispatch(new ResetForm({ path: createFormPath }))),
+      switchMap(() => ctx.dispatch(new SetFormPristine(createFormPath))),
+    );
   }
 
   @Action(Edit)
@@ -140,7 +152,7 @@ export class CategoriesListState {
     ctx.patchState({ editedId: action.category.id });
     return ctx.dispatch(
       new UpdateFormValue({
-        path: editorFormPath,
+        path: updateFormPath,
         value: action.category,
       }),
     );
@@ -154,11 +166,11 @@ export class CategoriesListState {
       switchMap(() =>
         ctx.dispatch(
           new ResetForm({
-            path: editorFormPath,
+            path: updateFormPath,
           }),
         ),
       ),
-      switchMap(() => ctx.dispatch(new SetFormEnabled(editorFormPath))),
+      switchMap(() => ctx.dispatch(new SetFormEnabled(updateFormPath))),
     );
   }
 
@@ -166,11 +178,11 @@ export class CategoriesListState {
   public saveEdit(ctx: StateContext<CategoriesListStateModel>) {
     const state = ctx.getState();
 
-    if (state.editorForm.status === "INVALID") {
+    if (state.updateForm.status === "INVALID") {
       return;
     }
 
-    const model = state.editorForm.model;
+    const model = state.updateForm.model;
     const payload = new EditCategoryDto({
       ...model,
       id: state.editedId,
@@ -185,7 +197,7 @@ export class CategoriesListState {
       return ctx.dispatch(new StopEdit());
     }
 
-    ctx.dispatch(new SetFormDisabled(editorFormPath));
+    ctx.dispatch(new SetFormDisabled(updateFormPath));
 
     return ctx.dispatch(new CategoryActions.Update(payload));
   }
@@ -200,7 +212,7 @@ export class CategoriesListState {
     ctx: StateContext<CategoriesListStateModel>,
     action: CategoryActions.UpdateFailed,
   ) {
-    ctx.dispatch(new SetFormEnabled(editorFormPath));
+    ctx.dispatch(new SetFormEnabled(updateFormPath));
 
     const toast = await this.toastController.create({
       duration: 2000,
