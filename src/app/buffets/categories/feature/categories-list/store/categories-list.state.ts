@@ -30,7 +30,9 @@ import {
   LoadPage,
   Reload,
   SaveEdit,
-  Create,
+  AddNew,
+  StopAddingNew,
+  SaveNew,
 } from "./categories-list.actions";
 import {
   ResetForm,
@@ -44,9 +46,7 @@ import { Platform, ToastController } from "@ionic/angular";
 import { ErrorCode, ExceptionService } from "@app/shared/exceptions";
 
 export interface CategoriesListStateModel {
-  updateForm: NgxsFormState<Partial<Category>>;
-  createForm: NgxsFormState<Partial<Category>>;
-
+  editorForm: NgxsFormState<Partial<Category>>;
   editedId?: number;
   creatingNew: boolean;
 }
@@ -54,21 +54,12 @@ export interface CategoriesListStateModel {
 export const CATEGORIES_LIST_STATE_TOKEN =
   new StateToken<CategoriesListStateModel>("buffetsCategoriesList");
 
-const updateFormPath = "buffetsCategoriesList.updateForm";
-const createFormPath = "buffetsCategoriesList.createForm";
+export const editorFormPath = "buffetsCategoriesList.editorForm";
 
 @State<CategoriesListStateModel>({
   name: CATEGORIES_LIST_STATE_TOKEN,
   defaults: {
-    updateForm: {
-      model: {},
-      dirty: false,
-      status: "VALID",
-      errors: {},
-      disabled: false,
-      formControlErrors: {},
-    },
-    createForm: {
+    editorForm: {
       model: {},
       dirty: false,
       status: "VALID",
@@ -125,8 +116,8 @@ export class CategoriesListState {
     );
   }
 
-  @Action(Create)
-  public create(ctx: StateContext<CategoriesListStateModel>) {
+  @Action(AddNew)
+  public addNew(ctx: StateContext<CategoriesListStateModel>) {
     const state = ctx.getState();
     // eslint-disable-next-line eqeqeq
     if (state.editedId != undefined) {
@@ -136,9 +127,53 @@ export class CategoriesListState {
     ctx.patchState({ creatingNew: true });
 
     return of(undefined).pipe(
-      switchMap(() => ctx.dispatch(new ResetForm({ path: createFormPath }))),
-      switchMap(() => ctx.dispatch(new SetFormPristine(createFormPath))),
+      switchMap(() =>
+        ctx.dispatch(
+          new ResetForm({ path: editorFormPath, value: { name: "" } }),
+        ),
+      ),
     );
+  }
+
+  @Action(StopAddingNew)
+  public stopAddingNew(ctx: StateContext<CategoriesListStateModel>) {
+    ctx.patchState({ creatingNew: false });
+
+    return this.resetEditorForm(ctx);
+  }
+
+  @Action(SaveNew)
+  public saveNew(ctx: StateContext<CategoriesListStateModel>) {
+    const state = ctx.getState();
+
+    if (state.editorForm.status === "INVALID") {
+      return;
+    }
+
+    const model = state.editorForm.model;
+    const payload = new EditCategoryDto({
+      ...model,
+      id: state.editedId,
+    } as Category);
+
+    ctx.dispatch(new SetFormDisabled(editorFormPath));
+
+    return ctx.dispatch(new CategoryActions.Create(payload));
+  }
+
+  @Action(CategoryActions.CreateSucceeded)
+  public createSucceeded(ctx: StateContext<CategoriesListStateModel>) {
+    return ctx.dispatch(new StopAddingNew());
+  }
+
+  @Action(CategoryActions.CreateFailed)
+  public async createFailed(
+    ctx: StateContext<CategoriesListStateModel>,
+    action: CategoryActions.CreateFailed,
+  ) {
+    ctx.dispatch(new SetFormEnabled(editorFormPath));
+
+    await this.presentErrorToast(action.error);
   }
 
   @Action(Edit)
@@ -152,7 +187,7 @@ export class CategoriesListState {
     ctx.patchState({ editedId: action.category.id });
     return ctx.dispatch(
       new UpdateFormValue({
-        path: updateFormPath,
+        path: editorFormPath,
         value: action.category,
       }),
     );
@@ -160,29 +195,18 @@ export class CategoriesListState {
 
   @Action(StopEdit)
   public stopEdit(ctx: StateContext<CategoriesListStateModel>) {
-    ctx.patchState({ editedId: undefined });
-
-    return of(undefined).pipe(
-      switchMap(() =>
-        ctx.dispatch(
-          new ResetForm({
-            path: updateFormPath,
-          }),
-        ),
-      ),
-      switchMap(() => ctx.dispatch(new SetFormEnabled(updateFormPath))),
-    );
+    return this.resetEditorForm(ctx);
   }
 
   @Action(SaveEdit)
   public saveEdit(ctx: StateContext<CategoriesListStateModel>) {
     const state = ctx.getState();
 
-    if (state.updateForm.status === "INVALID") {
+    if (state.editorForm.status === "INVALID") {
       return;
     }
 
-    const model = state.updateForm.model;
+    const model = state.editorForm.model;
     const payload = new EditCategoryDto({
       ...model,
       id: state.editedId,
@@ -197,7 +221,7 @@ export class CategoriesListState {
       return ctx.dispatch(new StopEdit());
     }
 
-    ctx.dispatch(new SetFormDisabled(updateFormPath));
+    ctx.dispatch(new SetFormDisabled(editorFormPath));
 
     return ctx.dispatch(new CategoryActions.Update(payload));
   }
@@ -212,21 +236,40 @@ export class CategoriesListState {
     ctx: StateContext<CategoriesListStateModel>,
     action: CategoryActions.UpdateFailed,
   ) {
-    ctx.dispatch(new SetFormEnabled(updateFormPath));
+    ctx.dispatch(new SetFormEnabled(editorFormPath));
 
-    const toast = await this.toastController.create({
-      duration: 2000,
-      message: this.exceptionService.getErrorMessage(action.error),
-      header: "Sikertelen mentés",
-      color: "danger",
-      position: this.platform.width() > 600 ? "top" : "bottom",
-    });
-    toast.present();
+    await this.presentErrorToast(action.error);
 
     if (action.error?.errorCode === ErrorCode.NotFoundException) {
       const editedId = ctx.getState().editedId;
       ctx.dispatch(new StopEdit());
       return ctx.dispatch(new Remove(CategoryState, e => e.id === editedId));
     }
+  }
+
+  private resetEditorForm(ctx: StateContext<CategoriesListStateModel>) {
+    ctx.patchState({ editedId: undefined });
+
+    return of(undefined).pipe(
+      switchMap(() =>
+        ctx.dispatch(
+          new ResetForm({
+            path: editorFormPath,
+          }),
+        ),
+      ),
+      switchMap(() => ctx.dispatch(new SetFormEnabled(editorFormPath))),
+    );
+  }
+
+  private async presentErrorToast(error: any) {
+    const toast = await this.toastController.create({
+      duration: 2000,
+      message: this.exceptionService.getErrorMessage(error),
+      header: "Sikertelen mentés",
+      color: "danger",
+      position: this.platform.width() > 600 ? "top" : "bottom",
+    });
+    toast.present();
   }
 }

@@ -5,7 +5,7 @@ import {
   Category,
   CategoryState,
   EditCategoryDto,
-  EditStatus,
+  ApiRequestStatus,
 } from "@shared/category";
 import { Observable, take } from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
@@ -17,7 +17,10 @@ import {
   Delete,
   Reload,
   CategoriesListState,
-  Create,
+  AddNew,
+  editorFormPath,
+  SaveNew,
+  StopAddingNew,
 } from "./store";
 import { RefresherCustomEvent } from "@ionic/angular";
 import {
@@ -31,9 +34,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoriesListPage implements OnInit {
-  onCreatingDone($event: boolean) {
-    throw new Error("Method not implemented.");
-  }
   @Select(CategoriesListState.categories)
   public categories$!: Observable<Category[]>;
 
@@ -44,10 +44,10 @@ export class CategoriesListPage implements OnInit {
   public editedId$!: Observable<number>;
 
   @Select(CategoryState.updateStatus)
-  public updateStatus$!: Observable<EditStatus | undefined>;
+  public updateStatus$!: Observable<ApiRequestStatus | undefined>;
 
   @Select(CategoryState.createStatus)
-  public createStatus$!: Observable<EditStatus | undefined>;
+  public createStatus$!: Observable<ApiRequestStatus | undefined>;
 
   @Select(CategoryState.loading)
   public loading$!: Observable<boolean>;
@@ -55,19 +55,14 @@ export class CategoriesListPage implements OnInit {
   @Select(CategoryState.error)
   public error$!: Observable<any>;
 
-  public createForm: FormGroup<CategoryEditorFormModel>;
+  public editorForm: FormGroup<CategoryEditorFormModel>;
 
-  public updateForm: FormGroup<CategoryEditorFormModel>;
+  public get editorFormPath() {
+    return editorFormPath;
+  }
 
   constructor(private store: Store) {
-    this.createForm = new FormGroup<CategoryEditorFormModel>({
-      name: new FormControl("", {
-        nonNullable: true,
-        validators: [Validators.required, Validators.minLength(3)],
-      }),
-    });
-
-    this.updateForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
+    this.editorForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
       EditCategoryDto,
       {
         name: new ClassValidatorFormControl(""),
@@ -92,7 +87,11 @@ export class CategoriesListPage implements OnInit {
   }
 
   public create() {
-    this.store.dispatch(new Create());
+    this.store.dispatch(new AddNew());
+  }
+
+  public onCreatingDone(isSaved: boolean) {
+    this.store.dispatch(isSaved ? new SaveNew() : new StopAddingNew());
   }
 
   public onEditing(category: Category) {

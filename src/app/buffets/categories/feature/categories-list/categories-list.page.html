@@ -35,10 +35,7 @@
             (retry)="retryLoading()"
           >
           </app-ionic-error-card>
-          <form
-            [formGroup]="updateForm"
-            ngxsForm="buffetsCategoriesList.updateForm"
-          >
+          <form [formGroup]="editorForm" [ngxsForm]="editorFormPath">
             <ng-container *ngIf="!vm.loading && !vm.error">
               <app-buffets-category-display
                 *ngFor="let category of categories$ | async; index as i;trackBy: categoryById"
@@ -46,7 +43,7 @@
                 [editDisabled]="vm.editedId != undefined"
                 [isLoading]="vm.editedId === category.id && (updateStatus$ | async)?.loading === true"
                 [category]="category"
-                [editorForm]="vm.editedId === category.id ? updateForm : undefined"
+                [editorForm]="vm.editedId === category.id ? editorForm : undefined"
                 (editing)="onEditing(category)"
                 (editingDone)="onEditingDone($event)"
                 (delete)="onDelete(category.id)"
@@ -59,7 +56,7 @@
               action="create"
               [isEditing]="true"
               [isLoading]="(createStatus$ | async)?.loading === true"
-              [editorForm]="updateForm"
+              [editorForm]="editorForm"
               (editingDone)="onCreatingDone($event)"
             >
             </app-buffets-category-display>

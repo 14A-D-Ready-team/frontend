@@ -1,6 +1,10 @@
 <ion-item>
   <ion-label [style.display]="isEditing ? 'unset' : 'none'" position="floating">
-    Kategória szerkesztése
+    {{
+      action === "update"
+        ? "Kategória szerkesztése"
+        : "Új kategória létrehozása"
+    }}
   </ion-label>
 
   <ion-input
@@ -10,7 +14,7 @@
     maxlength="80"
   ></ion-input>
   <ion-note
-    *ngIf="editorForm?.controls?.name?.pristine === false"
+    *ngIf="editorForm?.controls?.name?.untouched === false"
     slot="error"
     >{{ editorForm?.controls?.name?.errors | firstErrorMessage }}</ion-note
   >

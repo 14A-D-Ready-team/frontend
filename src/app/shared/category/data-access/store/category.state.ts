@@ -29,18 +29,24 @@ import {
   Update,
   UpdateSucceeded,
   UpdateFailed,
+  Create,
+  CreateSucceeded,
+  CreateFailed,
 } from "./category.actions";
 
-export interface EditStatus {
+export interface ApiRequestStatus {
   loading: boolean;
-  editedId: number;
   error?: any;
+}
+
+export interface EditStatus extends ApiRequestStatus {
+  editedId: number;
 }
 
 export type CategoryStateModel = EntityStateModel<Category> & {
   isAllLoaded: boolean;
   updateStatus?: EditStatus;
-  createStatus?: EditStatus;
+  createStatus?: ApiRequestStatus;
 };
 
 export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
@@ -126,13 +132,39 @@ export class CategoryState extends EntityState<Category> {
     ctx.patchState({ isAllLoaded: action.isAllLoaded });
   }
 
+  @Action(Create)
+  public createCategory(ctx: StateContext<CategoryStateModel>, action: Create) {
+    ctx.patchState({ createStatus: this.getLoadingStatus() });
+
+    return this.categoryService.create(action.payload).pipe(
+      switchMap(category => ctx.dispatch(new CreateSucceeded(category))),
+      catchError(error => ctx.dispatch(new CreateFailed(error))),
+    );
+  }
+
+  @Action(CreateSucceeded)
+  public createSucceeded(
+    ctx: StateContext<CategoryStateModel>,
+    action: CreateSucceeded,
+  ) {
+    ctx.patchState({ createStatus: undefined });
+    return ctx.dispatch(new CreateOrReplace(CategoryState, action.category));
+  }
+
+  @Action(CreateFailed)
+  public createFailed(
+    ctx: StateContext<CategoryStateModel>,
+    action: CreateFailed,
+  ) {
+    ctx.patchState({ createStatus: this.getFailedStatus(action.error) });
+  }
+
   @Action(Update)
   public updateCategory(ctx: StateContext<CategoryStateModel>, action: Update) {
     ctx.patchState({
       updateStatus: {
-        loading: true,
+        ...this.getLoadingStatus(),
         editedId: action.payload.id,
-        error: undefined,
       },
     });
 
@@ -161,10 +193,23 @@ export class CategoryState extends EntityState<Category> {
     const state = ctx.getState();
     ctx.patchState({
       updateStatus: {
-        loading: false,
-        error: action.error,
+        ...this.getFailedStatus(action.error),
         editedId: state.updateStatus?.editedId || -1,
       },
     });
+  }
+
+  private getLoadingStatus(): ApiRequestStatus {
+    return {
+      loading: true,
+      error: undefined,
+    };
+  }
+
+  private getFailedStatus(error: any): ApiRequestStatus {
+    return {
+      loading: false,
+      error,
+    };
   }
 }
