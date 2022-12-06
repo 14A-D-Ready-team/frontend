@@ -33,6 +33,9 @@ import {
   AddNew,
   StopAddingNew,
   SaveNew,
+  Delete,
+  ConfirmDelete,
+  CancelDelete,
 } from "./categories-list.actions";
 import {
   ResetForm,
@@ -173,7 +176,7 @@ export class CategoriesListState {
   ) {
     ctx.dispatch(new SetFormEnabled(editorFormPath));
 
-    await this.presentErrorToast(action.error);
+    await this.showErrorToast(action.error);
   }
 
   @Action(Edit)
@@ -238,7 +241,7 @@ export class CategoriesListState {
   ) {
     ctx.dispatch(new SetFormEnabled(editorFormPath));
 
-    await this.presentErrorToast(action.error);
+    await this.showErrorToast(action.error);
 
     if (action.error?.errorCode === ErrorCode.NotFoundException) {
       const editedId = ctx.getState().editedId;
@@ -246,6 +249,12 @@ export class CategoriesListState {
       return ctx.dispatch(new Remove(CategoryState, e => e.id === editedId));
     }
   }
+
+  @Action(Delete)
+  public delete(ctx: StateContext<CategoriesListStateModel>, action: Delete) {}
+
+  @Action(ConfirmDelete)
+  public confirmDelete(ctx: StateContext<CategoriesListStateModel>) {}
 
   private resetEditorForm(ctx: StateContext<CategoriesListStateModel>) {
     ctx.patchState({ editedId: undefined });
@@ -262,7 +271,7 @@ export class CategoriesListState {
     );
   }
 
-  private async presentErrorToast(error: any) {
+  private async showErrorToast(error: any) {
     const toast = await this.toastController.create({
       duration: 2000,
       message: this.exceptionService.getErrorMessage(error),
