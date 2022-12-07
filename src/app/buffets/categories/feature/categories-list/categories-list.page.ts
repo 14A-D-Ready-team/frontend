@@ -6,6 +6,8 @@ import {
   CategoryState,
   EditCategoryDto,
   ApiRequestStatus,
+  EditStatus,
+  DeleteStatus,
 } from "@shared/category";
 import { Observable, take } from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
@@ -24,6 +26,7 @@ import {
 } from "./store";
 import {
   ActionSheetController,
+  ModalController,
   Platform,
   RefresherCustomEvent,
 } from "@ionic/angular";
@@ -31,6 +34,7 @@ import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
+import { DeleteConfirmModalComponent } from "@shared/modals";
 @Component({
   selector: "app-categories-list",
   templateUrl: "./categories-list.page.html",
@@ -48,10 +52,13 @@ export class CategoriesListPage implements OnInit {
   public editedId$!: Observable<number>;
 
   @Select(CategoryState.updateStatus)
-  public updateStatus$!: Observable<ApiRequestStatus | undefined>;
+  public updateStatus$!: Observable<EditStatus | undefined>;
 
   @Select(CategoryState.createStatus)
   public createStatus$!: Observable<ApiRequestStatus | undefined>;
+
+  @Select(CategoryState.deleteStatus)
+  public deleteStatus$!: Observable<DeleteStatus | undefined>;
 
   @Select(CategoryState.loading)
   public loading$!: Observable<boolean>;
@@ -67,7 +74,8 @@ export class CategoriesListPage implements OnInit {
 
   constructor(
     private store: Store,
-    private actionSheetCtrl: ActionSheetController,
+    private actionSheetController: ActionSheetController,
+    private modalController: ModalController,
     private platform: Platform,
   ) {
     this.editorForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
@@ -123,17 +131,27 @@ export class CategoriesListPage implements OnInit {
   }
 
   private async confirmDelete(category: Category): Promise<boolean> {
+    const message = `Biztosan törölni szeretné a(z) ${category.name} kategóriát?`;
     if (this.platform.is("desktop")) {
-      return this.showDeleteModal(category);
+      return this.showDeleteModal(message);
     } else {
-      return this.showDeleteActionSheet(category.name);
+      return this.showDeleteActionSheet(message);
     }
   }
 
-  private async showDeleteModal(category: Category): Promise<boolean> {}
+  private async showDeleteModal(message: string): Promise<boolean> {
+    const modal = await this.modalController.create({
+      component: DeleteConfirmModalComponent,
+      componentProps: {
+        message,
+      },
+    });
+    modal.present();
+    return (await modal.onDidDismiss()).role === "confirm";
+  }
 
   private async showDeleteActionSheet(header: string): Promise<boolean> {
-    const actionSheet = await this.actionSheetCtrl.create({
+    const actionSheet = await this.actionSheetController.create({
       header,
       buttons: [
         {

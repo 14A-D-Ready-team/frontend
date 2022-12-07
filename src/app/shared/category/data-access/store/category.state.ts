@@ -79,6 +79,11 @@ export class CategoryState extends EntityState<Category> {
   }
 
   @Selector()
+  public static deleteStatus(state: CategoryStateModel) {
+    return state.deleteStatus;
+  }
+
+  @Selector()
   public static isAllLoaded(state: CategoryStateModel) {
     return state.isAllLoaded;
   }
@@ -228,17 +233,27 @@ export class CategoryState extends EntityState<Category> {
     ctx: StateContext<CategoryStateModel>,
     action: DeleteSucceeded,
   ) {
-    ctx.patchState({
-      deleteStatus: undefined,
-    });
-    return ctx.dispatch(new Remove(CategoryState, action.id));
+    ctx.patchState({ deleteStatus: undefined });
+
+    return ctx.dispatch(
+      new Remove(CategoryState, entity => entity.id === action.id),
+    );
   }
 
   @Action(DeleteFailed)
   public deleteFailed(
     ctx: StateContext<CategoryStateModel>,
     action: DeleteFailed,
-  ) {}
+  ) {
+    const state = ctx.getState();
+
+    ctx.patchState({
+      deleteStatus: {
+        ...this.getFailedStatus(action.error),
+        deletedId: state.deleteStatus?.deletedId || -1,
+      },
+    });
+  }
 
   private getLoadingStatus(): ApiRequestStatus {
     return {

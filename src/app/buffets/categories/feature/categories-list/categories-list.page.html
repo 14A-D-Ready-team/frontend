@@ -38,18 +38,26 @@
 
           <form [formGroup]="editorForm" [ngxsForm]="editorFormPath">
             <ng-container *ngIf="!vm.loading && !vm.error">
-              <app-buffets-category-display
+              <ng-container
                 *ngFor="let category of categories$ | async; index as i;trackBy: categoryById"
-                [isEditing]="vm.editedId === category.id"
-                [editDisabled]="vm.editedId != undefined"
-                [isLoading]="vm.editedId === category.id && (updateStatus$ | async)?.loading === true"
-                [category]="category"
-                [editorForm]="vm.editedId === category.id ? editorForm : undefined"
-                (editing)="onEditing(category)"
-                (editingDone)="onEditingDone($event)"
-                (delete)="onDelete(category)"
               >
-              </app-buffets-category-display>
+                <app-buffets-category-display
+                  *ngIf="{ 
+                    isEditing:vm.editedId === category.id, 
+                    updateInProgress: vm.editedId === category.id && (updateStatus$ | async)?.loading === true,
+                    deleteInProgress: (deleteStatus$ | async)?.deletedId === category.id && (deleteStatus$ | async)?.loading === true
+                  } as categoryVm"
+                  [isEditing]="categoryVm.isEditing"
+                  [editDisabled]="vm.editedId != undefined"
+                  [isLoading]="categoryVm.updateInProgress || categoryVm.deleteInProgress"
+                  [category]="category"
+                  [editorForm]="categoryVm.isEditing ? editorForm : undefined"
+                  (editing)="onEditing(category)"
+                  (editingDone)="onEditingDone($event)"
+                  (delete)="onDelete(category)"
+                >
+                </app-buffets-category-display>
+              </ng-container>
             </ng-container>
 
             <app-buffets-category-display
@@ -67,7 +75,10 @@
     </ion-row>
   </ion-grid>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button [disabled]="vm.editedId != undefined" (click)="create()">
+    <ion-fab-button
+      [disabled]="vm.editedId != undefined || (creatingNew$ | async)"
+      (click)="create()"
+    >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
