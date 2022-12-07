@@ -22,7 +22,11 @@ import {
   SaveNew,
   StopAddingNew,
 } from "./store";
-import { RefresherCustomEvent } from "@ionic/angular";
+import {
+  ActionSheetController,
+  Platform,
+  RefresherCustomEvent,
+} from "@ionic/angular";
 import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
@@ -61,7 +65,11 @@ export class CategoriesListPage implements OnInit {
     return editorFormPath;
   }
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    private actionSheetCtrl: ActionSheetController,
+    private platform: Platform,
+  ) {
     this.editorForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
       EditCategoryDto,
       {
@@ -102,11 +110,49 @@ export class CategoriesListPage implements OnInit {
     this.store.dispatch(isSaved ? new SaveEdit() : new StopEdit());
   }
 
-  public onDelete(id: number) {
-    this.store.dispatch(new Delete(id));
+  public async onDelete(category: Category) {
+    if (!(await this.confirmDelete(category))) {
+      return;
+    }
+
+    this.store.dispatch(new Delete(category.id));
   }
 
   public categoryById(index: number, el: Category): number {
     return el.id;
+  }
+
+  private async confirmDelete(category: Category): Promise<boolean> {
+    if (this.platform.is("desktop")) {
+      return this.showDeleteModal(category);
+    } else {
+      return this.showDeleteActionSheet(category.name);
+    }
+  }
+
+  private async showDeleteModal(category: Category): Promise<boolean> {}
+
+  private async showDeleteActionSheet(header: string): Promise<boolean> {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header,
+      buttons: [
+        {
+          text: "Törlés",
+          role: "destructive",
+          data: {
+            action: "delete",
+          },
+        },
+        {
+          text: "Mégse",
+          role: "cancel",
+          data: {
+            action: "cancel",
+          },
+        },
+      ],
+    });
+    actionSheet.present();
+    return (await actionSheet.onDidDismiss()).data.action === "delete";
   }
 }

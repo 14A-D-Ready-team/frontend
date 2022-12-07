@@ -35,16 +35,6 @@ export class Delete {
   constructor(public id: number) {}
 }
 
-export class ConfirmDelete {
-  public static readonly type = "[CategoriesListPage] Confirm Delete";
-
-  constructor() {}
-}
-
-export class CancelDelete {
-  public static readonly type = "[CategoriesListPage] Cancel Delete";
-}
-
 export class Reload {
   public static readonly type = "[CategoriesListPage] Reload";
 }

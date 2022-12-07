@@ -35,6 +35,7 @@
             (retry)="retryLoading()"
           >
           </app-ionic-error-card>
+
           <form [formGroup]="editorForm" [ngxsForm]="editorFormPath">
             <ng-container *ngIf="!vm.loading && !vm.error">
               <app-buffets-category-display
@@ -46,7 +47,7 @@
                 [editorForm]="vm.editedId === category.id ? editorForm : undefined"
                 (editing)="onEditing(category)"
                 (editingDone)="onEditingDone($event)"
-                (delete)="onDelete(category.id)"
+                (delete)="onDelete(category)"
               >
               </app-buffets-category-display>
             </ng-container>

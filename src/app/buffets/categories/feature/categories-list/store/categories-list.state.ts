@@ -34,14 +34,11 @@ import {
   StopAddingNew,
   SaveNew,
   Delete,
-  ConfirmDelete,
-  CancelDelete,
 } from "./categories-list.actions";
 import {
   ResetForm,
   SetFormDisabled,
   SetFormEnabled,
-  SetFormPristine,
   UpdateFormValue,
 } from "@ngxs/form-plugin";
 import { NgxsFormState } from "@shared/extended-form-plugin";
@@ -251,10 +248,9 @@ export class CategoriesListState {
   }
 
   @Action(Delete)
-  public delete(ctx: StateContext<CategoriesListStateModel>, action: Delete) {}
-
-  @Action(ConfirmDelete)
-  public confirmDelete(ctx: StateContext<CategoriesListStateModel>) {}
+  public delete(ctx: StateContext<CategoriesListStateModel>, action: Delete) {
+    return ctx.dispatch(new CategoryActions.Delete(action.id));
+  }
 
   private resetEditorForm(ctx: StateContext<CategoriesListStateModel>) {
     ctx.patchState({ editedId: undefined });

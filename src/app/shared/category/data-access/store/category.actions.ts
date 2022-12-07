@@ -61,3 +61,21 @@ export class UpdateSucceeded {
 
   constructor(public category: Category) {}
 }
+
+export class Delete {
+  public static readonly type = "[Category] Delete";
+
+  constructor(public id: number) {}
+}
+
+export class DeleteFailed {
+  public static readonly type = "[Category API] Delete Failed";
+
+  constructor(public error: any) {}
+}
+
+export class DeleteSucceeded {
+  public static readonly type = "[Category API] Delete Succeeded";
+
+  constructor(public id: number) {}
+}

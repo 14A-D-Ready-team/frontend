@@ -9,6 +9,7 @@ import {
   CreateOrReplace,
   RemoveAll,
   SetError,
+  Remove,
 } from "@ngxs-labs/entity-state";
 import {
   Action,
@@ -32,6 +33,9 @@ import {
   Create,
   CreateSucceeded,
   CreateFailed,
+  Delete,
+  DeleteSucceeded,
+  DeleteFailed,
 } from "./category.actions";
 
 export interface ApiRequestStatus {
@@ -43,10 +47,15 @@ export interface EditStatus extends ApiRequestStatus {
   editedId: number;
 }
 
+export interface DeleteStatus extends ApiRequestStatus {
+  deletedId: number;
+}
+
 export type CategoryStateModel = EntityStateModel<Category> & {
   isAllLoaded: boolean;
   updateStatus?: EditStatus;
   createStatus?: ApiRequestStatus;
+  deleteStatus?: DeleteStatus;
 };
 
 export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
@@ -198,6 +207,38 @@ export class CategoryState extends EntityState<Category> {
       },
     });
   }
+
+  @Action(Delete)
+  public deleteCategory(ctx: StateContext<CategoryStateModel>, action: Delete) {
+    ctx.patchState({
+      deleteStatus: {
+        ...this.getLoadingStatus(),
+        deletedId: action.id,
+      },
+    });
+
+    return this.categoryService.delete(action.id).pipe(
+      switchMap(() => ctx.dispatch(new DeleteSucceeded(action.id))),
+      catchError(error => ctx.dispatch(new DeleteFailed(error))),
+    );
+  }
+
+  @Action(DeleteSucceeded)
+  public deleteSucceeded(
+    ctx: StateContext<CategoryStateModel>,
+    action: DeleteSucceeded,
+  ) {
+    ctx.patchState({
+      deleteStatus: undefined,
+    });
+    return ctx.dispatch(new Remove(CategoryState, action.id));
+  }
+
+  @Action(DeleteFailed)
+  public deleteFailed(
+    ctx: StateContext<CategoryStateModel>,
+    action: DeleteFailed,
+  ) {}
 
   private getLoadingStatus(): ApiRequestStatus {
     return {
