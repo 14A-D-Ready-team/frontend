@@ -11,6 +11,9 @@ ion-item {
 .icon-container {
   display: flex;
   flex-direction: row;
+  margin-left: 5px;
+  margin-right: 0;
+  flex-shrink: 1;
 
   ion-thumbnail {
     margin: 0 5px;

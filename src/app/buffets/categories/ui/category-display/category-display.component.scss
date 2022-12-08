@@ -10,3 +10,9 @@ ion-item {
   margin: 0 10px 0 0;
   height: 100%;
 }
+
+.input-end {
+  margin-left: 0;
+  margin-right: 0;
+  flex-shrink: 1;
+}
