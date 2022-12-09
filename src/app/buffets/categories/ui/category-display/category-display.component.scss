@@ -1,5 +1,7 @@
 ion-item {
-  --min-height: 75px;
+  &.ios {
+    --min-height: 75px;
+  }
   --highlight-background: var(--ion-color-primary);
   min-height: 75px;
 }
@@ -15,9 +17,12 @@ ion-item {
   margin-left: 0;
   margin-right: 0;
   flex-shrink: 1;
-  height: 100%;
 
-  ion-button {
+  &.ios {
+    height: 100%;
+  }
+
+  ion-button.ios {
     margin-top: 16px;
   }
 }
