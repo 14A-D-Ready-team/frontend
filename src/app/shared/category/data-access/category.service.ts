@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { processArrayResponse, processResponse } from "@shared/serialization";
 import { instanceToPlain } from "class-transformer";
-import { catchError, delay, of, switchMap, throwError } from "rxjs";
 import { EditCategoryDto } from "./dto";
 import { Category } from "./entity";
 

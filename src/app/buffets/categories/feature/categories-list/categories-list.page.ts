@@ -6,10 +6,9 @@ import {
   CategoryState,
   EditCategoryDto,
   ApiRequestStatus,
-  EditStatus,
-  DeleteStatus,
+  TargetedRequestStatus,
 } from "@shared/category";
-import { Observable, take } from "rxjs";
+import { combineLatest, map, Observable, take } from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
 import {
   StopEdit,
@@ -52,19 +51,52 @@ export class CategoriesListPage implements OnInit {
   public editedId$!: Observable<number>;
 
   @Select(CategoryState.updateStatus)
-  public updateStatus$!: Observable<EditStatus | undefined>;
+  public updateStatus$!: Observable<TargetedRequestStatus | undefined>;
 
   @Select(CategoryState.createStatus)
   public createStatus$!: Observable<ApiRequestStatus | undefined>;
 
   @Select(CategoryState.deleteStatus)
-  public deleteStatus$!: Observable<DeleteStatus | undefined>;
+  public deleteStatus$!: Observable<TargetedRequestStatus | undefined>;
 
   @Select(CategoryState.loading)
   public loading$!: Observable<boolean>;
 
   @Select(CategoryState.error)
   public error$!: Observable<any>;
+
+  public vm$ = combineLatest([
+    this.categories$,
+    this.creatingNew$,
+    this.editedId$,
+    this.updateStatus$,
+    this.createStatus$,
+    this.deleteStatus$,
+    this.loading$,
+    this.error$,
+  ]).pipe(
+    map(
+      ([
+        categories,
+        creatingNew,
+        editedId,
+        updateStatus,
+        createStatus,
+        deleteStatus,
+        loading,
+        error,
+      ]) => ({
+        categories,
+        creatingNew,
+        editedId,
+        updateStatus,
+        deleteStatus,
+        createPending: createStatus?.loading === true,
+        loading,
+        error,
+      }),
+    ),
+  );
 
   public editorForm: FormGroup<CategoryEditorFormModel>;
 

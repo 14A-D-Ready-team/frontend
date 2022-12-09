@@ -5,10 +5,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content
-  class="ion-padding"
-  *ngIf="{loading: loading$ | async, error: error$ | async, editedId : editedId$ | async} as vm"
->
+<ion-content class="ion-padding" *ngIf="vm$ | async as vm">
   <ion-refresher
     slot="fixed"
     [disabled]="vm.loading"
@@ -39,19 +36,19 @@
           <form [formGroup]="editorForm" [ngxsForm]="editorFormPath">
             <ng-container *ngIf="!vm.loading && !vm.error">
               <ng-container
-                *ngFor="let category of categories$ | async; index as i;trackBy: categoryById"
+                *ngFor="let category of vm.categories; index as i;trackBy: categoryById"
               >
                 <app-buffets-category-display
                   *ngIf="{ 
-                    isEditing:vm.editedId === category.id, 
-                    updateInProgress: vm.editedId === category.id && (updateStatus$ | async)?.loading === true,
-                    deleteInProgress: (deleteStatus$ | async)?.deletedId === category.id && (deleteStatus$ | async)?.loading === true
+                    isEditing: vm.editedId === category.id, 
+                    updating: vm.updateStatus | actionInProgress: category,
+                    deleting: vm.deleteStatus | actionInProgress: category
                   } as categoryVm"
-                  [isEditing]="categoryVm.isEditing"
-                  [editDisabled]="vm.editedId != undefined"
-                  [isLoading]="categoryVm.updateInProgress || categoryVm.deleteInProgress"
                   [category]="category"
                   [editorForm]="categoryVm.isEditing ? editorForm : undefined"
+                  [isEditing]="categoryVm.isEditing"
+                  [editDisabled]="vm.editedId != undefined"
+                  [isLoading]="categoryVm.updating || categoryVm.deleting"
                   (editing)="onEditing(category)"
                   (editingDone)="onEditingDone($event)"
                   (delete)="onDelete(category)"
@@ -61,10 +58,10 @@
             </ng-container>
 
             <app-buffets-category-display
-              *ngIf="creatingNew$ | async"
+              *ngIf="vm.creatingNew"
               action="create"
               [isEditing]="true"
-              [isLoading]="(createStatus$ | async)?.loading === true"
+              [isLoading]="vm.createPending"
               [editorForm]="editorForm"
               (editingDone)="onCreatingDone($event)"
             >
@@ -76,7 +73,7 @@
   </ion-grid>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button
-      [disabled]="vm.editedId != undefined || (creatingNew$ | async)"
+      [disabled]="vm.editedId != undefined || vm.creatingNew"
       (click)="create()"
     >
       <ion-icon name="add"></ion-icon>
