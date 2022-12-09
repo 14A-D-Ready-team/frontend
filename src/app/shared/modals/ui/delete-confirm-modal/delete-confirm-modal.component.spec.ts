@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { DeleteConfirmModalComponent } from './delete-confirm-modal.component';
+import { DeleteConfirmModalComponent } from "./delete-confirm-modal.component";
 
-describe('DeleteConfirmModalComponent', () => {
+describe("DeleteConfirmModalComponent", () => {
   let component: DeleteConfirmModalComponent;
   let fixture: ComponentFixture<DeleteConfirmModalComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DeleteConfirmModalComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [DeleteConfirmModalComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DeleteConfirmModalComponent);
@@ -18,7 +18,7 @@ describe('DeleteConfirmModalComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

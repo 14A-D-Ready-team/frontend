@@ -6,6 +6,5 @@ export const defaultErrorMessages: ErrorMessageDictionary = {
   InvalidIdException: "Hiba történt",
   UnknownException: "Hiba történt",
   ServiceUnavailableException:
-        "A szolgáltatás jelenleg nem érhető el. Próbálja újra később!",
-  
+    "A szolgáltatás jelenleg nem érhető el. Próbálja újra később!",
 };

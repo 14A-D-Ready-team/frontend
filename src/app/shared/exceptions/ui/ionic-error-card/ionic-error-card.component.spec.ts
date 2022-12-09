@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { IonicErrorCardComponent } from './ionic-error-card.component';
+import { IonicErrorCardComponent } from "./ionic-error-card.component";
 
-describe('IonicErrorCardComponent', () => {
+describe("IonicErrorCardComponent", () => {
   let component: IonicErrorCardComponent;
   let fixture: ComponentFixture<IonicErrorCardComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ IonicErrorCardComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [IonicErrorCardComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(IonicErrorCardComponent);
@@ -18,7 +18,7 @@ describe('IonicErrorCardComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
