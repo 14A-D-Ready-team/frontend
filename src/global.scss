@@ -29,6 +29,8 @@
   opacity: 1 !important;
 }
 
-ion-item .item-bottom {
-  min-height: 19px;
+ion-item {
+  .item-bottom {
+    min-height: 19px;
+  }
 }
