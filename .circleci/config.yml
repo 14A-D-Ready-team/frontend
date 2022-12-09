@@ -14,6 +14,9 @@ jobs:
           fingerprints:
             - "a5:0c:71:4b:ba:ef:6b:c4:6e:a2:68:13:b3:85:75:4f"
       - checkout
+      - run:
+          name: Npm config
+          command: npm config set legacy-peer-deps true
       - node/install-packages:
           pkg-manager: npm
       - run:

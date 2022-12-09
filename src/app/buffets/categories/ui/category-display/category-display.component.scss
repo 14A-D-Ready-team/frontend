@@ -1,0 +1,28 @@
+ion-item {
+  &.ios {
+    --min-height: 75px;
+  }
+  --highlight-background: var(--ion-color-primary);
+  min-height: 75px;
+}
+
+.spinner-container {
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px 0 0;
+  height: 100%;
+}
+
+.input-end {
+  margin-left: 0;
+  margin-right: 0;
+  flex-shrink: 1;
+
+  &.ios {
+    height: 100%;
+  }
+
+  ion-button.ios {
+    margin-top: 16px;
+  }
+}

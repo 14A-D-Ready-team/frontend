@@ -1,0 +1,31 @@
+ion-item {
+  --min-height: 75px;
+  --highlight-background: var(--ion-color-primary);
+
+  & > ion-skeleton-text {
+    --background: var(--ion-color-primary);
+    height: 14px;
+  }
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 5px;
+  margin-right: 0;
+  flex-shrink: 1;
+
+  ion-thumbnail {
+    margin: 0 5px;
+    height: 27px;
+    width: 46px;
+
+    &:first-child {
+      margin: 0 5px 0 0;
+    }
+
+    &:last-child {
+      margin: 0 0 0 5px;
+    }
+  }
+}

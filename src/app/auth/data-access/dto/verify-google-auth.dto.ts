@@ -1,4 +1,4 @@
-import { UserType } from "@app/user/data-access/user-type.enum";
+import { UserType } from "@shared/user";
 import { Expose } from "class-transformer";
 import { IsEnum, IsJWT, IsString } from "class-validator";
 

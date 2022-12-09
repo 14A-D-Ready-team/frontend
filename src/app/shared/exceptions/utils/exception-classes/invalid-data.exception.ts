@@ -1,5 +1,5 @@
 import { Dictionary } from "@/types";
-import { TransformDictionary } from "@app/shared/serialization/utils/transform-dictionary.decorator";
+import { TransformDictionary } from "@shared/serialization/utils/transform-dictionary.decorator";
 import { Expose } from "class-transformer";
 import { ApiException } from "./api.exception";
 
