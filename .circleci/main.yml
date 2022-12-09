@@ -38,6 +38,7 @@ workflows:
     jobs:
       - build-and-test
       - cypress/run:
+          install-command: npm i --legacy-peer-deps
           record: true
           store_artifacts: true
           attach-workspace: false
