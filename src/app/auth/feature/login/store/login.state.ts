@@ -14,7 +14,7 @@ import { Action, State, StateContext, StateToken } from "@ngxs/store";
 import { catchError, concatWith, of, switchMap } from "rxjs";
 import { Login, LoginFailed, LoginSucceeded } from "./login.actions";
 
-interface LoginStatus {
+export interface LoginStatus {
   loading: boolean;
   error?: any;
 }
@@ -69,41 +69,47 @@ export class LoginState {
     //ctx.dispatch
     ctx.dispatch(new SetFormDisabled(loginFormPath));
 
+    //loading-ot true-ra(patchState)
+    ctx.patchState({ status: { loading: true } });
+
     //rxjs c:
     //http kérés elindítása
     //ha hiba van akkor login failed, ha nincs login succeeded
-
-    this.authService.signIn(payload).pipe(
+    return this.authService.signIn(payload).pipe(
       switchMap(user => ctx.dispatch(new LoginSucceeded(user))),
       catchError(error => ctx.dispatch(new LoginFailed(error))),
     );
-
-    //loading-ot true-ra(patchState)
   }
 
   @Action(LoginFailed)
   public loginFailed(ctx: StateContext<LoginStateModel>, action: LoginFailed) {
     ctx.patchState({ status: { loading: false, error: action.error } });
-    if (action.error instanceof ApiException) {
-      if (action.error.errorCode === ErrorCode.EmailNotFoundException) {
-        ctx.dispatch(
-          new UpdateFormControlErrors({
-            path: loginFormPath,
-            controlName: "email",
-            errors: {
-              minLength: "Túl rövid az email",
-            },
-          }),
-        );
-      }
-    } else {
-    }
+    // if (action.error instanceof ApiException) {
+    //   if (action.error.errorCode === ErrorCode.EmailNotFoundException) {
+    //     ctx.dispatch(
+    //       new UpdateFormControlErrors({
+    //         path: loginFormPath,
+    //         controlName: "email",
+    //         errors: {
+    //           minLength: "Túl rövid az email",
+    //         },
+    //       }),
+    //     );
+    //   }
+    // } else {
+    // }
   }
 
   @Action(LoginSucceeded)
-  public loginSucceeded(ctx: StateContext<LoginStateModel>) {
+  public loginSucceeded(
+    ctx: StateContext<LoginStateModel>,
+    action: LoginSucceeded,
+  ) {
     //loading false
     //error legyen undefined
+    ctx.patchState({ status: { loading: false, error: undefined } });
+
     //user ki consol logolni
+    console.log(action.user);
   }
 }

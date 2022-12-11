@@ -47,7 +47,7 @@
         <a href="" class="forgot-pswd-link">Elfelejtette jelszavát?</a>
       </div>
       <app-validation-message></app-validation-message>
-
+      <p>{{loginStatus | async | json}}</p>
       <button class="ready-btn" type="submit">Bejelentkezés</button>
     </form>
 

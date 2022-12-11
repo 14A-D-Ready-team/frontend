@@ -20,7 +20,7 @@ import {
 })
 export class ValidationMessageComponent implements OnInit {
   @Input()
-  public errorMessage = "Hiba";
+  public errorMessage = "Ismeretlen hiba!";
 
   @Input()
   public visible = false;
