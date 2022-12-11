@@ -12,6 +12,7 @@ import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { CategoryModule } from "./shared/category";
 import { ClassValidatorFormBuilderModule } from "ngx-reactive-form-class-validator";
 import { ExtendedFormPluginModule } from "./shared/extended-form-plugin";
+import { ExceptionsModule } from "./shared/exceptions";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
@@ -29,6 +30,7 @@ const routeReuseStrategyProvider = {
     NgxsFormPluginModule.forRoot(),
     ExtendedFormPluginModule.forRoot(),
     IonicModule.forRoot(),
+    ExceptionsModule,
     ClassValidatorFormBuilderModule.forRoot(),
     ExternalAuthModule.forRoot(),
     CategoryModule,

@@ -1,6 +1,6 @@
-<ion-item>
+<ion-item class="category-item">
   <ion-label [style.display]="isEditing ? 'unset' : 'none'" position="floating">
-    Kategória szerkesztése
+    {{ action === "update" ? "Kategória szerkesztése" : "Új létrehozása" }}
   </ion-label>
 
   <ion-input
@@ -9,9 +9,11 @@
     [formControl]="editorForm.controls.name!"
     maxlength="80"
   ></ion-input>
-  <ion-note slot="error">{{
-    editorForm?.controls?.name?.errors | firstErrorMessage
-  }}</ion-note>
+  <ion-note
+    *ngIf="editorForm?.controls?.name?.untouched === false"
+    slot="error"
+    >{{ editorForm?.controls?.name?.errors | firstErrorMessage }}</ion-note
+  >
 
   <ion-input
     class="no-opacity"
@@ -22,13 +24,17 @@
 
   <div
     slot="end"
-    class="spinner-container"
+    class="input-end spinner-container"
     [style.display]="isLoading ? 'flex' : 'none'"
   >
     <ion-spinner name="circular" color="primary"></ion-spinner>
   </div>
 
-  <div slot="end" [style.display]="!isLoading && !isEditing ? 'unset' : 'none'">
+  <div
+    slot="end"
+    class="input-end"
+    [style.display]="!isLoading && !isEditing ? 'unset' : 'none'"
+  >
     <ion-button
       fill="clear"
       color="medium"
@@ -42,7 +48,11 @@
     </ion-button>
   </div>
 
-  <div slot="end" [style.display]="!isLoading && isEditing ? 'unset' : 'none'">
+  <div
+    slot="end"
+    class="input-end"
+    [style.display]="!isLoading && isEditing ? 'unset' : 'none'"
+  >
     <ion-button
       fill="clear"
       color="success"

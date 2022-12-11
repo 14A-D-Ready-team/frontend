@@ -68,6 +68,12 @@ $l-font: 1.7em;
   font-weight: 500;
 }
 
-.no-opacity .native-input[disabled].sc-ion-input-md {
+.no-opacity .native-input[disabled] {
   opacity: 1 !important;
+}
+
+ion-item {
+  .item-bottom {
+    min-height: 19px;
+  }
 }

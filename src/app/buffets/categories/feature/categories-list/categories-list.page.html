@@ -5,10 +5,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content
-  class="ion-padding"
-  *ngIf="{loading: loading$ | async, error: error$ | async, editedId : editedId$ | async} as vm"
->
+<ion-content class="ion-padding" *ngIf="vm$ | async as vm">
   <ion-refresher
     slot="fixed"
     [disabled]="vm.loading"
@@ -17,62 +14,69 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title class="ion-text-center">UpdateStatus</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>{{ (updateStatus$| async )| json}}</p>
-    </ion-card-content>
-  </ion-card>
-
   <ion-grid>
     <ion-row>
       <ion-col offset-xl="3" size-xl="6">
-        <form
-          [formGroup]="editorForm"
-          ngxsForm="buffetsCategoriesList.editorForm"
-        >
-          <ion-list>
-            <div *ngIf="vm.loading">
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-            </div>
+        <ion-list>
+          <div *ngIf="vm.loading">
+            <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+            <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+            <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+            <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+          </div>
 
-            <ion-card *ngIf="vm.error" color="danger">
-              <ion-card-header>
-                <ion-card-title class="ion-text-center">Hiba</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <p>{{ vm.error | json}}</p>
-                <ion-button
-                  (click)="retryLoading()"
-                  class="ion-margin-top"
-                  color="tertiary"
-                  >Újrapróbálkozás</ion-button
-                >
-              </ion-card-content>
-            </ion-card>
+          <app-ionic-error-card
+            *ngIf="vm.error"
+            [error]="vm.error"
+            header="A kategóriák betöltése sikertelen"
+            (retry)="retryLoading()"
+          >
+          </app-ionic-error-card>
 
+          <form [formGroup]="editorForm" [ngxsForm]="editorFormPath">
             <ng-container *ngIf="!vm.loading && !vm.error">
-              <app-buffets-category-display
-                *ngFor="let category of categories$ | async; index as i;trackBy: categoryById"
-                [isEditing]="vm.editedId === category.id"
-                [editDisabled]="vm.editedId != undefined"
-                [isLoading]="vm.editedId === category.id && (updateStatus$ | async)?.loading === true"
-                [category]="category"
-                [editorForm]="vm.editedId === category.id ? editorForm : undefined"
-                (editing)="onEditing(category)"
-                (editingDone)="onEditingDone($event)"
-                (delete)="onDelete(category.id)"
+              <ng-container
+                *ngFor="let category of vm.categories; index as i;trackBy: categoryById"
               >
-              </app-buffets-category-display>
+                <app-buffets-category-display
+                  *ngIf="{ 
+                    isEditing: vm.editedId === category.id, 
+                    updating: vm.updateStatus | actionInProgress: category,
+                    deleting: vm.deleteStatus | actionInProgress: category
+                  } as categoryVm"
+                  [category]="category"
+                  [editorForm]="categoryVm.isEditing ? editorForm : undefined"
+                  [isEditing]="categoryVm.isEditing"
+                  [editDisabled]="vm.editedId != undefined"
+                  [isLoading]="categoryVm.updating || categoryVm.deleting"
+                  (editing)="onEditing(category)"
+                  (editingDone)="onEditingDone($event)"
+                  (delete)="onDelete(category)"
+                >
+                </app-buffets-category-display>
+              </ng-container>
             </ng-container>
-          </ion-list>
-        </form>
+
+            <app-buffets-category-display
+              *ngIf="vm.creatingNew"
+              action="create"
+              [isEditing]="true"
+              [isLoading]="vm.createPending"
+              [editorForm]="editorForm"
+              (editingDone)="onCreatingDone($event)"
+            >
+            </app-buffets-category-display>
+          </form>
+        </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button
+      [disabled]="vm.editedId != undefined || vm.creatingNew"
+      (click)="create()"
+    >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

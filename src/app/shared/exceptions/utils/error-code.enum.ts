@@ -3,4 +3,8 @@ export enum ErrorCode {
   UnknownException = "UnknownException",
   InvalidDataException = "InvalidDataException",
   InvalidApiResponseException = "InvalidApiResponseException",
+  InvalidIdException = "InvalidIdException",
+  NotFoundException = "NotFoundException",
+  InternalServerErrorException = "InternalServerErrorException",
+  ServiceUnavailableException = "ServiceUnavailableException",
 }

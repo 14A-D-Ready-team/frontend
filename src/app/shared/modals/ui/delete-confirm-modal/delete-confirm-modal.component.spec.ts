@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { IonicModule } from "@ionic/angular";
 
-import { CategoryDisplaySkeletonComponent } from "./category-display-skeleton.component";
+import { DeleteConfirmModalComponent } from "./delete-confirm-modal.component";
 
-describe("CategoryDisplaySkeletonComponent", () => {
-  let component: CategoryDisplaySkeletonComponent;
-  let fixture: ComponentFixture<CategoryDisplaySkeletonComponent>;
+describe("DeleteConfirmModalComponent", () => {
+  let component: DeleteConfirmModalComponent;
+  let fixture: ComponentFixture<DeleteConfirmModalComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CategoryDisplaySkeletonComponent],
+      declarations: [DeleteConfirmModalComponent],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CategoryDisplaySkeletonComponent);
+    fixture = TestBed.createComponent(DeleteConfirmModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
