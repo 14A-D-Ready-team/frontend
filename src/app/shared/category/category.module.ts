@@ -11,7 +11,6 @@ import { HttpClientModule } from "@angular/common/http";
     HttpClientModule,
     NgxsModule.forFeature([CategoryState]),
   ],
-  exports: [CategoryService],
   providers: [CategoryService],
 })
 export class CategoryModule {}

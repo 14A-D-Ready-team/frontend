@@ -16,6 +16,9 @@ jobs:
       - image: cimg/node:16.10
     steps:
       - checkout
+      - run:
+          name: Npm config
+          command: npm config set legacy-peer-deps true
       - node/install-packages:
           pkg-manager: npm
       - run:
@@ -35,6 +38,7 @@ workflows:
     jobs:
       - build-and-test
       - cypress/run:
+          install-command: npm i --legacy-peer-deps
           record: true
           store_artifacts: true
           attach-workspace: false

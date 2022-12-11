@@ -13,6 +13,8 @@ import { CategoriesListState } from "./store";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { CategoryDisplaySkeletonComponent } from "../../ui/category-display-skeleton";
 import { ExtendedFormPluginModule } from "@app/shared/extended-form-plugin";
+import { IonicErrorCardComponent } from "@app/shared/exceptions/ui/ionic-error-card/ionic-error-card.component";
+import { ActionInProgressPipe } from "../../utils";
 
 @NgModule({
   imports: [
@@ -25,6 +27,8 @@ import { ExtendedFormPluginModule } from "@app/shared/extended-form-plugin";
     CategoriesListPageRoutingModule,
     CategoryDisplayComponent,
     CategoryDisplaySkeletonComponent,
+    IonicErrorCardComponent,
+    ActionInProgressPipe,
   ],
   declarations: [CategoriesListPage],
 })

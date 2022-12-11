@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { processArrayResponse, processResponse } from "@shared/serialization";
 import { instanceToPlain } from "class-transformer";
-import { delay } from "rxjs";
 import { EditCategoryDto } from "./dto";
 import { Category } from "./entity";
 
@@ -34,7 +33,7 @@ export class CategoryService {
   public update(id: number, payload: Partial<EditCategoryDto>) {
     return this.httpClient
       .patch(environment.api.url + "/category/" + id, instanceToPlain(payload))
-      .pipe(processResponse(Category), delay(3000));
+      .pipe(processResponse(Category));
   }
 
   public delete(id: number) {

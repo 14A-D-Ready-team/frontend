@@ -9,6 +9,7 @@ import {
   CreateOrReplace,
   RemoveAll,
   SetError,
+  Remove,
 } from "@ngxs-labs/entity-state";
 import {
   Action,
@@ -29,17 +30,28 @@ import {
   Update,
   UpdateSucceeded,
   UpdateFailed,
+  Create,
+  CreateSucceeded,
+  CreateFailed,
+  Delete,
+  DeleteSucceeded,
+  DeleteFailed,
 } from "./category.actions";
 
-export interface UpdateStatus {
+export interface ApiRequestStatus {
   loading: boolean;
-  updatedId: number;
   error?: any;
+}
+
+export interface TargetedRequestStatus extends ApiRequestStatus {
+  targetId: number;
 }
 
 export type CategoryStateModel = EntityStateModel<Category> & {
   isAllLoaded: boolean;
-  updateStatus?: UpdateStatus;
+  updateStatus?: TargetedRequestStatus;
+  createStatus?: ApiRequestStatus;
+  deleteStatus?: TargetedRequestStatus;
 };
 
 export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
@@ -55,6 +67,16 @@ export class CategoryState extends EntityState<Category> {
   @Selector()
   public static updateStatus(state: CategoryStateModel) {
     return state.updateStatus;
+  }
+
+  @Selector()
+  public static createStatus(state: CategoryStateModel) {
+    return state.createStatus;
+  }
+
+  @Selector()
+  public static deleteStatus(state: CategoryStateModel) {
+    return state.deleteStatus;
   }
 
   @Selector()
@@ -120,15 +142,36 @@ export class CategoryState extends EntityState<Category> {
     ctx.patchState({ isAllLoaded: action.isAllLoaded });
   }
 
+  @Action(Create)
+  public createCategory(ctx: StateContext<CategoryStateModel>, action: Create) {
+    ctx.patchState({ createStatus: this.getLoadingStatus() });
+
+    return this.categoryService.create(action.payload).pipe(
+      switchMap(category => ctx.dispatch(new CreateSucceeded(category))),
+      catchError(error => ctx.dispatch(new CreateFailed(error))),
+    );
+  }
+
+  @Action(CreateSucceeded)
+  public createSucceeded(
+    ctx: StateContext<CategoryStateModel>,
+    action: CreateSucceeded,
+  ) {
+    ctx.patchState({ createStatus: undefined });
+    return ctx.dispatch(new CreateOrReplace(CategoryState, action.category));
+  }
+
+  @Action(CreateFailed)
+  public createFailed(
+    ctx: StateContext<CategoryStateModel>,
+    action: CreateFailed,
+  ) {
+    ctx.patchState({ createStatus: this.getFailedStatus(action.error) });
+  }
+
   @Action(Update)
   public updateCategory(ctx: StateContext<CategoryStateModel>, action: Update) {
-    ctx.patchState({
-      updateStatus: {
-        loading: true,
-        updatedId: action.payload.id,
-        error: undefined,
-      },
-    });
+    ctx.patchState({ updateStatus: this.getLoadingStatus(action.payload.id) });
 
     return this.categoryService.update(action.payload.id, action.payload).pipe(
       switchMap(category => ctx.dispatch(new UpdateSucceeded(category))),
@@ -141,9 +184,7 @@ export class CategoryState extends EntityState<Category> {
     ctx: StateContext<CategoryStateModel>,
     action: UpdateSucceeded,
   ) {
-    ctx.patchState({
-      updateStatus: undefined,
-    });
+    ctx.patchState({ updateStatus: undefined });
     return ctx.dispatch(new CreateOrReplace(CategoryState, action.category));
   }
 
@@ -154,11 +195,67 @@ export class CategoryState extends EntityState<Category> {
   ) {
     const state = ctx.getState();
     ctx.patchState({
-      updateStatus: {
-        loading: false,
-        error: action.error,
-        updatedId: state.updateStatus?.updatedId || -1,
-      },
+      updateStatus: this.getFailedStatus(
+        action.error,
+        state.updateStatus?.targetId || -1,
+      ),
     });
+  }
+
+  @Action(Delete)
+  public deleteCategory(ctx: StateContext<CategoryStateModel>, action: Delete) {
+    ctx.patchState({ deleteStatus: this.getLoadingStatus(action.id) });
+
+    return this.categoryService.delete(action.id).pipe(
+      switchMap(() => ctx.dispatch(new DeleteSucceeded(action.id))),
+      catchError(error => ctx.dispatch(new DeleteFailed(error))),
+    );
+  }
+
+  @Action(DeleteSucceeded)
+  public deleteSucceeded(
+    ctx: StateContext<CategoryStateModel>,
+    action: DeleteSucceeded,
+  ) {
+    ctx.patchState({ deleteStatus: undefined });
+
+    return ctx.dispatch(
+      new Remove(CategoryState, entity => entity.id === action.id),
+    );
+  }
+
+  @Action(DeleteFailed)
+  public deleteFailed(
+    ctx: StateContext<CategoryStateModel>,
+    action: DeleteFailed,
+  ) {
+    const state = ctx.getState();
+
+    ctx.patchState({
+      deleteStatus: this.getFailedStatus(
+        action.error,
+        state.deleteStatus?.targetId || -1,
+      ),
+    });
+  }
+
+  private getLoadingStatus(id: number): TargetedRequestStatus;
+  private getLoadingStatus(): ApiRequestStatus;
+  private getLoadingStatus(id?: number): unknown {
+    return {
+      loading: true,
+      error: undefined,
+      ...(id !== undefined ? { targetId: id } : {}),
+    };
+  }
+
+  private getFailedStatus(error: unknown, id: number): TargetedRequestStatus;
+  private getFailedStatus(error: unknown): ApiRequestStatus;
+  private getFailedStatus(error: unknown, id?: number): unknown {
+    return {
+      loading: false,
+      error,
+      ...(id !== undefined ? { targetId: id } : {}),
+    };
   }
 }

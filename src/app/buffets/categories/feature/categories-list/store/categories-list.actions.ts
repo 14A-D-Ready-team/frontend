@@ -3,6 +3,17 @@ import { Category } from "@shared/category";
 export class LoadPage {
   public static readonly type = "[CategoriesListPage] Load Page";
 }
+export class AddNew {
+  public static readonly type = "[CategoriesListPage] Add New";
+}
+
+export class SaveNew {
+  public static readonly type = "[CategoriesListPage] Save New";
+}
+
+export class StopAddingNew {
+  public static readonly type = "[CategoriesListPage] Stop Adding New";
+}
 
 export class Edit {
   public static readonly type = "[CategoriesListPage] Edit";

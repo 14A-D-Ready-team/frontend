@@ -42,6 +42,9 @@ export class CategoryDisplayComponent implements OnInit {
   public editDisabled = false;
 
   @Input()
+  public action: "create" | "update" = "update";
+
+  @Input()
   public editorForm: FormGroup<CategoryEditorFormModel> | undefined;
 
   @Output()
@@ -54,8 +57,8 @@ export class CategoryDisplayComponent implements OnInit {
   public delete = new EventEmitter<void>();
 
   public ngOnInit() {
-    if (!this.category) {
-      throw new Error("category property is required");
+    if (this.action === "update" && !this.category) {
+      throw new Error("The property 'category' is required for update!");
     }
   }
 }

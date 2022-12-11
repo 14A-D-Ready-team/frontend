@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { IonicModule } from "@ionic/angular";
 
-import { CategoryDisplaySkeletonComponent } from "./category-display-skeleton.component";
+import { IonicErrorCardComponent } from "./ionic-error-card.component";
 
-describe("CategoryDisplaySkeletonComponent", () => {
-  let component: CategoryDisplaySkeletonComponent;
-  let fixture: ComponentFixture<CategoryDisplaySkeletonComponent>;
+describe("IonicErrorCardComponent", () => {
+  let component: IonicErrorCardComponent;
+  let fixture: ComponentFixture<IonicErrorCardComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CategoryDisplaySkeletonComponent],
+      declarations: [IonicErrorCardComponent],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CategoryDisplaySkeletonComponent);
+    fixture = TestBed.createComponent(IonicErrorCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
