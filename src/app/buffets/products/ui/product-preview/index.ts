@@ -1,1 +1,1 @@
-export * from "./product-preview.module";
+export * from "./product-preview.component";

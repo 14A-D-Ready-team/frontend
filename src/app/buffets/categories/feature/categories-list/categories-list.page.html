@@ -36,7 +36,7 @@
           <form [formGroup]="editorForm" [ngxsForm]="editorFormPath">
             <ng-container *ngIf="!vm.loading && !vm.error">
               <ng-container
-                *ngFor="let category of vm.categories; index as i;trackBy: categoryById"
+                *ngFor="let category of vm.categories; trackBy: categoryById"
               >
                 <app-buffets-category-display
                   *ngIf="{ 

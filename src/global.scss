@@ -34,3 +34,7 @@ ion-item {
     min-height: 19px;
   }
 }
+
+ion-item.no-left-padding {
+  --padding-start: 0;
+}

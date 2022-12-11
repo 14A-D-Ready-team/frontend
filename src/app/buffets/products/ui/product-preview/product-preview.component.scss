@@ -1,0 +1,30 @@
+ion-card-title {
+  &.md {
+    font-weight: bold;
+    font-size: 1.45rem;
+  }
+}
+
+ion-card-subtitle {
+  &.md {
+    font-weight: 600;
+  }
+
+  &.ios {
+    font-size: 0.8rem;
+  }
+}
+
+.divider-bottom {
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--ion-color-medium);
+}
+
+.select-type-icon {
+  margin-right: 5px;
+}
+
+.product-img {
+  width: 100%;
+  height: auto;
+}
