@@ -7,4 +7,7 @@ export enum ErrorCode {
   NotFoundException = "NotFoundException",
   InternalServerErrorException = "InternalServerErrorException",
   ServiceUnavailableException = "ServiceUnavailableException",
+  InvalidLoginException = "InvalidLoginException",
+  PasswordNotSetException = "PasswordNotSetException",
+  InactiveUserException = "InactiveUserException",
 }
