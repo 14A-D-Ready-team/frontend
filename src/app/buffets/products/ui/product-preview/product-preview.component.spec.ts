@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { ProductPreviewComponent } from './product-preview.component';
+import { ProductPreviewComponent } from "./product-preview.component";
 
-describe('ProductPreviewComponent', () => {
+describe("ProductPreviewComponent", () => {
   let component: ProductPreviewComponent;
   let fixture: ComponentFixture<ProductPreviewComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProductPreviewComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [ProductPreviewComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductPreviewComponent);
@@ -18,7 +18,7 @@ describe('ProductPreviewComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
