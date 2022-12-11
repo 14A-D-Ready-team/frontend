@@ -15,8 +15,6 @@ import { map, Observable, switchMap } from "rxjs";
   styleUrls: ["./products-list.component.scss"],
 })
 export class ProductsListComponent implements OnInit {
-  public breakpoint$: Observable<string>;
-
   public products: Product[] = [
     this.createProduct(1),
     this.createProduct(2),
@@ -28,33 +26,7 @@ export class ProductsListComponent implements OnInit {
   ];
   public category = new Category(1, "Category 1");
 
-  constructor(private platform: Platform) {
-    this.breakpoint$ = platform.resize.pipe(
-      map(() => {
-        const w = platform.width();
-
-        if (w >= 2600) {
-          return "3xl";
-        }
-        if (w >= 2000) {
-          return "xxl";
-        }
-        if (w >= 1200) {
-          return "xl";
-        }
-        if (w >= 992) {
-          return "lg";
-        }
-        if (w >= 768) {
-          return "md";
-        }
-        if (w >= 576) {
-          return "sm";
-        }
-        return "xs";
-      }),
-    );
-  }
+  constructor() {}
 
   ngOnInit() {}
 
