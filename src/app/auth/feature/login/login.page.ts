@@ -3,7 +3,11 @@ import { Store } from "@ngxs/store";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { AuthService } from "@app/auth/data-access";
 import { LoginDto } from "@app/auth/data-access/dto";
-import { Start } from "./store";
+import { Login } from "./store";
+import {
+  ClassValidatorFormControl,
+  ClassValidatorFormGroup,
+} from "ngx-reactive-form-class-validator";
 
 interface LoginForm {
   email: FormControl<string>;
@@ -22,14 +26,14 @@ export class LoginPage implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
   ) {
-    this.loginForm = this.fb.group<LoginForm>({
-      email: new FormControl<string>("", { nonNullable: true }),
-      password: new FormControl<string>("", { nonNullable: true }),
+    this.loginForm = new ClassValidatorFormGroup<LoginForm>(LoginDto, {
+      email: new ClassValidatorFormControl<string>(""),
+      password: new ClassValidatorFormControl<string>(""),
     });
   }
 
   public login() {
-    this.store.dispatch(new Start());
+    this.store.dispatch(new Login());
   }
 
   ngOnInit() {}
