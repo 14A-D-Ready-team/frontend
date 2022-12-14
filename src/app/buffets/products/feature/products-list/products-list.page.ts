@@ -7,14 +7,16 @@ import {
   Product,
 } from "@app/shared/product";
 import { InfiniteScrollCustomEvent, Platform } from "@ionic/angular";
+import { Store } from "@ngxs/store";
 import { map, Observable, switchMap } from "rxjs";
+import { LoadMore } from "./store";
 
 @Component({
   selector: "app-buffets-products-list",
   templateUrl: "./products-list.component.html",
   styleUrls: ["./products-list.component.scss"],
 })
-export class ProductsListComponent implements OnInit {
+export class ProductsListPage implements OnInit {
   public products: Product[] = [
     this.createProduct(1),
     this.createProduct(2),
@@ -26,13 +28,13 @@ export class ProductsListComponent implements OnInit {
   ];
   public category = new Category(1, "Category 1");
 
-  constructor() {}
+  constructor(private store: Store) {}
 
   ngOnInit() {}
 
   public onIonInfinite(event: any) {
     (event as InfiniteScrollCustomEvent).target.complete();
-    this.products.push(this.createProduct(this.products.length + 1));
+    this.store.dispatch(new LoadMore());
   }
 
   public productById(index: number, el: Product): number {

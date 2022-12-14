@@ -1,6 +1,6 @@
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
-import { ApiRequestStatus, TargetedRequestStatus } from "@shared/store";
+import { ApiRequestStatus, TargetedRequestStatus } from "@shared/api";
 import {
   defaultEntityState,
   EntityStateModel,

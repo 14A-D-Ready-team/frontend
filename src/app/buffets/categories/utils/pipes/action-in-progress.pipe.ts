@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { Category, TargetedRequestStatus } from "@shared/category";
+import { TargetedRequestStatus } from "@shared/api";
+import { Category } from "@shared/category";
 
 @Pipe({
   name: "actionInProgress",

@@ -1,13 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
-import {
-  Category,
-  CategoryState,
-  EditCategoryDto,
-  ApiRequestStatus,
-  TargetedRequestStatus,
-} from "@shared/category";
+import { Category, CategoryState, EditCategoryDto } from "@shared/category";
 import { combineLatest, map, Observable, take } from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
 import {
@@ -34,6 +28,7 @@ import {
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
 import { DeleteConfirmModalComponent } from "@shared/modals";
+import { ApiRequestStatus, TargetedRequestStatus } from "@shared/api";
 @Component({
   selector: "app-categories-list",
   templateUrl: "./categories-list.page.html",

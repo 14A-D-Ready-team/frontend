@@ -1,4 +1,4 @@
-import { ApiRequestStatus, TargetedRequestStatus } from "@shared/store";
+import { ApiRequestStatus, TargetedRequestStatus } from "@shared/api";
 import {
   defaultEntityState,
   EntityState,
@@ -8,6 +8,7 @@ import {
 import { Product } from "../entity";
 import { State } from "@ngxs/store";
 import { Injectable } from "@angular/core";
+import { ProductService } from "../service";
 
 export type ProductStateModel = EntityStateModel<Product> & {
   updateStatus?: TargetedRequestStatus;
@@ -21,7 +22,9 @@ export type ProductStateModel = EntityStateModel<Product> & {
 })
 @Injectable()
 export class ProductState extends EntityState<Product> {
-  constructor() {
+  constructor(private productService: ProductService) {
     super(ProductState, "id", IdStrategy.EntityIdGenerator);
   }
+
+  public loadPaginated() {}
 }

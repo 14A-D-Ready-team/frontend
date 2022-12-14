@@ -2,12 +2,12 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { ProductsListRoutingModule } from "./products-list-routing.module";
-import { ProductsListComponent } from "./products-list.component";
+import { ProductsListPage } from "./products-list.page";
 import { IonicModule, IonInfiniteScroll } from "@ionic/angular";
 import { ProductPreviewComponent } from "../../ui/product-preview";
 
 @NgModule({
-  declarations: [ProductsListComponent],
+  declarations: [ProductsListPage],
   imports: [
     CommonModule,
     IonicModule,
