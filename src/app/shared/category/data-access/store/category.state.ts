@@ -1,5 +1,6 @@
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
+import { ApiRequestStatus, TargetedRequestStatus } from "@shared/store";
 import {
   defaultEntityState,
   EntityStateModel,
@@ -37,15 +38,6 @@ import {
   DeleteSucceeded,
   DeleteFailed,
 } from "./category.actions";
-
-export interface ApiRequestStatus {
-  loading: boolean;
-  error?: any;
-}
-
-export interface TargetedRequestStatus extends ApiRequestStatus {
-  targetId: number;
-}
 
 export type CategoryStateModel = EntityStateModel<Category> & {
   isAllLoaded: boolean;
