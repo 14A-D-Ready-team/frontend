@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { Category } from "@app/shared/category";
 import {
   Customization,
@@ -9,14 +14,14 @@ import {
 import { InfiniteScrollCustomEvent, Platform } from "@ionic/angular";
 import { Store } from "@ngxs/store";
 import { map, Observable, switchMap } from "rxjs";
-import { LoadMore } from "./store";
+import { LoadMore, ProductsListEffects } from "./store";
 
 @Component({
   selector: "app-buffets-products-list",
   templateUrl: "./products-list.component.html",
   styleUrls: ["./products-list.component.scss"],
 })
-export class ProductsListPage implements OnInit {
+export class ProductsListPage implements OnInit, OnDestroy {
   public products: Product[] = [
     this.createProduct(1),
     this.createProduct(2),
@@ -28,9 +33,15 @@ export class ProductsListPage implements OnInit {
   ];
   public category = new Category(1, "Category 1");
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private effects: ProductsListEffects) {}
 
-  ngOnInit() {}
+  public ngOnInit(): void {
+    //this.effects.onStart();
+  }
+
+  public ngOnDestroy(): void {
+    this.effects.onTerminate();
+  }
 
   public onIonInfinite(event: any) {
     (event as InfiniteScrollCustomEvent).target.complete();

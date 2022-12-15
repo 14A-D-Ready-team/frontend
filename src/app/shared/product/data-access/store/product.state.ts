@@ -6,9 +6,10 @@ import {
   IdStrategy,
 } from "@ngxs-labs/entity-state";
 import { Product } from "../entity";
-import { State } from "@ngxs/store";
+import { Action, State, StateContext } from "@ngxs/store";
 import { Injectable } from "@angular/core";
 import { ProductService } from "../service";
+import { LoadPaginated } from "./product.actions";
 
 export type ProductStateModel = EntityStateModel<Product> & {
   updateStatus?: TargetedRequestStatus;
@@ -26,5 +27,9 @@ export class ProductState extends EntityState<Product> {
     super(ProductState, "id", IdStrategy.EntityIdGenerator);
   }
 
-  public loadPaginated() {}
+  @Action(LoadPaginated)
+  public loadPaginated(
+    ctx: StateContext<ProductStateModel>,
+    action: LoadPaginated,
+  ) {}
 }

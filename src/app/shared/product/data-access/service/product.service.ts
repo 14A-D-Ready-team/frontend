@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { ApiService } from "@shared/api";
 import { CreateProductDto, UpdateProductDto } from "../dto";
 import { Product } from "../entity";
+import { FilterProductsQuery } from "../query";
 
 @Injectable({
   providedIn: "root",
@@ -15,4 +16,6 @@ export class ProductService extends ApiService<
   constructor(httpClient: HttpClient) {
     super(httpClient, "/product", Product);
   }
+
+  public find(query: FilterProductsQuery) {}
 }
