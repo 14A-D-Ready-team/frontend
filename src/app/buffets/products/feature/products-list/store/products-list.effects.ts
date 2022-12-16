@@ -14,7 +14,7 @@ export class ProductsListEffects {
       .select(ProductsListState.shownProducts)
       .pipe(
         filter(products => products.some(product => !product)),
-        switchMap(() => {}),
+        /*  switchMap(() => {}), */
       )
       .subscribe();
   }
