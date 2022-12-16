@@ -4,6 +4,7 @@ import {
   CategoryActions,
   CategoryState,
   EditCategoryDto,
+  loadAllCategories,
 } from "@shared/category";
 import { Remove, SetError } from "@ngxs-labs/entity-state";
 import {
@@ -99,13 +100,7 @@ export class CategoriesListState {
 
   @Action(LoadPage)
   public loadPage(ctx: StateContext<CategoriesListStateModel>) {
-    return this.store.select(CategoryState.loading).pipe(
-      takeWhile(loading => loading, true),
-      filter(loading => !loading),
-      switchMap(() => this.store.selectOnce(CategoryState.isAllLoaded)),
-      filter(allLoaded => !allLoaded),
-      switchMap(() => ctx.dispatch(new CategoryActions.LoadAll())),
-    );
+    return loadAllCategories(this.store);
   }
 
   @Action(Reload)

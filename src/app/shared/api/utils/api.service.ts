@@ -7,7 +7,7 @@ import { instanceToPlain } from "class-transformer";
 export class ApiService<EntityType, CreateDtoType, UpdateDtoType> {
   constructor(
     protected httpClient: HttpClient,
-    private path: string,
+    protected path: string,
     private entityClass: Type<EntityType>,
   ) {}
 

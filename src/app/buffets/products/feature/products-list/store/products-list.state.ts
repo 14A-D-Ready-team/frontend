@@ -1,7 +1,7 @@
-import { LoadPaginated, ProductState } from "@shared/product";
-import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { ProductActions, ProductState } from "@shared/product";
+import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { LoadMore, LoadPage } from "./products-list.actions";
-import { CategoryStateModel } from "@shared/category";
+import { CategoryStateModel, loadAllCategories } from "@shared/category";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProductsListStateModel {
@@ -17,6 +17,8 @@ export const productsLoadedPerScroll = 12;
   },
 })
 export class ProductsListState {
+  constructor(private store: Store) {}
+
   @Selector([ProductState])
   public static shownProducts(
     state: ProductsListStateModel,
@@ -26,14 +28,22 @@ export class ProductsListState {
   }
 
   @Action(LoadPage)
-  public loadPage(ctx: StateContext<ProductsListStateModel>) {}
+  public loadPage(ctx: StateContext<ProductsListStateModel>) {
+    loadAllCategories(this.store);
+    return ctx.dispatch(
+      new ProductActions.LoadPaginated(0, productsLoadedPerScroll),
+    );
+  }
 
   @Action(LoadMore)
   public loadMore(ctx: StateContext<ProductsListStateModel>) {
     const state = ctx.getState();
 
     return ctx.dispatch(
-      new LoadPaginated(state.productIds.length, productsLoadedPerScroll),
+      new ProductActions.LoadPaginated(
+        state.productIds.length,
+        productsLoadedPerScroll,
+      ),
     );
   }
 }

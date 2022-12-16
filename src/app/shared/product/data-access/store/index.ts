@@ -1,2 +1,2 @@
 export * from "./product.state";
-export * from "./product.actions";
+export * as ProductActions from "./product.actions";
