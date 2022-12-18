@@ -32,4 +32,23 @@ export class FilterProductsQuery extends PaginationQuery {
   @IsInstance(NumberFilterQuery)
   @ValidateNested()
   public stock?: NumberFilterQuery;
+
+  constructor({
+    categoryId,
+    discountedPrice,
+    fullPrice,
+    stock,
+    skip,
+    take,
+  }: FilterProductsQuery = {}) {
+    super();
+    this.categoryId = categoryId;
+    this.discountedPrice = !discountedPrice
+      ? undefined
+      : new NumberFilterQuery(discountedPrice);
+    this.fullPrice = !fullPrice ? undefined : new NumberFilterQuery(fullPrice);
+    this.stock = !stock ? undefined : new NumberFilterQuery(stock);
+    this.skip = skip;
+    this.take = take;
+  }
 }

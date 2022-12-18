@@ -23,6 +23,9 @@ export class Product {
   @Expose()
   public customizations!: Customization[];
 
+  @Expose()
+  public categoryId!: string;
+
   constructor(
     id: number,
     name: string,

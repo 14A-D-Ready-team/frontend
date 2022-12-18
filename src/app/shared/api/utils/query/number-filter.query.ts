@@ -16,4 +16,10 @@ export class NumberFilterQuery {
   @IsOptional()
   @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
   public value?: number;
+
+  constructor({ min, max, value }: NumberFilterQuery = {}) {
+    this.min = min;
+    this.max = max;
+    this.value = value;
+  }
 }

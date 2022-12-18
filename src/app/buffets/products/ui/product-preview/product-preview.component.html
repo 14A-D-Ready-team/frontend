@@ -5,23 +5,24 @@
     class="product-img"
   />
   <ion-card-header>
-    <ion-card-subtitle>{{ category.name }}</ion-card-subtitle>
+    <ion-card-subtitle>{{ category?.name }}</ion-card-subtitle>
     <ion-card-title>{{ product.name }}</ion-card-title>
   </ion-card-header>
 
   <ion-card-content>
     <p>{{ product.description }}</p>
     <p>
-      <b>{{ product.discountedPrice !== undefined ? "Teljes ár: " : "Ár: " }}</b
+      <b>{{ product.discountedPrice ? "Teljes ár: " : "Ár: " }}</b
       >{{ product.fullPrice | currency: "HUF":"symbol" }}
     </p>
-    <p *ngIf="product.discountedPrice !== undefined">
+    <p *ngIf="product.discountedPrice">
       <b>Csökkentett ár: </b
       >{{ product.discountedPrice | currency: "HUF":"symbol" }}
     </p>
-    <p class="divider-bottom"><b>Raktáron: </b>{{ product.stock }}</p>
-    <br />
+    <p><b>Raktáron: </b>{{ product.stock }}</p>
     <div *ngIf="product.customizations.length > 0">
+      <div class="divider-bottom"></div>
+      <br />
       <ion-card-title>Opciók:</ion-card-title>
       <ion-accordion-group>
         <ion-accordion

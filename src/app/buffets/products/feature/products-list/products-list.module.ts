@@ -3,10 +3,11 @@ import { CommonModule } from "@angular/common";
 
 import { ProductsListRoutingModule } from "./products-list-routing.module";
 import { ProductsListPage } from "./products-list.page";
-import { IonicModule, IonInfiniteScroll } from "@ionic/angular";
+import { IonicModule } from "@ionic/angular";
 import { ProductPreviewComponent } from "../../ui/product-preview";
-import { ProductsListEffects } from "./store";
+import { ProductsListEffects, ProductsListState } from "./store";
 import { NgxsEffectsModule } from "ngxs-effects";
+import { NgxsModule } from "@ngxs/store";
 
 @NgModule({
   declarations: [ProductsListPage],
@@ -15,6 +16,7 @@ import { NgxsEffectsModule } from "ngxs-effects";
     IonicModule,
     ProductsListRoutingModule,
     ProductPreviewComponent,
+    NgxsModule.forFeature([ProductsListState]),
     NgxsEffectsModule.forFeature(ProductsListEffects),
   ],
   providers: [],

@@ -4,7 +4,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" *ngIf="vm$ | async as vm">
+  <ion-refresher
+    slot="fixed"
+    [disabled]="vm.loading"
+    (ionRefresh)="handleRefresh($event)"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-grid>
     <ion-row>
       <ion-col
@@ -12,11 +19,11 @@
         size-sm="10"
         size-md="6"
         size-xl="3"
-        *ngFor="let product of products$ | async; trackBy: productById"
+        *ngFor="let product of vm.products; trackBy: productById"
       >
         <app-product-preview
           [product]="product"
-          [category]="category"
+          [category]="vm.categories[product.categoryId]"
         ></app-product-preview>
       </ion-col>
     </ion-row>
