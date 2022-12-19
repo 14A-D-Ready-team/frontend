@@ -83,10 +83,14 @@ export class ProductsListState {
   public reload(ctx: StateContext<ProductsListStateModel>) {
     const state = ctx.getState();
     const numberOfProducts = state.productIds.length;
+    const numberOfProductsToLoad =
+      Math.ceil(numberOfProducts / productsLoadedPerScroll) *
+      productsLoadedPerScroll;
+
     ctx.setState({
       productIds: [],
     });
 
-    return ctx.dispatch(new ProductActions.Load(0, numberOfProducts));
+    return ctx.dispatch(new ProductActions.Load(0, numberOfProductsToLoad));
   }
 }

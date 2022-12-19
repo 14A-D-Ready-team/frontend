@@ -26,6 +26,17 @@
           [category]="vm.categories[product.categoryId]"
         ></app-product-preview>
       </ion-col>
+      <ng-container *ngIf="vm.loading">
+        <ion-col
+          *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
+          size-xs="12"
+          size-sm="10"
+          size-md="6"
+          size-xl="3"
+        >
+          <app-product-preview-skeleton></app-product-preview-skeleton>
+        </ion-col>
+      </ng-container>
     </ion-row>
     <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>

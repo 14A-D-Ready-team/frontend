@@ -6,25 +6,33 @@ import { IonicModule } from "@ionic/angular";
   selector: "app-product-preview-skeleton",
   template: `
     <ion-card>
-      <img alt="Product image" />
+      <ion-thumbnail>
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
       <ion-card-header>
-        <ion-card-subtitle></ion-card-subtitle>
-        <ion-card-title></ion-card-title>
+        <ion-card-subtitle>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-card-subtitle>
+        <ion-card-title>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
-        <p></p>
         <p>
-          <b></b>
+          <ion-skeleton-text animated></ion-skeleton-text>
         </p>
-
-        <p></p>
+        <p>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </p>
       </ion-card-content>
 
-      <ion-button fill="clear" color="danger">
-        <ion-icon slot="start" name="trash"></ion-icon>
-        Törlés
-      </ion-button>
+      <ion-thumbnail class="btn-skeleton">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
     </ion-card>
   `,
   styleUrls: ["./product-preview-skeleton.component.scss"],

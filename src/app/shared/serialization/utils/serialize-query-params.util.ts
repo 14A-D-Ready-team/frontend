@@ -1,5 +1,4 @@
 import { instanceToPlain } from "class-transformer";
-import {} from "lodash";
 
 export function serializeQueryParams(params: object) {
   const transformed = instanceToPlain(params);

@@ -63,7 +63,6 @@ export class ProductsListPage implements OnInit, OnDestroy {
   constructor(private store: Store, private effects: ProductsListEffects) {}
 
   public ngOnInit(): void {
-    this.products$.pipe(tap(p => console.log(p))).subscribe();
     this.store.dispatch(new LoadPage());
     //this.effects.onStart();
   }
@@ -73,7 +72,7 @@ export class ProductsListPage implements OnInit, OnDestroy {
   }
 
   public retryLoading() {
-    // this.store.dispatch(new Reload());
+    this.store.dispatch(new LoadMore());
   }
 
   public handleRefresh(event: any) {
