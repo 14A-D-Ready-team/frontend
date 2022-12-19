@@ -16,7 +16,7 @@ export class CategoryService extends ApiService<
   EditCategoryDto
 > {
   constructor(httpClient: HttpClient) {
-    super(httpClient, "/category", Category);
+    super(httpClient, "/category/", Category);
   }
 
   public findAll() {

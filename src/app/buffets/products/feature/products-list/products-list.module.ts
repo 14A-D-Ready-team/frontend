@@ -4,10 +4,10 @@ import { CommonModule } from "@angular/common";
 import { ProductsListRoutingModule } from "./products-list-routing.module";
 import { ProductsListPage } from "./products-list.page";
 import { IonicModule } from "@ionic/angular";
-import { ProductPreviewComponent } from "../../ui/product-preview";
 import { ProductsListEffects, ProductsListState } from "./store";
 import { NgxsEffectsModule } from "ngxs-effects";
 import { NgxsModule } from "@ngxs/store";
+import { ProductPreviewComponent } from "../../ui";
 
 @NgModule({
   declarations: [ProductsListPage],

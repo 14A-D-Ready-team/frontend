@@ -19,7 +19,7 @@ export class ProductService extends ApiService<
   UpdateProductDto
 > {
   constructor(httpClient: HttpClient) {
-    super(httpClient, "/product", Product);
+    super(httpClient, "/product/", Product);
   }
 
   public find(query: FilterProductsQuery) {

@@ -18,7 +18,7 @@ export interface ProductsListStateModel {
 export const productsLoadedPerScroll = 12;
 
 @State<ProductsListStateModel>({
-  name: "productsList",
+  name: "buffetsProductsList",
   defaults: {
     productIds: [],
   },
