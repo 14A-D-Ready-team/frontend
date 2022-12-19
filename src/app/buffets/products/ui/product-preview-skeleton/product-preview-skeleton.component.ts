@@ -19,13 +19,16 @@ import { IonicModule } from "@ionic/angular";
       </ion-card-header>
 
       <ion-card-content>
-        <p>
+        <p class="description-skeleton">
           <ion-skeleton-text animated></ion-skeleton-text>
         </p>
-        <p>
+        <p class="other-fields-skeleton">
           <ion-skeleton-text animated></ion-skeleton-text>
         </p>
-        <p>
+        <p class="other-fields-skeleton">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </p>
+        <p class="other-fields-skeleton">
           <ion-skeleton-text animated></ion-skeleton-text>
         </p>
       </ion-card-content>

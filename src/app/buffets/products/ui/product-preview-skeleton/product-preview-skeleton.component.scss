@@ -4,9 +4,30 @@ ion-thumbnail {
 }
 
 .btn-skeleton {
+  margin: 12px;
   &.md {
-    width: 111px;
-    height: 36px;
-    margin: 4px 2px;
+    width: 101px;
+    height: 28px;
   }
+
+  &.ios {
+    width: 95px;
+    height: 40px;
+  }
+}
+
+ion-card-subtitle ion-skeleton-text {
+  height: 16px;
+}
+
+ion-card-title ion-skeleton-text {
+  height: 35px;
+}
+
+.description-skeleton {
+  height: 80px;
+}
+
+.other-fields-skeleton {
+  height: 12px;
 }

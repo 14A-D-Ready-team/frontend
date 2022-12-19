@@ -30,9 +30,5 @@ export class ProductPreviewComponent implements OnInit {
     if (!this.product) {
       throw new Error("The property product is required");
     }
-
-    if (!this.category) {
-      throw new Error("The property category is required");
-    }
   }
 }

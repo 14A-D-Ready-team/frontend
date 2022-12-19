@@ -5,9 +5,9 @@ import {
 } from "@shared/product";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { LoadMore, LoadPage, Reload } from "./products-list.actions";
-import { loadAllCategories } from "@shared/category";
+import { CategoryState, loadAllCategories } from "@shared/category";
 import { Injectable } from "@angular/core";
-import { switchMap } from "rxjs";
+import { switchMap, take } from "rxjs";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProductsListStateModel {
@@ -37,11 +37,8 @@ export class ProductsListState {
 
   @Action(LoadPage)
   public loadPage(ctx: StateContext<ProductsListStateModel>) {
-    return loadAllCategories(this.store).pipe(
-      switchMap(() =>
-        ctx.dispatch(new ProductActions.Load(0, productsLoadedPerScroll)),
-      ),
-    );
+    loadAllCategories(this.store).pipe(take(1)).subscribe();
+    return ctx.dispatch(new ProductActions.Load(0, productsLoadedPerScroll));
   }
 
   @Action(LoadMore)
