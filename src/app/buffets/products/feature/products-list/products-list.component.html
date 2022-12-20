@@ -37,6 +37,12 @@
           <app-product-preview-skeleton></app-product-preview-skeleton>
         </ion-col>
       </ng-container>
+      <app-ionic-error-card
+        *ngIf="vm.error"
+        header="A termékek betöltése sikertelen"
+        [error]="vm.error"
+        (retry)="retryLoading()"
+      ></app-ionic-error-card>
     </ion-row>
     <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>

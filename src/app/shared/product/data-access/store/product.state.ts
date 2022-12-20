@@ -35,6 +35,7 @@ export class ProductState extends EntityState<Product> {
   @Action(Load)
   public load(ctx: StateContext<ProductStateModel>, action: Load) {
     ctx.dispatch(new SetLoading(ProductState, true));
+    ctx.dispatch(new SetError(ProductState, undefined));
 
     const query = new FilterProductsQuery({
       skip: action.skip,

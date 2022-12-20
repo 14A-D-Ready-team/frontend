@@ -11,6 +11,7 @@ import {
   ProductPreviewComponent,
   ProductPreviewSkeletonComponent,
 } from "../../ui";
+import { IonicErrorCardComponent } from "@shared/exceptions";
 
 @NgModule({
   declarations: [ProductsListPage],
@@ -22,6 +23,7 @@ import {
     NgxsModule.forFeature([ProductsListState]),
     NgxsEffectsModule.forFeature(ProductsListEffects),
     ProductPreviewSkeletonComponent,
+    IonicErrorCardComponent,
   ],
   providers: [],
 })

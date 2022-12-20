@@ -11,12 +11,12 @@ import { NgxsModule } from "@ngxs/store";
 import { CategoriesListState } from "./store";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ExtendedFormPluginModule } from "@app/shared/extended-form-plugin";
-import { IonicErrorCardComponent } from "@app/shared/exceptions/ui/ionic-error-card/ionic-error-card.component";
 import { ActionInProgressPipe } from "../../utils";
 import {
   CategoryDisplayComponent,
   CategoryDisplaySkeletonComponent,
 } from "../../ui";
+import { IonicErrorCardComponent } from "@shared/exceptions";
 
 @NgModule({
   imports: [
