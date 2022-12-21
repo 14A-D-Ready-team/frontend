@@ -1,51 +1,62 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Termékek</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-product-filter-menu
+  contentId="products-list-page-content"
+></app-product-filter-menu>
+<div class="ion-page" id="products-list-page-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Termékek</ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button>
+          <ion-icon part="icon" name="funnel"></ion-icon>
+        </ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content class="ion-padding" *ngIf="vm$ | async as vm">
-  <ion-refresher
-    slot="fixed"
-    [disabled]="vm.loading"
-    (ionRefresh)="handleRefresh($event)"
-  >
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-  <ion-grid>
-    <ion-row>
-      <ion-col
-        size-xs="12"
-        size-sm="10"
-        size-md="6"
-        size-xl="3"
-        *ngFor="let product of vm.products; trackBy: productById"
-      >
-        <app-product-preview
-          [product]="product"
-          [category]="vm.categories[product.categoryId]"
-        ></app-product-preview>
-      </ion-col>
-      <ng-container *ngIf="vm.loading">
+  <ion-content class="ion-padding" *ngIf="vm$ | async as vm">
+    <ion-refresher
+      slot="fixed"
+      [disabled]="vm.loading"
+      (ionRefresh)="handleRefresh($event)"
+    >
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <app-product-filter></app-product-filter>
+    <ion-grid>
+      <ion-row>
         <ion-col
-          *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
           size-xs="12"
           size-sm="10"
           size-md="6"
           size-xl="3"
+          *ngFor="let product of vm.products; trackBy: productById"
         >
-          <app-product-preview-skeleton></app-product-preview-skeleton>
+          <app-product-preview
+            [product]="product"
+            [category]="vm.categories[product.categoryId]"
+          ></app-product-preview>
         </ion-col>
-      </ng-container>
-      <app-ionic-error-card
-        *ngIf="vm.error"
-        header="A termékek betöltése sikertelen"
-        [error]="vm.error"
-        (retry)="retryLoading()"
-      ></app-ionic-error-card>
-    </ion-row>
-    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-  </ion-grid>
-</ion-content>
+        <ng-container *ngIf="vm.loading">
+          <ion-col
+            *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
+            size-xs="12"
+            size-sm="10"
+            size-md="6"
+            size-xl="3"
+          >
+            <app-product-preview-skeleton></app-product-preview-skeleton>
+          </ion-col>
+        </ng-container>
+        <app-ionic-error-card
+          *ngIf="vm.error"
+          header="A termékek betöltése sikertelen"
+          [error]="vm.error"
+          (retry)="retryLoading()"
+        ></app-ionic-error-card>
+      </ion-row>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-grid>
+  </ion-content>
+</div>

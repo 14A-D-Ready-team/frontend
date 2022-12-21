@@ -8,6 +8,8 @@ import { ProductsListEffects, ProductsListState } from "./store";
 import { NgxsEffectsModule } from "ngxs-effects";
 import { NgxsModule } from "@ngxs/store";
 import {
+  ProductFilterComponent,
+  ProductFilterMenuComponent,
   ProductPreviewComponent,
   ProductPreviewSkeletonComponent,
 } from "../../ui";
@@ -18,11 +20,13 @@ import { IonicErrorCardComponent } from "@shared/exceptions";
   imports: [
     CommonModule,
     IonicModule,
-    ProductsListRoutingModule,
-    ProductPreviewComponent,
     NgxsModule.forFeature([ProductsListState]),
     NgxsEffectsModule.forFeature(ProductsListEffects),
+    ProductsListRoutingModule,
+    ProductPreviewComponent,
     ProductPreviewSkeletonComponent,
+    ProductFilterComponent,
+    ProductFilterMenuComponent,
     IonicErrorCardComponent,
   ],
   providers: [],
