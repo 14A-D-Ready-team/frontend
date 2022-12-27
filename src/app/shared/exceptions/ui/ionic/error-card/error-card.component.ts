@@ -7,10 +7,10 @@ import {
   Output,
 } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
-import { ErrorMessagePipe } from "../../utils/pipes";
+import { ErrorMessagePipe } from "../../../utils/pipes";
 
 @Component({
-  selector: "app-ionic-error-card",
+  selector: "app-error-card",
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [CommonModule, IonicModule, ErrorMessagePipe],
@@ -41,7 +41,7 @@ import { ErrorMessagePipe } from "../../utils/pipes";
     `,
   ],
 })
-export class IonicErrorCardComponent {
+export class ErrorCardComponent {
   @Input()
   public error: any;
 

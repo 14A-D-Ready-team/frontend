@@ -97,16 +97,11 @@ export class CategoryState extends EntityState<Category> {
         concat(
           ctx.dispatch(new RemoveAll(CategoryState)),
           ctx.dispatch(new LoadingSucceeded(categories)),
+          ctx.dispatch(new SetAllLoaded(true)),
         ),
       ),
       catchError(error => ctx.dispatch(new LoadingFailed(error))),
-      finalize(() =>
-        // 1.
-        concat(
-          ctx.dispatch(new SetAllLoaded(true)),
-          ctx.dispatch(new SetLoading(CategoryState, false)),
-        ),
-      ),
+      finalize(() => ctx.dispatch(new SetLoading(CategoryState, false))),
     );
   }
 

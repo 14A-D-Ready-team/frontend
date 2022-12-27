@@ -2,7 +2,7 @@ import { Dictionary } from "@/types";
 import { FormControlStatus } from "@angular/forms";
 import { FormControlErrors } from "../data-access";
 
-export interface NgxsFormState<T> {
+export interface NgxsFormStateModel<T> {
   model: T;
   dirty: boolean;
   status: FormControlStatus;

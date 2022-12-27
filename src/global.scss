@@ -38,3 +38,23 @@ ion-item {
 ion-item.no-left-padding {
   --padding-start: 0;
 }
+
+ion-item.highlight-primary {
+  --highlight-background: var(--ion-color-primary);
+}
+
+.flex-vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.flex-horizontal-center {
+  display: flex;
+  justify-content: center;
+}
+
+ion-header.ios > ion-toolbar > ion-title {
+  padding-inline: 40px;
+}

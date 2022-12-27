@@ -5,7 +5,10 @@
     class="product-img"
   />
   <ion-card-header>
-    <ion-card-subtitle>{{ category?.name }}</ion-card-subtitle>
+    <ion-skeleton-text *ngIf="categoryLoading"></ion-skeleton-text>
+    <ion-card-subtitle *ngIf="!categoryLoading">{{
+      category?.name
+    }}</ion-card-subtitle>
     <ion-card-title>{{ product.name }}</ion-card-title>
   </ion-card-header>
 

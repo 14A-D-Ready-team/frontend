@@ -34,6 +34,7 @@
     "@capacitor/status-bar": "4.0.1",
     "@ionic/angular": "^6.3.3",
     "@ionic/angular-server": "^6.3.3",
+    "@nglrx/pipes": "^0.8.1",
     "@nguniversal/express-engine": "^14.2.0",
     "@ngxs-labs/entity-state": "^0.1.0",
     "@ngxs/devtools-plugin": "^3.7.5",

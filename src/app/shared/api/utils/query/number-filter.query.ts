@@ -1,5 +1,6 @@
-import { Expose } from "class-transformer";
+import { Exclude, Expose } from "class-transformer";
 import { IsNumber, IsOptional } from "class-validator";
+import { NumericFilterType } from "../numeric-filter-type.enum";
 
 export class NumberFilterQuery {
   @Expose()
@@ -17,9 +18,5 @@ export class NumberFilterQuery {
   @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
   public value?: number;
 
-  constructor({ min, max, value }: NumberFilterQuery = {}) {
-    this.min = min;
-    this.max = max;
-    this.value = value;
-  }
+  public type!: NumericFilterType;
 }

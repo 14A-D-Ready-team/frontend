@@ -42,12 +42,12 @@ import {
   SetFormEnabled,
   UpdateFormValue,
 } from "@ngxs/form-plugin";
-import { NgxsFormState } from "@shared/extended-form-plugin";
 import { Platform, ToastController } from "@ionic/angular";
 import { ErrorCode, ExceptionService } from "@app/shared/exceptions";
+import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 
 export interface CategoriesListStateModel {
-  editorForm: NgxsFormState<Partial<Category>>;
+  editorForm: NgxsFormStateModel<Partial<Category>>;
   editedId?: number;
   creatingNew: boolean;
 }

@@ -1,5 +1,6 @@
 import { NumberFilterQuery, PaginationQuery } from "@shared/api";
-import { Expose } from "class-transformer";
+import { deleteEmptyPropertiesDeep } from "@shared/serialization";
+import { Expose, plainToInstance, Type } from "class-transformer";
 import {
   IsInstance,
   IsNumber,
@@ -9,6 +10,19 @@ import {
 } from "class-validator";
 
 export class FilterProductsQuery extends PaginationQuery {
+  public static createOrCopy(
+    existing: Partial<FilterProductsQuery> = {},
+  ): FilterProductsQuery {
+    const rawCopy = JSON.parse(JSON.stringify(existing));
+
+    return deleteEmptyPropertiesDeep(
+      plainToInstance(FilterProductsQuery, rawCopy, {
+        excludeExtraneousValues: true,
+        exposeUnsetFields: false,
+      }),
+    );
+  }
+
   @Expose()
   @IsOptional()
   @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
@@ -16,39 +30,23 @@ export class FilterProductsQuery extends PaginationQuery {
   public categoryId?: number;
 
   @Expose()
+  @Type(() => NumberFilterQuery)
   @IsOptional()
   @IsInstance(NumberFilterQuery)
   @ValidateNested()
   public fullPrice?: NumberFilterQuery;
 
   @Expose()
+  @Type(() => NumberFilterQuery)
   @IsOptional()
   @IsInstance(NumberFilterQuery)
   @ValidateNested()
   public discountedPrice?: NumberFilterQuery;
 
   @Expose()
+  @Type(() => NumberFilterQuery)
   @IsOptional()
   @IsInstance(NumberFilterQuery)
   @ValidateNested()
   public stock?: NumberFilterQuery;
-
-  constructor({
-    categoryId,
-    discountedPrice,
-    fullPrice,
-    stock,
-    skip,
-    take,
-  }: FilterProductsQuery = {}) {
-    super();
-    this.categoryId = categoryId;
-    this.discountedPrice = !discountedPrice
-      ? undefined
-      : new NumberFilterQuery(discountedPrice);
-    this.fullPrice = !fullPrice ? undefined : new NumberFilterQuery(fullPrice);
-    this.stock = !stock ? undefined : new NumberFilterQuery(stock);
-    this.skip = skip;
-    this.take = take;
-  }
 }

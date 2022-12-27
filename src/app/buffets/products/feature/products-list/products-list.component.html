@@ -1,6 +1,15 @@
-<app-product-filter-menu
-  contentId="products-list-page-content"
-></app-product-filter-menu>
+<ion-menu side="end" contentId="products-list-page-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Termékek szűrése</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <app-product-filter
+      [categories]="(categories$ | async)! | keyvalue | map: extractValue"
+    ></app-product-filter>
+  </ion-content>
+</ion-menu>
 <div class="ion-page" id="products-list-page-content">
   <ion-header>
     <ion-toolbar color="primary">
@@ -12,7 +21,6 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-
   <ion-content class="ion-padding" *ngIf="vm$ | async as vm">
     <ion-refresher
       slot="fixed"
@@ -21,7 +29,7 @@
     >
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <app-product-filter></app-product-filter>
+
     <ion-grid>
       <ion-row>
         <ion-col
@@ -34,6 +42,9 @@
           <app-product-preview
             [product]="product"
             [category]="vm.categories[product.categoryId]"
+            [categoryLoading]="
+              !vm.categories[product.categoryId] && (categoriesLoading$ | async)
+            "
           ></app-product-preview>
         </ion-col>
         <ng-container *ngIf="vm.loading">
@@ -47,12 +58,12 @@
             <app-product-preview-skeleton></app-product-preview-skeleton>
           </ion-col>
         </ng-container>
-        <app-ionic-error-card
+        <app-error-card
           *ngIf="vm.error"
           header="A termékek betöltése sikertelen"
           [error]="vm.error"
           (retry)="retryLoading()"
-        ></app-ionic-error-card>
+        ></app-error-card>
       </ion-row>
       <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>

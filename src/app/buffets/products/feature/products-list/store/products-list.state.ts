@@ -1,18 +1,32 @@
 import {
+  FilterProductsQuery,
+  Product,
   ProductActions,
   ProductState,
   ProductStateModel,
 } from "@shared/product";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
-import { LoadMore, LoadPage, Reload } from "./products-list.actions";
-import { CategoryState, loadAllCategories } from "@shared/category";
+import {
+  LoadMore,
+  LoadPage,
+  Reload,
+  RetryLoading,
+} from "./products-list.actions";
+import {
+  CategoryState,
+  CategoryStateModel,
+  loadAllCategories,
+} from "@shared/category";
 import { Injectable } from "@angular/core";
-import { switchMap, take } from "rxjs";
+import { interval, map, take } from "rxjs";
+import { DeepReadonly } from "@ngxs-labs/entity-state";
+import { FilterChanged } from "../../product-filter";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProductsListStateModel {
   productIds: number[];
   remainingItems?: number;
+  query: DeepReadonly<FilterProductsQuery>;
 }
 
 export const productsLoadedPerScroll = 12;
@@ -21,6 +35,7 @@ export const productsLoadedPerScroll = 12;
   name: "buffetsProductsList",
   defaults: {
     productIds: [],
+    query: new FilterProductsQuery(),
   },
 })
 @Injectable()
@@ -35,10 +50,29 @@ export class ProductsListState {
     return state.productIds.map(id => productState.entities[id]).filter(p => p);
   }
 
+  @Selector([ProductsListState.shownProducts, CategoryState])
+  public static hasUnknownCategories(
+    state: ProductsListStateModel,
+    products: Product[],
+    categoryState: CategoryStateModel,
+  ) {
+    return products.some(
+      product => !categoryState.entities[product.categoryId],
+    );
+  }
+
   @Action(LoadPage)
   public loadPage(ctx: StateContext<ProductsListStateModel>) {
     loadAllCategories(this.store).pipe(take(1)).subscribe();
-    return ctx.dispatch(new ProductActions.Load(0, productsLoadedPerScroll));
+
+    const state = ctx.getState();
+    const query = FilterProductsQuery.createOrCopy({
+      ...state.query,
+      skip: 0,
+      take: productsLoadedPerScroll,
+    });
+
+    return ctx.dispatch(new ProductActions.Load(query));
   }
 
   @Action(LoadMore)
@@ -48,9 +82,12 @@ export class ProductsListState {
       return;
     }
 
-    return ctx.dispatch(
-      new ProductActions.Load(state.productIds.length, productsLoadedPerScroll),
-    );
+    const query = FilterProductsQuery.createOrCopy({
+      ...state.query,
+      skip: state.productIds.length,
+      take: productsLoadedPerScroll,
+    });
+    return ctx.dispatch(new ProductActions.Load(query));
   }
 
   @Action(ProductActions.LoadingSucceeded)
@@ -76,18 +113,53 @@ export class ProductsListState {
     });
   }
 
+  @Action(RetryLoading)
+  public retryLoading(ctx: StateContext<ProductsListStateModel>) {
+    loadAllCategories(this.store).pipe(take(1)).subscribe();
+    ctx.dispatch(new LoadMore());
+  }
+
   @Action(Reload)
   public reload(ctx: StateContext<ProductsListStateModel>) {
+    loadAllCategories(this.store, true).pipe(take(1)).subscribe();
+
     const state = ctx.getState();
     const numberOfProducts = state.productIds.length;
     const numberOfProductsToLoad =
-      Math.ceil(numberOfProducts / productsLoadedPerScroll) *
+      Math.max(1, Math.ceil(numberOfProducts / productsLoadedPerScroll)) *
       productsLoadedPerScroll;
 
-    ctx.setState({
+    ctx.patchState({
       productIds: [],
+      remainingItems: undefined,
     });
 
-    return ctx.dispatch(new ProductActions.Load(0, numberOfProductsToLoad));
+    const query = FilterProductsQuery.createOrCopy({
+      ...state.query,
+      skip: 0,
+      take: numberOfProductsToLoad,
+    });
+
+    return ctx.dispatch(new ProductActions.Load(query));
+  }
+
+  @Action(FilterChanged, { cancelUncompleted: true })
+  public filter(
+    ctx: StateContext<ProductsListStateModel>,
+    action: FilterChanged,
+  ) {
+    ctx.patchState({
+      query: action.filter,
+      productIds: [],
+      remainingItems: undefined,
+    });
+
+    const query = FilterProductsQuery.createOrCopy({
+      ...action.filter,
+      skip: 0,
+      take: productsLoadedPerScroll,
+    });
+
+    return ctx.dispatch(new ProductActions.Load(query));
   }
 }

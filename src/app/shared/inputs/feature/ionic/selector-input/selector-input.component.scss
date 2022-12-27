@@ -1,0 +1,15 @@
+.right-container {
+  margin: 0 0 4px 10px;
+
+  ion-button {
+    --padding-start: 5px;
+    --padding-end: 5px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+    margin: 0;
+  }
+}
+
+ion-item {
+  --inner-padding-end: 0;
+}

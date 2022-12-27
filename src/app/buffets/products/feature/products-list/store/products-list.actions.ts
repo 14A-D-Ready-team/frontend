@@ -9,3 +9,7 @@ export class LoadMore {
 export class Reload {
   public static readonly type = "[ProductsListPage] Reload";
 }
+
+export class RetryLoading {
+  public static readonly type = "[ProductsListPage] Retry Loading";
+}

@@ -22,7 +22,10 @@ export class ProductPreviewComponent implements OnInit {
   public product!: Product;
 
   @Input()
-  public category!: Category;
+  public category?: Category;
+
+  @Input()
+  public categoryLoading = false;
 
   constructor() {}
 

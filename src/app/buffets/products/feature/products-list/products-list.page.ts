@@ -26,7 +26,9 @@ import {
   ProductsListEffects,
   ProductsListState,
   Reload,
+  RetryLoading,
 } from "./store";
+import { KeyValue } from "@angular/common";
 
 @Component({
   selector: "app-buffets-products-list",
@@ -42,6 +44,9 @@ export class ProductsListPage implements OnInit, OnDestroy {
 
   @Select(ProductState.loading)
   public loading$!: Observable<boolean>;
+
+  @Select(CategoryState.loading)
+  public categoriesLoading$!: Observable<boolean>;
 
   @Select(ProductState.error)
   public error$!: Observable<any>;
@@ -64,15 +69,15 @@ export class ProductsListPage implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.store.dispatch(new LoadPage());
-    //this.effects.onStart();
+    this.effects.start();
   }
 
   public ngOnDestroy(): void {
-    this.effects.onTerminate();
+    this.effects.terminate();
   }
 
   public retryLoading() {
-    this.store.dispatch(new LoadMore());
+    this.store.dispatch(new RetryLoading());
   }
 
   public handleRefresh(event: any) {
@@ -92,5 +97,9 @@ export class ProductsListPage implements OnInit, OnDestroy {
 
   public productById(index: number, el: Product): number {
     return el.id;
+  }
+
+  public extractValue(keyValuePair: KeyValue<string, Category>) {
+    return keyValuePair.value;
   }
 }

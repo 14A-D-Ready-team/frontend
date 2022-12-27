@@ -32,15 +32,12 @@ export class ProductState extends EntityState<Product> {
     super(ProductState, "id", IdStrategy.EntityIdGenerator);
   }
 
-  @Action(Load)
+  @Action(Load, { cancelUncompleted: true })
   public load(ctx: StateContext<ProductStateModel>, action: Load) {
     ctx.dispatch(new SetLoading(ProductState, true));
     ctx.dispatch(new SetError(ProductState, undefined));
 
-    const query = new FilterProductsQuery({
-      skip: action.skip,
-      take: action.take,
-    });
+    const query = action.query;
 
     return this.productService.find(query).pipe(
       switchMap(response =>

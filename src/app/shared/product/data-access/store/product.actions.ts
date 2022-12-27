@@ -4,7 +4,7 @@ import { FilterProductsQuery } from "../query";
 export class Load {
   public static type = "[Product] Load";
 
-  constructor(public skip: number, public take: number) {}
+  constructor(public query: FilterProductsQuery) {}
 }
 
 export class LoadingSucceeded {

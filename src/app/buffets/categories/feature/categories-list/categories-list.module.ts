@@ -16,7 +16,7 @@ import {
   CategoryDisplayComponent,
   CategoryDisplaySkeletonComponent,
 } from "../../ui";
-import { IonicErrorCardComponent } from "@shared/exceptions";
+import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
 
 @NgModule({
   imports: [
@@ -29,7 +29,7 @@ import { IonicErrorCardComponent } from "@shared/exceptions";
     CategoriesListPageRoutingModule,
     CategoryDisplayComponent,
     CategoryDisplaySkeletonComponent,
-    IonicErrorCardComponent,
+    ErrorCardComponent,
     ActionInProgressPipe,
   ],
   declarations: [CategoriesListPage],

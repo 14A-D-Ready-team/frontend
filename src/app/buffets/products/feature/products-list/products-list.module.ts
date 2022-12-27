@@ -8,26 +8,27 @@ import { ProductsListEffects, ProductsListState } from "./store";
 import { NgxsEffectsModule } from "ngxs-effects";
 import { NgxsModule } from "@ngxs/store";
 import {
-  ProductFilterComponent,
-  ProductFilterMenuComponent,
   ProductPreviewComponent,
   ProductPreviewSkeletonComponent,
 } from "../../ui";
-import { IonicErrorCardComponent } from "@shared/exceptions";
+import { NglrxPipesModule } from "@nglrx/pipes";
+import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
+import { ProductFilterModule } from "../product-filter";
+import { ProductFilterState } from "../product-filter";
 
 @NgModule({
   declarations: [ProductsListPage],
   imports: [
     CommonModule,
     IonicModule,
-    NgxsModule.forFeature([ProductsListState]),
+    NglrxPipesModule,
+    NgxsModule.forFeature([ProductsListState, ProductFilterState]),
     NgxsEffectsModule.forFeature(ProductsListEffects),
     ProductsListRoutingModule,
+    ProductFilterModule,
     ProductPreviewComponent,
     ProductPreviewSkeletonComponent,
-    ProductFilterComponent,
-    ProductFilterMenuComponent,
-    IonicErrorCardComponent,
+    ErrorCardComponent,
   ],
   providers: [],
 })

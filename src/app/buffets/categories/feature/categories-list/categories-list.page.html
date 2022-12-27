@@ -26,13 +26,13 @@
               <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
             </div>
 
-            <app-ionic-error-card
+            <app-error-card
               *ngIf="vm.error"
               [error]="vm.error"
               header="A kategóriák betöltése sikertelen"
               (retry)="retryLoading()"
             >
-            </app-ionic-error-card>
+            </app-error-card>
 
             <form [formGroup]="editorForm" [ngxsForm]="editorFormPath">
               <ng-container *ngIf="!vm.loading && !vm.error">
