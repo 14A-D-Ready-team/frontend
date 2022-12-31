@@ -1,6 +1,15 @@
 <div [formGroup]="bindedFormGroup">
   <ion-item class="highlight-primary">
-    <ion-label position="floating">{{ title }}</ion-label>
+    <ion-label
+      [position]="
+        bindedFormGroup.controls.type.value === 'range' &&
+        (bindedFormGroup.controls.min.value !== null ||
+          bindedFormGroup.controls.max.value !== null)
+          ? 'stacked'
+          : 'floating'
+      "
+      >{{ title }}</ion-label
+    ><!-- OR position:floatig, have to set it manually -->
     <ng-container *ngIf="bindedFormGroup.controls.type.value === 'range'">
       <div class="input-container">
         <ion-input
@@ -19,6 +28,16 @@
     <ng-container *ngIf="bindedFormGroup.controls.type.value === 'singleValue'">
       <ion-input type="number" formControlName="value"></ion-input>
     </ng-container>
+
+    <ion-note *ngIf="!bindedFormGroup.untouched" slot="error">
+      {{
+        [
+          bindedFormGroup.controls.min.errors,
+          bindedFormGroup.controls.max.errors,
+          bindedFormGroup.controls.value.errors
+        ] | transform: extractErrorMessages
+      }}
+    </ion-note>
   </ion-item>
   <ion-segment value="range" formControlName="type">
     <ion-segment-button value="singleValue">

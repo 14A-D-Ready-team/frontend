@@ -3,17 +3,15 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
 } from "@angular/core";
 import { Category } from "@shared/category";
 import { IonicModule } from "@ionic/angular";
 import { CommonModule } from "@angular/common";
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { CategoryEditorFormModel, FirstErrorMessagePipe } from "../../utils";
-import { BehaviorSubject, combineLatest, map, Observable } from "rxjs";
+import { FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { CategoryEditorFormModel } from "../../utils";
+import { FirstErrorMessagePipe } from "@shared/exceptions";
 
 @Component({
   selector: "app-buffets-category-display",

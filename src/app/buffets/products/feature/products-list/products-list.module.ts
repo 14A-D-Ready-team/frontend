@@ -10,6 +10,7 @@ import { NgxsModule } from "@ngxs/store";
 import {
   ProductPreviewComponent,
   ProductPreviewSkeletonComponent,
+  TypingOverlayComponent,
 } from "../../ui";
 import { NglrxPipesModule } from "@nglrx/pipes";
 import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
@@ -29,6 +30,7 @@ import { ProductFilterState } from "../product-filter";
     ProductPreviewComponent,
     ProductPreviewSkeletonComponent,
     ErrorCardComponent,
+    TypingOverlayComponent,
   ],
   providers: [],
 })

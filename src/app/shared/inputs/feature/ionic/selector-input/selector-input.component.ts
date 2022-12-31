@@ -8,11 +8,12 @@ import {
 import { CommonModule } from "@angular/common";
 import { IonicModule } from "@ionic/angular";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { FirstErrorMessagePipe } from "@shared/exceptions";
 
 @Component({
   selector: "app-selector-input",
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule],
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, FirstErrorMessagePipe],
   templateUrl: "./selector-input.component.html",
   styleUrls: ["./selector-input.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

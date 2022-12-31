@@ -1,6 +1,11 @@
 import { NumberFilterQuery, PaginationQuery } from "@shared/api";
 import { deleteEmptyPropertiesDeep } from "@shared/serialization";
-import { Expose, plainToInstance, Type } from "class-transformer";
+import {
+  Expose,
+  instanceToPlain,
+  plainToInstance,
+  Type,
+} from "class-transformer";
 import {
   IsInstance,
   IsNumber,
@@ -8,6 +13,7 @@ import {
   Min,
   ValidateNested,
 } from "class-validator";
+import { isEqual } from "lodash";
 
 export class FilterProductsQuery extends PaginationQuery {
   public static createOrCopy(
@@ -15,11 +21,24 @@ export class FilterProductsQuery extends PaginationQuery {
   ): FilterProductsQuery {
     const rawCopy = JSON.parse(JSON.stringify(existing));
 
-    return deleteEmptyPropertiesDeep(
-      plainToInstance(FilterProductsQuery, rawCopy, {
-        excludeExtraneousValues: true,
-        exposeUnsetFields: false,
-      }),
+    return plainToInstance(FilterProductsQuery, rawCopy, {
+      excludeExtraneousValues: true,
+      exposeUnsetFields: false,
+    });
+  }
+
+  public static isUnchanged(
+    prev: FilterProductsQuery,
+    curr: FilterProductsQuery,
+  ) {
+    return (
+      isEqual(prev, curr) ||
+      NumberFilterQuery.isUnchanged(
+        prev.discountedPrice,
+        curr.discountedPrice,
+      ) ||
+      NumberFilterQuery.isUnchanged(prev.fullPrice, curr.fullPrice) ||
+      NumberFilterQuery.isUnchanged(prev.stock, curr.stock)
     );
   }
 

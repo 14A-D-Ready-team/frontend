@@ -7,11 +7,16 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl } from "@angular/forms";
 import { Category } from "@shared/category";
 import { NumericFilterFormModel } from "@shared/inputs/utils";
-import { NumericFilterType } from "@shared/api";
+import { NumberFilterQuery, NumericFilterType } from "@shared/api";
 import { formPath, ProductFilterEffects } from "./store";
+import {
+  ClassValidatorFormControl,
+  ClassValidatorFormGroup,
+} from "ngx-reactive-form-class-validator";
+import { FilterProductsQuery } from "@shared/product";
 
 @Component({
   selector: "app-product-filter",
@@ -23,47 +28,54 @@ export class ProductFilterComponent implements OnInit, OnDestroy {
   @Input()
   public categories!: Category[];
 
+  @Input()
+  public categoriesLoading = false;
+
   @Output()
   public refreshCategories = new EventEmitter<void>();
 
   public formPath = formPath;
 
-  public form = new FormGroup({
-    categoryId: new FormControl<number | null>(null, {
-      nonNullable: false,
-    }),
-    fullPrice: new FormGroup<NumericFilterFormModel>({
-      min: new FormControl<number | null>(null, { nonNullable: false }),
-      max: new FormControl<number | null>(null, { nonNullable: false }),
-      value: new FormControl<number | null>(null, { nonNullable: false }),
-      type: new FormControl<NumericFilterType>(NumericFilterType.Range, {
-        nonNullable: true,
-      }),
-    }),
-    discountedPrice: new FormGroup<NumericFilterFormModel>({
-      min: new FormControl<number | null>(null, { nonNullable: false }),
-      max: new FormControl<number | null>(null, { nonNullable: false }),
-      value: new FormControl<number | null>(null, { nonNullable: false }),
-      type: new FormControl<NumericFilterType>(NumericFilterType.Range, {
-        nonNullable: true,
-      }),
-    }),
-    stock: new FormGroup<NumericFilterFormModel>({
-      min: new FormControl<number | null>(null, { nonNullable: false }),
-      max: new FormControl<number | null>(null, { nonNullable: false }),
-      value: new FormControl<number | null>(null, { nonNullable: false }),
-      type: new FormControl<NumericFilterType>(NumericFilterType.Range, {
-        nonNullable: true,
-      }),
-    }),
+  public form = new ClassValidatorFormGroup(FilterProductsQuery, {
+    categoryId: new FormControl<number | null>(null),
+    fullPrice: new ClassValidatorFormGroup<NumericFilterFormModel>(
+      NumberFilterQuery,
+      {
+        min: new ClassValidatorFormControl<number | null>(null),
+        max: new ClassValidatorFormControl<number | null>(null),
+        value: new ClassValidatorFormControl<number | null>(null),
+        type: new FormControl<NumericFilterType>(NumericFilterType.Range, {
+          nonNullable: true,
+        }),
+      },
+    ),
+    discountedPrice: new ClassValidatorFormGroup<NumericFilterFormModel>(
+      NumberFilterQuery,
+      {
+        min: new ClassValidatorFormControl<number | null>(null),
+        max: new ClassValidatorFormControl<number | null>(null),
+        value: new ClassValidatorFormControl<number | null>(null),
+        type: new FormControl<NumericFilterType>(NumericFilterType.Range, {
+          nonNullable: true,
+        }),
+      },
+    ),
+    stock: new ClassValidatorFormGroup<NumericFilterFormModel>(
+      NumberFilterQuery,
+      {
+        min: new ClassValidatorFormControl<number | null>(null),
+        max: new ClassValidatorFormControl<number | null>(null),
+        value: new ClassValidatorFormControl<number | null>(null),
+        type: new FormControl<NumericFilterType>(NumericFilterType.Range, {
+          nonNullable: true,
+        }),
+      },
+    ),
   });
 
   constructor(private effects: ProductFilterEffects) {}
 
   public ngOnInit(): void {
-    /* this.form.valueChanges.subscribe(value => {
-      console.log(value);
-    }); */
     this.effects.start();
   }
 

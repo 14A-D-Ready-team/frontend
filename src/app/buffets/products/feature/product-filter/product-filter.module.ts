@@ -10,6 +10,7 @@ import {
 import { ProductFilterComponent } from "./product-filter.component";
 import { ProductFilterEffects, ProductFilterState } from "./store";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
+import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
 
 @NgModule({
   declarations: [ProductFilterComponent],
@@ -21,6 +22,7 @@ import { NgxsFormPluginModule } from "@ngxs/form-plugin";
     NumericFilterInputComponent,
     NgxsModule.forFeature([ProductFilterState]),
     NgxsFormPluginModule,
+    ExtendedFormPluginModule,
   ],
   providers: [ProductFilterEffects],
   exports: [ProductFilterComponent],

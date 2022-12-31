@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from "@angular/core";
-import { Category, CategoryState } from "@shared/category";
+import { Category, CategoryState, loadAllCategories } from "@shared/category";
 import {
   Customization,
   Option,
@@ -29,6 +29,7 @@ import {
   RetryLoading,
 } from "./store";
 import { KeyValue } from "@angular/common";
+import { ProductFilterState } from "../product-filter";
 
 @Component({
   selector: "app-buffets-products-list",
@@ -51,18 +52,27 @@ export class ProductsListPage implements OnInit, OnDestroy {
   @Select(ProductState.error)
   public error$!: Observable<any>;
 
+  @Select(ProductFilterState.typing)
+  public typing$!: Observable<boolean>;
+
   public vm$ = combineLatest([
     this.products$,
     this.categories$,
     this.loading$,
+    this.categoriesLoading$,
     this.error$,
+    this.typing$,
   ]).pipe(
-    map(([products, categories, loading, error]) => ({
-      products,
-      categories,
-      loading,
-      error,
-    })),
+    map(
+      ([products, categories, loading, categoriesLoading, error, typing]) => ({
+        products,
+        categories,
+        loading,
+        categoriesLoading,
+        error,
+        typing,
+      }),
+    ),
   );
 
   constructor(private store: Store, private effects: ProductsListEffects) {}
@@ -93,6 +103,10 @@ export class ProductsListPage implements OnInit, OnDestroy {
       .dispatch(new LoadMore())
       .pipe(take(1))
       .subscribe(() => (event as InfiniteScrollCustomEvent).target.complete());
+  }
+
+  public refreshCategories() {
+    loadAllCategories(this.store, true).pipe(take(1)).subscribe();
   }
 
   public productById(index: number, el: Product): number {

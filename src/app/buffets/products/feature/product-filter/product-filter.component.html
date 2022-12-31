@@ -6,7 +6,7 @@
       valueProperty="id"
       [items]="categories"
       [bindedFormControl]="form.controls.categoryId"
-      [loading]="false"
+      [loading]="categoriesLoading"
       (refresh)="refreshCategories.emit()"
     >
     </app-selector-input>

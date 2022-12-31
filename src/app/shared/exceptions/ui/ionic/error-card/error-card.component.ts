@@ -7,7 +7,7 @@ import {
   Output,
 } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
-import { ErrorMessagePipe } from "../../../utils/pipes";
+import { ErrorMessagePipe } from "../../../utils";
 
 @Component({
   selector: "app-error-card",
