@@ -9,8 +9,9 @@ import {
 import { Category } from "@shared/category";
 import { IonicModule } from "@ionic/angular";
 import { CommonModule } from "@angular/common";
-import { FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { CategoryEditorFormModel } from "../../utils";
+import { BehaviorSubject, combineLatest, map, Observable } from "rxjs";
 import { FirstErrorMessagePipe } from "@shared/exceptions";
 
 @Component({
