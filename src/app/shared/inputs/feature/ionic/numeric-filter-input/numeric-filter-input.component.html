@@ -1,4 +1,4 @@
-<div [formGroup]="bindedFormGroup">
+<div [formGroup]="bindedFormGroup" class="container">
   <ion-item class="highlight-primary">
     <ion-label
       [position]="
@@ -35,7 +35,7 @@
           bindedFormGroup.controls.min.errors,
           bindedFormGroup.controls.max.errors,
           bindedFormGroup.controls.value.errors
-        ] | transform: extractErrorMessages
+        ] | transform : extractErrorMessages
       }}
     </ion-note>
   </ion-item>

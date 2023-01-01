@@ -25,3 +25,15 @@ ion-row {
     padding: 0 4rem;
   }
 }
+
+.overlay-container {
+  position: absolute;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+}
+
+.content {
+  position: relative;
+  height: 100%;
+}

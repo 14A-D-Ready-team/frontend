@@ -14,15 +14,25 @@ import { IonicModule } from "@ionic/angular";
         height: 100%;
         width: 100%;
         display: flex;
-        justify-content: center;
         align-items: center;
+        flex-direction: column;
       }
 
       ion-spinner {
         transform: scale(3);
       }
+
+      h1 {
+        margin-top: 30vh;
+        color: var(--ion-color-light);
+        text-align: center;
+        font-size: 1.3rem;
+      }
     `,
   ],
-  template: ` <ion-spinner name="dots" color="light"></ion-spinner> `,
+  template: `
+    <h1>A keresés elindul, amint végez a szűrők beállításával.</h1>
+    <ion-spinner name="dots" color="light"></ion-spinner>
+  `,
 })
 export class TypingOverlayComponent {}

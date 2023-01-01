@@ -19,7 +19,15 @@ import {
   RefresherCustomEvent,
 } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
-import { combineLatest, map, Observable, switchMap, take, tap } from "rxjs";
+import {
+  combineLatest,
+  map,
+  Observable,
+  startWith,
+  switchMap,
+  take,
+  tap,
+} from "rxjs";
 import {
   LoadMore,
   LoadPage,
@@ -55,6 +63,11 @@ export class ProductsListPage implements OnInit, OnDestroy {
   @Select(ProductFilterState.typing)
   public typing$!: Observable<boolean>;
 
+  public isDesktop$ = this.platform.resize.pipe(
+    startWith(undefined),
+    map(() => this.platform.width() > 992),
+  );
+
   public vm$ = combineLatest([
     this.products$,
     this.categories$,
@@ -62,20 +75,34 @@ export class ProductsListPage implements OnInit, OnDestroy {
     this.categoriesLoading$,
     this.error$,
     this.typing$,
+    this.isDesktop$,
   ]).pipe(
     map(
-      ([products, categories, loading, categoriesLoading, error, typing]) => ({
+      ([
         products,
         categories,
         loading,
         categoriesLoading,
         error,
         typing,
+        isDesktop,
+      ]) => ({
+        products,
+        categories,
+        loading,
+        categoriesLoading,
+        error,
+        typing,
+        isDesktop,
       }),
     ),
   );
 
-  constructor(private store: Store, private effects: ProductsListEffects) {}
+  constructor(
+    private store: Store,
+    private effects: ProductsListEffects,
+    private platform: Platform,
+  ) {}
 
   public ngOnInit(): void {
     this.store.dispatch(new LoadPage());

@@ -23,7 +23,7 @@ export class ProductFilterEffects extends EffectsBase {
     distinctUntilChanged((prev, curr) =>
       FilterProductsQuery.isUnchanged(prev, curr),
     ),
-    skip(1), // 2 skip operators needed, to give distinctUntilChanged the starting prev value
+    skip(1), // 2 skip operators needed, to give distinctUntilChanged the starting previous value
     tap(() => this.store.dispatch(new Typing())),
     debounceTime(600),
     tap(() => this.store.dispatch(new StoppedTyping())),
@@ -32,6 +32,7 @@ export class ProductFilterEffects extends EffectsBase {
       value: formValue,
       status: formStatus,
     })),
+    tap(console.log),
     filter(form => form.status === "VALID"),
     switchMap(form => this.store.dispatch(new FilterChanged(form.value))),
   );
