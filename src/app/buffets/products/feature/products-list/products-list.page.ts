@@ -15,6 +15,7 @@ import {
 } from "@app/shared/product";
 import {
   InfiniteScrollCustomEvent,
+  ModalController,
   Platform,
   RefresherCustomEvent,
 } from "@ionic/angular";
@@ -38,6 +39,7 @@ import {
 } from "./store";
 import { KeyValue } from "@angular/common";
 import { ProductFilterState } from "../product-filter";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-buffets-products-list",
@@ -102,6 +104,8 @@ export class ProductsListPage implements OnInit, OnDestroy {
     private store: Store,
     private effects: ProductsListEffects,
     private platform: Platform,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   public ngOnInit(): void {
@@ -142,5 +146,19 @@ export class ProductsListPage implements OnInit, OnDestroy {
 
   public extractValue(keyValuePair: KeyValue<string, Category>) {
     return keyValuePair.value;
+  }
+
+  public async editProduct(product: Product) {
+    /* const modal = await this.modalController.create({
+      component: ProductEditorModalComponent,
+      componentProps: {
+        mode: "edit",
+      },
+    }); */
+    // await modal.present();
+    this.router.navigate(["edit"], {
+      queryParams: { id: product.id },
+      relativeTo: this.route,
+    });
   }
 }

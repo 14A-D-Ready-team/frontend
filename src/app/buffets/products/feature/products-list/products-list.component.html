@@ -32,7 +32,7 @@
 <div class="ion-page" id="products-list-page-content">
   <ion-header>
     <ion-toolbar color="primary">
-      <ion-title>Termékek</ion-title>
+      <ion-title class="font-bold">Termékek</ion-title>
       <ion-buttons slot="end">
         <ion-menu-button>
           <ion-icon part="icon" name="funnel"></ion-icon>
@@ -40,6 +40,7 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
+
   <ion-content *ngIf="vm$ | async as vm">
     <ion-refresher
       slot="fixed"
@@ -95,6 +96,7 @@
                 [categoryLoading]="
                   !vm.categories[product.categoryId] && vm.categoriesLoading
                 "
+                (cardClick)="editProduct(product)"
               ></app-product-preview>
             </ion-col>
             <ng-container *ngIf="vm.loading">

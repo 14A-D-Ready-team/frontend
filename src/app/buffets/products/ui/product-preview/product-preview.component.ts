@@ -2,8 +2,10 @@ import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import { Product } from "@shared/product";
@@ -26,6 +28,9 @@ export class ProductPreviewComponent implements OnInit {
 
   @Input()
   public categoryLoading = false;
+
+  @Output()
+  public cardClick = new EventEmitter<void>();
 
   constructor() {}
 

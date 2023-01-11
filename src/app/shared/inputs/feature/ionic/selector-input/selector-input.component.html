@@ -1,4 +1,4 @@
-<ion-item class="highlight-primary">
+<ion-item class="highlight-primary" class="no-end-padding">
   <ion-label position="floating">{{ title }}</ion-label>
   <ion-select
     interface="popup"
@@ -13,7 +13,7 @@
     </ion-select-option>
   </ion-select>
 
-  <div class="right-container flex-vertical-center" slot="end">
+  <div class="end-button-container flex-vertical-center" slot="end">
     <ion-button
       [style.display]="loading ? 'none' : 'unset'"
       fill="clear"

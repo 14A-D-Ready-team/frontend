@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -13,7 +14,12 @@ import { FirstErrorMessagePipe } from "@shared/exceptions";
 @Component({
   selector: "app-selector-input",
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule, FirstErrorMessagePipe],
+  imports: [
+    CommonModule,
+    IonicModule,
+    ReactiveFormsModule,
+    FirstErrorMessagePipe,
+  ],
   templateUrl: "./selector-input.component.html",
   styleUrls: ["./selector-input.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,7 +27,8 @@ import { FirstErrorMessagePipe } from "@shared/exceptions";
 export class SelectorInputComponent<
   T,
   ValueProperty extends keyof T | undefined,
-> {
+> implements OnInit
+{
   @Input()
   public title!: string;
 
@@ -51,5 +58,11 @@ export class SelectorInputComponent<
   public resetForm() {
     this.bindedFormControl.reset();
     this.formReset.emit();
+  }
+
+  public ngOnInit(): void {
+    if (!this.bindedFormControl) {
+      throw new Error("bindedFormControl is required");
+    }
   }
 }

@@ -1,5 +1,7 @@
 import { Expose } from "class-transformer";
 import {
+  IsDefined,
+  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsPositive,
@@ -11,35 +13,28 @@ import {
 
 export class CreateProductDto {
   @Expose()
-  @IsString()
-  @MinLength(1)
-  @MaxLength(100)
+  @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
   public name!: string;
 
   @Expose()
-  @IsString()
-  @MinLength(1)
-  @MaxLength(500)
+  @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
   public description!: string;
 
   @Expose()
-  @IsNumber({ allowInfinity: false, allowNaN: false })
-  @IsPositive()
+  @IsPositive({ message: "A mezőnek pozitív számnak kell lennie!" })
   public fullPrice!: number;
 
   @Expose()
   @IsOptional()
-  @IsNumber({ allowInfinity: false, allowNaN: false })
-  @IsPositive()
+  @IsPositive({ message: "A mezőnek pozitív számnak kell lennie!" })
   public discountedPrice!: number | null;
 
   @Expose()
-  @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
-  @Min(0)
+  /* @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 }) */
+  @Min(0, { message: "A mezőnek 0-nál nagyobb számnak kell lennie!" })
   public stock!: number;
 
   @Expose()
-  @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
-  @Min(1)
+  @IsDefined({ message: "A mező kitöltése kötelező!" })
   public categoryId!: number;
 }

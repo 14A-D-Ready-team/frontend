@@ -73,6 +73,10 @@ export class ExtendedFormDirective implements OnInit, OnDestroy {
         this.cd.markForCheck();
       });
 
+    this.store
+      .selectOnce(state => getValue(state, this.path))
+      .subscribe(() => this.updateFormStateWithErrors());
+
     this.getStateStream(`${this.path}.formControlErrors`).subscribe(errors => {
       if (this.updating) {
         return;

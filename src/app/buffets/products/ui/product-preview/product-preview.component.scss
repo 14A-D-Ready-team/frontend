@@ -1,8 +1,7 @@
+@use "../../utils/styles.scss" as utils;
+
 ion-card-title {
-  &.md {
-    font-weight: bold;
-    font-size: 1.45rem;
-  }
+  @include utils.product-title;
 }
 
 ion-card-subtitle {
