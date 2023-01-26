@@ -1,1 +1,1 @@
-export * from "./ngxs-form-state";
+export * from "./ngxs-form-state.model";

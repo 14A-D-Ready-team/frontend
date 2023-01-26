@@ -25,5 +25,6 @@
   "workbench.tree.renderIndentGuides": "always",
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "angular.log": "verbose"
 }

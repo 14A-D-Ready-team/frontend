@@ -1,0 +1,65 @@
+<ion-card button (click)="cardClick.emit()">
+  <img
+    alt="Product image"
+    src="assets/images/product.png"
+    class="product-img"
+  />
+  <ion-card-header>
+    <ion-skeleton-text *ngIf="categoryLoading"></ion-skeleton-text>
+    <ion-card-subtitle *ngIf="!categoryLoading">{{
+      category?.name
+    }}</ion-card-subtitle>
+    <ion-card-title>{{ product.name }}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <p>{{ product.description }}</p>
+    <p>
+      <b>{{ product.discountedPrice ? "Teljes ár: " : "Ár: " }}</b
+      >{{ product.fullPrice | currency : "HUF" : "symbol" }}
+    </p>
+    <p *ngIf="product.discountedPrice">
+      <b>Csökkentett ár: </b
+      >{{ product.discountedPrice | currency : "HUF" : "symbol" }}
+    </p>
+    <p><b>Raktáron: </b>{{ product.stock }}</p>
+    <div *ngIf="product.customizations.length > 0">
+      <div class="divider-bottom"></div>
+      <br />
+      <ion-card-title>Opciók:</ion-card-title>
+      <ion-accordion-group>
+        <ion-accordion
+          [value]="customization"
+          *ngFor="let customization of product.customizations"
+        >
+          <ion-item slot="header" class="no-left-padding">
+            <ion-icon
+              class="select-type-icon"
+              [src]="
+                customization.optionCount === 0
+                  ? 'assets/icon/single-select.svg'
+                  : 'assets/icon/multiple-select.svg'
+              "
+              size="large"
+              color="primary"
+            ></ion-icon>
+            <ion-label>{{ customization.description }}</ion-label>
+          </ion-item>
+          <ion-list class="ion-padding" slot="content">
+            <ion-item *ngFor="let option of customization.options">
+              <ion-label>{{ option.name }}</ion-label>
+              <ion-label slot="end">{{
+                option.extraCost | currency : "HUF" : "symbol"
+              }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+      </ion-accordion-group>
+    </div>
+  </ion-card-content>
+
+  <ion-button fill="clear" color="danger">
+    <ion-icon slot="start" name="trash"></ion-icon>
+    Törlés
+  </ion-button>
+</ion-card>

@@ -1,0 +1,203 @@
+<div class="ion-page">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title class="font-bold">Termék szerkesztése</ion-title>
+      <ion-buttons slot="end">
+        <ion-button
+          (click)="save()"
+          [disabled]="form.invalid"
+          color="light"
+          fill="solid"
+        >
+          <ion-icon name="save-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-card>
+      <ion-card-content>
+        <form [formGroup]="form" [ngxsForm]="formPath">
+          <ion-grid>
+            <ion-row>
+              <ion-col size-sm="4" size="12">
+                <ion-img src="assets/images/product.png"></ion-img>
+              </ion-col>
+              <ion-col>
+                <app-selector-input
+                  [bindedFormControl]="form.controls.categoryId"
+                  displayProperty="name"
+                  valueProperty="id"
+                  title="Kategória"
+                  [items]="(categories$|async)!"
+                ></app-selector-input>
+
+                <ion-item class="highlight-primary no-end-padding" counter>
+                  <ion-label position="floating">Név</ion-label>
+                  <ion-input
+                    clearInput
+                    formControlName="name"
+                    [maxlength]="100"
+                  ></ion-input>
+                  <div
+                    class="end-button-container flex-vertical-center"
+                    slot="end"
+                  >
+                    <ion-button
+                      fill="clear"
+                      color="dark"
+                      (click)="form.controls.name.reset()"
+                    >
+                      <ion-icon
+                        name="close-circle-outline"
+                        slot="icon-only"
+                      ></ion-icon>
+                    </ion-button>
+                  </div>
+                  <app-error-list
+                    slot="error"
+                    *ngIf="!form.controls.name.untouched"
+                    [errors]="form.controls.name.errors"
+                  ></app-error-list>
+                </ion-item>
+
+                <ion-item class="highlight-primary no-end-padding" counter>
+                  <ion-label position="floating">Leírás</ion-label>
+                  <ion-textarea
+                    autoGrow
+                    formControlName="description"
+                    maxlength="800"
+                    minlength="1"
+                  ></ion-textarea>
+                  <div class="end-button-container" slot="end">
+                    <ion-button
+                      class="top-margin"
+                      fill="clear"
+                      color="dark"
+                      (click)="form.controls.description.reset()"
+                    >
+                      <ion-icon
+                        name="close-circle-outline"
+                        slot="icon-only"
+                      ></ion-icon>
+                    </ion-button>
+                  </div>
+                  <app-error-list
+                    slot="error"
+                    *ngIf="!form.controls.description.untouched"
+                    [errors]="form.controls.description.errors"
+                  ></app-error-list>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item class="highlight-primary no-end-padding">
+                  <ion-label position="floating">Csökkentett ár</ion-label>
+                  <ion-input
+                    autoGrow
+                    formControlName="discountedPrice"
+                    maxlength="800"
+                    minlength="1"
+                    type="number"
+                  ></ion-input>
+                  <div
+                    class="end-button-container flex-vertical-center"
+                    slot="end"
+                  >
+                    <ion-button
+                      class="top-margin"
+                      fill="clear"
+                      color="dark"
+                      (click)="form.controls.discountedPrice.reset()"
+                    >
+                      <ion-icon
+                        name="close-circle-outline"
+                        slot="icon-only"
+                      ></ion-icon>
+                    </ion-button>
+                  </div>
+                  <app-error-list
+                    slot="error"
+                    *ngIf="!form.controls.discountedPrice.untouched"
+                    [errors]="form.controls.discountedPrice.errors"
+                  ></app-error-list>
+                </ion-item>
+
+                <ion-item class="highlight-primary no-end-padding">
+                  <ion-label position="floating">Teljes ár</ion-label>
+                  <ion-input
+                    autoGrow
+                    formControlName="fullPrice"
+                    maxlength="800"
+                    minlength="1"
+                    type="number"
+                  ></ion-input>
+                  <div
+                    class="end-button-container flex-vertical-center"
+                    slot="end"
+                  >
+                    <ion-button
+                      class="top-margin"
+                      fill="clear"
+                      color="dark"
+                      (click)="form.controls.fullPrice.reset()"
+                    >
+                      <ion-icon
+                        name="close-circle-outline"
+                        slot="icon-only"
+                      ></ion-icon>
+                    </ion-button>
+                  </div>
+                  <app-error-list
+                    slot="error"
+                    *ngIf="!form.controls.fullPrice.untouched"
+                    [errors]="form.controls.fullPrice.errors"
+                  ></app-error-list>
+                </ion-item>
+
+                <ion-item class="highlight-primary no-end-padding">
+                  <ion-label position="floating">Raktáron</ion-label>
+                  <ion-input
+                    autoGrow
+                    formControlName="stock"
+                    maxlength="800"
+                    minlength="1"
+                    type="number"
+                  ></ion-input>
+                  <div
+                    class="end-button-container flex-vertical-center"
+                    slot="end"
+                  >
+                    <ion-button
+                      class="top-margin"
+                      fill="clear"
+                      color="dark"
+                      (click)="form.controls.stock.reset()"
+                    >
+                      <ion-icon
+                        name="close-circle-outline"
+                        slot="icon-only"
+                      ></ion-icon>
+                    </ion-button>
+                  </div>
+                  <app-error-list
+                    slot="error"
+                    *ngIf="!form.controls.stock.untouched"
+                    [errors]="form.controls.stock.errors"
+                  ></app-error-list>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
+      </ion-card-content>
+
+      <ion-button fill="clear" color="medium">
+        <ion-icon name=""></ion-icon>
+        Mégse
+      </ion-button>
+      <ion-button fill="clear" color="success">Mentés</ion-button>
+    </ion-card>
+  </ion-content>
+</div>

@@ -1,0 +1,44 @@
+<ion-item class="highlight-primary" class="no-end-padding">
+  <ion-label position="floating">{{ title }}</ion-label>
+  <ion-select
+    interface="popup"
+    [formControl]="bindedFormControl"
+    placeholder="Nincs kiválasztva"
+  >
+    <ion-select-option
+      *ngFor="let item of items"
+      [value]="valueProperty ? item[valueProperty] : item"
+    >
+      {{ displayProperty ? item[displayProperty] : item }}
+    </ion-select-option>
+  </ion-select>
+
+  <div class="end-button-container flex-vertical-center" slot="end">
+    <ion-button
+      [style.display]="loading ? 'none' : 'unset'"
+      fill="clear"
+      color="dark"
+      size="small"
+      (click)="resetForm()"
+    >
+      <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+    </ion-button>
+    <ion-button
+      fill="clear"
+      color="primary"
+      size="small"
+      [style.display]="loading ? 'none' : 'unset'"
+      (click)="refresh.emit()"
+    >
+      <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+    </ion-button>
+
+    <ng-container *ngIf="loading">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </ng-container>
+  </div>
+
+  <ion-note *ngIf="!bindedFormControl.untouched" slot="error">
+    {{ bindedFormControl.errors | firstErrorMessage }}
+  </ion-note>
+</ion-item>
