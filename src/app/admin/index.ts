@@ -1,1 +1,1 @@
-export * from "./buffets.module";
+export * from "./admin.module";
