@@ -4,6 +4,7 @@ import {
   Input,
   OnInit,
 } from "@angular/core";
+import { LoginStatus } from "@app/auth/feature/login/store";
 
 @Component({
   selector: "app-validation-message",
@@ -20,7 +21,7 @@ import {
 })
 export class ValidationMessageComponent implements OnInit {
   @Input()
-  public errorMessage = "Ismeretlen hiba!";
+  public errorMessage: string = "";
 
   @Input()
   public visible = false;

@@ -46,8 +46,10 @@
         </div>
         <a href="" class="forgot-pswd-link">Elfelejtette jelszavát?</a>
       </div>
-      <app-validation-message></app-validation-message>
-      <p>{{loginStatus | async | json}}</p>
+      <app-validation-message
+        [errorMessage]="(loginStatus | async)?.error | errorMessage"
+        [visible]="(loginStatus | async)?.error"
+      ></app-validation-message>
       <button class="ready-btn" type="submit">Bejelentkezés</button>
     </form>
 

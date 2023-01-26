@@ -9,9 +9,13 @@ import {
   FormControlErrors,
   UpdateFormControlErrors,
 } from "@app/shared/extended-form-plugin";
-import { SetFormDisabled, UpdateFormErrors } from "@ngxs/form-plugin";
+import {
+  SetFormDisabled,
+  SetFormEnabled,
+  UpdateFormErrors,
+} from "@ngxs/form-plugin";
 import { Action, State, StateContext, StateToken } from "@ngxs/store";
-import { catchError, concatWith, of, switchMap } from "rxjs";
+import { catchError, concatWith, finalize, of, switchMap } from "rxjs";
 import { Login, LoginFailed, LoginSucceeded } from "./login.actions";
 
 export interface LoginStatus {
@@ -78,6 +82,9 @@ export class LoginState {
     return this.authService.signIn(payload).pipe(
       switchMap(user => ctx.dispatch(new LoginSucceeded(user))),
       catchError(error => ctx.dispatch(new LoginFailed(error))),
+      finalize(() => {
+        ctx.dispatch(new SetFormEnabled(loginFormPath));
+      }),
     );
   }
 

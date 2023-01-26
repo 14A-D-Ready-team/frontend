@@ -9,6 +9,7 @@ import { LoginState } from "./store/";
 import { ExternalAuthModule } from "@app/shared/external-auth";
 import { ValidationMessageModule } from "@app/auth/ui";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
+import { ErrorMessagePipe } from "@app/shared/exceptions/utils/pipes";
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { NgxsFormPluginModule } from "@ngxs/form-plugin";
     ReactiveFormsModule,
     ValidationMessageModule,
     NgxsFormPluginModule,
+    ErrorMessagePipe,
   ],
   declarations: [LoginPage],
   providers: [],
