@@ -116,7 +116,6 @@ export class LoginState {
     //error legyen undefined
     ctx.patchState({ status: { loading: false, error: undefined } });
 
-    //user ki consol logolni
     ctx.dispatch(new SetCurrentLogin(action.user));
   }
 }
