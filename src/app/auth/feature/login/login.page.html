@@ -1,9 +1,76 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="container">
+  <div class="logo-container">
+    <img class="logo" src="/assets/icon/Logo.png" alt="ready logo" />
+  </div>
+  <div class="card">
+    <div class="header">
+      <h1>Bejelentkezés</h1>
+    </div>
 
-<ion-content>
+    <form
+      action=""
+      class="login-form"
+      [formGroup]="loginForm"
+      ngxsForm="login.loginForm"
+      (ngSubmit)="login()"
+    >
+      <div class="input-container">
+        <img
+          class="input-icon"
+          src="/assets/iconfify-icons/outline/sms.svg"
+          alt=""
+        />
+        <input
+          type="email"
+          name=""
+          formControlName="email"
+          id="email"
+          placeholder="Email"
+        />
+      </div>
+
+      <div class="pswd-container">
+        <div class="input-container">
+          <img
+            class="input-icon"
+            src="/assets/iconfify-icons/outline/key.svg"
+            alt=""
+          />
+          <input
+            type="password"
+            name=""
+            formControlName="password"
+            id="pswd"
+            placeholder="Jelszó"
+          />
+        </div>
+        <a href="" class="forgot-pswd-link">Elfelejtette jelszavát?</a>
+      </div>
+      <app-validation-message
+        [errorMessage]="(loginStatus | async)?.error | errorMessage"
+        [visible]="(loginStatus | async)?.error"
+      ></app-validation-message>
+      <button class="ready-btn" type="submit">Bejelentkezés</button>
+    </form>
+
+    <div class="sign-up-container">
+      <p class="sign-up-text">Nincs fiókja?</p>
+      <a class="sign-up-link" href="">Regisztráció</a>
+    </div>
+
+    <div class="decor-container">
+      <div class="line"></div>
+      <p class="decor-text">Vagy</p>
+      <div class="line"></div>
+    </div>
+
+    <div class="other-container">
+      <button class="facebook-btn">Bejelentkezés Facebook fiókkal</button>
+      <button class="google-btn">Bejelentkezés Google fiókkal</button>
+    </div>
+  </div>
+</div>
+<!-- <ion-content>
   <google-login-button></google-login-button>
 </ion-content>
+ -->

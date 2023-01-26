@@ -1,0 +1,18 @@
+* {
+  color: red;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.validation-container {
+  height: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
