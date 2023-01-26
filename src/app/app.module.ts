@@ -15,6 +15,10 @@ import { ExtendedFormPluginModule } from "./shared/extended-form-plugin";
 import { ExceptionsModule } from "./shared/exceptions";
 import { NgxsEffectsModule } from "ngxs-effects";
 import { ProductModule } from "@shared/product";
+import { BuffetEditorModule } from './admin/buffets/feature/buffet-editor/buffet-editor.module';
+import { BuffetFilterModule } from './admin/buffets/feature/buffet-filter/buffet-filter.module';
+import { BuffetListModule } from './admin/buffets/feature/buffet-list/buffet-list.module';
+import { BuffetsModule } from './admin/buffets/buffets.module';
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
@@ -39,6 +43,10 @@ const routeReuseStrategyProvider = {
     CategoryModule,
     ProductModule,
     AppRoutingModule,
+    BuffetEditorModule,
+    BuffetFilterModule,
+    BuffetListModule,
+    BuffetsModule,
   ],
   providers: [routeReuseStrategyProvider],
   bootstrap: [AppComponent],
