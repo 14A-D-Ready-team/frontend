@@ -20,7 +20,6 @@ body {
   @include flex-center(column, center);
   height: 100%;
   width: 100%;
-  background-color: #25251c;
   .logo {
     height: auto;
     width: 75%;
@@ -79,7 +78,6 @@ h1 {
 
 .pswd-container {
   @include flex-center(column, center);
-  margin: 0.5em 0em;
   .forgot-pswd-link {
     align-self: flex-end;
     margin: 0 12%;

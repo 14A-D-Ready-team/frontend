@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="logo-container">
+    <img class="logo" src="/assets/icon/Logo.png" alt="ready logo" />
+  </div>
+  <div class="card">
+    <h1>Regisztráció</h1>
+
+    <form
+      action=""
+      class="login-form"
+      [formGroup]="signupForm"
+      ngxsForm="signup.signupForm"
+      (ngSubmit)="signup()"
+    >
+      <div class="input-container">
+        <input
+          type="text"
+          name="name"
+          formControlName="name"
+          id="name"
+          placeholder="Felhasználónév"
+        />
+      </div>
+      <div class="input-container">
+        <input
+          type="email"
+          name="email"
+          formControlName="email"
+          id="email"
+          placeholder="Email"
+        />
+      </div>
+      <div class="pswd-container">
+        <div class="input-container">
+          <input
+            type="password"
+            name=""
+            formControlName="password"
+            id="pswd"
+            placeholder="Jelszó"
+          />
+        </div>
+        <a href="" class="forgot-pswd-link">Elfelejtette jelszavát?</a>
+      </div>
+      <button class="ready-btn" type="submit">Regisztráció</button>
+    </form>
+
+    <div class="sign-up-container">
+      <p class="sign-up-text">Van már fiókja?</p>
+      <a class="sign-up-link" href="">Bejelentkezés</a>
+    </div>
+
+    <div class="decor-container">
+      <div class="line"></div>
+      <p class="decor-text">Vagy</p>
+      <div class="line"></div>
+    </div>
+
+    <div class="other-container">
+      <button class="facebook-btn">Regisztráció Facebook fiókkal</button>
+      <button class="google-btn">Regisztráció Google fiókkal</button>
+    </div>
+  </div>
+</div>
