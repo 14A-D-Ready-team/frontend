@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: "buffets",
-    loadChildren: () => import("./buffets/").then(m => m.BuffetsModule),
+    loadChildren: () => import("./admin/").then(m => m.BuffetsModule),
   },
 ];
 
