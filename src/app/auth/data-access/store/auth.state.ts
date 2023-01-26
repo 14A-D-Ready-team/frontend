@@ -3,8 +3,12 @@ import { ExternalAuthService } from "@shared/external-auth";
 import { Action, State, StateContext, StateToken, Store } from "@ngxs/store";
 import { delay, map, of, switchMap, tap } from "rxjs";
 import { GoogleAuthService } from "../service";
-import { VerifyGoogleAuth } from "./auth.actions";
-import { UserType } from "@app/shared/user";
+import {
+  VerifyGoogleAuth,
+  SetCurrentLogin,
+  DeleteCurrentLogin,
+} from "./auth.actions";
+import { User, UserType } from "@app/shared/user";
 
 enum SocialAuthStatus {
   Idle,
@@ -15,6 +19,7 @@ enum SocialAuthStatus {
 
 export interface AuthStateModel {
   googleVerifyStatus: SocialAuthStatus;
+  user?: User;
 }
 
 export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
@@ -53,5 +58,18 @@ export class AuthState {
         console.log(res);
       }),
     );
+  }
+
+  @Action(SetCurrentLogin)
+  public setCurrentLogin(
+    ctx: StateContext<AuthStateModel>,
+    action: SetCurrentLogin,
+  ) {
+    ctx.patchState({ user: action.user });
+  }
+
+  @Action(DeleteCurrentLogin)
+  public deleteCurrentLogin(ctx: StateContext<AuthStateModel>) {
+    ctx.patchState({ user: undefined });
   }
 }

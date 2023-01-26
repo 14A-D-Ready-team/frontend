@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-
 import { CategoriesRoutingModule } from "./categories-routing.module";
 import { ExceptionsModule } from "@app/shared/exceptions";
 import { errorMessages } from "./utils";
