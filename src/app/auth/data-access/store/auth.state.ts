@@ -3,7 +3,11 @@ import { ExternalAuthService } from "@shared/external-auth";
 import { Action, State, StateContext, StateToken, Store } from "@ngxs/store";
 import { delay, map, of, switchMap, tap } from "rxjs";
 import { GoogleAuthService } from "../service";
-import { Login, Logout, VerifyGoogleAuth } from "./auth.actions";
+import {
+  VerifyGoogleAuth,
+  SetCurrentLogin,
+  DeleteCurrentLogin,
+} from "./auth.actions";
 import { User, UserType } from "@app/shared/user";
 
 enum SocialAuthStatus {
@@ -56,13 +60,16 @@ export class AuthState {
     );
   }
 
-  @Action(Login)
-  public login(ctx: StateContext<AuthStateModel>, action: Login) {
+  @Action(SetCurrentLogin)
+  public setCurrentLogin(
+    ctx: StateContext<AuthStateModel>,
+    action: SetCurrentLogin,
+  ) {
     ctx.patchState({ user: action.user });
   }
 
-  @Action(Logout)
-  public logout(ctx: StateContext<AuthStateModel>) {
+  @Action(DeleteCurrentLogin)
+  public deleteCurrentLogin(ctx: StateContext<AuthStateModel>) {
     ctx.patchState({ user: undefined });
   }
 }

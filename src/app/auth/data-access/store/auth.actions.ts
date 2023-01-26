@@ -11,12 +11,12 @@ export class VerifyGoogleAuth {
   constructor(private idToken: string, private userType: UserType) {}
 }
 
-export class Login {
-  public static readonly type = "[Auth] Login";
+export class SetCurrentLogin {
+  public static readonly type = "[Auth] Set Current Login";
 
   constructor(public user: User) {}
 }
 
-export class Logout {
-  public static readonly type = "[Auth] Logout";
+export class DeleteCurrentLogin {
+  public static readonly type = "[Auth] Delete Current Login";
 }

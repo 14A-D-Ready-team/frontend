@@ -2,7 +2,7 @@ import { User } from "@shared/user";
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
 import { FormControlStatus } from "@angular/forms";
-import { AuthService } from "@app/auth/data-access";
+import { AuthService, SetCurrentLogin } from "@app/auth/data-access";
 import { LoginDto } from "@app/auth/data-access/dto";
 import { ApiException, ErrorCode } from "@app/shared/exceptions";
 import {
@@ -117,6 +117,6 @@ export class LoginState {
     ctx.patchState({ status: { loading: false, error: undefined } });
 
     //user ki consol logolni
-    console.log(action.user);
+    ctx.dispatch(new SetCurrentLogin(action.user));
   }
 }
