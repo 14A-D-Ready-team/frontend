@@ -1,5 +1,14 @@
-import { OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
-export class BuffetListPage {
-   
+@Component({
+  selector: 'app-buffet-list',
+  templateUrl: './buffet-list.page.html',
+  styleUrls: ['./buffet-list.page.scss'],
+})
+export class BuffetListComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {}
+
 }

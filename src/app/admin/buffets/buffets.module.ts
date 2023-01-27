@@ -1,14 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { BuffetsRoutingModule } from './buffets-routing.module';
-
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { BuffetsRoutingModule } from "./buffets-routing.module";
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    BuffetsRoutingModule
-  ]
+  imports: [CommonModule, BuffetsRoutingModule],
 })
-export class BuffetsModule { }
+export class BuffetsModule {}

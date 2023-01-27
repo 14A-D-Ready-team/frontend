@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { BuffetListComponent } from './buffet-list.component';
+import { BuffetListComponent } from './buffet-list.page';
 
 describe('BuffetListComponent', () => {
   let component: BuffetListComponent;
