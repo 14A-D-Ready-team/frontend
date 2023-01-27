@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
 import { SignupDto } from "@app/auth/data-access/dto";
 import {
@@ -30,7 +35,10 @@ export class SignupPage implements OnInit {
     this.signupForm = new ClassValidatorFormGroup<SignupForm>(SignupDto, {
       name: new ClassValidatorFormControl<string>(""),
       email: new ClassValidatorFormControl<string>(""),
-      password: new ClassValidatorFormControl<string>(""),
+      password: new ClassValidatorFormControl<string>(
+        "",
+        Validators.minLength(8),
+      ),
     });
   }
 

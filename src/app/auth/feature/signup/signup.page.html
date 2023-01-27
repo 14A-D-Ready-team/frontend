@@ -34,13 +34,19 @@
         <div class="input-container">
           <input
             type="password"
-            name=""
+            name="password"
             formControlName="password"
             id="pswd"
             placeholder="Jelszó"
           />
         </div>
-        <a href="" class="forgot-pswd-link">Elfelejtette jelszavát?</a>
+      </div>
+      <div class="error-container">
+        <p
+          *ngIf='signupForm.get("name")?.hasError("minLength") && signupForm.get("name")?.value'
+        >
+          {{signupForm.get("name")?.getError("minLength")}}
+        </p>
       </div>
       <button class="ready-btn" type="submit">Regisztráció</button>
     </form>

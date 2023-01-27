@@ -16,6 +16,7 @@ import {
   ValidationMessageComponent,
   ValidationMessageModule,
 } from "@app/auth/ui";
+import { ExtendedFormPluginModule } from "@app/shared/extended-form-plugin";
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import {
     SignupPageRoutingModule,
     NgxsModule.forFeature([SignupState]),
     ExternalAuthModule.forFeature(),
+    ExtendedFormPluginModule,
     ReactiveFormsModule,
     ValidationMessageModule,
     NgxsFormPluginModule,

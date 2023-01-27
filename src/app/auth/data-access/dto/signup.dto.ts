@@ -1,9 +1,19 @@
+import { IsValidName } from "@app/shared/decorators";
 import { Expose } from "class-transformer";
-import { IsString } from "class-validator";
+import { IsString, Matches, MaxLength, MinLength } from "class-validator";
+
+const allowedForName =
+  /^[ AaÁáBbCcDdEeÉéFfGgHhIiÍíJjKkLlMmNnOoÓóÖöŐőPpQqRrSsTtUuÚúÜüŰűVvWwXxYyZz0123456789ÂÃÄÅÆÇÈÊËÌÎÏÐÑÒÔÕØÙÛÝÞßàâãäåæçèêëìîïðñòôõøùûýþÿ]*$/;
+const allowedForPassword =
+  /^[ AaÁáBbCcDdEeÉéFfGgHhIiÍíJjKkLlMmNnOoÓóÖöŐőPpQqRrSsTtUuÚúÜüŰűVvWwXxYyZz0123456789ÂÃÄÅÆÇÈÊËÌÎÏÐÑÒÔÕØÙÛÝÞßàâãäåæçèêëìîïðñòôõøùûýþÿ<>#&@{};,.:_?!~'+%-=()€$ˇ^˘°˛`˙´´˝¨¸\-\[\]]*$/;
 
 export class SignupDto {
   @Expose()
   @IsString()
+  @MinLength(3, { message: "Legalább 3 betű" })
+  @MaxLength(50)
+  @Matches(allowedForName)
+  @IsValidName()
   public name!: string;
 
   @Expose()
