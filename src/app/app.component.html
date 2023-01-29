@@ -1,26 +1,3 @@
 <ion-app>
-  <ion-menu *ngIf="isOnAdminPage$ | async" contentId="router-outlet">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Adminisztrációs felület</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <ion-list>
-        <ion-item routerLink="/admin/buffets">
-          <ion-icon name="restaurant-outline" slot="start"></ion-icon>
-          <ion-label>Büfék</ion-label>
-        </ion-item>
-        <ion-item routerLink="/admin/categories">
-          <ion-icon name="person" slot="start"></ion-icon>
-          <ion-label>Kategóriák</ion-label>
-        </ion-item>
-        <ion-item routerLink="/admin/products">
-          <ion-icon name="fast-food-outline" slot="start"></ion-icon>
-          <ion-label>Termékek</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-  <ion-router-outlet id="router-outlet"> </ion-router-outlet>
+  <ion-router-outlet></ion-router-outlet>
 </ion-app>

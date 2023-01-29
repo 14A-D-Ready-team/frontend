@@ -1,13 +1,16 @@
 import { Injectable } from "@angular/core";
 import { ExternalAuthService } from "@shared/external-auth";
-import { Action, State, StateContext, StateToken, Store } from "@ngxs/store";
+import {
+  Action,
+  Selector,
+  State,
+  StateContext,
+  StateToken,
+  Store,
+} from "@ngxs/store";
 import { delay, map, of, switchMap, tap } from "rxjs";
 import { GoogleAuthService } from "../service";
-import {
-  VerifyGoogleAuth,
-  SetCurrentLogin,
-  DeleteCurrentLogin,
-} from "./auth.actions";
+import { VerifyGoogleAuth, SetCurrentLogin, Logout } from "./auth.actions";
 import { User, UserType } from "@app/shared/user";
 
 enum SocialAuthStatus {
@@ -30,6 +33,11 @@ export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
 })
 @Injectable()
 export class AuthState {
+  @Selector()
+  public static user(state: AuthStateModel) {
+    return state.user;
+  }
+
   constructor(
     private externalAuthService: ExternalAuthService,
     private googleAuthService: GoogleAuthService,
@@ -68,8 +76,9 @@ export class AuthState {
     ctx.patchState({ user: action.user });
   }
 
-  @Action(DeleteCurrentLogin)
-  public deleteCurrentLogin(ctx: StateContext<AuthStateModel>) {
+  @Action(Logout)
+  public logout(ctx: StateContext<AuthStateModel>) {
+    // !!! log the user out, notify the server to destroy the session
     ctx.patchState({ user: undefined });
   }
 }

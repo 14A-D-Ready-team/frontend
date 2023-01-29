@@ -21,7 +21,7 @@
     <ion-content class="ion-padding">
       <app-product-filter
         #filterContent
-        [categories]="(categories$ | async)! | keyvalue | map: extractValue"
+        [categories]="(categories$ | async)! | keyvalue | map : extractValue"
         [categoriesLoading]="(categoriesLoading$ | async) || false"
         (refreshCategories)="refreshCategories()"
       ></app-product-filter>
@@ -30,19 +30,11 @@
 </ion-menu>
 
 <div class="ion-page" id="products-list-page-content">
-  <ion-header>
-    <ion-toolbar color="primary">
-      <ion-title class="font-bold">Termékek</ion-title>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-buttons slot="end">
-        <ion-menu-button menu="end">
-          <ion-icon part="icon" name="funnel"></ion-icon>
-        </ion-menu-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
+  <app-admin-header pageTitle="Termékek">
+    <ion-menu-button menu="end" end-buttons>
+      <ion-icon part="icon" name="funnel"></ion-icon>
+    </ion-menu-button>
+  </app-admin-header>
 
   <ion-content *ngIf="vm$ | async as vm">
     <ion-refresher
@@ -61,7 +53,9 @@
         <ion-card-content>
           <app-product-filter
             #filterContent
-            [categories]="(categories$ | async)! | keyvalue | map: extractValue"
+            [categories]="
+              (categories$ | async)! | keyvalue | map : extractValue
+            "
             [categoriesLoading]="(categoriesLoading$ | async) || false"
             (refreshCategories)="refreshCategories()"
           ></app-product-filter>

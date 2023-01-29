@@ -17,6 +17,7 @@ import {
   CategoryDisplaySkeletonComponent,
 } from "../../ui";
 import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
+import { AdminHeaderComponent } from "@app/admin/shell";
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
     CategoryDisplaySkeletonComponent,
     ErrorCardComponent,
     ActionInProgressPipe,
+    AdminHeaderComponent,
   ],
   declarations: [CategoriesListPage],
 })
