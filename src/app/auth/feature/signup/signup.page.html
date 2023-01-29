@@ -12,17 +12,34 @@
       ngxsForm="signup.signupForm"
       (ngSubmit)="signup()"
     >
-      <div class="input-container">
+      <div
+        class="input-container"
+        [ngClass]="signupForm.get('name')?.errors && signupForm.get('name')?.value ? 'input-error-outline' : 'input-regular-outline'"
+      >
         <input
+          class="input-signup"
           type="text"
           name="name"
           formControlName="name"
           id="name"
           placeholder="Felhasználónév"
         />
+        <div
+          class="error-container"
+          [ngClass]="signupForm.get('name')?.errors && signupForm.get('name')?.value ? 'input-error-outline' : 'input-regular-outline'"
+        >
+          <p *ngFor="let item of signupForm.get('name')?.errors | keyvalue">
+            {{item.value}}
+          </p>
+        </div>
       </div>
-      <div class="input-container">
+
+      <div
+        class="input-container"
+        [ngClass]="signupForm.get('email')?.errors && signupForm.get('email')?.value ? 'input-error-outline' : 'input-regular-outline'"
+      >
         <input
+          class="input-signup"
           type="email"
           name="email"
           formControlName="email"
@@ -31,24 +48,38 @@
         />
       </div>
       <div class="pswd-container">
-        <div class="input-container">
+        <div
+          class="input-container"
+          [ngClass]="signupForm.get('password')?.errors && signupForm.get('password')?.value ? 'input-error-outline' : 'input-regular-outline'"
+        >
           <input
+            class="input-signup"
             type="password"
             name="password"
             formControlName="password"
             id="pswd"
             placeholder="Jelszó"
           />
+          <div
+            class="error-container"
+            [ngClass]="signupForm.get('password')?.errors && signupForm.get('password')?.value ? 'input-error-outline' : 'input-regular-outline'"
+          >
+            <p
+              *ngFor="let item of signupForm.get('password')?.errors | keyvalue"
+            >
+              {{item.value}}
+            </p>
+          </div>
         </div>
       </div>
-      <div class="error-container">
-        <p
-          *ngIf='signupForm.get("name")?.hasError("minLength") && signupForm.get("name")?.value'
-        >
-          {{signupForm.get("name")?.getError("minLength")}}
-        </p>
-      </div>
-      <button class="ready-btn" type="submit">Regisztráció</button>
+
+      <button
+        class="ready-btn"
+        type="submit"
+        [disabled]="signupForm.get('name')?.errors || signupForm.get('password')?.errors || signupForm.get('email')?.errors"
+      >
+        Regisztráció
+      </button>
     </form>
 
     <div class="sign-up-container">

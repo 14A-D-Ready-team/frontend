@@ -1,43 +1,36 @@
 import { registerDecorator } from "class-validator";
 
-export function IsValidName() {
+export function ContainsNumber() {
   return function (object: Object, propertyName: string) {
     registerDecorator({
-      name: "nameNotValid",
+      name: "containsNumber",
       target: object.constructor,
       propertyName,
       constraints: [],
       options: {
-        message:
-          "Nem kezdődhet, végződhet, illeve tartalmazhat 3-nál több space-t",
+        message: "Tartalmaznia kell számot",
       },
       validator: {
         validate(value: string): boolean {
-          let spaces = 0;
+          const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 
           if (value === undefined) {
             return false;
           }
 
+          let valid = false;
+
           const chars = Array.from(value);
           chars.forEach((char: string) => {
-            if (char === " ") {
-              spaces++;
+            if (numbers.includes(char)) {
+              valid = true;
             }
           });
 
-          if (chars[0] === " ") {
-            return false;
-          }
-
-          if (value.includes("  ") || value.includes("   ")) {
-            return false;
-          }
-
-          if (spaces > 3) {
-            return false;
-          } else {
+          if (valid) {
             return true;
+          } else {
+            return false;
           }
         },
       },

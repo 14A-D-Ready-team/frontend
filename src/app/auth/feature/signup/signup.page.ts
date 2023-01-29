@@ -35,10 +35,7 @@ export class SignupPage implements OnInit {
     this.signupForm = new ClassValidatorFormGroup<SignupForm>(SignupDto, {
       name: new ClassValidatorFormControl<string>(""),
       email: new ClassValidatorFormControl<string>(""),
-      password: new ClassValidatorFormControl<string>(
-        "",
-        Validators.minLength(8),
-      ),
+      password: new ClassValidatorFormControl<string>(""),
     });
   }
 

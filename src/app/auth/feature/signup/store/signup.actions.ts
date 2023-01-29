@@ -1,7 +1,7 @@
 import { User } from "@shared/user";
 
 export class Signup {
-  static readonly type = "[SignupPage ] Signup";
+  static readonly type = "[SignupPage] Signup";
 }
 
 export class SignupFailed {
