@@ -5,7 +5,11 @@
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <ion-item class="ion-margin-bottom" *ngIf="user$ | async as user">
+    <ion-item
+      lines="full"
+      class="ion-margin-bottom"
+      *ngIf="user$ | async as user"
+    >
       <ion-icon slot="start" name="person-outline"> </ion-icon>
       <ion-label> {{ user.name }} </ion-label>
       <ion-button fill="clear" slot="end" (click)="logout()">
