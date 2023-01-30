@@ -15,6 +15,7 @@ import { ExtendedFormPluginModule } from "./shared/extended-form-plugin";
 import { ExceptionsModule } from "./shared/exceptions";
 import { NgxsEffectsModule } from "ngxs-effects";
 import { ProductModule } from "@shared/product";
+import { AuthState } from "./auth/data-access";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,

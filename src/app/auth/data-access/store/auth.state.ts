@@ -43,8 +43,12 @@ export class AuthState {
     private googleAuthService: GoogleAuthService,
     private store: Store,
   ) {
+    setTimeout(() => {
+      const user = new User();
+      user.name = "asd";
+      store.dispatch(new SetCurrentLogin(user));
+    }, 1);
     externalAuthService.loginDisabled$ = of(false);
-
     externalAuthService.googleToken$
       .pipe(
         switchMap(idToken =>

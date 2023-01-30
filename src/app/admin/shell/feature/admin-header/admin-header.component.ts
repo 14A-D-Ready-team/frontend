@@ -7,6 +7,10 @@ import {
 import { CommonModule } from "@angular/common";
 import { IonicModule } from "@ionic/angular";
 import { RouterModule } from "@angular/router";
+import { Observable } from "rxjs";
+import { User } from "@shared/user";
+import { Select, Store } from "@ngxs/store";
+import { AuthState, Logout } from "@app/auth/data-access";
 
 @Component({
   selector: "app-admin-header",
@@ -29,6 +33,17 @@ import { RouterModule } from "@angular/router";
             <ion-icon name="fast-food-outline" slot="start"></ion-icon>
             <ion-label>Termékek</ion-label>
           </ion-item>
+          <ion-item
+            class="user-item"
+            lines="none"
+            *ngIf="user$ | async as user"
+          >
+            <ion-icon slot="start" name="person-outline"> </ion-icon>
+            <ion-label> {{ user.name }} </ion-label>
+            <ion-button fill="clear" slot="end" (click)="logout()">
+              <ion-icon name="exit-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-item>
         </div>
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
@@ -45,4 +60,13 @@ import { RouterModule } from "@angular/router";
 export class AdminHeaderComponent {
   @Input()
   public pageTitle!: string;
+
+  @Select(AuthState.user)
+  public user$!: Observable<User>;
+
+  constructor(private store: Store) {}
+
+  public logout() {
+    this.store.dispatch(new Logout());
+  }
 }

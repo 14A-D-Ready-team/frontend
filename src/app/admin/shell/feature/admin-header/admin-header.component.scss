@@ -18,3 +18,17 @@ ion-item {
     display: none;
   }
 }
+
+.user-item {
+  --inner-padding-end: 0;
+
+  ion-button {
+    margin-right: 0;
+    --ripple-color: #fff;
+  }
+
+  ion-icon {
+    margin: 0;
+    padding: 6px;
+  }
+}
