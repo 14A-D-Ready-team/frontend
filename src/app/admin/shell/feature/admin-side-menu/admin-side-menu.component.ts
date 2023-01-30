@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { IonicModule } from "@ionic/angular";
 import { Observable } from "rxjs";
@@ -16,6 +21,9 @@ import { RouterModule } from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminSideMenuComponent {
+  @Input()
+  public disabled = false;
+
   @Select(AuthState.user)
   public user$!: Observable<User | undefined>;
 

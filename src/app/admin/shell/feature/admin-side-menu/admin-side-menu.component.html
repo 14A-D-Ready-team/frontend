@@ -1,4 +1,4 @@
-<ion-menu contentId="admin-router-outlet">
+<ion-menu contentId="admin-router-outlet" [disabled]="disabled">
   <ion-header>
     <ion-toolbar>
       <ion-title>Adminisztrációs felület</ion-title>
@@ -14,15 +14,15 @@
     </ion-item>
 
     <ion-list>
-      <ion-item routerLink="/admin/buffets">
+      <ion-item routerLink="/admin/buffets" lines="full">
         <ion-icon name="restaurant-outline" slot="start"></ion-icon>
         <ion-label>Büfék</ion-label>
       </ion-item>
-      <ion-item routerLink="/admin/categories">
+      <ion-item routerLink="/admin/categories" lines="full">
         <ion-icon name="albums-outline" slot="start"></ion-icon>
         <ion-label>Kategóriák</ion-label>
       </ion-item>
-      <ion-item routerLink="/admin/products">
+      <ion-item routerLink="/admin/products" lines="full">
         <ion-icon name="fast-food-outline" slot="start"></ion-icon>
         <ion-label>Termékek</ion-label>
       </ion-item>

@@ -1,0 +1,20 @@
+@use "/src/theme/variables" as v;
+
+.header-content {
+  display: flex;
+  flex-direction: row;
+}
+
+ion-item {
+  --background: #ffffff00;
+  --color: #fff;
+
+  ion-icon {
+    color: #fff;
+    margin-inline-end: 12px;
+  }
+
+  @media screen and (max-width: v.$breakpoint-xl) {
+    display: none;
+  }
+}

@@ -39,23 +39,7 @@ import { RouterModule } from "@angular/router";
       </ion-toolbar>
     </ion-header>
   `,
-  styles: [
-    `
-      .header-content {
-        display: flex;
-        flex-direction: row;
-      }
-
-      ion-item {
-        --background: #ffffff00;
-        --color: #fff;
-      }
-
-      ion-item ion-icon {
-        color: #fff;
-      }
-    `,
-  ],
+  styleUrls: ["./admin-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminHeaderComponent {
