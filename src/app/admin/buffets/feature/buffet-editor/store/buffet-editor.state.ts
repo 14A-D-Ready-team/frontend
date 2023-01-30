@@ -21,4 +21,4 @@ export const formPath = "buffetEditor.form";
     },
   },
 })
-export class ProductEditorState {}
+export class BuffetEditorState {}

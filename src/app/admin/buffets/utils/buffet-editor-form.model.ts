@@ -2,7 +2,6 @@ import { FormControl } from "@angular/forms";
 
 export interface BuffetEditorFormModel {
   name: FormControl<string | null>;
-  location: FormControl<string | null>;
   coords: FormControl<string | null>;
   address: FormControl<string | null>;
   hours: FormControl<string | null>;

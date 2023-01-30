@@ -4,7 +4,8 @@ import { Buffet } from "../entity";
 export class Load {
     public static type = "[Buffet] Load";
   
-    constructor() {}
+    constructor() {//
+    }
 
     //Szűrés minta
     //constructor(public query: FilterProductsQuery) {}
