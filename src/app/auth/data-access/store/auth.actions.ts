@@ -17,6 +17,6 @@ export class SetCurrentLogin {
   constructor(public user: User) {}
 }
 
-export class DeleteCurrentLogin {
-  public static readonly type = "[Auth] Delete Current Login";
+export class Logout {
+  public static readonly type = "[Auth] Logout";
 }
