@@ -1,3 +1,28 @@
-<p>
-  buffet-preview works!
-</p>
+<ion-card button (click)="cardClick.emit()">
+  <img
+    alt="Buffet image"
+    src="assets/images/product.png"
+    class="buffet-img"
+  />
+  <ion-card-header>
+    <!-- <ion-skeleton-text *ngIf="categoryLoading"></ion-skeleton-text>
+    <ion-card-subtitle *ngIf="!categoryLoading">{{
+      category?.name
+    }}</ion-card-subtitle> -->
+    <ion-card-title>{{ buffet.name }}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <p>
+      <b>Büfé címe: {{ buffet.address }}</b>
+    </p>
+    <p><b>Nyitvatartás: </b>{{ buffet.hours }}</p>
+    <p><b>Leírás: </b> {{ buffet.description }}</p>
+  </ion-card-content>
+
+  <ion-button fill="clear" color="danger">
+    <ion-icon slot="start" name="trash"></ion-icon>
+    Törlés
+  </ion-button>
+</ion-card>
+

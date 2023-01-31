@@ -36,7 +36,7 @@ export class BuffetsListState {
   constructor(private store: Store) {}
 
   @Selector([BuffetState])
-  public static shownProducts(
+  public static shownBuffets(
     state: BuffetsListStateModel,
     buffetState: BuffetStateModel,
   ) {
@@ -102,7 +102,6 @@ export class BuffetsListState {
 
   @Action(Reload)
   public reload(ctx: StateContext<BuffetsListStateModel>) {
-
     const state = ctx.getState();
     const numberOfBuffets = state.buffetIds.length;
     const numberOfBuffetsToLoad =
@@ -124,24 +123,24 @@ export class BuffetsListState {
     return ctx.dispatch(new BuffetActions.Load());
   }
 
-  @Action(FilterChanged, { cancelUncompleted: true })
-  public filter(
-    ctx: StateContext<BuffetsListStateModel>,
-    action: FilterChanged,
-  ) {
-    ctx.patchState({
-      //query: action.filter,
-      productIds: [],
-      remainingItems: undefined,
-    });
+  // @Action(FilterChanged, { cancelUncompleted: true })
+  // public filter(
+  //   ctx: StateContext<BuffetsListStateModel>,
+  //   action: FilterChanged,
+  // ) {
+  //   ctx.patchState({
+  //     //query: action.filter,
+  //     buffetIds: [],
+  //     remainingItems: undefined,
+  //   });
 
-    // const query = FilterProductsQuery.createOrCopy({
-    //   ...action.filter,
-    //   skip: 0,
-    //   take: buffetsLoadedPerScroll,
-    // });
+  //   // const query = FilterProductsQuery.createOrCopy({
+  //   //   ...action.filter,
+  //   //   skip: 0,
+  //   //   take: buffetsLoadedPerScroll,
+  //   // });
 
-    //return ctx.dispatch(new ProductActions.Load(query));
-    return ctx.dispatch(new ProductActions.Load());
-  }
+  //   //return ctx.dispatch(new ProductActions.Load(query));
+  //   return ctx.dispatch(new BuffetActions.Load());
+  // }
 }
