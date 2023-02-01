@@ -1,12 +1,20 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ProductsListEffects } from "@app/admin/products/feature/products-list/store";
-import { Platform, RefresherCustomEvent, InfiniteScrollCustomEvent } from "@ionic/angular";
+import {
+  Platform,
+  RefresherCustomEvent,
+  InfiniteScrollCustomEvent,
+} from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
-import { Router } from "express";
 import { Observable, startWith, map, combineLatest, take } from "rxjs";
-import { LoadPage, RetryLoading, Reload, LoadMore } from "./store/buffet-list.actions";
+import {
+  LoadPage,
+  RetryLoading,
+  Reload,
+  LoadMore,
+} from "./store/buffet-list.actions";
 import { BuffetsListState } from "./store/buffet-list.state";
 
 @Component({

@@ -1,11 +1,13 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
-      import("./feature/buffet-list/buffet-list.module").then(m => m.BuffetListModule),
+      import("./feature/buffet-list/buffet-list.module").then(
+        m => m.BuffetListModule,
+      ),
   },
   {
     path: "edit",
@@ -16,6 +18,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class BuffetsRoutingModule { }
+export class BuffetsRoutingModule {}
