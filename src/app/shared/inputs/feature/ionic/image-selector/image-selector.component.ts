@@ -1,23 +1,22 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { NgxDropzoneChangeEvent, NgxDropzoneModule } from "ngx-dropzone";
 import {
-  ControlValueAccessor,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  UntypedFormControl,
-  UntypedFormGroup,
-} from "@angular/forms";
+  NgxDropzoneChangeEvent,
+  NgxDropzoneComponent,
+  NgxDropzoneModule,
+} from "ngx-dropzone";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { mergeWith, Observable } from "rxjs";
+import { DropzoneImagePreviewComponent } from "../dropzone-image-preview";
 @Component({
   selector: "app-image-selector",
   standalone: true,
-  imports: [CommonModule, NgxDropzoneModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    NgxDropzoneModule,
+    ReactiveFormsModule,
+    DropzoneImagePreviewComponent,
+  ],
   templateUrl: "./image-selector.component.html",
   styleUrls: ["./image-selector.component.scss"],
 })
@@ -32,12 +31,11 @@ export class ImageSelectorComponent implements OnInit {
     if (!this.bindedFormControl) {
       throw new Error("bindedFormControl is required");
     }
+    //this.file$ = this.bindedFormControl.valueChanges;
   }
 
   public onChange(event: NgxDropzoneChangeEvent) {
-    console.log(event);
     const file = event.addedFiles[0];
     this.bindedFormControl.setValue(file);
-    console.log(this.bindedFormControl);
   }
 }
