@@ -35,5 +35,8 @@ export class ImageSelectorComponent {
     }
   }
 
-  public onChange(event: NgxDropzoneChangeEvent) {}
+  public onChange(event: NgxDropzoneChangeEvent) {
+    const file = event.addedFiles[0];
+    this.bindedFormControl.setValue(file);
+  }
 }

@@ -7,7 +7,7 @@ import { FormControl } from "@angular/forms";
   styleUrls: ["./test.page.scss"],
 })
 export class TestPage implements OnInit {
-  public control = new FormControl<{ a: string } | null>(null, {
+  public control = new FormControl<File | null>(null, {
     nonNullable: false,
   });
 
