@@ -68,6 +68,10 @@ $l-font: 1.7em;
   font-weight: 500;
 }
 
+.ready-btn:disabled {
+  background-color: #c63d36;
+}
+
 .no-opacity .native-input[disabled] {
   opacity: 1 !important;
 }
