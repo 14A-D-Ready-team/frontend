@@ -14,7 +14,10 @@
       ngxsForm="login.loginForm"
       (ngSubmit)="login()"
     >
-      <div class="input-container">
+      <div
+        class="input-container"
+        [ngClass]="(loginStatus | async)?.loading ? 'input-disabled-container' : ''"
+      >
         <img
           class="input-icon"
           src="/assets/iconfify-icons/outline/sms.svg"
@@ -30,7 +33,10 @@
       </div>
 
       <div class="pswd-container">
-        <div class="input-container">
+        <div
+          class="input-container"
+          [ngClass]="(loginStatus | async)?.loading ? 'input-disabled-container' : ''"
+        >
           <img
             class="input-icon"
             src="/assets/iconfify-icons/outline/key.svg"
@@ -50,7 +56,14 @@
         [errorMessage]="(loginStatus | async)?.error | errorMessage"
         [visible]="(loginStatus | async)?.error"
       ></app-validation-message>
-      <button class="ready-btn" type="submit">Bejelentkezés</button>
+      <ion-spinner *ngIf="(loginStatus | async)?.loading"></ion-spinner>
+      <button
+        class="ready-btn"
+        type="submit"
+        [disabled]="(loginStatus | async)?.loading"
+      >
+        Bejelentkezés
+      </button>
     </form>
 
     <div class="sign-up-container">

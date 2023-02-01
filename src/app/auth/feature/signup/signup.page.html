@@ -14,7 +14,8 @@
     >
       <div
         class="input-container"
-        [ngClass]="signupForm.get('name')?.errors && signupForm.get('name')?.value ? 'input-error-outline' : 'input-regular-outline'"
+        [ngClass]="[signupForm.get('name')?.errors && signupForm.get('name')?.value ? 'input-error-outline' : 'input-regular-outline',
+        (signupStatus | async)?.loading ? 'input-disabled-container' : '']"
       >
         <input
           class="input-signup"
@@ -36,7 +37,8 @@
 
       <div
         class="input-container"
-        [ngClass]="signupForm.get('email')?.errors && signupForm.get('email')?.value ? 'input-error-outline' : 'input-regular-outline'"
+        [ngClass]="[signupForm.get('email')?.errors && signupForm.get('email')?.value ? 'input-error-outline' : 'input-regular-outline',
+        (signupStatus | async)?.loading ? 'input-disabled-container' : '']"
       >
         <input
           class="input-signup"
@@ -58,7 +60,8 @@
       <div class="pswd-container">
         <div
           class="input-container"
-          [ngClass]="signupForm.get('password')?.errors && signupForm.get('password')?.value ? 'input-error-outline' : 'input-regular-outline'"
+          [ngClass]="[signupForm.get('pswd')?.errors && signupForm.get('pswd')?.value ? 'input-error-outline' : 'input-regular-outline',
+          (signupStatus | async)?.loading ? 'input-disabled-container' : '']"
         >
           <input
             class="input-signup"
@@ -84,6 +87,7 @@
         [errorMessage]="(signupStatus | async)?.error | errorMessage"
         [visible]="(signupStatus | async)?.error"
       ></app-validation-message>
+      <ion-spinner *ngIf="(signupStatus | async)?.loading"></ion-spinner>
 
       <button
         class="ready-btn"

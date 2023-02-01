@@ -5,22 +5,18 @@
   color: #25251c;
 }
 
-body {
-  background-color: #25251c;
-}
-
 .container {
   height: 100%;
   width: 100%;
   display: grid;
   grid-template-rows: 35vh 65vh;
+  background-color: black;
 }
 
 .logo-container {
   @include flex-center(column, center);
   height: 100%;
   width: 100%;
-  background-color: #25251c;
   .logo {
     height: auto;
     width: 75%;
@@ -167,4 +163,15 @@ h1 {
       max-width: 400px;
     }
   }
+}
+
+ion-spinner {
+  transform: scale(4);
+  position: absolute;
+  top: 50%;
+  color: $ready-red;
+}
+
+.input-disabled-container {
+  background-color: $disabled-grey;
 }

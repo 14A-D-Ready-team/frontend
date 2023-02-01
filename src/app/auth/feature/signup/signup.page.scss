@@ -205,3 +205,14 @@ h1 {
     }
   }
 }
+
+ion-spinner {
+  transform: scale(4);
+  position: absolute;
+  top: 50%;
+  color: $ready-red;
+}
+
+.input-disabled-container {
+  background-color: $disabled-grey;
+}

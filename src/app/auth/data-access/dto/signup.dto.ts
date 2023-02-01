@@ -5,10 +5,11 @@ import {
   ContainsSpecialChar,
   IsValidName,
 } from "@app/shared/decorators";
+import { User, UserType } from "@app/shared/user";
 import { Expose } from "class-transformer";
 import {
-  isEmail,
   IsEmail,
+  IsEnum,
   IsString,
   Matches,
   MaxLength,
@@ -46,9 +47,14 @@ export class SignupDto {
   @ContainsLowercaseLetter()
   public password!: string;
 
-  constructor(name: string, email: string, password: string) {
+  @Expose()
+  @IsEnum(UserType)
+  public type!: UserType;
+
+  constructor(name: string, email: string, password: string, type: UserType) {
     this.name = name;
     this.email = email;
     this.password = password;
+    this.type = type;
   }
 }
