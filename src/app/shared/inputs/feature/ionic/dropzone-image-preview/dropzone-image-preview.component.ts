@@ -32,6 +32,11 @@ export class DropzoneImagePreviewComponent
   }
 
   @Input()
+  public set imageSrc(value: string) {
+    this.imageSrc$.next(value);
+  }
+
+  @Input()
   set file(value: File) {
     this._file = value;
     this.renderImage();
@@ -48,7 +53,9 @@ export class DropzoneImagePreviewComponent
   );
 
   public ngOnInit() {
-    this.renderImage();
+    if (this.file) {
+      this.renderImage();
+    }
   }
 
   private renderImage() {

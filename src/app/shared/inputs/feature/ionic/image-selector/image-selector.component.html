@@ -4,15 +4,15 @@
   accept="image/*"
   (change)="onChange($event)"
 >
-  <img
-    *ngIf="(bindedFormControl.valueChanges | async) === null"
-    [src]="initialImageUrl || 'assets/images/product.png'"
-    alt=""
-  />
   <ngx-dropzone-label
     >Kattintson ide a fájl kiválasztásához, vagy húzzon ide egy
     fájlt!</ngx-dropzone-label
   >
+  <app-dropzone-image-preview
+    *ngIf="(bindedFormControl.valueChanges | async) === null"
+    [imageSrc]="initialImageUrl || 'assets/images/product.png'"
+    ngProjectAs="ngx-dropzone-preview"
+  ></app-dropzone-image-preview>
   <app-dropzone-image-preview
     *ngIf="bindedFormControl.valueChanges | async as file"
     ngProjectAs="ngx-dropzone-preview"
@@ -20,4 +20,3 @@
   >
   </app-dropzone-image-preview>
 </ngx-dropzone>
-<h1>{{ bindedFormControl.value?.name }}</h1>
