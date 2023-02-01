@@ -34,8 +34,8 @@ export class BuffetsListState {
     state: BuffetsListStateModel,
     buffetState: BuffetStateModel,
   ) {
-    console.log(state);
-    console.log(buffetState);
+    // console.log(state);
+    // console.log(buffetState);
     return state.buffetIds.map(id => buffetState.entities[id]).filter(b => b);
   }
 
@@ -80,11 +80,14 @@ export class BuffetsListState {
       ...action.buffets.map(b => b.id),
     );
 
+    const remaining = action.count - action.buffets.length;
+
     // const remaining =
     //   action.count - (action.query.skip || 0) - action.products.length;
 
     ctx.patchState({
       buffetIds: newIds,
+      remainingItems: remaining,
     });
   }
 
