@@ -20,23 +20,24 @@ import {
   imports: [CommonModule, NgxDropzoneModule, ReactiveFormsModule],
   templateUrl: "./image-selector.component.html",
   styleUrls: ["./image-selector.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageSelectorComponent {
+export class ImageSelectorComponent implements OnInit {
   @Input()
   public bindedFormControl!: FormControl<File | null>;
 
   @Input()
   public initialImageUrl?: string;
 
-  constructor() {
+  public ngOnInit() {
     if (!this.bindedFormControl) {
       throw new Error("bindedFormControl is required");
     }
   }
 
   public onChange(event: NgxDropzoneChangeEvent) {
+    console.log(event);
     const file = event.addedFiles[0];
     this.bindedFormControl.setValue(file);
+    console.log(this.bindedFormControl);
   }
 }

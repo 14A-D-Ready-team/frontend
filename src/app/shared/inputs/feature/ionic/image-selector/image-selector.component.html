@@ -1,14 +1,14 @@
 <ngx-dropzone
   [disabled]="bindedFormControl.disabled"
   [multiple]="false"
-  accept=""
+  accept="image/*"
   (change)="onChange($event)"
 >
-  <img
+  <!-- <img
     *ngIf="!bindedFormControl.value"
     [src]="initialImageUrl || 'assets/images/product.png'"
     alt=""
-  />
+  /> -->
   <ngx-dropzone-image-preview
     *ngIf="bindedFormControl.value"
     ngProjectAs="ngx-dropzone-preview"
@@ -17,3 +17,4 @@
     <ngx-dropzone-label></ngx-dropzone-label>
   </ngx-dropzone-image-preview>
 </ngx-dropzone>
+<h1>{{ bindedFormControl.value?.name }}</h1>
