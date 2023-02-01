@@ -28,8 +28,8 @@ export class ProductsListEffects extends EffectsBase {
   @Effect()
   public a = this.store
     .select(ProductsListState.shownProducts)
-    .pipe
+    .pipe();
     //filter(products => products.some(product => !product)),
     /*  switchMap(() => {}), */
-    ();
+    //();
 }

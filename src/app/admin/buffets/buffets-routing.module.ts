@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
-      import("./feature/buffet-list/buffet-list.module").then(
+      import("./feature/buffet-list").then(
         m => m.BuffetListModule,
       ),
   },

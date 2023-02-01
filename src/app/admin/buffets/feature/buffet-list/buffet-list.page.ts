@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ProductsListEffects } from "@app/admin/products/feature/products-list/store";
 import {
   Platform,
   RefresherCustomEvent,
@@ -9,6 +8,7 @@ import {
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Observable, startWith, map, combineLatest, take } from "rxjs";
+import { BuffetsListEffects } from "./store";
 import {
   LoadPage,
   RetryLoading,
@@ -66,7 +66,7 @@ export class BuffetListPage implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private effects: ProductsListEffects,
+    private effects: BuffetsListEffects,
     private platform: Platform,
     private router: Router,
     private route: ActivatedRoute,
