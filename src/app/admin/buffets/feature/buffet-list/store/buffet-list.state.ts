@@ -5,14 +5,8 @@ import {
   Reload,
   RetryLoading,
 } from "./buffet-list.actions";
-import {
-  CategoryState,
-  CategoryStateModel,
-  loadAllCategories,
-} from "@shared/category";
 import { Injectable } from "@angular/core";
-import { interval, map, take } from "rxjs";
-import { DeepReadonly } from "@ngxs-labs/entity-state";
+import { take } from "rxjs";
 
 import { BuffetActions, BuffetState, BuffetStateModel } from "@shared/buffet";
 
@@ -40,12 +34,13 @@ export class BuffetsListState {
     state: BuffetsListStateModel,
     buffetState: BuffetStateModel,
   ) {
-    return state.buffetIds.map(id => buffetState.entities[id]).filter(p => p);
+    console.log(state);
+    console.log(buffetState);
+    return state.buffetIds.map(id => buffetState.entities[id]).filter(b => b);
   }
 
   @Action(LoadPage)
   public loadPage(ctx: StateContext<BuffetsListStateModel>) {
-    loadAllCategories(this.store).pipe(take(1)).subscribe();
 
     const state = ctx.getState();
     //   const query = FilterProductsQuery.createOrCopy({
@@ -80,19 +75,17 @@ export class BuffetsListState {
     const state = ctx.getState();
 
     const newIds = [...state.buffetIds];
-    // newIds.splice(
-    //   action.query.skip || 0,
-    //   action.query.take || state.productIds.length,
-    //   ...action.products.map(p => p.id),
-    // );
+    newIds.push(
+      
+      ...action.buffets.map(b => b.id),
+    );
 
     // const remaining =
     //   action.count - (action.query.skip || 0) - action.products.length;
 
-    // ctx.patchState({
-    //   productIds: newIds,
-    //   remainingItems: remaining,
-    // });
+    ctx.patchState({
+      buffetIds: newIds,
+    });
   }
 
   @Action(RetryLoading)

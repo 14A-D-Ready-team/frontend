@@ -56,23 +56,16 @@
           <ion-card-title>Büfék szűrése</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <!-- <app-product-filter
-            #filterContent
-            [categories]="
-              (categories$ | async)! | keyvalue | map : extractValue
-            "
-            [categoriesLoading]="(categoriesLoading$ | async) || false"
-            (refreshCategories)="refreshCategories()"
-          ></app-product-filter> -->
         </ion-card-content>
-        <!-- <ion-button fill="clear" (click)="filterContent.reset()">
+        <!-- <ion-button fill="clear" (click)="filterContent.reset()"> -->
+        <ion-button fill="clear">
           <ion-icon
             slot="start"
             icon="close-circle-outline"
             color="primary"
           ></ion-icon>
           Feltételek törlése</ion-button
-        > -->
+        >
       </ion-card>
     </div>
 
@@ -90,10 +83,7 @@
               size-xl="3"
               *ngFor="let buffet of vm.buffets; trackBy: buffetById"
             >
-              <app-buffet-preview
-                [buffet]="buffet"
-                (cardClick)="editBuffet(buffet)"
-              ></app-buffet-preview>
+              <app-buffet-preview [buffet]="buffet" (cardClick)="editBuffet(buffet)"></app-buffet-preview>
             </ion-col>
             <ng-container *ngIf="vm.loading">
               <ion-col
