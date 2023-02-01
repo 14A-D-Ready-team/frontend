@@ -46,6 +46,14 @@
           id="email"
           placeholder="Email"
         />
+        <div
+          class="error-container"
+          [ngClass]="signupForm.get('email')?.errors && signupForm.get('email')?.value ? 'input-error-outline' : 'input-regular-outline'"
+        >
+          <p *ngFor="let item of signupForm.get('email')?.errors | keyvalue">
+            {{item.value}}
+          </p>
+        </div>
       </div>
       <div class="pswd-container">
         <div
@@ -72,6 +80,10 @@
           </div>
         </div>
       </div>
+      <app-validation-message
+        [errorMessage]="(signupStatus | async)?.error | errorMessage"
+        [visible]="(signupStatus | async)?.error"
+      ></app-validation-message>
 
       <button
         class="ready-btn"

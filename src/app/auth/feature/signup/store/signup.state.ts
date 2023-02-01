@@ -79,7 +79,7 @@ export class SignupState {
     //rxjs c:
     //http kérés elindítása
     //ha hiba van akkor login failed, ha nincs login succeeded
-    return this.authService.signIn(payload).pipe(
+    return this.authService.signUp(payload).pipe(
       switchMap(user => ctx.dispatch(new SignupSucceeded(user))),
       catchError(error => ctx.dispatch(new SignupFailed(error))),
       finalize(() => {

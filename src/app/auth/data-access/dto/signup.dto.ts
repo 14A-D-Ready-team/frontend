@@ -7,6 +7,7 @@ import {
 } from "@app/shared/decorators";
 import { Expose } from "class-transformer";
 import {
+  isEmail,
   IsEmail,
   IsString,
   Matches,
@@ -30,7 +31,7 @@ export class SignupDto {
 
   @Expose()
   @IsString()
-  @IsEmail()
+  @IsEmail({}, { message: "Valós email-t adjon meg" })
   @MaxLength(80)
   public email!: string;
 

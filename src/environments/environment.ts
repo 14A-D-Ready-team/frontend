@@ -10,6 +10,7 @@ export const environment = {
   },
   api: {
     url: "http://localhost:3000",
+    // url: "https://ready-backend-z88i.onrender.com",
   },
 };
 

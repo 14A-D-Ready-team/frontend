@@ -107,6 +107,11 @@ h1 {
   display: block;
 }
 
+#email:focus ~ .error-container {
+  visibility: visible;
+  display: block;
+}
+
 .input-container:has(.input-signup:focus) {
   border-radius: 0em;
   box-shadow: none;
