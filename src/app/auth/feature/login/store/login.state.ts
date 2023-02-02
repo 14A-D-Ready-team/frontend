@@ -1,6 +1,6 @@
 import { User } from "@shared/user";
 import { Dictionary } from "@/types";
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import { FormControlStatus } from "@angular/forms";
 import { AuthService, SetCurrentLogin } from "@app/auth/data-access";
 import { LoginDto } from "@app/auth/data-access/dto";
@@ -17,6 +17,7 @@ import {
 import { Action, State, StateContext, StateToken } from "@ngxs/store";
 import { catchError, concatWith, finalize, of, switchMap } from "rxjs";
 import { Login, LoginFailed, LoginSucceeded } from "./login.actions";
+import { Router } from "@angular/router";
 
 export interface LoginStatus {
   loading: boolean;
@@ -55,7 +56,11 @@ const loginFormPath = "login.loginForm";
 })
 @Injectable()
 export class LoginState {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private ngZone: NgZone,
+  ) {}
 
   @Action(Login)
   public startLogin(ctx: StateContext<LoginStateModel>) {
@@ -117,5 +122,6 @@ export class LoginState {
     ctx.patchState({ status: { loading: false, error: undefined } });
 
     ctx.dispatch(new SetCurrentLogin(action.user));
+    this.ngZone.run(() => this.router.navigate(["/admin/products"]));
   }
 }

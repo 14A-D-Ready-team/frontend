@@ -1,0 +1,36 @@
+<form [formGroup]="form" [ngxsForm]="formPath" [ngxsFormDebounce]="0">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="bottom-margin">
+        <app-selector-input
+          title="Kategória"
+          displayProperty="name"
+          valueProperty="id"
+          [items]="categories"
+          [bindedFormControl]="form.controls.categoryId"
+          [loading]="categoriesLoading"
+          (refresh)="refreshCategories.emit()"
+        >
+        </app-selector-input>
+      </ion-col>
+      <ion-col class="bottom-margin">
+        <app-numeric-filter-input
+          title="Teljes ár"
+          [bindedFormGroup]="form.controls.fullPrice"
+        ></app-numeric-filter-input>
+      </ion-col>
+      <ion-col class="bottom-margin">
+        <app-numeric-filter-input
+          title="Csökkentett ár"
+          [bindedFormGroup]="form.controls.discountedPrice"
+        ></app-numeric-filter-input>
+      </ion-col>
+      <ion-col class="bottom-margin">
+        <app-numeric-filter-input
+          title="Raktáron"
+          [bindedFormGroup]="form.controls.stock"
+        ></app-numeric-filter-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>

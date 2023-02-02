@@ -41,7 +41,6 @@ $l-font: 1.7em;
 //general
 * {
   font-family: "Poppins";
-  font-size: 16px;
 }
 
 //flex container
@@ -80,4 +79,44 @@ ion-item {
   .item-bottom {
     min-height: 19px;
   }
+}
+
+ion-item.no-left-padding {
+  --padding-start: 0;
+}
+
+ion-item.highlight-primary {
+  --highlight-background: var(--ion-color-primary);
+}
+
+.flex-vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.flex-horizontal-center {
+  display: flex;
+  justify-content: center;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.end-button-container {
+  margin: 0 0 4px 10px;
+
+  ion-button {
+    --padding-start: 5px;
+    --padding-end: 5px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+    margin: 0;
+  }
+}
+
+.no-end-padding {
+  --inner-padding-end: 0;
 }

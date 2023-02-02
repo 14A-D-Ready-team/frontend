@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
+import { AdminShellComponent } from "./admin/shell";
 
 const routes: Routes = [
   {
@@ -7,8 +8,12 @@ const routes: Routes = [
     loadChildren: () => import("./auth/").then(m => m.AuthModule),
   },
   {
-    path: "buffets",
-    loadChildren: () => import("./buffets/").then(m => m.BuffetsModule),
+    path: "admin",
+    loadChildren: () => import("./admin/").then(m => m.AdminModule),
+    data: {
+      showAdminMenu: true,
+    },
+    component: AdminShellComponent,
   },
 ];
 
@@ -18,6 +23,7 @@ const routes: Routes = [
       preloadingStrategy: PreloadAllModules,
       initialNavigation: "enabledBlocking",
     }),
+    AdminShellComponent,
   ],
   exports: [RouterModule],
 })

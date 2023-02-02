@@ -5,3 +5,4 @@ export * from "./error-message-dictionary.type";
 export * from "./exception-classes";
 export * from "./error-message.token";
 export * from "./service";
+export * from "./pipes";

@@ -15,4 +15,16 @@ export class Customization {
 
   @Expose()
   public options!: Option[];
+
+  constructor(
+    id: number,
+    description: string,
+    optionCount: OptionCount,
+    options: Option[],
+  ) {
+    this.id = id;
+    this.description = description;
+    this.optionCount = optionCount;
+    this.options = options;
+  }
 }

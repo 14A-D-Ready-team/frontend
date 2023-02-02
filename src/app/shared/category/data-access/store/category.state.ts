@@ -1,5 +1,6 @@
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
+import { ApiRequestStatus, TargetedRequestStatus } from "@shared/api";
 import {
   defaultEntityState,
   EntityStateModel,
@@ -37,15 +38,6 @@ import {
   DeleteSucceeded,
   DeleteFailed,
 } from "./category.actions";
-
-export interface ApiRequestStatus {
-  loading: boolean;
-  error?: any;
-}
-
-export interface TargetedRequestStatus extends ApiRequestStatus {
-  targetId: number;
-}
 
 export type CategoryStateModel = EntityStateModel<Category> & {
   isAllLoaded: boolean;
@@ -105,16 +97,11 @@ export class CategoryState extends EntityState<Category> {
         concat(
           ctx.dispatch(new RemoveAll(CategoryState)),
           ctx.dispatch(new LoadingSucceeded(categories)),
+          ctx.dispatch(new SetAllLoaded(true)),
         ),
       ),
       catchError(error => ctx.dispatch(new LoadingFailed(error))),
-      finalize(() =>
-        // 1.
-        concat(
-          ctx.dispatch(new SetAllLoaded(true)),
-          ctx.dispatch(new SetLoading(CategoryState, false)),
-        ),
-      ),
+      finalize(() => ctx.dispatch(new SetLoading(CategoryState, false))),
     );
   }
 

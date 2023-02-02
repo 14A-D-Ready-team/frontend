@@ -15,9 +15,9 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
+      "@shared/*": ["src/app/shared/*"],
       "@app/*": ["src/app/*"],
-      "@/*": ["src/*"],
-      "@shared/*": ["src/app/shared/*"]
+      "@/*": ["src/*"]
     },
     "skipLibCheck": true,
     "emitDecoratorMetadata": true

@@ -1,0 +1,122 @@
+<ion-menu
+  side="end"
+  contentId="products-list-page-content"
+  [disabled]="isDesktop$ | async"
+>
+  <ng-container *ngIf="(isDesktop$ | async) === false">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Termékek szűrése</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="filterContent.reset()">
+            <ion-icon
+              slot="icon-only"
+              icon="backspace"
+              color="primary"
+            ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <app-product-filter
+        #filterContent
+        [categories]="(categories$ | async)! | keyvalue | map : extractValue"
+        [categoriesLoading]="(categoriesLoading$ | async) || false"
+        (refreshCategories)="refreshCategories()"
+      ></app-product-filter>
+    </ion-content>
+  </ng-container>
+</ion-menu>
+
+<div class="ion-page" id="products-list-page-content">
+  <app-admin-header pageTitle="Termékek">
+    <ion-menu-button menu="end" end-buttons>
+      <ion-icon part="icon" name="funnel"></ion-icon>
+    </ion-menu-button>
+  </app-admin-header>
+
+  <ion-content *ngIf="vm$ | async as vm">
+    <ion-refresher
+      slot="fixed"
+      [disabled]="vm.loading"
+      (ionRefresh)="handleRefresh($event)"
+    >
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div class="ion-padding" *ngIf="vm.isDesktop">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Termékek szűrése</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <app-product-filter
+            #filterContent
+            [categories]="
+              (categories$ | async)! | keyvalue | map : extractValue
+            "
+            [categoriesLoading]="(categoriesLoading$ | async) || false"
+            (refreshCategories)="refreshCategories()"
+          ></app-product-filter>
+        </ion-card-content>
+        <ion-button fill="clear" (click)="filterContent.reset()">
+          <ion-icon
+            slot="start"
+            icon="close-circle-outline"
+            color="primary"
+          ></ion-icon>
+          Feltételek törlése</ion-button
+        >
+      </ion-card>
+    </div>
+
+    <div class="content">
+      <div class="overlay-container" *ngIf="vm.typing">
+        <app-typing-overlay></app-typing-overlay>
+      </div>
+      <div class="ion-padding">
+        <ion-grid>
+          <ion-row>
+            <ion-col
+              size-xs="12"
+              size-sm="10"
+              size-md="6"
+              size-xl="3"
+              *ngFor="let product of vm.products; trackBy: productById"
+            >
+              <app-product-preview
+                [product]="product"
+                [category]="vm.categories[product.categoryId]"
+                [categoryLoading]="
+                  !vm.categories[product.categoryId] && vm.categoriesLoading
+                "
+                (cardClick)="editProduct(product)"
+              ></app-product-preview>
+            </ion-col>
+            <ng-container *ngIf="vm.loading">
+              <ion-col
+                *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
+                size-xs="12"
+                size-sm="10"
+                size-md="6"
+                size-xl="3"
+              >
+                <app-product-preview-skeleton></app-product-preview-skeleton>
+              </ion-col>
+            </ng-container>
+            <app-error-card
+              *ngIf="vm.error"
+              header="A termékek betöltése sikertelen"
+              [error]="vm.error"
+              (retry)="retryLoading()"
+            ></app-error-card>
+          </ion-row>
+          <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </ion-grid>
+      </div>
+    </div>
+  </ion-content>
+</div>
