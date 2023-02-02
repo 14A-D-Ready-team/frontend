@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./feature/product-editor").then(m => m.ProductEditorPageModule),
   },
+  {
+    path: "new",
+    loadChildren: () =>
+      import("./feature/product-editor").then(m => m.ProductEditorPageModule),
+  },
 ];
 
 @NgModule({

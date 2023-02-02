@@ -47,7 +47,7 @@ export class ProductsListPage implements OnInit, OnDestroy {
 
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
-    map(() => this.platform.width() > 992),
+    map(() => this.platform.width() >= 992),
   );
 
   public vm$ = combineLatest([
@@ -143,6 +143,8 @@ export class ProductsListPage implements OnInit, OnDestroy {
   }
 
   public create() {
-    throw new Error("Method not implemented.");
+    this.router.navigate(["new"], {
+      relativeTo: this.route,
+    });
   }
 }
