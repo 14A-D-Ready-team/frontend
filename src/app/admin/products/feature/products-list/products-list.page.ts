@@ -141,4 +141,8 @@ export class ProductsListPage implements OnInit, OnDestroy {
       relativeTo: this.route,
     });
   }
+
+  public create() {
+    throw new Error("Method not implemented.");
+  }
 }

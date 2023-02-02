@@ -1,12 +1,13 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import {
-  NgxDropzoneChangeEvent,
-  NgxDropzoneComponent,
-  NgxDropzoneModule,
-} from "ngx-dropzone";
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { NgxDropzoneChangeEvent, NgxDropzoneModule } from "ngx-dropzone";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { mergeWith, Observable } from "rxjs";
 import { DropzoneImagePreviewComponent } from "../dropzone-image-preview";
 @Component({
   selector: "app-image-selector",
@@ -19,6 +20,7 @@ import { DropzoneImagePreviewComponent } from "../dropzone-image-preview";
   ],
   templateUrl: "./image-selector.component.html",
   styleUrls: ["./image-selector.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageSelectorComponent implements OnInit {
   @Input()
@@ -31,7 +33,6 @@ export class ImageSelectorComponent implements OnInit {
     if (!this.bindedFormControl) {
       throw new Error("bindedFormControl is required");
     }
-    //this.file$ = this.bindedFormControl.valueChanges;
   }
 
   public onChange(event: NgxDropzoneChangeEvent) {
