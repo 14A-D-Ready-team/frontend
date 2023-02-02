@@ -31,6 +31,7 @@
 $ready-red: #c30b00;
 $ready-yellow: #ffda00;
 $card-background: #f9fbfc;
+$disabled-grey: #e4e4e4;
 
 //font sizes
 $s-font: 0.8em;
@@ -47,7 +48,6 @@ $l-font: 1.7em;
   display: flex;
   justify-content: $justify;
   align-items: center;
-  flex-direction: column;
   width: 100%;
   flex-direction: $direction;
 }
@@ -65,6 +65,10 @@ $l-font: 1.7em;
   box-shadow: 0px 10px 60px rgba(37, 37, 28, 0.15),
     inset 0px 4px 16px rgba(36, 36, 36, 0.25);
   font-weight: 500;
+}
+
+.ready-btn:disabled {
+  background-color: #c63d36;
 }
 
 .no-opacity .native-input[disabled] {

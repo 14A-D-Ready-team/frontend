@@ -3,20 +3,58 @@
     <img class="logo" src="/assets/icon/Logo.png" alt="ready logo" />
   </div>
   <div class="card">
-    <div class="header">
-      <h1>Bejelentkezés</h1>
-    </div>
+    <h1>Regisztráció</h1>
 
     <form
       action=""
       class="login-form"
-      [formGroup]="loginForm"
-      ngxsForm="login.loginForm"
-      (ngSubmit)="login()"
+      [formGroup]="signupForm"
+      ngxsForm="signup.signupForm"
+      (ngSubmit)="signup()"
     >
       <div
         class="input-container"
-        [ngClass]="(loginStatus | async)?.loading ? 'input-disabled-container' : ''"
+        [ngClass]="[signupForm.get('name')?.errors && signupForm.get('name')?.value ? 'input-error-outline' : 'input-regular-outline',
+        (signupStatus | async)?.loading ? 'input-disabled-container' : '']"
+      >
+        <svg
+          class="input-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 12.75C8.83 12.75 6.25 10.17 6.25 7C6.25 3.83 8.83 1.25 12 1.25C15.17 1.25 17.75 3.83 17.75 7C17.75 10.17 15.17 12.75 12 12.75ZM12 2.75C9.66 2.75 7.75 4.66 7.75 7C7.75 9.34 9.66 11.25 12 11.25C14.34 11.25 16.25 9.34 16.25 7C16.25 4.66 14.34 2.75 12 2.75Z"
+            fill="#292D32"
+          />
+          <path
+            d="M20.5901 22.75C20.1801 22.75 19.8401 22.41 19.8401 22C19.8401 18.55 16.3202 15.75 12.0002 15.75C7.68015 15.75 4.16016 18.55 4.16016 22C4.16016 22.41 3.82016 22.75 3.41016 22.75C3.00016 22.75 2.66016 22.41 2.66016 22C2.66016 17.73 6.85015 14.25 12.0002 14.25C17.1502 14.25 21.3401 17.73 21.3401 22C21.3401 22.41 21.0001 22.75 20.5901 22.75Z"
+            fill="#292D32"
+          />
+        </svg>
+        <input
+          class="input-signup"
+          type="text"
+          name="name"
+          formControlName="name"
+          id="name"
+          placeholder="Felhasználónév"
+        />
+
+        <div
+          class="error-container"
+          [ngClass]="signupForm.get('name')?.errors && signupForm.get('name')?.value ? 'input-error-outline' : 'input-regular-outline'"
+        >
+          <p *ngFor="let item of signupForm.get('name')?.errors | keyvalue">
+            {{item.value}}
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="input-container"
+        [ngClass]="[signupForm.get('email')?.errors && signupForm.get('email')?.value ? 'input-error-outline' : 'input-regular-outline',
+        (signupStatus | async)?.loading ? 'input-disabled-container' : '']"
       >
         <svg
           class="input-icon"
@@ -34,18 +72,27 @@
           />
         </svg>
         <input
+          class="input-signup"
           type="email"
-          name=""
+          name="email"
           formControlName="email"
           id="email"
           placeholder="Email"
         />
+        <div
+          class="error-container"
+          [ngClass]="signupForm.get('email')?.errors && signupForm.get('email')?.value ? 'input-error-outline' : 'input-regular-outline'"
+        >
+          <p *ngFor="let item of signupForm.get('email')?.errors | keyvalue">
+            {{item.value}}
+          </p>
+        </div>
       </div>
-
       <div class="pswd-container">
         <div
           class="input-container"
-          [ngClass]="(loginStatus | async)?.loading ? 'input-disabled-container' : ''"
+          [ngClass]="[signupForm.get('pswd')?.errors && signupForm.get('pswd')?.value ? 'input-error-outline' : 'input-regular-outline',
+          (signupStatus | async)?.loading ? 'input-disabled-container' : '']"
         >
           <svg
             class="input-icon"
@@ -67,32 +114,43 @@
             />
           </svg>
           <input
+            class="input-signup"
             type="password"
-            name=""
+            name="password"
             formControlName="password"
             id="pswd"
             placeholder="Jelszó"
           />
+          <div
+            class="error-container"
+            [ngClass]="signupForm.get('password')?.errors && signupForm.get('password')?.value ? 'input-error-outline' : 'input-regular-outline'"
+          >
+            <p
+              *ngFor="let item of signupForm.get('password')?.errors | keyvalue"
+            >
+              {{item.value}}
+            </p>
+          </div>
         </div>
-        <a href="" class="forgot-pswd-link">Elfelejtette jelszavát?</a>
       </div>
       <app-validation-message
-        [errorMessage]="(loginStatus | async)?.error | errorMessage"
-        [visible]="(loginStatus | async)?.error"
+        [errorMessage]="(signupStatus | async)?.error | errorMessage"
+        [visible]="(signupStatus | async)?.error"
       ></app-validation-message>
-      <ion-spinner *ngIf="(loginStatus | async)?.loading"></ion-spinner>
+      <ion-spinner *ngIf="(signupStatus | async)?.loading"></ion-spinner>
+
       <button
         class="ready-btn"
         type="submit"
-        [disabled]="(loginStatus | async)?.loading"
+        [disabled]="signupForm.get('name')?.errors || signupForm.get('password')?.errors || signupForm.get('email')?.errors"
       >
-        Bejelentkezés
+        Regisztráció
       </button>
     </form>
 
     <div class="sign-up-container">
-      <p class="sign-up-text">Nincs fiókja?</p>
-      <a class="sign-up-link" routerLink="/auth/signup">Regisztráció</a>
+      <p class="sign-up-text">Van már fiókja?</p>
+      <a class="sign-up-link" routerLink="/auth/login">Bejelentkezés</a>
     </div>
 
     <div class="decor-container">
@@ -102,12 +160,8 @@
     </div>
 
     <div class="other-container">
-      <button class="facebook-btn">Bejelentkezés Facebook fiókkal</button>
-      <button class="google-btn">Bejelentkezés Google fiókkal</button>
+      <button class="facebook-btn">Regisztráció Facebook fiókkal</button>
+      <button class="google-btn">Regisztráció Google fiókkal</button>
     </div>
   </div>
 </div>
-<!-- <ion-content>
-  <google-login-button></google-login-button>
-</ion-content>
- -->

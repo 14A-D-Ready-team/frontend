@@ -15,6 +15,7 @@ import {
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
 import { Observable } from "rxjs";
+import { LoadingController } from "@ionic/angular";
 
 interface LoginForm {
   email: FormControl<string>;
@@ -35,6 +36,7 @@ export class LoginPage implements OnInit {
     private store: Store,
     private fb: FormBuilder,
     private authService: AuthService,
+    private loadingCtrl: LoadingController,
   ) {
     this.loginForm = new ClassValidatorFormGroup<LoginForm>(LoginDto, {
       email: new ClassValidatorFormControl<string>(""),
