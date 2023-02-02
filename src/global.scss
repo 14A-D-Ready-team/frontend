@@ -37,11 +37,6 @@ $s-font: 0.8em;
 $m-font: 1em;
 $l-font: 1.7em;
 
-//general
-* {
-  font-family: "Poppins";
-}
-
 //flex container
 @mixin flex-center($direction, $justify) {
   display: flex;
