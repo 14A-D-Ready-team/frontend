@@ -3,6 +3,7 @@
 //setting default font color
 * {
   color: #25251c;
+  font-size: 16px;
 }
 
 .container {
@@ -16,7 +17,6 @@
 .logo-container {
   @include flex-center(column, center);
   height: 100%;
-  width: 100%;
   .logo {
     height: auto;
     width: 75%;
@@ -29,7 +29,6 @@
 .card {
   @include flex-center(column, space-evenly);
   height: 100%;
-  width: 100%;
   background-color: $card-background;
   overflow-x: hidden;
   border-radius: 1em 1em 0em 0em;
@@ -41,47 +40,89 @@ h1 {
   font-weight: 600;
 }
 
-//regular login and password input
+//sign up form
 .login-form {
   @include flex-center(column, center);
+
+  .input-container {
+    @include flex-center(row, center);
+    margin: 0.5em 0em;
+    border-radius: 2em;
+
+    width: 85%;
+    max-width: 500px;
+
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+
+    position: relative;
+
+    input {
+      height: 2.5em;
+      width: 90%;
+      border: none;
+      outline: none;
+      font-size: $m-font;
+      color: black;
+      background-color: transparent;
+    }
+    .input-icon {
+      height: 1.8rem;
+      width: 1.8rem;
+      margin: 0em 0.5em;
+    }
+    .error-container {
+      display: none;
+      position: absolute;
+      top: 100%;
+      width: 100%;
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+      background-color: $card-background;
+      z-index: 1;
+
+      p {
+        padding: 0px 20px;
+        color: $ready-red;
+        font-size: $m-font;
+      }
+    }
+  }
+  .pswd-container {
+    @include flex-center(column, center);
+    .forgot-pswd-link {
+      align-self: flex-end;
+      margin: 0 12%;
+      font-size: $s-font;
+      color: #92928e;
+    }
+  }
 }
 
-.input-container {
-  @include flex-center(row, center);
-  margin: 0.5em 0em;
-  border-radius: 2em;
+#name:focus ~ .error-container {
+  visibility: visible;
+  display: block;
+}
 
-  width: 85%;
-  max-width: 500px;
+#pswd:focus ~ .error-container {
+  visibility: visible;
+  display: block;
+}
 
+#email:focus ~ .error-container {
+  visibility: visible;
+  display: block;
+}
+
+.input-container:has(.input-signup:focus) {
+  border-radius: 0em;
+  box-shadow: none;
+}
+
+.input-error-outline {
+  outline: 1px solid #c30a00;
+}
+
+.input-regular-outline {
   outline: 0.5px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
-
-  input {
-    height: 2.5em;
-    width: 90%;
-    border: none;
-    outline: none;
-    font-size: $m-font;
-    color: black;
-    background-color: transparent;
-  }
-  .input-icon {
-    height: 1.8em;
-    width: 1.8em;
-    margin: 0em 0.5em;
-  }
-}
-
-.pswd-container {
-  @include flex-center(column, center);
-  margin: 0.5em 0em;
-  .forgot-pswd-link {
-    align-self: flex-end;
-    margin: 0 12%;
-    font-size: $s-font;
-    color: #92928e;
-  }
 }
 
 //link for sign up

@@ -1,9 +1,9 @@
 import { User } from "@shared/user";
 import { Dictionary } from "@/types";
-import { Injectable, NgZone } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { FormControlStatus } from "@angular/forms";
 import { AuthService, SetCurrentLogin } from "@app/auth/data-access";
-import { LoginDto } from "@app/auth/data-access/dto";
+import { SignupDto } from "@app/auth/data-access/dto";
 import { ApiException, ErrorCode } from "@app/shared/exceptions";
 import {
   FormControlErrors,
@@ -16,36 +16,35 @@ import {
 } from "@ngxs/form-plugin";
 import { Action, State, StateContext, StateToken } from "@ngxs/store";
 import { catchError, concatWith, finalize, of, switchMap } from "rxjs";
-import { Login, LoginFailed, LoginSucceeded } from "./login.actions";
-import { Router } from "@angular/router";
+import { Signup, SignupSucceeded, SignupFailed } from "./signup.actions";
 
-export interface LoginStatus {
+export interface SignupStatus {
   loading: boolean;
   error?: any;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LoginStateModel {
-  loginForm: {
-    model: LoginDto;
+export interface SignupStateModel {
+  signupForm: {
+    model: SignupDto;
     dirty: boolean;
     status: FormControlStatus;
     errors: Dictionary<any>;
     disabled: boolean;
     formControlErrors: FormControlErrors;
   };
-  status?: LoginStatus;
+  status?: SignupStatus;
 }
 
-export const LOGIN_STATE_TOKEN = new StateToken<LoginStateModel>("login");
+export const SIGNUP_STATE_TOKEN = new StateToken<SignupStateModel>("signup");
 
-const loginFormPath = "login.loginForm";
+const signupFormPath = "signup.signupForm";
 
-@State<LoginStateModel>({
-  name: LOGIN_STATE_TOKEN,
+@State<SignupStateModel>({
+  name: SIGNUP_STATE_TOKEN,
   defaults: {
-    loginForm: {
-      model: new LoginDto("", ""),
+    signupForm: {
+      model: new SignupDto("", "", "", 0),
       dirty: false,
       status: "VALID",
       errors: {},
@@ -55,28 +54,24 @@ const loginFormPath = "login.loginForm";
   },
 })
 @Injectable()
-export class LoginState {
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private ngZone: NgZone,
-  ) {}
+export class SignupState {
+  constructor(private authService: AuthService) {}
 
-  @Action(Login)
-  public startLogin(ctx: StateContext<LoginStateModel>) {
+  @Action(Signup)
+  public startSignup(ctx: StateContext<SignupStateModel>) {
     const state = ctx.getState();
     //ellenőrzés: loginform status valid vagy nem
-    if (state.loginForm.status === "INVALID") {
+    if (state.signupForm.status === "INVALID") {
       return;
     }
 
     //visszaad balfasz login dto normálissá konvertálni
-    const model = state.loginForm.model;
-    const payload = new LoginDto(model.email, model.password);
+    const model = state.signupForm.model;
+    const payload = new SignupDto(model.name, model.email, model.password, 0);
 
     //form disable
     //ctx.dispatch
-    ctx.dispatch(new SetFormDisabled(loginFormPath));
+    ctx.dispatch(new SetFormDisabled(signupFormPath));
 
     //loading-ot true-ra(patchState)
     ctx.patchState({ status: { loading: true } });
@@ -84,17 +79,20 @@ export class LoginState {
     //rxjs c:
     //http kérés elindítása
     //ha hiba van akkor login failed, ha nincs login succeeded
-    return this.authService.signIn(payload).pipe(
-      switchMap(user => ctx.dispatch(new LoginSucceeded(user))),
-      catchError(error => ctx.dispatch(new LoginFailed(error))),
+    return this.authService.signUp(payload).pipe(
+      switchMap(user => ctx.dispatch(new SignupSucceeded(user))),
+      catchError(error => ctx.dispatch(new SignupFailed(error))),
       finalize(() => {
-        ctx.dispatch(new SetFormEnabled(loginFormPath));
+        ctx.dispatch(new SetFormEnabled(signupFormPath));
       }),
     );
   }
 
-  @Action(LoginFailed)
-  public loginFailed(ctx: StateContext<LoginStateModel>, action: LoginFailed) {
+  @Action(SignupFailed)
+  public signupFailed(
+    ctx: StateContext<SignupStateModel>,
+    action: SignupFailed,
+  ) {
     ctx.patchState({ status: { loading: false, error: action.error } });
     // if (action.error instanceof ApiException) {
     //   if (action.error.errorCode === ErrorCode.EmailNotFoundException) {
@@ -112,16 +110,15 @@ export class LoginState {
     // }
   }
 
-  @Action(LoginSucceeded)
-  public loginSucceeded(
-    ctx: StateContext<LoginStateModel>,
-    action: LoginSucceeded,
+  @Action(SignupSucceeded)
+  public signupSucceeded(
+    ctx: StateContext<SignupStateModel>,
+    action: SignupSucceeded,
   ) {
     //loading false
     //error legyen undefined
     ctx.patchState({ status: { loading: false, error: undefined } });
 
     ctx.dispatch(new SetCurrentLogin(action.user));
-    this.ngZone.run(() => this.router.navigate(["/admin/products"]));
   }
 }
