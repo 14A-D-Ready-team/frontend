@@ -1,50 +1,48 @@
-import { FormControlStatus } from "@angular/forms";
-import { FormControlErrors } from "@shared/extended-form-plugin";
-import { Dictionary } from "@/types";
-import { Injectable, NgZone } from "@angular/core";
-import { Action, State, StateContext } from "@ngxs/store";
-import { AuthService } from "@app/auth/data-access";
-import { Router } from "@angular/router";
-import {
-  VerifyEmail,
-  VerifyEmailFailed,
-  VerifyEmailSucceeded,
-} from "./email-verification.actions";
-import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { catchError, finalize, switchMap } from "rxjs";
-import { error } from "console";
-
+import { AuthService } from "@app/auth/data-access";
+import { Dictionary } from "@/types";
+import { FormControlStatus } from "@angular/forms";
+import { Action, State, StateContext } from "@ngxs/store";
+import { Injectable, NgZone } from "@angular/core";
+import { Router } from "@angular/router";
+import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
+import { FormControlErrors } from "@shared/extended-form-plugin";
+import {
+  EmailVerification,
+  EmailVerificationFailed,
+  EmailVerificationSucceeded,
+} from "./email-verifictaion.actions";
 export interface EmailVerificationStatus {
   loading: boolean;
   error?: any;
 }
 
 export interface EmailVerificationStateModel {
-  verificationForm: {
+  emailVerificationForm: {
     model: string;
     dirty: boolean;
     status: FormControlStatus;
     errors: Dictionary<any>;
     disabled: boolean;
-    formControlErrors: FormControlErrors;
+    FormControlErrors: FormControlErrors;
   };
   status?: EmailVerificationStatus;
 }
 
 export const STATE = "emailVerification";
 
-const verificationFormPath = "emailVerification.verificationForm";
+const emialVerificationFormPath = "emailVerification.emailVerificationForm";
 
 @State<EmailVerificationStateModel>({
   name: STATE,
   defaults: {
-    verificationForm: {
+    emailVerificationForm: {
       model: "",
       dirty: false,
       status: "VALID",
       errors: {},
       disabled: false,
-      formControlErrors: {},
+      FormControlErrors: {},
     },
   },
 })
@@ -56,32 +54,43 @@ export class EmailVerificationState {
     private ngZone: NgZone,
   ) {}
 
-  @Action(VerifyEmail)
-  public startVerifyEmail(ctx: StateContext<EmailVerificationStateModel>) {
+  @Action(EmailVerification)
+  public startEmailVerification(
+    ctx: StateContext<EmailVerificationStateModel>,
+  ) {
     const state = ctx.getState();
-    if (state.verificationForm.status == "INVALID") {
+    if (state.emailVerificationForm.status === "INVALID") {
       return;
     }
 
-    const payload = state.verificationForm.model;
+    const model: string = state.emailVerificationForm.model;
+    const payload: string = model;
+    console.log(payload);
 
-    ctx.dispatch(new SetFormDisabled(verificationFormPath));
-
+    ctx.dispatch(new SetFormDisabled(emialVerificationFormPath));
     ctx.patchState({ status: { loading: true } });
 
-    return this.authService.EmailVerification(payload).pipe(
-      switchMap(user => ctx.dispatch(new VerifyEmailSucceeded(user))),
-      catchError(error => ctx.dispatch(new VerifyEmailFailed(error))),
+    return this.authService.emailVerification(payload).pipe(
+      switchMap(user => ctx.dispatch(new EmailVerificationSucceeded(user))),
+      catchError(error => ctx.dispatch(new EmailVerificationFailed(error))),
       finalize(() => {
-        ctx.dispatch(new SetFormEnabled(verificationFormPath));
+        ctx.dispatch(new SetFormEnabled(emialVerificationFormPath));
       }),
     );
   }
 
-  @Action(VerifyEmailSucceeded)
-  public verifyEmailSucceeded(
+  @Action(EmailVerificationFailed)
+  public emailVerificationFailed(
     ctx: StateContext<EmailVerificationStateModel>,
-    action: VerifyEmailSucceeded,
+    action: EmailVerificationFailed,
+  ) {
+    ctx.patchState({ status: { loading: false, error: action.error } });
+  }
+
+  @Action(EmailVerificationSucceeded)
+  public emailVerificationSucceeded(
+    ctx: StateContext<EmailVerificationStateModel>,
+    action: EmailVerificationSucceeded,
   ) {
     ctx.patchState({ status: { loading: false, error: undefined } });
   }

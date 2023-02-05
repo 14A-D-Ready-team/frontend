@@ -1,14 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
-import { Store } from "@ngxs/store";
 import {
-  ClassValidatorFormControl,
-  ClassValidatorFormGroup,
-} from "ngx-reactive-form-class-validator";
-
-interface VerificationForm {
-  email: FormControl<string | null>;
-}
+  EmailVerification,
+  EmailVerificationStateModel,
+  EmailVerificationStatus,
+} from "./store";
+import { FormControl, FormGroup } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
+import { Select, Store } from "@ngxs/store";
+import {} from "./store";
 
 @Component({
   selector: "app-email-verification",
@@ -16,12 +15,22 @@ interface VerificationForm {
   styleUrls: ["./email-verification.page.scss"],
 })
 export class EmailVerificationPage implements OnInit {
-  public verificationForm: FormGroup<VerificationForm>;
+  public emailVerificationForm: FormGroup;
+
+  @Select(
+    (state: { emailVerification: EmailVerificationStateModel }) =>
+      state.emailVerification.status,
+  )
+  public emailVerificationStatus!: Observable<EmailVerificationStatus>;
 
   constructor(private store: Store) {
-    this.verificationForm = new FormGroup<VerificationForm>({
+    this.emailVerificationForm = new FormGroup({
       email: new FormControl(""),
     });
+  }
+
+  public EmailVerification() {
+    this.store.dispatch(new EmailVerification());
   }
 
   ngOnInit() {}

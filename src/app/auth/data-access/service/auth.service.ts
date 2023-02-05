@@ -22,9 +22,9 @@ export class AuthService {
       .pipe(processResponse(User));
   }
 
-  public EmailVerification(payload: string) {
+  public emailVerification(payload: string) {
     return this.http
-      .post(environment.api.url + "/auth/email-verification", payload)
+      .post(environment.api.url + "/auth/send-email-verification", payload)
       .pipe(processResponse(User));
   }
 }
