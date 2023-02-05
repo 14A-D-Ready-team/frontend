@@ -1,77 +1,114 @@
-abstract class LoadAll {
-  public static readonly type = "[Category] Load All";
+import * as Base from "./extended-entity.actions.base";
 
-  constructor(/* public buffetId:number */) {}
-}
+export function createActions<T, Q, C, U>(entityName: string) {
+  class Load extends Base.Load<Q> {
+    public static readonly type = `[${entityName}] Load`;
 
-abstract class LoadingFailed {
-  public static readonly type = "[Category API] Loading Failed";
+    constructor(query: Q) {
+      super(query);
+    }
+  }
 
-  constructor(public error: any) {}
-}
+  class LoadingFailed extends Base.LoadingFailed {
+    public static readonly type = `[${entityName} API] Loading Failed`;
 
-abstract class LoadingSucceeded {
-  public static readonly type = "[Category API] Loading Succeeded";
+    constructor(error: unknown) {
+      super(error);
+    }
+  }
 
-  constructor(public entities: Category[]) {}
-}
+  class LoadingSucceeded extends Base.LoadingSucceeded<T> {
+    public static readonly type = `[${entityName} API] Loading Succeeded`;
 
-abstract class SetAllLoaded {
-  public static readonly type = "[Category] Set All Loaded";
+    constructor(entities: T[]) {
+      super(entities);
+    }
+  }
 
-  constructor(public isAllLoaded: boolean) {}
-}
+  class Create extends Base.Create<C> {
+    public static readonly type = `[${entityName}] Create`;
 
-abstract class Create {
-  public static readonly type = "[Category] Create";
+    constructor(payload: C) {
+      super(payload);
+    }
+  }
 
-  constructor(public payload: EditCategoryDto) {}
-}
+  class CreateFailed extends Base.CreateFailed {
+    public static readonly type = `[${entityName} API] Create Failed`;
 
-export abstract class CreateFailed {
-  public static readonly type = "[Category API] Create Failed";
+    constructor(error: any) {
+      super(error);
+    }
+  }
 
-  constructor(public error: any) {}
-}
+  class CreateSucceeded extends Base.CreateSucceeded<T> {
+    public static readonly type = `[${entityName} API] Create Succeeded`;
 
-abstract class CreateSucceeded {
-  public static readonly type = "[Category API] Create Succeeded";
+    constructor(entity: T) {
+      super(entity);
+    }
+  }
 
-  constructor(public category: Category) {}
-}
+  class Update extends Base.Update<U> {
+    public static readonly type = `[${entityName}] Update`;
 
-export abstract class Update {
-  public static readonly type = "[Category] Update";
+    constructor(payload: U) {
+      super(payload);
+    }
+  }
 
-  constructor(public payload: EditCategoryDto) {}
-}
+  class UpdateFailed extends Base.UpdateFailed {
+    public static readonly type = `[${entityName} API] Update Failed`;
 
-export abstract class UpdateFailed {
-  public static readonly type = "[Category API] Update Failed";
+    constructor(error: any) {
+      super(error);
+    }
+  }
 
-  constructor(public error: any) {}
-}
+  class UpdateSucceeded extends Base.UpdateSucceeded<T> {
+    public static readonly type = `[${entityName} API] Update Succeeded`;
 
-export abstract class UpdateSucceeded {
-  public static readonly type = "[Category API] Update Succeeded";
+    constructor(entity: T) {
+      super(entity);
+    }
+  }
 
-  constructor(public category: Category) {}
-}
+  class Delete extends Base.Delete {
+    public static readonly type = `[${entityName}] Delete`;
 
-export abstract class Delete {
-  public static readonly type = "[Category] Delete";
+    constructor(id: number) {
+      super(id);
+    }
+  }
 
-  constructor(public id: number) {}
-}
+  class DeleteFailed extends Base.DeleteFailed {
+    public static readonly type = `[${entityName} API] Delete Failed`;
 
-export abstract class DeleteFailed {
-  public static readonly type = "[Category API] Delete Failed";
+    constructor(error: any) {
+      super(error);
+    }
+  }
 
-  constructor(public error: any) {}
-}
+  class DeleteSucceeded extends Base.DeleteSucceeded {
+    public static readonly type = `[${entityName} API] Delete Succeeded`;
 
-export abstract class DeleteSucceeded {
-  public static readonly type = "[Category API] Delete Succeeded";
+    constructor(id: number) {
+      super(id);
+    }
+  }
 
-  constructor(public id: number) {}
+  return {
+    Load,
+    LoadingFailed,
+    LoadingSucceeded,
+    Create,
+    CreateFailed,
+    CreateSucceeded,
+    Update,
+    UpdateFailed,
+    UpdateSucceeded,
+    Delete,
+    DeleteFailed,
+    DeleteSucceeded,
+  };
 }

@@ -4,7 +4,8 @@ import {
   ApiRequestStatus,
 } from "./request-status.model";
 
-export interface ExtendedEntityState<T extends object> extends EntityState<T> {
+export interface ExtendedEntityStateModel<T extends object>
+  extends EntityState<T> {
   updateStatus?: TargetedRequestStatus;
   createStatus?: ApiRequestStatus;
   deleteStatus?: TargetedRequestStatus;
