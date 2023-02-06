@@ -3,7 +3,7 @@ export abstract class Load<Q> {
 }
 
 export abstract class LoadingFailed {
-  constructor(public error: unknown) {}
+  constructor(public error: any) {}
 }
 
 export abstract class LoadingSucceeded<T> {

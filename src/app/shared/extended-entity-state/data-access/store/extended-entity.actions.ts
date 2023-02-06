@@ -1,10 +1,12 @@
 import * as Base from "./extended-entity.actions.base";
 
-export function createActions<T, Q, C, U>(entityName: string) {
-  class Load extends Base.Load<Q> {
+export function createActions<EntityType, Query, CreateDto, UpdateDto>(
+  entityName: string,
+) {
+  class Load extends Base.Load<Query> {
     public static readonly type = `[${entityName}] Load`;
 
-    constructor(query: Q) {
+    constructor(query: Query) {
       super(query);
     }
   }
@@ -17,18 +19,18 @@ export function createActions<T, Q, C, U>(entityName: string) {
     }
   }
 
-  class LoadingSucceeded extends Base.LoadingSucceeded<T> {
+  class LoadingSucceeded extends Base.LoadingSucceeded<EntityType> {
     public static readonly type = `[${entityName} API] Loading Succeeded`;
 
-    constructor(entities: T[]) {
+    constructor(entities: EntityType[]) {
       super(entities);
     }
   }
 
-  class Create extends Base.Create<C> {
+  class Create extends Base.Create<CreateDto> {
     public static readonly type = `[${entityName}] Create`;
 
-    constructor(payload: C) {
+    constructor(payload: CreateDto) {
       super(payload);
     }
   }
@@ -41,18 +43,18 @@ export function createActions<T, Q, C, U>(entityName: string) {
     }
   }
 
-  class CreateSucceeded extends Base.CreateSucceeded<T> {
+  class CreateSucceeded extends Base.CreateSucceeded<EntityType> {
     public static readonly type = `[${entityName} API] Create Succeeded`;
 
-    constructor(entity: T) {
+    constructor(entity: EntityType) {
       super(entity);
     }
   }
 
-  class Update extends Base.Update<U> {
+  class Update extends Base.Update<UpdateDto> {
     public static readonly type = `[${entityName}] Update`;
 
-    constructor(payload: U) {
+    constructor(payload: UpdateDto) {
       super(payload);
     }
   }
@@ -65,10 +67,10 @@ export function createActions<T, Q, C, U>(entityName: string) {
     }
   }
 
-  class UpdateSucceeded extends Base.UpdateSucceeded<T> {
+  class UpdateSucceeded extends Base.UpdateSucceeded<EntityType> {
     public static readonly type = `[${entityName} API] Update Succeeded`;
 
-    constructor(entity: T) {
+    constructor(entity: EntityType) {
       super(entity);
     }
   }
