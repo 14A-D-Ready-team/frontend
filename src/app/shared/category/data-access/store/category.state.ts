@@ -1,6 +1,5 @@
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
-import { ApiRequestStatus, TargetedRequestStatus } from "@shared/api";
 import {
   defaultEntityState,
   EntityStateModel,
@@ -20,6 +19,10 @@ import {
   StateContext,
   StateToken,
 } from "@ngxs/store";
+import {
+  TargetedRequestStatus,
+  ApiRequestStatus,
+} from "@shared/extended-entity-state/utils";
 import { catchError, concat, filter, finalize, of, switchMap, tap } from "rxjs";
 import { CategoryService } from "../category.service";
 import { Category } from "../entity";

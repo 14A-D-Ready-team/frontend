@@ -38,6 +38,9 @@ export class ProductEditorPage implements OnInit {
       },
     );
   }
+  ngOnInit(): void {
+    throw new Error("Method not implemented.");
+  }
 
   public save() {
     this.store.dispatch(new Save());

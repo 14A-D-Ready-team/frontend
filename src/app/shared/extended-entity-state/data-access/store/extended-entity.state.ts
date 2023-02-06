@@ -1,4 +1,4 @@
-import { Type } from "@angular/core";
+import { reflectComponentType, Type } from "@angular/core";
 import {
   EntityState,
   SetError,
@@ -7,7 +7,7 @@ import {
   CreateOrReplace,
   Remove,
 } from "@ngxs-labs/entity-state";
-import { StateContext } from "@ngxs/store";
+import { Action, StateContext } from "@ngxs/store";
 import { ApiService, ApiServiceWithPagination } from "@shared/api";
 import { catchError, finalize, switchMap } from "rxjs";
 import {
@@ -26,7 +26,7 @@ type Actions<EntityType extends object, Query, Create, Update> = {
   CreateSucceeded: Type<BaseActions.CreateSucceeded<EntityType>>;
   Update: Type<BaseActions.Update<Update>>;
   UpdateFailed: Type<BaseActions.UpdateFailed>;
-  UpdateSucceeded: Type<BaseActions.UpdateSucceeded<Update>>;
+  UpdateSucceeded: Type<BaseActions.UpdateSucceeded<EntityType>>;
   Delete: Type<BaseActions.Delete>;
   DeleteFailed: Type<BaseActions.DeleteFailed>;
   DeleteSucceeded: Type<BaseActions.DeleteSucceeded>;
@@ -63,6 +63,7 @@ export abstract class ExtendedEntityState<
     this.service = service;
     this.storeClass = storeClass;
     this.actions = actions;
+    this.decorateMethods();
   }
 
   public load(
@@ -204,5 +205,31 @@ export abstract class ExtendedEntityState<
         state.deleteStatus?.targetId || -1,
       ),
     });
+  }
+
+  private decorateMethods() {
+    this.decorateMethod(this.actions.Load, "load");
+    this.decorateMethod(this.actions.LoadingFailed, "loadingFailed");
+    this.decorateMethod(this.actions.LoadingSucceeded, "loadingSucceeded");
+    this.decorateMethod(this.actions.Create, "createEntity");
+    this.decorateMethod(this.actions.CreateSucceeded, "createSucceeded");
+    this.decorateMethod(this.actions.CreateFailed, "createFailed");
+    this.decorateMethod(this.actions.Update, "updateEntity");
+    this.decorateMethod(this.actions.UpdateSucceeded, "updateSucceeded");
+    this.decorateMethod(this.actions.UpdateFailed, "updateFailed");
+    this.decorateMethod(this.actions.Delete, "deleteEntity");
+    this.decorateMethod(this.actions.DeleteSucceeded, "deleteSucceeded");
+    this.decorateMethod(this.actions.DeleteFailed, "deleteFailed");
+  }
+
+  private decorateMethod(action: Type<any>, methodName: string) {
+    Action(action as any)(
+      this,
+      methodName,
+      Object.getOwnPropertyDescriptor(
+        this,
+        methodName,
+      ) as TypedPropertyDescriptor<any>,
+    );
   }
 }

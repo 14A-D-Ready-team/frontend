@@ -28,7 +28,11 @@ import {
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
 import { DeleteConfirmModalComponent } from "@shared/modals";
-import { ApiRequestStatus, TargetedRequestStatus } from "@shared/api";
+import {
+  TargetedRequestStatus,
+  ApiRequestStatus,
+} from "@shared/extended-entity-state/utils";
+
 @Component({
   selector: "app-categories-list",
   templateUrl: "./categories-list.page.html",

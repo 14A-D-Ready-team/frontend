@@ -90,10 +90,10 @@ export class ProductsListState {
     return ctx.dispatch(new ProductActions.Load(query));
   }
 
-  @Action(ProductActions.LoadingSucceeded)
+  @Action(LoadingSucceeded)
   public loadingSucceeded(
     ctx: StateContext<ProductsListStateModel>,
-    action: ProductActions.LoadingSucceeded,
+    action: loadins,
   ) {
     const state = ctx.getState();
 
