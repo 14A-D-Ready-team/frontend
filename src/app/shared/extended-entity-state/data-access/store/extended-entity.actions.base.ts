@@ -6,8 +6,8 @@ export abstract class LoadingFailed {
   constructor(public error: any) {}
 }
 
-export abstract class LoadingSucceeded<T> {
-  constructor(public entities: T[]) {}
+export abstract class LoadingSucceeded<T, Q> {
+  constructor(public query: Q, public entities: T[], public count: number) {}
 }
 
 export abstract class Create<C> {
@@ -23,7 +23,7 @@ export abstract class CreateSucceeded<T> {
 }
 
 export abstract class Update<U> {
-  constructor(public payload: U) {}
+  constructor(public id: number, public payload: U) {}
 }
 
 export abstract class UpdateFailed {

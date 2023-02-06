@@ -1,8 +1,44 @@
-import { CreateProductDto } from "../dto";
+import { createActions } from "@shared/extended-entity-state";
+import { CreateProductDto, UpdateProductDto } from "../dto";
 import { Product } from "../entity";
 import { FilterProductsQuery } from "../query";
 
-export class Load {
+const {
+  Create,
+  CreateFailed,
+  CreateSucceeded,
+  Delete,
+  DeleteFailed,
+  DeleteSucceeded,
+  Load,
+  LoadingFailed,
+  LoadingSucceeded,
+  Update,
+  UpdateFailed,
+  UpdateSucceeded,
+} = createActions<
+  Product,
+  FilterProductsQuery,
+  CreateProductDto,
+  UpdateProductDto
+>("Product");
+
+export {
+  Create,
+  CreateFailed,
+  CreateSucceeded,
+  Delete,
+  DeleteFailed,
+  DeleteSucceeded,
+  Load,
+  LoadingFailed,
+  LoadingSucceeded,
+  Update,
+  UpdateFailed,
+  UpdateSucceeded,
+};
+
+/* export class Load {
   public static type = "[Product] Load";
 
   constructor(public query: FilterProductsQuery) {}
@@ -41,3 +77,4 @@ export class CreateSucceeded {
 
   constructor(public product: Product) {}
 }
+ */
