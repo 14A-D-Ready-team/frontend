@@ -11,5 +11,4 @@ export class EmailVerificationFailed {
 
 export class EmailVerificationSucceeded {
   static readonly type = "[Auth API] EmailVerification Failed";
-  constructor(public user: User) {}
 }

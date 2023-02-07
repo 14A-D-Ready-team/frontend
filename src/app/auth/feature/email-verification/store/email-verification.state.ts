@@ -71,7 +71,7 @@ export class EmailVerificationState {
     ctx.patchState({ status: { loading: true } });
 
     return this.authService.emailVerification(payload).pipe(
-      switchMap(user => ctx.dispatch(new EmailVerificationSucceeded(user))),
+      switchMap(user => ctx.dispatch(new EmailVerificationSucceeded())),
       catchError(error => ctx.dispatch(new EmailVerificationFailed(error))),
       finalize(() => {
         ctx.dispatch(new SetFormEnabled(emialVerificationFormPath));

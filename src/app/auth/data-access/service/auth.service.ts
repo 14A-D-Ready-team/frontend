@@ -25,6 +25,6 @@ export class AuthService {
   public emailVerification(payload: string) {
     return this.http
       .post(environment.api.url + "/auth/send-email-verification", payload)
-      .pipe(processResponse(User));
+      .pipe(processResponse());
   }
 }
