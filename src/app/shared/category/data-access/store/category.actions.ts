@@ -1,11 +1,12 @@
 import { EditCategoryDto } from "../dto";
 import { Category } from "../entity";
+import { FilterCategoriesQuery } from "../query";
 
-export class LoadAll {
-  public static readonly type = "[Category] Load All";
+export class Load {
+  public static readonly type = "[Category] Load ";
 
   // TODO: We'll load the categories of a buffet
-  constructor(/* public buffetId:number */) {}
+  constructor(public query: FilterCategoriesQuery) {}
 }
 
 export class LoadingFailed {

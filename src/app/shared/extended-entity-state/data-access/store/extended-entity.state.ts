@@ -6,8 +6,9 @@ import {
   IdStrategy,
   CreateOrReplace,
   Remove,
+  EntityStateModel,
 } from "@ngxs-labs/entity-state";
-import { Action, StateContext } from "@ngxs/store";
+import { Action, Selector, StateContext } from "@ngxs/store";
 import { ApiService, ApiServiceWithPagination } from "@shared/api";
 import { catchError, finalize, switchMap } from "rxjs";
 import {
@@ -38,6 +39,21 @@ export abstract class ExtendedEntityState<
   Create,
   Update,
 > extends EntityState<EntityType> {
+  @Selector()
+  public static updateStatus(state: ExtendedEntityStateModel<any>) {
+    return state.updateStatus;
+  }
+
+  @Selector()
+  public static createStatus(state: ExtendedEntityStateModel<any>) {
+    return state.createStatus;
+  }
+
+  @Selector()
+  public static deleteStatus(state: ExtendedEntityStateModel<any>) {
+    return state.deleteStatus;
+  }
+
   protected readonly service: ApiServiceWithPagination<EntityType, Query> &
     ApiService<EntityType, Create, Update>;
 
@@ -89,6 +105,8 @@ export abstract class ExtendedEntityState<
       finalize(() => ctx.dispatch(new SetLoading(this.storeClass, false))),
     );
   }
+
+  public onLoadingSucceeded() {}
 
   public loadingFailed(
     ctx: StateContext<ExtendedEntityStateModel<EntityType>>,

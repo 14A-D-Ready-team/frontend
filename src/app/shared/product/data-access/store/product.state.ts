@@ -1,14 +1,6 @@
-import {
-  CreateOrReplace,
-  defaultEntityState,
-  EntityState,
-  EntityStateModel,
-  IdStrategy,
-  SetError,
-  SetLoading,
-} from "@ngxs-labs/entity-state";
+import { defaultEntityState, IdStrategy } from "@ngxs-labs/entity-state";
 import { Product } from "../entity";
-import { Action, State, StateContext } from "@ngxs/store";
+import { State } from "@ngxs/store";
 import { Injectable } from "@angular/core";
 import { ProductService } from "../service";
 import * as Actions from "./product.actions";

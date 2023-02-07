@@ -94,7 +94,7 @@ export class CategoryState extends EntityState<Category> {
   public loadAll(ctx: StateContext<CategoryStateModel>, action: LoadAll) {
     ctx.dispatch(new SetLoading(CategoryState, true));
 
-    return this.categoryService.findAll().pipe(
+    return this.categoryService.find().pipe(
       switchMap(categories =>
         // 1: If it gets too complex, might create separate actions (LoadingAllSucceeded, LoadingAllFailed)
         concat(

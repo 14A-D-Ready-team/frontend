@@ -18,9 +18,10 @@ import {
   loadAllCategories,
 } from "@shared/category";
 import { Injectable } from "@angular/core";
-import { interval, map, take } from "rxjs";
+import { take } from "rxjs";
 import { DeepReadonly } from "@ngxs-labs/entity-state";
 import { FilterChanged } from "../../product-filter";
+import { BaseActions } from "@shared/extended-entity-state";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProductsListStateModel {
@@ -90,10 +91,10 @@ export class ProductsListState {
     return ctx.dispatch(new ProductActions.Load(query));
   }
 
-  @Action(LoadingSucceeded)
+  @Action(ProductActions.LoadingSucceeded)
   public loadingSucceeded(
     ctx: StateContext<ProductsListStateModel>,
-    action: loadins,
+    action: BaseActions.LoadingSucceeded<Product, FilterProductsQuery>,
   ) {
     const state = ctx.getState();
 
@@ -101,11 +102,11 @@ export class ProductsListState {
     newIds.splice(
       action.query.skip || 0,
       action.query.take || state.productIds.length,
-      ...action.products.map(p => p.id),
+      ...action.entities.map(p => p.id),
     );
 
     const remaining =
-      action.count - (action.query.skip || 0) - action.products.length;
+      action.count - (action.query.skip || 0) - action.entities.length;
 
     ctx.patchState({
       productIds: newIds,
