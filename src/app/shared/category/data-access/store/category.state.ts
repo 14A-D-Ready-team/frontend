@@ -19,13 +19,16 @@ import {
   StateContext,
   StateToken,
 } from "@ngxs/store";
+import { ExtendedEntityState } from "@shared/extended-entity-state";
 import {
   TargetedRequestStatus,
   ApiRequestStatus,
 } from "@shared/extended-entity-state/utils";
 import { catchError, concat, filter, finalize, of, switchMap, tap } from "rxjs";
 import { CategoryService } from "../category.service";
+import { EditCategoryDto } from "../dto";
 import { Category } from "../entity";
+import { FilterCategoriesQuery } from "../query";
 import {
   LoadingFailed,
   LoadingSucceeded,
@@ -39,6 +42,7 @@ import {
   Delete,
   DeleteSucceeded,
   DeleteFailed,
+  EntityActions,
 } from "./category.actions";
 
 export type CategoryStateModel = EntityStateModel<Category> & {
@@ -57,7 +61,12 @@ export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
   defaults: { ...defaultEntityState(), isAllLoaded: false },
 })
 @Injectable()
-export class CategoryState extends EntityState<Category> {
+export class CategoryState extends ExtendedEntityState<
+  Category,
+  FilterCategoriesQuery,
+  EditCategoryDto,
+  EditCategoryDto
+> {
   @Selector()
   public static updateStatus(state: CategoryStateModel) {
     return state.updateStatus;
@@ -86,10 +95,16 @@ export class CategoryState extends EntityState<Category> {
   }
 
   constructor(private readonly categoryService: CategoryService) {
-    super(CategoryState, "id", IdStrategy.EntityIdGenerator);
+    super({
+      storeClass: CategoryState,
+      _idKey: "id",
+      idStrategy: IdStrategy.EntityIdGenerator,
+      service: categoryService,
+      actions: EntityActions,
+    });
   }
 
-  public loadAll(ctx: StateContext<CategoryStateModel>, action: LoadAll) {
+  /*   public loadAll(ctx: StateContext<CategoryStateModel>, action: LoadAll) {
     ctx.dispatch(new SetLoading(CategoryState, true));
 
     return this.categoryService.find().pipe(
@@ -104,7 +119,7 @@ export class CategoryState extends EntityState<Category> {
       catchError(error => ctx.dispatch(new LoadingFailed(error))),
       finalize(() => ctx.dispatch(new SetLoading(CategoryState, false))),
     );
-  }
+  } */
 
   @Action(SetAllLoaded)
   public setAllLoaded(
