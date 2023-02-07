@@ -19,7 +19,7 @@ export interface EmailVerificationStatus {
 
 export interface EmailVerificationStateModel {
   emailVerificationForm: {
-    model: string;
+    model: { email: string };
     dirty: boolean;
     status: FormControlStatus;
     errors: Dictionary<any>;
@@ -37,7 +37,7 @@ const emialVerificationFormPath = "emailVerification.emailVerificationForm";
   name: STATE,
   defaults: {
     emailVerificationForm: {
-      model: "",
+      model: { email: "" },
       dirty: false,
       status: "VALID",
       errors: {},
@@ -63,8 +63,8 @@ export class EmailVerificationState {
       return;
     }
 
-    const model: string = state.emailVerificationForm.model;
-    const payload: string = model;
+    const model = state.emailVerificationForm.model;
+    const payload = model.email;
     console.log(payload);
 
     ctx.dispatch(new SetFormDisabled(emialVerificationFormPath));
