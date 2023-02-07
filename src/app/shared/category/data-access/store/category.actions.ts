@@ -18,7 +18,10 @@ export class LoadingFailed {
 export class LoadingSucceeded {
   public static readonly type = "[Category API] Loading Succeeded";
 
-  constructor(public categories: Category[]) {}
+  constructor(
+    public query: FilterCategoriesQuery,
+    public categories: Category[],
+  ) {}
 }
 
 export class SetAllLoaded {

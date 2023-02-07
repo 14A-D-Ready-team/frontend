@@ -10,7 +10,7 @@ import {
 } from "@ngxs-labs/entity-state";
 import { Action, Selector, StateContext } from "@ngxs/store";
 import { ApiService, ApiServiceWithPagination } from "@shared/api";
-import { catchError, finalize, switchMap } from "rxjs";
+import { catchError, finalize, Observable, switchMap } from "rxjs";
 import {
   createFailedStatus,
   createLoadingStatus,
@@ -92,21 +92,25 @@ export abstract class ExtendedEntityState<
     const query = action.query;
 
     return this.service.find(query).pipe(
-      switchMap(response =>
-        ctx.dispatch(
-          new this.actions.LoadingSucceeded(
-            query,
-            response.items,
-            response.count,
-          ),
-        ),
-      ),
+      switchMap(response => this.onLoadingSucceeded(response, ctx, action)),
       catchError(error => ctx.dispatch(new this.actions.LoadingFailed(error))),
       finalize(() => ctx.dispatch(new SetLoading(this.storeClass, false))),
     );
   }
 
-  public onLoadingSucceeded() {}
+  public onLoadingSucceeded(
+    response: any,
+    ctx: StateContext<ExtendedEntityStateModel<EntityType>>,
+    action: BaseActions.Load<Query>,
+  ): Observable<any> {
+    return ctx.dispatch(
+      new this.actions.LoadingSucceeded(
+        action.query,
+        response.items,
+        response.count === undefined ? response.items.length : response.count,
+      ),
+    );
+  }
 
   public loadingFailed(
     ctx: StateContext<ExtendedEntityStateModel<EntityType>>,
