@@ -3,8 +3,15 @@ import { HttpClient } from "@angular/common/http";
 import { Type } from "@angular/core";
 import { processResponse } from "@shared/serialization";
 import { instanceToPlain } from "class-transformer";
+import { Observable } from "rxjs";
 
-export class ApiService<EntityType, CreateDtoType, UpdateDtoType> {
+export abstract class ApiService<
+  EntityType,
+  Query,
+  FindResultType,
+  CreateDtoType,
+  UpdateDtoType,
+> {
   constructor(
     protected httpClient: HttpClient,
     protected path: string,
@@ -16,6 +23,8 @@ export class ApiService<EntityType, CreateDtoType, UpdateDtoType> {
       .post(environment.api.url + this.path, instanceToPlain(payload))
       .pipe(processResponse(this.entityClass));
   }
+
+  public abstract find(query: Query): Observable<FindResultType>;
 
   public findOne(id: number) {
     return this.httpClient

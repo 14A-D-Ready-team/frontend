@@ -1,5 +1,8 @@
-* {
-  color: red;
+@import "/src/global.scss";
+
+p {
+  color: $ready-red;
+  size: $s-font;
 }
 
 .visible {

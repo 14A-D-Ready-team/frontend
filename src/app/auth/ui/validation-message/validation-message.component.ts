@@ -4,7 +4,6 @@ import {
   Input,
   OnInit,
 } from "@angular/core";
-import { LoginStatus } from "@app/auth/feature/login/store";
 
 @Component({
   selector: "app-validation-message",
