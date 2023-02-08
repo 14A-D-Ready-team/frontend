@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { processResponse } from "@app/shared/serialization";
 import { User } from "@shared/user";
-import { LoginDto } from "../dto";
+import { LoginDto, SignupDto } from "../dto";
 
 @Injectable({
   providedIn: "root",
@@ -14,6 +14,11 @@ export class AuthService {
   public signIn(payload: LoginDto) {
     return this.http
       .post(environment.api.url + "/auth/signin", payload)
+      .pipe(processResponse(User));
+  }
+  public signUp(payload: SignupDto) {
+    return this.http
+      .post(environment.api.url + "/auth/signup", payload)
       .pipe(processResponse(User));
   }
 }
