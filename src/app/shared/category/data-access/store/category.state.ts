@@ -52,21 +52,6 @@ export class CategoryState extends ExtendedEntityState<
   EditCategoryDto
 > {
   @Selector()
-  public static updateStatus(state: CategoryStateModel) {
-    return state.updateStatus;
-  }
-
-  @Selector()
-  public static createStatus(state: CategoryStateModel) {
-    return state.createStatus;
-  }
-
-  @Selector()
-  public static deleteStatus(state: CategoryStateModel) {
-    return state.deleteStatus;
-  }
-
-  @Selector()
   public static isAllLoaded(state: CategoryStateModel) {
     return state.isAllLoaded;
   }
