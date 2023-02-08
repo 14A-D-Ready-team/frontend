@@ -20,7 +20,7 @@ import { AdminSideMenuComponent } from "../admin-side-menu/admin-side-menu.compo
 export class AdminShellComponent {
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
-    map(() => this.platform.width() > 1200),
+    map(() => this.platform.width() >= 1200),
   );
 
   constructor(private platform: Platform) {}

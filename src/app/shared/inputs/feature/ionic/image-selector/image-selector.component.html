@@ -1,4 +1,5 @@
-<ngx-dropzone
+<div
+  ngx-dropzone
   [disabled]="bindedFormControl.disabled"
   [multiple]="false"
   [expandable]="true"
@@ -10,14 +11,16 @@
     fájlt!</ngx-dropzone-label
   >
   <app-dropzone-image-preview
-    *ngIf="(bindedFormControl.valueChanges | async) === null"
+    *ngIf="(bindedFormControl.valueChanges | async) === null && initialImageUrl"
     [imageSrc]="initialImageUrl || 'assets/images/product.png'"
     ngProjectAs="ngx-dropzone-preview"
-  ></app-dropzone-image-preview>
+  >
+  </app-dropzone-image-preview>
+
   <app-dropzone-image-preview
     *ngIf="bindedFormControl.valueChanges | async as file"
     ngProjectAs="ngx-dropzone-preview"
     [file]="file"
   >
   </app-dropzone-image-preview>
-</ngx-dropzone>
+</div>
