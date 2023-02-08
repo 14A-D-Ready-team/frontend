@@ -1,3 +1,16 @@
-<p>
-  buffet-filter works!
-</p>
+<form [formGroup]="form" [ngxsForm]="formPath" [ngxsFormDebounce]="0">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="bottom-margin"> </ion-col>
+      <ion-col class="bottom-margin">
+        <app-string-filter-input
+          title="Büfé keresése"
+          [bindedFormGroup]="form.controls.searchName"
+        >
+        </app-string-filter-input>
+      </ion-col>
+      <ion-col class="bottom-margin"> </ion-col>
+      <ion-col class="bottom-margin"> </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>
