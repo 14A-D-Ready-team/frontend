@@ -1,68 +1,47 @@
-import * as Base from "./extended-entity.actions.base";
+export abstract class Load<Q> {
+  constructor(public query: Q) {}
+}
 
-export function createActions<EntityType, Query, CreateDto, UpdateDto>(
-  entityName: string,
-) {
-  class Load extends Base.Load<Query> {
-    public static readonly type = `[${entityName}] Load`;
-  }
+export abstract class LoadingFailed {
+  constructor(public error: any) {}
+}
 
-  class LoadingFailed extends Base.LoadingFailed {
-    public static readonly type = `[${entityName} API] Loading Failed`;
-  }
+export abstract class LoadingSucceeded<T, Q> {
+  constructor(public query: Q, public entities: T[], public count: number) {}
+}
 
-  class LoadingSucceeded extends Base.LoadingSucceeded<EntityType, Query> {
-    public static readonly type = `[${entityName} API] Loading Succeeded`;
-  }
+export abstract class Create<C> {
+  constructor(public payload: C) {}
+}
 
-  class Create extends Base.Create<CreateDto> {
-    public static readonly type = `[${entityName}] Create`;
-  }
+export abstract class CreateFailed {
+  constructor(public error: any) {}
+}
 
-  class CreateFailed extends Base.CreateFailed {
-    public static readonly type = `[${entityName} API] Create Failed`;
-  }
+export abstract class CreateSucceeded<T> {
+  constructor(public entity: T) {}
+}
 
-  class CreateSucceeded extends Base.CreateSucceeded<EntityType> {
-    public static readonly type = `[${entityName} API] Create Succeeded`;
-  }
+export abstract class Update<U> {
+  constructor(public id: number, public payload: U) {}
+}
 
-  class Update extends Base.Update<UpdateDto> {
-    public static readonly type = `[${entityName}] Update`;
-  }
+export abstract class UpdateFailed {
+  constructor(public error: any) {}
+}
 
-  class UpdateFailed extends Base.UpdateFailed {
-    public static readonly type = `[${entityName} API] Update Failed`;
-  }
+export abstract class UpdateSucceeded<T> {
+  constructor(public entity: T) {}
+}
 
-  class UpdateSucceeded extends Base.UpdateSucceeded<EntityType> {
-    public static readonly type = `[${entityName} API] Update Succeeded`;
-  }
+export abstract class Delete {
+  constructor(public id: number) {}
+}
 
-  class Delete extends Base.Delete {
-    public static readonly type = `[${entityName}] Delete`;
-  }
+export abstract class DeleteFailed {
+  constructor(public error: any) {}
+}
 
-  class DeleteFailed extends Base.DeleteFailed {
-    public static readonly type = `[${entityName} API] Delete Failed`;
-  }
-
-  class DeleteSucceeded extends Base.DeleteSucceeded {
-    public static readonly type = `[${entityName} API] Delete Succeeded`;
-  }
-
-  return {
-    Load,
-    LoadingFailed,
-    LoadingSucceeded,
-    Create,
-    CreateFailed,
-    CreateSucceeded,
-    Update,
-    UpdateFailed,
-    UpdateSucceeded,
-    Delete,
-    DeleteFailed,
-    DeleteSucceeded,
-  };
+export abstract class DeleteSucceeded {
+  constructor(public id: number) {}
 }

@@ -14,10 +14,7 @@ import {
   StateContext,
   StateToken,
 } from "@ngxs/store";
-import {
-  BaseActions,
-  ExtendedEntityState,
-} from "@shared/extended-entity-state";
+import { ExtendedEntityState } from "@shared/extended-entity-state";
 import {
   TargetedRequestStatus,
   ApiRequestStatus,
@@ -28,7 +25,8 @@ import { CategoryService } from "../category.service";
 import { EditCategoryDto } from "../dto";
 import { Category } from "../entity";
 import { FilterCategoriesQuery } from "../query";
-import { SetAllLoaded, EntityActions } from "./category.actions";
+import * as Actions from "./category.actions";
+import { SetAllLoaded, LoadingSucceeded, Load } from "./category.actions";
 
 export type CategoryStateModel = EntityStateModel<Category> & {
   isAllLoaded: boolean;
@@ -86,40 +84,19 @@ export class CategoryState extends ExtendedEntityState<
       _idKey: "id",
       idStrategy: IdStrategy.EntityIdGenerator,
       service: categoryService,
-      actions: EntityActions,
+      actions: Actions,
     });
   }
-
-  /*   public loadAll(ctx: StateContext<CategoryStateModel>, action: LoadAll) {
-    ctx.dispatch(new SetLoading(CategoryState, true));
-
-    return this.categoryService.find().pipe(
-      switchMap(categories =>
-        // 1: If it gets too complex, might create separate actions (LoadingAllSucceeded, LoadingAllFailed)
-        concat(
-          ctx.dispatch(new RemoveAll(CategoryState)),
-          ctx.dispatch(new LoadingSucceeded()),
-          ctx.dispatch(new SetAllLoaded(true)),
-        ),
-      ),
-      catchError(error => ctx.dispatch(new LoadingFailed(error))),
-      finalize(() => ctx.dispatch(new SetLoading(CategoryState, false))),
-    );
-  } */
 
   public onLoadingSucceeded(
     response: Category[],
     ctx: StateContext<ExtendedEntityStateModel<Category>>,
-    action: BaseActions.Load<FilterCategoriesQuery>,
+    action: Load,
   ) {
     return concat(
       ctx.dispatch(new RemoveAll(CategoryState)),
       ctx.dispatch(
-        new EntityActions.LoadingSucceeded(
-          action.query,
-          response,
-          response.length,
-        ),
+        new LoadingSucceeded(action.query, response, response.length),
       ),
       ctx.dispatch(new SetAllLoaded(true)),
     );

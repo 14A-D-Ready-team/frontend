@@ -21,7 +21,7 @@ import { Injectable } from "@angular/core";
 import { take } from "rxjs";
 import { DeepReadonly } from "@ngxs-labs/entity-state";
 import { FilterChanged } from "../../product-filter";
-import { BaseActions } from "@shared/extended-entity-state";
+import { EntityActions } from "@shared/extended-entity-state";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProductsListStateModel {
@@ -94,7 +94,7 @@ export class ProductsListState {
   @Action(ProductActions.LoadingSucceeded)
   public loadingSucceeded(
     ctx: StateContext<ProductsListStateModel>,
-    action: BaseActions.LoadingSucceeded<Product, FilterProductsQuery>,
+    action: ProductActions.LoadingSucceeded,
   ) {
     const state = ctx.getState();
 

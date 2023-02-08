@@ -8,6 +8,7 @@ import { FilterProductsQuery } from "../query";
 import { ExtendedEntityState } from "@shared/extended-entity-state";
 import { CreateProductDto, UpdateProductDto } from "../dto";
 import { ExtendedEntityStateModel } from "@shared/extended-entity-state/utils";
+import { PaginatedResponse } from "@shared/api/utils/paginated.response";
 
 export type ProductStateModel = ExtendedEntityStateModel<Product>;
 
@@ -19,6 +20,7 @@ export type ProductStateModel = ExtendedEntityStateModel<Product>;
 export class ProductState extends ExtendedEntityState<
   Product,
   FilterProductsQuery,
+  PaginatedResponse<Product>,
   CreateProductDto,
   UpdateProductDto
 > {

@@ -16,7 +16,7 @@ import {
   createLoadingStatus,
   ExtendedEntityStateModel,
 } from "../../utils";
-import * as BaseActions from "./extended-entity.actions.base";
+import * as BaseActions from "./extended-entity.actions";
 
 type Actions<EntityType extends object, Query, Create, Update> = {
   Load: Type<BaseActions.Load<Query>>;

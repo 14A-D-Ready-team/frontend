@@ -202,6 +202,6 @@ export class CategoriesListPage implements OnInit {
       ],
     });
     actionSheet.present();
-    return (await actionSheet.onDidDismiss()).data.action === "delete";
+    return (await actionSheet.onDidDismiss())?.data?.action === "delete";
   }
 }
