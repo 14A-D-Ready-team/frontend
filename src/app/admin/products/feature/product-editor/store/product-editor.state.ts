@@ -24,5 +24,10 @@ export const formPath = "productEditor.form";
 })
 export class ProductEditorState {
   @Action(Save)
-  public save(ctx: StateContext<ProductEditorStateModel>) {}
+  public save(ctx: StateContext<ProductEditorStateModel>) {
+    const state = ctx.getState();
+    if (state.form.status === "INVALID") {
+      return;
+    }
+  }
 }
