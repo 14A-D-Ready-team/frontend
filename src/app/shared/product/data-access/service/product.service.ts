@@ -1,7 +1,9 @@
 import { environment } from "@/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ApiService, ApiServiceWithPagination } from "@shared/api";
+import { ApiService } from "@shared/api";
+import { PaginatedResponse } from "@shared/api/utils/paginated.response";
+import { FilterCategoriesQuery } from "@shared/category/data-access/query";
 import {
   processPaginatedResponse,
   serializeQueryParams,
@@ -13,10 +15,13 @@ import { FilterProductsQuery } from "../query";
 @Injectable({
   providedIn: "root",
 })
-export class ProductService
-  extends ApiService<Product, CreateProductDto, UpdateProductDto>
-  implements ApiServiceWithPagination<Product, FilterProductsQuery>
-{
+export class ProductService extends ApiService<
+  Product,
+  FilterCategoriesQuery,
+  PaginatedResponse<Product>,
+  CreateProductDto,
+  UpdateProductDto
+> {
   constructor(httpClient: HttpClient) {
     super(httpClient, "/product/", Product);
   }

@@ -1,4 +1,4 @@
-import { reflectComponentType, Type } from "@angular/core";
+import { Type } from "@angular/core";
 import {
   EntityState,
   SetError,
@@ -6,10 +6,10 @@ import {
   IdStrategy,
   CreateOrReplace,
   Remove,
-  EntityStateModel,
 } from "@ngxs-labs/entity-state";
 import { Action, Selector, StateContext } from "@ngxs/store";
-import { ApiService, ApiServiceWithPagination } from "@shared/api";
+import { ApiService } from "@shared/api";
+import { PaginatedResponse } from "@shared/api/utils/paginated.response";
 import { catchError, finalize, Observable, switchMap } from "rxjs";
 import {
   createFailedStatus,
@@ -36,6 +36,7 @@ type Actions<EntityType extends object, Query, Create, Update> = {
 export abstract class ExtendedEntityState<
   EntityType extends { id: number },
   Query,
+  FindResultType extends EntityType[] | PaginatedResponse<EntityType>,
   Create,
   Update,
 > extends EntityState<EntityType> {
@@ -54,8 +55,13 @@ export abstract class ExtendedEntityState<
     return state.deleteStatus;
   }
 
-  protected readonly service: ApiServiceWithPagination<EntityType, Query> &
-    ApiService<EntityType, Create, Update>;
+  protected readonly service: ApiService<
+    EntityType,
+    Query,
+    FindResultType,
+    Create,
+    Update
+  >;
 
   protected readonly storeClass: Type<EntityState<EntityType>>;
 
@@ -71,8 +77,7 @@ export abstract class ExtendedEntityState<
     storeClass: Type<EntityState<EntityType>>;
     _idKey: keyof EntityType;
     idStrategy: Type<IdStrategy.IdGenerator<EntityType>>;
-    service: ApiServiceWithPagination<EntityType, Query> &
-      ApiService<EntityType, Create, Update>;
+    service: ApiService<EntityType, Query, FindResultType, Create, Update>;
     actions: Actions<EntityType, Query, Create, Update>;
   }) {
     super(storeClass, _idKey, idStrategy);
@@ -99,15 +104,24 @@ export abstract class ExtendedEntityState<
   }
 
   public onLoadingSucceeded(
-    response: any,
+    response: FindResultType,
     ctx: StateContext<ExtendedEntityStateModel<EntityType>>,
     action: BaseActions.Load<Query>,
   ): Observable<any> {
+    if (Array.isArray(response)) {
+      return ctx.dispatch(
+        new this.actions.LoadingSucceeded(
+          action.query,
+          response,
+          response.length,
+        ),
+      );
+    }
     return ctx.dispatch(
       new this.actions.LoadingSucceeded(
         action.query,
         response.items,
-        response.count === undefined ? response.items.length : response.count,
+        response.count,
       ),
     );
   }

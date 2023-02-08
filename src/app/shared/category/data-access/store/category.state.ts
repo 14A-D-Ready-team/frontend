@@ -3,13 +3,8 @@ import { Injectable } from "@angular/core";
 import {
   defaultEntityState,
   EntityStateModel,
-  EntityState,
   IdStrategy,
-  SetLoading,
-  CreateOrReplace,
   RemoveAll,
-  SetError,
-  Remove,
 } from "@ngxs-labs/entity-state";
 import {
   Action,
@@ -19,31 +14,21 @@ import {
   StateContext,
   StateToken,
 } from "@ngxs/store";
-import { ExtendedEntityState } from "@shared/extended-entity-state";
+import {
+  BaseActions,
+  ExtendedEntityState,
+} from "@shared/extended-entity-state";
 import {
   TargetedRequestStatus,
   ApiRequestStatus,
+  ExtendedEntityStateModel,
 } from "@shared/extended-entity-state/utils";
-import { catchError, concat, filter, finalize, of, switchMap, tap } from "rxjs";
+import { concat } from "rxjs";
 import { CategoryService } from "../category.service";
 import { EditCategoryDto } from "../dto";
 import { Category } from "../entity";
 import { FilterCategoriesQuery } from "../query";
-import {
-  LoadingFailed,
-  LoadingSucceeded,
-  SetAllLoaded,
-  Update,
-  UpdateSucceeded,
-  UpdateFailed,
-  Create,
-  CreateSucceeded,
-  CreateFailed,
-  Delete,
-  DeleteSucceeded,
-  DeleteFailed,
-  EntityActions,
-} from "./category.actions";
+import { SetAllLoaded, EntityActions } from "./category.actions";
 
 export type CategoryStateModel = EntityStateModel<Category> & {
   isAllLoaded: boolean;
@@ -64,6 +49,7 @@ export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
 export class CategoryState extends ExtendedEntityState<
   Category,
   FilterCategoriesQuery,
+  Category[],
   EditCategoryDto,
   EditCategoryDto
 > {
@@ -120,6 +106,24 @@ export class CategoryState extends ExtendedEntityState<
       finalize(() => ctx.dispatch(new SetLoading(CategoryState, false))),
     );
   } */
+
+  public onLoadingSucceeded(
+    response: Category[],
+    ctx: StateContext<ExtendedEntityStateModel<Category>>,
+    action: BaseActions.Load<FilterCategoriesQuery>,
+  ) {
+    return concat(
+      ctx.dispatch(new RemoveAll(CategoryState)),
+      ctx.dispatch(
+        new EntityActions.LoadingSucceeded(
+          action.query,
+          response,
+          response.length,
+        ),
+      ),
+      ctx.dispatch(new SetAllLoaded(true)),
+    );
+  }
 
   @Action(SetAllLoaded)
   public setAllLoaded(

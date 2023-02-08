@@ -13,6 +13,8 @@ import { FilterCategoriesQuery } from "./query";
 })
 export class CategoryService extends ApiService<
   Category,
+  FilterCategoriesQuery,
+  Category[],
   EditCategoryDto,
   EditCategoryDto
 > {
