@@ -1,13 +1,6 @@
 @import "/src/global.scss";
 
-* {
-  color: #25251c;
-  font-size: 16px;
-}
-
 .container {
-  height: 100%;
-  width: 100%;
   display: grid;
   grid-template-rows: 35vh 65vh;
   background-color: black;
@@ -18,18 +11,21 @@
   height: 100%;
   .logo {
     height: auto;
-    width: 75%;
+    width: 70%;
     max-width: 300px;
     margin: 0.5em;
+    object-fit: contain;
   }
 }
 
 .card {
   @include flex-center(column, flex-start);
   height: 100%;
+  width: 100%;
   background-color: $card-background;
   overflow-x: hidden;
   border-radius: 1em 1em 0em 0em;
+  min-height: fit-content;
 }
 
 h1 {
@@ -47,7 +43,7 @@ h1 {
     border-radius: 2em;
 
     width: 75%;
-    max-width: 500px;
+    max-width: 400px;
 
     outline: 0.5px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
@@ -61,7 +57,7 @@ h1 {
       outline: none;
       font-size: $m-font;
       color: black;
-      background-color: transparent;
+      background-color: transparent !important;
     }
     .input-icon {
       height: 1.8rem;
@@ -86,24 +82,6 @@ h1 {
   }
 }
 
-@media screen and (max-height: 750px) {
-  div {
-    font-size: 13px;
-    .logo-container .logo {
-      max-width: 220px;
-    }
-  }
-}
-
-@media screen and (min-width: 600px) {
-  div {
-    font-size: 25px;
-    .logo-container .logo {
-      max-width: 400px;
-    }
-  }
-}
-
 ion-spinner {
   transform: scale(4);
   position: absolute;
@@ -116,8 +94,7 @@ ion-spinner {
 }
 
 .text {
-  font-size: $m-font;
   color: black;
-  margin: 1em 2em;
+  margin: 1em 0em;
   text-align: center;
 }
