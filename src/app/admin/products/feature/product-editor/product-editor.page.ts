@@ -9,7 +9,7 @@ import {
 } from "ngx-reactive-form-class-validator";
 import { Observable } from "rxjs";
 import { ProductEditorFormModel } from "../../utils";
-import { Discard, formPath, ProductEditorState, Save } from "./store";
+import { Discard, formPath, Save } from "./store";
 
 @Component({
   selector: "app-product-editor",
@@ -38,6 +38,8 @@ export class ProductEditorPage implements OnInit {
       },
     );
   }
+
+  public ngOnInit(): void {}
 
   public save() {
     this.store.dispatch(new Save());
