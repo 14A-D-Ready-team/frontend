@@ -1,6 +1,10 @@
+import { Injectable } from "@angular/core";
+import { SetFormDisabled } from "@ngxs/form-plugin";
 import { Action, State, StateContext } from "@ngxs/store";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
-import { CreateProductDto } from "@shared/product";
+import { CreateProductDto, ProductActions } from "@shared/product";
+import { classTransformerConfig, createFormData } from "@shared/serialization";
+import { instanceToPlain } from "class-transformer";
 import { Save } from "./new-product.actions";
 
 export interface NewProductStateModel {
@@ -22,6 +26,7 @@ export const formPath = "newProduct.form";
     },
   },
 })
+@Injectable()
 export class NewProductState {
   @Action(Save)
   public save(ctx: StateContext<NewProductStateModel>) {
@@ -30,7 +35,10 @@ export class NewProductState {
       return;
     }
 
-    const dto = state.form.model;
-    console.log(dto);
+    const dto = CreateProductDto.clone(state.form.model);
+
+    ctx.dispatch(new SetFormDisabled(formPath));
+
+    return ctx.dispatch(new ProductActions.Create(dto));
   }
 }

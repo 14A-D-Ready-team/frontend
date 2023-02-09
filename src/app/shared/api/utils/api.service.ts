@@ -20,7 +20,7 @@ export abstract class ApiService<
 
   public create(payload: CreateDtoType) {
     return this.httpClient
-      .post(environment.api.url + this.path, instanceToPlain(payload))
+      .post(environment.api.url + this.path, this.serialize(payload))
       .pipe(processResponse(this.entityClass));
   }
 
@@ -32,9 +32,9 @@ export abstract class ApiService<
       .pipe(processResponse(this.entityClass));
   }
 
-  public update(id: number, payload: Partial<UpdateDtoType>) {
+  public update(id: number, payload: UpdateDtoType) {
     return this.httpClient
-      .patch(environment.api.url + this.path + id, instanceToPlain(payload))
+      .patch(environment.api.url + this.path + id, this.serialize(payload))
       .pipe(processResponse(this.entityClass));
   }
 
@@ -42,5 +42,9 @@ export abstract class ApiService<
     return this.httpClient
       .delete(environment.api.url + this.path + id)
       .pipe(processResponse<void>());
+  }
+
+  protected serialize(payload: CreateDtoType | UpdateDtoType) {
+    return instanceToPlain(payload);
   }
 }

@@ -1,6 +1,11 @@
 import { classTransformerConfig } from "@shared/serialization";
 import { createFormData } from "@shared/serialization/utils/create-form-data.util";
-import { classToPlain, Expose, instanceToPlain } from "class-transformer";
+import {
+  classToPlain,
+  Expose,
+  instanceToPlain,
+  Transform,
+} from "class-transformer";
 import {
   IsDefined,
   IsNotEmpty,
@@ -14,10 +19,16 @@ import {
 } from "class-validator";
 
 export class CreateProductDto {
+  public static clone(model: CreateProductDto) {
+    return { ...model };
+  }
+
   @Expose()
   @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
   public name!: string;
 
+  @Expose()
+  @Transform(({ value }) => value)
   public image!: File;
 
   @Expose()
@@ -41,9 +52,4 @@ export class CreateProductDto {
   @Expose()
   @IsDefined({ message: "A mező kitöltése kötelező!" })
   public categoryId!: number;
-
-  public serialize() {
-    const transformed = instanceToPlain(this, classTransformerConfig);
-    return createFormData(transformed);
-  }
 }
