@@ -1,16 +1,16 @@
 import { Action, State, StateContext } from "@ngxs/store";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import { CreateProductDto } from "@shared/product";
-import { Save } from "./product-editor.actions";
+import { Save } from "./new-product.actions";
 
-export interface ProductEditorStateModel {
+export interface NewProductStateModel {
   form: NgxsFormStateModel<CreateProductDto>;
 }
 
-export const formPath = "productEditor.form";
+export const formPath = "newProduct.form";
 
-@State<ProductEditorStateModel>({
-  name: "productEditor",
+@State<NewProductStateModel>({
+  name: "newProduct",
   defaults: {
     form: {
       model: new CreateProductDto(),
@@ -22,12 +22,15 @@ export const formPath = "productEditor.form";
     },
   },
 })
-export class ProductEditorState {
+export class NewProductState {
   @Action(Save)
-  public save(ctx: StateContext<ProductEditorStateModel>) {
+  public save(ctx: StateContext<NewProductStateModel>) {
     const state = ctx.getState();
     if (state.form.status === "INVALID") {
       return;
     }
+
+    const dto = state.form.model;
+    console.log(dto);
   }
 }

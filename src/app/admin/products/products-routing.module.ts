@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: "new",
     loadChildren: () =>
-      import("./feature/product-editor").then(m => m.ProductEditorPageModule),
+      import("./feature/new-product").then(m => m.NewProductPageModule),
   },
 ];
 

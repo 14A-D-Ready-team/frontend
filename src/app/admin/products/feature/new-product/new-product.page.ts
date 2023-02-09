@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
+import { Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Category, CategoryState } from "@shared/category";
 import { CreateProductDto } from "@shared/product";
@@ -9,14 +10,14 @@ import {
 } from "ngx-reactive-form-class-validator";
 import { Observable } from "rxjs";
 import { ProductEditorFormModel } from "../../utils";
-import { Discard, formPath, Save } from "./store";
+import { formPath, Save } from "./store";
 
 @Component({
-  selector: "app-product-editor",
-  templateUrl: "./product-editor.page.html",
-  styleUrls: ["./product-editor.page.scss"],
+  selector: "app-new-product",
+  templateUrl: "./new-product.page.html",
+  styleUrls: ["./new-product.page.scss"],
 })
-export class ProductEditorPage implements OnInit {
+export class NewProductPage {
   @Select(CategoryState.entities)
   public categories$!: Observable<Category[]>;
 
@@ -24,7 +25,7 @@ export class ProductEditorPage implements OnInit {
 
   public formPath = formPath;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
     this.form = new ClassValidatorFormGroup<ProductEditorFormModel>(
       CreateProductDto,
       {
@@ -38,15 +39,12 @@ export class ProductEditorPage implements OnInit {
       },
     );
   }
-  ngOnInit(): void {
-    throw new Error("Method not implemented.");
-  }
 
   public save() {
     this.store.dispatch(new Save());
   }
 
   public cancel() {
-    this.store.dispatch(new Discard());
+    this.router.navigate(["/admin/products"]);
   }
 }

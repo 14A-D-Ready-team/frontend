@@ -13,7 +13,11 @@
 <ion-content class="ion-padding">
   <ion-card>
     <ion-card-content>
-      <form [formGroup]="form" [ngxsForm]="formPath">
+      <form
+        [formGroup]="form"
+        [ngxsForm]="formPath"
+        [ngxsFormClearOnDestroy]="true"
+      >
         <ion-grid>
           <ion-row>
             <ion-col size-sm="4" size="12">
@@ -33,11 +37,7 @@
 
               <ion-item class="highlight-primary no-end-padding" counter>
                 <ion-label position="floating">Név</ion-label>
-                <ion-input
-                  clearInput
-                  formControlName="name"
-                  [maxlength]="100"
-                ></ion-input>
+                <ion-input formControlName="name" [maxlength]="100"></ion-input>
                 <div
                   class="end-button-container flex-vertical-center"
                   slot="end"

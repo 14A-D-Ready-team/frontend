@@ -1,4 +1,5 @@
-import { Expose } from "class-transformer";
+import { classTransformerConfig } from "@shared/serialization";
+import { classToPlain, Expose, instanceToPlain } from "class-transformer";
 import {
   IsDefined,
   IsNotEmpty,
@@ -15,6 +16,8 @@ export class CreateProductDto {
   @Expose()
   @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
   public name!: string;
+
+  public image!: File;
 
   @Expose()
   @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
@@ -37,4 +40,8 @@ export class CreateProductDto {
   @Expose()
   @IsDefined({ message: "A mező kitöltése kötelező!" })
   public categoryId!: number;
+
+  public serialize() {
+    const transformed = instanceToPlain(this, classTransformerConfig);
+  }
 }
