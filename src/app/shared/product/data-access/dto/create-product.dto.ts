@@ -1,4 +1,5 @@
 import { classTransformerConfig } from "@shared/serialization";
+import { createFormData } from "@shared/serialization/utils/create-form-data.util";
 import { classToPlain, Expose, instanceToPlain } from "class-transformer";
 import {
   IsDefined,
@@ -43,5 +44,6 @@ export class CreateProductDto {
 
   public serialize() {
     const transformed = instanceToPlain(this, classTransformerConfig);
+    return createFormData(transformed);
   }
 }
