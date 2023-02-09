@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SetFormDisabled } from "@ngxs/form-plugin";
+import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, State, StateContext } from "@ngxs/store";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import { CreateProductDto, ProductActions } from "@shared/product";
@@ -40,5 +40,16 @@ export class NewProductState {
     ctx.dispatch(new SetFormDisabled(formPath));
 
     return ctx.dispatch(new ProductActions.Create(dto));
+  }
+
+  @Action(ProductActions.CreateSucceeded)
+  public createSucceeded(ctx: StateContext<NewProductStateModel>) {}
+
+  @Action(ProductActions.CreateFailed)
+  public async createFailed(
+    ctx: StateContext<NewProductStateModel>,
+    action: ProductActions.CreateFailed,
+  ) {
+    ctx.dispatch(new SetFormEnabled(formPath));
   }
 }

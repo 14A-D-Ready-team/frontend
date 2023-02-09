@@ -3,7 +3,8 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Category, CategoryState } from "@shared/category";
-import { CreateProductDto } from "@shared/product";
+import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
+import { CreateProductDto, ProductState } from "@shared/product";
 import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
@@ -20,6 +21,9 @@ import { formPath, Save } from "./store";
 export class NewProductPage {
   @Select(CategoryState.entities)
   public categories$!: Observable<Category[]>;
+
+  @Select(ProductState.createStatus)
+  public status$!: Observable<ApiRequestStatus>;
 
   public form: FormGroup<ProductEditorFormModel>;
 

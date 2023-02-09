@@ -13,6 +13,7 @@
 <ion-content class="ion-padding">
   <ion-card>
     <ion-card-content>
+      <p>{{status$|async|json}}</p>
       <form
         [formGroup]="form"
         [ngxsForm]="formPath"
@@ -23,7 +24,6 @@
             <ion-col size-sm="4" size="12">
               <app-image-selector
                 [bindedFormControl]="form.controls.image"
-                initialImageUrl="assets/images/product.png"
               ></app-image-selector>
             </ion-col>
             <ion-col>
