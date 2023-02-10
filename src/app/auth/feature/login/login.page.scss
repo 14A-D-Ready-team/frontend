@@ -10,33 +10,35 @@
   display: grid;
   grid-template-rows: 35vh 65vh;
   background-color: black;
-}
 
-.logo-container {
-  @include flex-center(column, center);
-  height: 100%;
-  .logo {
-    height: auto;
-    width: 70%;
-    max-width: 300px;
-    margin: 0.5rem;
-    object-fit: contain;
+  .logo-container {
+    @include flex-center(column, center);
+    height: 100%;
+    .logo {
+      height: auto;
+      width: 70%;
+      max-width: 320px;
+      margin: 0.5rem;
+      object-fit: contain;
+    }
   }
-}
 
-//card that contains the input options
-.card {
-  @include flex-center(column, space-evenly);
-  height: 100%;
-  background-color: $card-background;
-  border-radius: 1em 1em 0em 0em;
-  min-height: fit-content;
-}
+  //card that contains the input options
+  .card {
+    @include flex-center(column, flex-start);
+    height: 100%;
+    background-color: $card-background;
+    border-radius: 1em 1em 0em 0em;
+    min-height: fit-content;
+    overflow-y: auto;
+  }
 
-h1 {
-  font-size: $l-font;
-  color: $ready-red;
-  font-weight: 600;
+  h1 {
+    font-size: $l-font;
+    color: $ready-red;
+    font-weight: 600;
+    margin: 3vh 0;
+  }
 }
 
 //regular login and password input
@@ -58,7 +60,7 @@ h1 {
 
   input {
     all: unset;
-    height: 2.5em;
+    height: 2.2rem;
     width: 90%;
     font-size: $m-font;
   }
@@ -77,13 +79,24 @@ h1 {
   }
 }
 
+.login-error-message {
+  margin-top: 2.2vh;
+}
+
 //link for sign up
-.sign-up-container {
-  margin-bottom: 1rem 0rem;
+.text-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  .router-container {
+    text-align: center;
+    margin-bottom: 1vh;
+  }
   .sign-up-text {
     display: inline-block;
     font-size: $m-font;
-    margin: 0em;
+    margin: 0;
+    padding: 0;
     color: black !important;
   }
   .sign-up-link {
@@ -96,7 +109,7 @@ h1 {
 //decoration
 .decor-container {
   @include flex-center(row, center);
-  margin-bottom: 0.5rem;
+  margin-bottom: 2vh;
   .line {
     width: 30%;
     max-width: 200px;
@@ -113,7 +126,7 @@ h1 {
 
 //facebook and google login button template
 @mixin other-button {
-  height: 2.8em;
+  height: 2.8rem;
   width: 85%;
   max-width: 500px;
   font-size: $m-font;

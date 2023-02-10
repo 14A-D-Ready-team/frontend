@@ -26,6 +26,7 @@
     background-color: $card-background;
     border-radius: 1em 1em 0em 0em;
     min-height: fit-content;
+    overflow-y: auto;
 
     h1 {
       font-size: $l-font;
@@ -40,8 +41,8 @@
 
   .input-container {
     @include flex-center(row, center);
-    margin: 1.5rem 0rem;
     border-radius: 2rem;
+    margin-top: 2vh;
 
     width: 75%;
     max-width: 400px;
@@ -51,10 +52,10 @@
 
     input {
       all: unset;
-      height: 4vh;
-      max-height: 200px;
+      height: 2rem;
       width: 90%;
       font-size: $m-font;
+      color: black !important;
     }
     .input-icon {
       height: auto;
@@ -78,7 +79,7 @@ ion-spinner {
 
 .text {
   color: black;
-  margin: 1rem 0rem;
+  margin-top: 2.5vh;
   text-align: center;
   width: 80%;
   max-width: 400px;
