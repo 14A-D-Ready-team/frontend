@@ -6,12 +6,14 @@ import {
   IdStrategy,
   CreateOrReplace,
   Remove,
+  StateSelector,
 } from "@ngxs-labs/entity-state";
-import { Action, Selector, StateContext } from "@ngxs/store";
+import { Action, createSelector, Selector, StateContext } from "@ngxs/store";
 import { ApiService } from "@shared/api";
 import { PaginatedResponse } from "@shared/api/utils/paginated.response";
 import { catchError, delay, finalize, Observable, of, switchMap } from "rxjs";
 import {
+  ApiRequestStatus,
   createFailedStatus,
   createLoadingStatus,
   ExtendedEntityStateModel,
@@ -40,19 +42,31 @@ export abstract class ExtendedEntityState<
   Create,
   Update,
 > extends EntityState<EntityType> {
-  @Selector()
-  public static updateStatus(state: ExtendedEntityStateModel<any>) {
-    return state.updateStatus;
+  public static get createStatus(): StateSelector<
+    ApiRequestStatus | undefined
+  > {
+    return createSelector(
+      [this],
+      (state: ExtendedEntityStateModel<any>) => state.createStatus,
+    );
   }
 
-  @Selector()
-  public static createStatus(state: ExtendedEntityStateModel<any>) {
-    return state.createStatus;
+  public static get updateStatus(): StateSelector<
+    ApiRequestStatus | undefined
+  > {
+    return createSelector(
+      [this],
+      (state: ExtendedEntityStateModel<any>) => state.updateStatus,
+    );
   }
 
-  @Selector()
-  public static deleteStatus(state: ExtendedEntityStateModel<any>) {
-    return state.deleteStatus;
+  public static get deleteStatus(): StateSelector<
+    ApiRequestStatus | undefined
+  > {
+    return createSelector(
+      [this],
+      (state: ExtendedEntityStateModel<any>) => state.createStatus,
+    );
   }
 
   protected readonly service: ApiService<
