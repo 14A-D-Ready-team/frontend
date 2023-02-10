@@ -8,13 +8,13 @@
       <ion-toolbar>
         <ion-title>Büfék szűrése</ion-title>
         <ion-buttons slot="end">
-          <!-- <ion-button (click)="filterContent.reset()">
+          <ion-button (click)="filterContent.reset()">
             <ion-icon
               slot="icon-only"
               icon="backspace"
               color="primary"
             ></ion-icon>
-          </ion-button> -->
+          </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -53,9 +53,11 @@
           <ion-card-title>Büfék szűrése</ion-card-title>
         </ion-card-header>
         <ion-card-content>
+          <app-buffet-filter
+            #filterContent
+          ></app-buffet-filter>
         </ion-card-content>
-        <!-- <ion-button fill="clear" (click)="filterContent.reset()"> -->
-        <ion-button fill="clear">
+        <ion-button fill="clear" (click)="filterContent.reset()">
           <ion-icon
             slot="start"
             icon="close-circle-outline"
@@ -67,9 +69,9 @@
     </div>
 
     <div class="content">
-      <!-- <div class="overlay-container" *ngIf="vm.typing">
+      <div class="overlay-container" *ngIf="vm.typing">
         <app-typing-overlay></app-typing-overlay>
-      </div> -->
+      </div>
       <div class="ion-padding">
         <ion-grid>
           <ion-row>

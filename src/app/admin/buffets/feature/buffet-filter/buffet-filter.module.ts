@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { ExtendedFormPluginModule } from '@shared/extended-form-plugin';
-import { SelectorInputComponent } from '@shared/inputs/feature/ionic';
 import { StringFilterInputComponent } from '@shared/inputs/feature/ionic/string-filter-input/string-filter-input.component';
 
 
@@ -17,7 +16,6 @@ import { StringFilterInputComponent } from '@shared/inputs/feature/ionic/string-
     CommonModule,
     IonicModule,
     ReactiveFormsModule,
-    SelectorInputComponent,
     StringFilterInputComponent,
     NgxsModule.forFeature([BuffetFilterState]),
     NgxsFormPluginModule,

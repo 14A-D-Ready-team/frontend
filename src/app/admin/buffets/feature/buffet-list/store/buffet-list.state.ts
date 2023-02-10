@@ -9,12 +9,17 @@ import { Injectable } from "@angular/core";
 import { take } from "rxjs";
 
 import { BuffetActions, BuffetState, BuffetStateModel } from "@shared/buffet";
+import { SearchBuffetsQuery } from "@shared/buffet/data-access/query";
+import { productsLoadedPerScroll } from "@app/admin/products/feature/products-list/store";
+import { DeepReadonly } from "@ngxs-labs/entity-state";
+import { FilterProductsQuery } from "@shared/product";
+import { FilterChanged } from "../../buffet-filter/store";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface BuffetsListStateModel {
   buffetIds: number[];
   remainingItems?: number;
-  //query: DeepReadonly<FilterProductsQuery>;
+  query: DeepReadonly<SearchBuffetsQuery>;
 }
 
 export const buffetsLoadedPerScroll = 12;
@@ -23,6 +28,7 @@ export const buffetsLoadedPerScroll = 12;
   name: "buffetsList",
   defaults: {
     buffetIds: [],
+    query: new SearchBuffetsQuery(),
   },
 })
 @Injectable()
@@ -34,22 +40,19 @@ export class BuffetsListState {
     state: BuffetsListStateModel,
     buffetState: BuffetStateModel,
   ) {
-    // console.log(state);
-    // console.log(buffetState);
     return state.buffetIds.map(id => buffetState.entities[id]).filter(b => b);
   }
 
   @Action(LoadPage)
   public loadPage(ctx: StateContext<BuffetsListStateModel>) {
-
     const state = ctx.getState();
-    //   const query = FilterProductsQuery.createOrCopy({
-    //     ...state.query,
-    //     skip: 0,
-    //     take: productsLoadedPerScroll,
-    //   });
+    const query = SearchBuffetsQuery.createOrCopy({
+      ...state.query,
+      skip: 0,
+      take: productsLoadedPerScroll,
+    });
 
-    return ctx.dispatch(new BuffetActions.Load());
+    return ctx.dispatch(new BuffetActions.Load(query));
   }
 
   @Action(LoadMore)
@@ -59,12 +62,12 @@ export class BuffetsListState {
       return;
     }
 
-    //   const query = FilterProductsQuery.createOrCopy({
-    //     ...state.query,
-    //     skip: state.productIds.length,
-    //     take: productsLoadedPerScroll,
-    //   });
-    return ctx.dispatch(new BuffetActions.Load());
+      const query = SearchBuffetsQuery.createOrCopy({
+        ...state.query,
+        skip: state.buffetIds.length,
+        take: productsLoadedPerScroll,
+      });
+    return ctx.dispatch(new BuffetActions.Load(query));
   }
 
   @Action(BuffetActions.LoadingSucceeded)
@@ -75,15 +78,16 @@ export class BuffetsListState {
     const state = ctx.getState();
 
     const newIds = [...state.buffetIds];
-    newIds.push(
-      
+    //newIds.push(...action.buffets.map(b => b.id));
+    newIds.splice(
+      action.query.skip || 0,
+      action.query.take || state.buffetIds.length,
       ...action.buffets.map(b => b.id),
     );
 
-    const remaining = action.count - action.buffets.length;
+   // const remaining = action.count - action.buffets.length;
 
-    // const remaining =
-    //   action.count - (action.query.skip || 0) - action.products.length;
+    const remaining = action.count - (action.query.skip || 0) - action.buffets.length;
 
     ctx.patchState({
       buffetIds: newIds,
@@ -109,34 +113,32 @@ export class BuffetsListState {
       remainingItems: undefined,
     });
 
-    // const query = FilterProductsQuery.createOrCopy({
-    //   ...state.query,
-    //   skip: 0,
-    //   take: numberOfProductsToLoad,
-    // });
+    const query = SearchBuffetsQuery.createOrCopy({
+      ...state.query,
+      skip: 0,
+      take: numberOfBuffetsToLoad,
+    });
 
-    //return ctx.dispatch(new BuffetActions.Load(query));
-    return ctx.dispatch(new BuffetActions.Load());
+    return ctx.dispatch(new BuffetActions.Load(query));
   }
 
-  // @Action(FilterChanged, { cancelUncompleted: true })
-  // public filter(
-  //   ctx: StateContext<BuffetsListStateModel>,
-  //   action: FilterChanged,
-  // ) {
-  //   ctx.patchState({
-  //     //query: action.filter,
-  //     buffetIds: [],
-  //     remainingItems: undefined,
-  //   });
+  @Action(FilterChanged, { cancelUncompleted: true })
+  public filter(
+    ctx: StateContext<BuffetsListStateModel>,
+    action: FilterChanged,
+  ) {
+    ctx.patchState({
+      query: action.filter,
+      buffetIds: [],
+      remainingItems: undefined,
+    });
 
-  //   // const query = FilterProductsQuery.createOrCopy({
-  //   //   ...action.filter,
-  //   //   skip: 0,
-  //   //   take: buffetsLoadedPerScroll,
-  //   // });
+    const query = FilterProductsQuery.createOrCopy({
+      ...action.filter,
+      skip: 0,
+      take: buffetsLoadedPerScroll,
+    });
 
-  //   //return ctx.dispatch(new ProductActions.Load(query));
-  //   return ctx.dispatch(new BuffetActions.Load());
-  // }
+    return ctx.dispatch(new BuffetActions.Load(query));
+  }
 }

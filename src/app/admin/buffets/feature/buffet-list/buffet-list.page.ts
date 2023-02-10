@@ -105,10 +105,6 @@ export class BuffetListPage implements OnInit, OnDestroy {
     return el.id;
   }
 
-  // public extractValue(keyValuePair: KeyValue<string, Category>) {
-  //   return keyValuePair.value;
-  // }
-
   public async editBuffet(buffet: Buffet) {
     /* const modal = await this.modalController.create({
       component: ProductEditorModalComponent,

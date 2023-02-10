@@ -1,6 +1,6 @@
-import { PaginationQuery } from "@shared/api";
-import { Expose, plainToInstance } from "class-transformer";
-import { IsNotEmpty, IsString } from "class-validator";
+import { PaginationQuery, StringFilterQuery } from "@shared/api";
+import { Expose, plainToInstance, Type } from "class-transformer";
+import { IsInstance, IsOptional, ValidateNested } from "class-validator";
 
 export class SearchBuffetsQuery extends PaginationQuery {
   public static createOrCopy(
@@ -15,7 +15,9 @@ export class SearchBuffetsQuery extends PaginationQuery {
   }
 
   @Expose()
-  @IsString()
-  @IsNotEmpty()
-  public search?: string;
+  @Type(() => StringFilterQuery)
+  @IsOptional()
+  @IsInstance(StringFilterQuery)
+  @ValidateNested()
+  public searchName?: StringFilterQuery;
 }

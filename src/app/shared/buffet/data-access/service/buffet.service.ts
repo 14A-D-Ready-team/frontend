@@ -1,37 +1,35 @@
-import { environment } from '@/environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiService } from '@shared/api';
-import { processPaginatedResponse } from '@shared/serialization';
-import { CreateBuffetDto, UpdateBuffetDto } from '../dto';
-import { Buffet } from '../entity';
+import { environment } from "@/environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { ApiService } from "@shared/api";
+import { processPaginatedResponse, serializeQueryParams } from "@shared/serialization";
+import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
+import { Buffet } from "../entity";
+import { SearchBuffetsQuery } from "../query";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class BuffetService extends ApiService<
-Buffet, 
-CreateBuffetDto,
-UpdateBuffetDto
+  Buffet,
+  CreateBuffetDto,
+  UpdateBuffetDto
 > {
-
-  constructor(httpClient: HttpClient) { 
+  constructor(httpClient: HttpClient) {
     super(httpClient, "/buffet/", Buffet);
   }
 
-  public findAll() {
+  // public findAll() {
+  //   return this.httpClient
+  //     .get<Buffet[]>(environment.api.url + this.path)
+  //     .pipe(processPaginatedResponse(Buffet));
+  // }
+
+  public find(query: SearchBuffetsQuery) {
     return this.httpClient
-      .get<Buffet[]>(environment.api.url + this.path)
+      .get<Buffet[]>(environment.api.url + this.path, {
+        params: serializeQueryParams(query),
+      })
       .pipe(processPaginatedResponse(Buffet));
   }
-
-  //Szűrés későbbre
-
-  // public find(query: FilterProductsQuery) {
-  //   return this.httpClient
-  //     .get<Product[]>(environment.api.url + this.path, {
-  //       params: serializeQueryParams(query),
-  //     })
-  //     .pipe(processPaginatedResponse(Product));
-  // }
 }

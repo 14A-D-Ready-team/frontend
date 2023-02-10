@@ -13,17 +13,16 @@ import { ErrorCardComponent } from '@shared/exceptions/ui/ionic';
 import { NgxsEffectsModule } from 'ngxs-effects';
 import { BuffetFilterModule } from '../buffet-filter/buffet-filter.module';
 import { BuffetsListEffects } from './store';
+import { BuffetFilterState } from '../buffet-filter/store';
 
 
 @NgModule({
   declarations: [BuffetListPage],
   imports: [
     CommonModule,
-    BuffetListRoutingModule,
     IonicModule,
     NglrxPipesModule,
-    // NgxsModule.forFeature([BuffetsListState, BuffetFilterState]),
-    NgxsModule.forFeature([BuffetsListState]),
+    NgxsModule.forFeature([BuffetsListState, BuffetFilterState]),
     NgxsEffectsModule.forFeature(BuffetsListEffects),
     BuffetListRoutingModule,
     BuffetFilterModule,

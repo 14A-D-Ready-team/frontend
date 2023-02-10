@@ -16,7 +16,6 @@ export class BuffetFilterComponent implements OnInit, OnDestroy {
   public formPath = formPath;
 
   public form = new ClassValidatorFormGroup(SearchBuffetsQuery, {
-
     searchName: new ClassValidatorFormGroup<StringFilterFormModel>(
       StringFilterQuery,
       {

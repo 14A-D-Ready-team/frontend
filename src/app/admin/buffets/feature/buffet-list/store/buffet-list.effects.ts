@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, Store } from "@ngxs/store";
+import { BuffetActions } from "@shared/buffet";
 import { Effect, EffectsBase } from "@shared/effects";
 import { BuffetsListState } from "./buffet-list.state";
 @Injectable()
@@ -11,12 +12,11 @@ export class BuffetsListEffects extends EffectsBase {
     super();
   }
 
-
   @Effect()
   public a = this.store
     .select(BuffetsListState)
     .pipe
-    //filter(products => products.some(product => !product)),
+    //filter(buffets => buffets.some(buffet => !buffet)),
     /*  switchMap(() => {}), */
     ();
 }

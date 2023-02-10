@@ -28,28 +28,18 @@ export type BuffetStateModel = EntityStateModel<Product> & {
     public load(ctx: StateContext<BuffetStateModel>, action: Load) {
       ctx.dispatch(new SetLoading(BuffetState, true));
       ctx.dispatch(new SetError(BuffetState, undefined));
+
+      const query = action.query;
   
-      return this.buffetService.findAll().pipe(
+      return this.buffetService.find(query).pipe(
         switchMap(response =>
             ctx.dispatch(
-              new LoadingSucceeded(response.items, response.count),
+              new LoadingSucceeded(query, response.items, response.count),
             ),
           ),
           catchError(error => ctx.dispatch(new LoadingFailed(error))),
           finalize(() => ctx.dispatch(new SetLoading(BuffetState, false))),
       );
-
-      //const query = action.query;
-  
-    //   return this.buffetService.find(query).pipe(
-    //     switchMap(response =>
-    //       ctx.dispatch(
-    //         new LoadingSucceeded(query, response.items, response.count),
-    //       ),
-    //     ),
-    //     catchError(error => ctx.dispatch(new LoadingFailed(error))),
-    //     finalize(() => ctx.dispatch(new SetLoading(BuffetState, false))),
-    //   );
     }
   
     @Action(LoadingFailed)
