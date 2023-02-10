@@ -10,7 +10,7 @@ import {
 import { Action, Selector, StateContext } from "@ngxs/store";
 import { ApiService } from "@shared/api";
 import { PaginatedResponse } from "@shared/api/utils/paginated.response";
-import { catchError, finalize, Observable, switchMap } from "rxjs";
+import { catchError, delay, finalize, Observable, of, switchMap } from "rxjs";
 import {
   createFailedStatus,
   createLoadingStatus,
@@ -150,7 +150,12 @@ export abstract class ExtendedEntityState<
       switchMap(entity =>
         ctx.dispatch(new this.actions.CreateSucceeded(entity)),
       ),
-      catchError(error => ctx.dispatch(new this.actions.CreateFailed(error))),
+      catchError(error =>
+        of(undefined).pipe(
+          delay(10000),
+          switchMap(() => ctx.dispatch(new this.actions.CreateFailed(error))),
+        ),
+      ),
     );
   }
 
@@ -166,6 +171,7 @@ export abstract class ExtendedEntityState<
     ctx: StateContext<ExtendedEntityStateModel<EntityType>>,
     action: BaseActions.CreateFailed,
   ) {
+    console.log(action.error);
     ctx.patchState({ createStatus: createFailedStatus(action.error) });
   }
 

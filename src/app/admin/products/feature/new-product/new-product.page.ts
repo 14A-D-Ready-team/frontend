@@ -42,6 +42,9 @@ export class NewProductPage {
         stock: new ClassValidatorFormControl<number | null>(null),
       },
     );
+    this.status$.subscribe(status => {
+      console.log(status);
+    });
   }
 
   public save() {
