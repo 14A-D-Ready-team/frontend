@@ -17,7 +17,6 @@ export interface BuffetFilterStateModel {
     name,
     defaults: {
       form: {
-        // ?????
         model: {},
         dirty: false,
         status: "VALID",

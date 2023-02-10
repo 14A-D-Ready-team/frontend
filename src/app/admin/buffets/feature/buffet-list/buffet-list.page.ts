@@ -8,6 +8,7 @@ import {
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Observable, startWith, map, combineLatest, take } from "rxjs";
+import { BuffetFilterState } from "../buffet-filter/store";
 import { BuffetsListEffects } from "./store";
 import {
   LoadPage,
@@ -32,8 +33,8 @@ export class BuffetListPage implements OnInit, OnDestroy {
   @Select(BuffetState.error)
   public error$!: Observable<any>;
 
-  // @Select(BuffetFilterState.typing)
-  // public typing$!: Observable<boolean>;
+  @Select(BuffetFilterState.typing)
+  public typing$!: Observable<boolean>;
 
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
@@ -44,7 +45,7 @@ export class BuffetListPage implements OnInit, OnDestroy {
     this.buffets$,
     this.loading$,
     this.error$,
-    //this.typing$,
+    this.typing$,
     this.isDesktop$,
   ]).pipe(
     map(
@@ -52,13 +53,13 @@ export class BuffetListPage implements OnInit, OnDestroy {
         buffets,
         loading,
         error,
-        //typing,
+        typing,
         isDesktop,
       ]) => ({
         buffets,
         loading,
         error,
-        //typing,
+        typing,
         isDesktop,
       }),
     ),

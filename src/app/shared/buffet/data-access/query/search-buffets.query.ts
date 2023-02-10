@@ -17,5 +17,5 @@ export class SearchBuffetsQuery extends PaginationQuery {
   @Expose()
   @IsString()
   @IsNotEmpty()
-  public search!: string;
+  public search?: string;
 }

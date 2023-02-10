@@ -19,12 +19,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <!-- <app-product-filter
+      <app-buffet-filter
         #filterContent
-        [categories]="(categories$ | async)! | keyvalue | map : extractValue"
-        [categoriesLoading]="(categoriesLoading$ | async) || false"
-        (refreshCategories)="refreshCategories()"
-      ></app-product-filter> -->
+      ></app-buffet-filter>
     </ion-content>
   </ng-container>
 </ion-menu>
