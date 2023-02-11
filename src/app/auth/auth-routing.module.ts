@@ -11,6 +11,13 @@ const routes: Routes = [
     loadChildren: () =>
       import("./feature/signup").then(m => m.SignupPageModule),
   },
+  {
+    path: "email-verification",
+    loadChildren: () =>
+      import("./feature/email-verification").then(
+        m => m.EmailVerificationPageModule,
+      ),
+  },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

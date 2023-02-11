@@ -2,13 +2,11 @@
 
 //setting default font color
 * {
-  color: #25251c;
-  font-size: 16px;
+  font-size: $m-font;
+  color: black;
 }
 
 .container {
-  height: 100%;
-  width: 100%;
   display: grid;
   grid-template-rows: 35vh 65vh;
   background-color: black;
@@ -19,19 +17,21 @@
   height: 100%;
   .logo {
     height: auto;
-    width: 75%;
+    width: 70%;
     max-width: 300px;
-    margin: 0.5em;
+    margin: 0.5rem;
+    object-fit: contain;
   }
 }
 
 //card that contains the input options
 .card {
-  @include flex-center(column, space-evenly);
+  @include flex-center(column, flex-start);
   height: 100%;
   background-color: $card-background;
-  overflow-x: hidden;
-  border-radius: 1em 1em 0em 0em;
+  border-radius: 1rem 1rem 0em 0em;
+  min-height: fit-content;
+  overflow-y: auto;
 }
 
 h1 {
@@ -51,24 +51,22 @@ h1 {
 
     width: 85%;
     max-width: 500px;
+    height: 4.8vh;
 
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
 
     position: relative;
 
     input {
-      height: 2.5em;
+      all: unset;
       width: 90%;
-      border: none;
-      outline: none;
       font-size: $m-font;
-      color: black;
-      background-color: transparent;
     }
     .input-icon {
-      height: 1.8rem;
-      width: 1.8rem;
-      margin: 0em 0.5em;
+      height: auto;
+      width: 8.5%;
+      margin: 0em 0.6rem;
+      object-fit: contain;
     }
     .error-container {
       display: none;
@@ -127,10 +125,12 @@ h1 {
 
 //link for sign up
 .sign-up-container {
+  margin-bottom: 1vh;
   .sign-up-text {
     display: inline-block;
     font-size: $m-font;
     margin: 0em;
+    color: black !important;
   }
   .sign-up-link {
     font-size: $m-font;
@@ -142,15 +142,16 @@ h1 {
 //decoration
 .decor-container {
   @include flex-center(row, center);
+  margin-bottom: 1vh;
   .line {
     width: 30%;
     max-width: 200px;
-    height: 0.18em;
+    height: 0.18rem;
     background-color: #92928e;
-    border-radius: 0.5em;
+    border-radius: 0.5rem;
   }
   .decor-text {
-    margin: 0em 0.5em;
+    margin: 0em 0.5rem;
     color: #92928e;
     font-size: $m-font;
   }
@@ -158,12 +159,12 @@ h1 {
 
 //facebook and google login button template
 @mixin other-button {
-  height: 2.8em;
+  height: clamp(1.2rem, 5.8vh, 4.5rem);
   width: 85%;
   max-width: 500px;
   font-size: $m-font;
-  border-radius: 2em;
-  margin: 0.5em 0em;
+  border-radius: 2rem;
+  margin-bottom: 1rem;
 }
 
 .other-container {
@@ -184,25 +185,6 @@ h1 {
     border: 0.5px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0px 2px 2px rgba(37, 37, 28, 0.15),
       inset 0px 4px 16px rgba(59, 89, 152, 0.25);
-  }
-}
-
-//responsive
-@media screen and (max-height: 750px) {
-  div {
-    font-size: 13px;
-    .logo-container .logo {
-      max-width: 220px;
-    }
-  }
-}
-
-@media screen and (min-width: 600px) {
-  div {
-    font-size: 25px;
-    .logo-container .logo {
-      max-width: 400px;
-    }
   }
 }
 
