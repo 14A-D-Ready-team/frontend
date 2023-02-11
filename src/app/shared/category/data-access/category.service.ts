@@ -6,12 +6,15 @@ import { processArrayResponse, processResponse } from "@shared/serialization";
 import { instanceToPlain } from "class-transformer";
 import { EditCategoryDto } from "./dto";
 import { Category } from "./entity";
+import { FilterCategoriesQuery } from "./query";
 
 @Injectable({
   providedIn: "root",
 })
 export class CategoryService extends ApiService<
   Category,
+  FilterCategoriesQuery,
+  Category[],
   EditCategoryDto,
   EditCategoryDto
 > {
@@ -19,7 +22,7 @@ export class CategoryService extends ApiService<
     super(httpClient, "/category/", Category);
   }
 
-  public findAll() {
+  public find(query: FilterCategoriesQuery) {
     return this.httpClient
       .get(environment.api.url + "/category")
       .pipe(processArrayResponse(Category));

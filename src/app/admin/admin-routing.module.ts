@@ -9,7 +9,11 @@ const routes: Routes = [
   {
     path: "categories",
     loadChildren: () => import("./categories").then(m => m.CategoriesModule),
+  },  {
+    path: 'test',
+    loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
   },
+
 ];
 
 @NgModule({

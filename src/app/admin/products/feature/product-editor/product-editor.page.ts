@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { Select } from "@ngxs/store";
+import { FormControl, FormGroup } from "@angular/forms";
+import { Select, Store } from "@ngxs/store";
 import { Category, CategoryState } from "@shared/category";
 import { CreateProductDto } from "@shared/product";
 import {
@@ -9,7 +9,7 @@ import {
 } from "ngx-reactive-form-class-validator";
 import { Observable } from "rxjs";
 import { ProductEditorFormModel } from "../../utils";
-import { formPath, ProductEditorState } from "./store";
+import { Discard, formPath, ProductEditorState, Save } from "./store";
 
 @Component({
   selector: "app-product-editor",
@@ -17,9 +17,6 @@ import { formPath, ProductEditorState } from "./store";
   styleUrls: ["./product-editor.page.scss"],
 })
 export class ProductEditorPage implements OnInit {
-  save() {
-    throw new Error("Method not implemented.");
-  }
   @Select(CategoryState.entities)
   public categories$!: Observable<Category[]>;
 
@@ -27,12 +24,13 @@ export class ProductEditorPage implements OnInit {
 
   public formPath = formPath;
 
-  constructor() {
+  constructor(private store: Store) {
     this.form = new ClassValidatorFormGroup<ProductEditorFormModel>(
       CreateProductDto,
       {
         categoryId: new ClassValidatorFormControl<number | null>(null),
         name: new ClassValidatorFormControl<string | null>(null),
+        image: new FormControl<File | null>(null),
         description: new ClassValidatorFormControl<string | null>(null),
         discountedPrice: new ClassValidatorFormControl<number | null>(null),
         fullPrice: new ClassValidatorFormControl<number | null>(null),
@@ -40,6 +38,15 @@ export class ProductEditorPage implements OnInit {
       },
     );
   }
+  ngOnInit(): void {
+    throw new Error("Method not implemented.");
+  }
 
-  ngOnInit() {}
+  public save() {
+    this.store.dispatch(new Save());
+  }
+
+  public cancel() {
+    this.store.dispatch(new Discard());
+  }
 }

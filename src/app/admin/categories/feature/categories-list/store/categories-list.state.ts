@@ -45,6 +45,7 @@ import {
 import { Platform, ToastController } from "@ionic/angular";
 import { ErrorCode, ExceptionService } from "@app/shared/exceptions";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
+import { FilterCategoriesQuery } from "@shared/category/data-access/query";
 
 export interface CategoriesListStateModel {
   editorForm: NgxsFormStateModel<Partial<Category>>;
@@ -107,7 +108,7 @@ export class CategoriesListState {
   public reload(ctx: StateContext<CategoriesListStateModel>) {
     return concat(
       ctx.dispatch(new SetError(CategoryState, undefined)),
-      ctx.dispatch(new CategoryActions.LoadAll()),
+      ctx.dispatch(new CategoryActions.Load(new FilterCategoriesQuery())),
     );
   }
 
@@ -218,7 +219,7 @@ export class CategoriesListState {
 
     ctx.dispatch(new SetFormDisabled(editorFormPath));
 
-    return ctx.dispatch(new CategoryActions.Update(payload));
+    return ctx.dispatch(new CategoryActions.Update(payload.id, payload));
   }
 
   @Action(CategoryActions.UpdateSucceeded)
