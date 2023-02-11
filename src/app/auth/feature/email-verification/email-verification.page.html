@@ -59,6 +59,7 @@
         type="submit"
         class="ready-btn"
         [disabled]="emailVerificationForm.get('email')?.errors"
+        [disabled]="(emailVerificationStatus | async)?.loading"
       >
         Küldés
       </button>
