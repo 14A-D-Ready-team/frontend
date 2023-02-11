@@ -10,5 +10,5 @@ export class EmailVerificationFailed {
 }
 
 export class EmailVerificationSucceeded {
-  static readonly type = "[Auth API] EmailVerification Failed";
+  static readonly type = "[Auth API] EmailVerification Succeeded";
 }
