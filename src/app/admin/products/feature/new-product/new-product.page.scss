@@ -23,6 +23,22 @@
   @include utils.product-title;
 }
 
-ion-button.top-margin {
+.top-margin {
   margin-top: 20px;
+}
+
+ion-note {
+  text-align: center;
+  display: block;
+  font-size: 120%;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  ion-spinner {
+    margin-left: 10px;
+  }
 }

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
-import { Category, CategoryState } from "@shared/category";
+import { Category, CategoryState, loadAllCategories } from "@shared/category";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
 import { CreateProductDto, ProductState } from "@shared/product";
 import {
@@ -11,19 +11,22 @@ import {
 } from "ngx-reactive-form-class-validator";
 import { Observable } from "rxjs";
 import { ProductEditorFormModel } from "../../utils";
-import { formPath, Save } from "./store";
+import { formPath, LoadPage, Save } from "./store";
 
 @Component({
   selector: "app-new-product",
   templateUrl: "./new-product.page.html",
   styleUrls: ["./new-product.page.scss"],
 })
-export class NewProductPage {
+export class NewProductPage implements OnInit {
   @Select(CategoryState.entities)
   public categories$!: Observable<Category[]>;
 
   @Select(ProductState.createStatus)
-  public status$!: Observable<ApiRequestStatus>;
+  public status$!: Observable<ApiRequestStatus | undefined>;
+
+  @Select(CategoryState.loading)
+  public categoriesLoading$!: Observable<boolean>;
 
   public form: FormGroup<ProductEditorFormModel>;
 
@@ -42,9 +45,16 @@ export class NewProductPage {
         stock: new ClassValidatorFormControl<number | null>(null),
       },
     );
-    this.status$.subscribe(status => {
-      console.log(status);
-    });
+  }
+
+  public ngOnInit(): void {
+    // If we only need to load the categories, we might not need a separate action
+    // and we can just call the function here.
+    this.store.dispatch(new LoadPage());
+  }
+
+  public reloadCategories() {
+    loadAllCategories(this.store, true).subscribe();
   }
 
   public save() {

@@ -1,34 +1,22 @@
-import { classTransformerConfig } from "@shared/serialization";
-import { createFormData } from "@shared/serialization/utils/create-form-data.util";
-import {
-  classToPlain,
-  Expose,
-  instanceToPlain,
-  Transform,
-} from "class-transformer";
+import { Exclude, Expose } from "class-transformer";
 import {
   IsDefined,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsPositive,
-  IsString,
-  MaxLength,
   Min,
-  MinLength,
 } from "class-validator";
 
 export class CreateProductDto {
-  public static clone(model: CreateProductDto) {
-    return { ...model };
+  public static clone(dto: CreateProductDto) {
+    return new CreateProductDto(dto);
   }
 
   @Expose()
   @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
   public name!: string;
 
-  @Expose()
-  @Transform(({ value }) => value)
+  @Exclude()
   public image!: File;
 
   @Expose()
@@ -52,4 +40,8 @@ export class CreateProductDto {
   @Expose()
   @IsDefined({ message: "A mező kitöltése kötelező!" })
   public categoryId!: number;
+
+  constructor(model?: Partial<CreateProductDto>) {
+    Object.assign(this, model);
+  }
 }

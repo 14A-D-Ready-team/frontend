@@ -1,11 +1,15 @@
 import { Injectable } from "@angular/core";
 import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
-import { Action, State, StateContext } from "@ngxs/store";
+import { Action, State, StateContext, Store } from "@ngxs/store";
+import { loadAllCategories } from "@shared/category";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import { CreateProductDto, ProductActions } from "@shared/product";
-import { classTransformerConfig, createFormData } from "@shared/serialization";
+import {
+  classTransformerConfig,
+  serializeFormData,
+} from "@shared/serialization";
 import { instanceToPlain } from "class-transformer";
-import { Save } from "./new-product.actions";
+import { LoadPage, Save } from "./new-product.actions";
 
 export interface NewProductStateModel {
   form: NgxsFormStateModel<CreateProductDto>;
@@ -28,6 +32,13 @@ export const formPath = "newProduct.form";
 })
 @Injectable()
 export class NewProductState {
+  constructor(private store: Store) {}
+
+  @Action(LoadPage)
+  public async loadPage() {
+    return loadAllCategories(this.store);
+  }
+
   @Action(Save)
   public save(ctx: StateContext<NewProductStateModel>) {
     const state = ctx.getState();
@@ -46,10 +57,7 @@ export class NewProductState {
   public createSucceeded(ctx: StateContext<NewProductStateModel>) {}
 
   @Action(ProductActions.CreateFailed)
-  public async createFailed(
-    ctx: StateContext<NewProductStateModel>,
-    action: ProductActions.CreateFailed,
-  ) {
+  public async createFailed(ctx: StateContext<NewProductStateModel>) {
     ctx.dispatch(new SetFormEnabled(formPath));
   }
 }

@@ -14,7 +14,7 @@
   </ion-select>
 
   <div class="end-button-container flex-vertical-center" slot="end">
-    <ion-button
+    <!-- <ion-button
       [style.display]="loading ? 'none' : 'unset'"
       fill="clear"
       color="dark"
@@ -22,7 +22,10 @@
       (click)="resetForm()"
     >
       <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
-    </ion-button>
+    </ion-button> -->
+    <app-clear-input-button
+      [bindedFormControl]="bindedFormControl"
+    ></app-clear-input-button>
     <ion-button
       fill="clear"
       color="primary"

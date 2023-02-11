@@ -10,6 +10,7 @@ import { CommonModule } from "@angular/common";
 import { IonicModule } from "@ionic/angular";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { FirstErrorMessagePipe } from "@shared/exceptions";
+import { ClearInputButtonComponent } from "@shared/inputs/ui";
 
 @Component({
   selector: "app-selector-input",
@@ -19,6 +20,7 @@ import { FirstErrorMessagePipe } from "@shared/exceptions";
     IonicModule,
     ReactiveFormsModule,
     FirstErrorMessagePipe,
+    ClearInputButtonComponent,
   ],
   templateUrl: "./selector-input.component.html",
   styleUrls: ["./selector-input.component.scss"],
@@ -56,7 +58,7 @@ export class SelectorInputComponent<
   public refresh = new EventEmitter<void>();
 
   public resetForm() {
-    this.bindedFormControl.reset();
+    this.bindedFormControl.setValue(null);
     this.formReset.emit();
   }
 

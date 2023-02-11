@@ -16,6 +16,8 @@ import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
 import { NgxsModule } from "@ngxs/store";
 import { NewProductState } from "./store";
+import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
+import { ClearInputButtonComponent } from "@shared/inputs/ui";
 
 @NgModule({
   imports: [
@@ -25,10 +27,13 @@ import { NewProductState } from "./store";
     NgxsFormPluginModule,
     ExtendedFormPluginModule,
     NgxsModule.forFeature([NewProductState]),
+    ExceptionsModule.forFeature({}),
     NewProductPageRoutingModule,
     SelectorInputComponent,
     ErrorListComponent,
     ImageSelectorComponent,
+    ErrorMessagePipe,
+    ClearInputButtonComponent,
   ],
   declarations: [NewProductPage],
 })

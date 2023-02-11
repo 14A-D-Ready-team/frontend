@@ -185,7 +185,6 @@ export abstract class ExtendedEntityState<
     ctx: StateContext<ExtendedEntityStateModel<EntityType>>,
     action: BaseActions.CreateFailed,
   ) {
-    console.log(action.error);
     ctx.patchState({ createStatus: createFailedStatus(action.error) });
   }
 

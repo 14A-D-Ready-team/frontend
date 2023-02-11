@@ -13,7 +13,6 @@
 <ion-content class="ion-padding">
   <ion-card>
     <ion-card-content>
-      <p>{{status$|async|json}}</p>
       <form
         [formGroup]="form"
         [ngxsForm]="formPath"
@@ -23,16 +22,19 @@
           <ion-row>
             <ion-col size-sm="4" size="12">
               <app-image-selector
+                label="Termék képe"
                 [bindedFormControl]="form.controls.image"
               ></app-image-selector>
             </ion-col>
             <ion-col>
               <app-selector-input
-                [bindedFormControl]="form.controls.categoryId"
                 displayProperty="name"
                 valueProperty="id"
                 title="Kategória"
-                [items]="(categories$|async)!"
+                [bindedFormControl]="form.controls.categoryId"
+                [loading]="(categoriesLoading$ | async) === true"
+                [items]="(categories$ | async)!"
+                (refresh)="reloadCategories()"
               ></app-selector-input>
 
               <ion-item class="highlight-primary no-end-padding" counter>
@@ -42,16 +44,9 @@
                   class="end-button-container flex-vertical-center"
                   slot="end"
                 >
-                  <ion-button
-                    fill="clear"
-                    color="dark"
-                    (click)="form.controls.name.reset()"
-                  >
-                    <ion-icon
-                      name="close-circle-outline"
-                      slot="icon-only"
-                    ></ion-icon>
-                  </ion-button>
+                  <app-clear-input-button
+                    [bindedFormControl]="form.controls.name"
+                  ></app-clear-input-button>
                 </div>
                 <app-error-list
                   slot="error"
@@ -69,17 +64,11 @@
                   minlength="1"
                 ></ion-textarea>
                 <div class="end-button-container" slot="end">
-                  <ion-button
-                    class="top-margin"
-                    fill="clear"
-                    color="dark"
-                    (click)="form.controls.description.reset()"
-                  >
-                    <ion-icon
-                      name="close-circle-outline"
-                      slot="icon-only"
-                    ></ion-icon>
-                  </ion-button>
+                  <div class="top-margin">
+                    <app-clear-input-button
+                      [bindedFormControl]="form.controls.description"
+                    ></app-clear-input-button>
+                  </div>
                 </div>
                 <app-error-list
                   slot="error"
@@ -104,17 +93,9 @@
                   class="end-button-container flex-vertical-center"
                   slot="end"
                 >
-                  <ion-button
-                    class="top-margin"
-                    fill="clear"
-                    color="dark"
-                    (click)="form.controls.discountedPrice.reset()"
-                  >
-                    <ion-icon
-                      name="close-circle-outline"
-                      slot="icon-only"
-                    ></ion-icon>
-                  </ion-button>
+                  <app-clear-input-button
+                    [bindedFormControl]="form.controls.discountedPrice"
+                  ></app-clear-input-button>
                 </div>
                 <app-error-list
                   slot="error"
@@ -136,17 +117,9 @@
                   class="end-button-container flex-vertical-center"
                   slot="end"
                 >
-                  <ion-button
-                    class="top-margin"
-                    fill="clear"
-                    color="dark"
-                    (click)="form.controls.fullPrice.reset()"
-                  >
-                    <ion-icon
-                      name="close-circle-outline"
-                      slot="icon-only"
-                    ></ion-icon>
-                  </ion-button>
+                  <app-clear-input-button
+                    [bindedFormControl]="form.controls.fullPrice"
+                  ></app-clear-input-button>
                 </div>
                 <app-error-list
                   slot="error"
@@ -168,17 +141,9 @@
                   class="end-button-container flex-vertical-center"
                   slot="end"
                 >
-                  <ion-button
-                    class="top-margin"
-                    fill="clear"
-                    color="dark"
-                    (click)="form.controls.stock.reset()"
-                  >
-                    <ion-icon
-                      name="close-circle-outline"
-                      slot="icon-only"
-                    ></ion-icon>
-                  </ion-button>
+                  <app-clear-input-button
+                    [bindedFormControl]="form.controls.stock"
+                  ></app-clear-input-button>
                 </div>
                 <app-error-list
                   slot="error"
@@ -190,20 +155,27 @@
           </ion-row>
         </ion-grid>
       </form>
+      <ion-note color="danger" *ngIf="(status$ | async)?.error as error"
+        >{{error | errorMessage}}</ion-note
+      >
     </ion-card-content>
 
-    <div>
+    <div class="button-container">
       <ion-button fill="clear" color="medium" (click)="cancel()">
         Mégse
       </ion-button>
       <ion-button
         fill="clear"
         color="success"
-        [disabled]="form.invalid"
+        [disabled]="form.invalid || (status$ | async)?.loading === true"
         (click)="save()"
       >
         Mentés
       </ion-button>
+      <ion-spinner
+        color="primary"
+        *ngIf="(status$ | async)?.loading === true"
+      ></ion-spinner>
     </div>
   </ion-card>
 </ion-content>

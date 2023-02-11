@@ -6,7 +6,7 @@ import { PaginatedResponse } from "@shared/api";
 import { FilterCategoriesQuery } from "@shared/category";
 import {
   classTransformerConfig,
-  createFormData,
+  serializeFormData,
   processPaginatedResponse,
   serializeQueryParams,
 } from "@shared/serialization";
@@ -38,7 +38,6 @@ export class ProductService extends ApiService<
   }
 
   protected serialize(payload: CreateProductDto | UpdateProductDto) {
-    const transformed = instanceToPlain(payload, classTransformerConfig);
-    return createFormData(transformed);
+    return serializeFormData(payload);
   }
 }
