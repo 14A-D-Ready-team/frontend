@@ -17,7 +17,11 @@ const routes: Routes = [
       import("./feature/email-verification").then(
         m => m.EmailVerificationPageModule,
       ),
+  },  {
+    path: 'send-password-reset',
+    loadChildren: () => import('./feature/send-password-reset/send-password-reset.module').then( m => m.SendPasswordResetPageModule)
   },
+
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
