@@ -26,9 +26,8 @@
   //card that contains the input options
   .card {
     @include flex-center(column, flex-start);
-    height: 100%;
     background-color: $card-background;
-    border-radius: 1em 1em 0em 0em;
+    border-radius: 1rem 1rem 0em 0em;
     min-height: fit-content;
     overflow-y: auto;
   }
@@ -37,7 +36,7 @@
     font-size: $l-font;
     color: $ready-red;
     font-weight: 600;
-    margin: 3vh 0;
+    margin: 2.5vh 0;
   }
 }
 
@@ -53,6 +52,7 @@
 
   width: 85%;
   max-width: 500px;
+  height: 4.8vh;
 
   outline: 0.5px solid rgba(0, 0, 0, 0.15);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
@@ -60,14 +60,13 @@
 
   input {
     all: unset;
-    height: 2.2rem;
     width: 90%;
     font-size: $m-font;
   }
   .input-icon {
     height: auto;
-    width: 8%;
-    margin: 0em 0.5rem;
+    width: 8.5%;
+    margin: 0em 0.6rem;
     object-fit: contain;
   }
   .forgot-pswd-link {
@@ -90,13 +89,12 @@
   flex-direction: column;
   .router-container {
     text-align: center;
-    margin-bottom: 1vh;
+    margin-bottom: 0.5vh;
   }
   .sign-up-text {
+    all: unset;
     display: inline-block;
     font-size: $m-font;
-    margin: 0;
-    padding: 0;
     color: black !important;
   }
   .sign-up-link {
@@ -109,16 +107,16 @@
 //decoration
 .decor-container {
   @include flex-center(row, center);
-  margin-bottom: 2vh;
+  margin-bottom: 1vh;
   .line {
     width: 30%;
     max-width: 200px;
     height: 0.18rem;
     background-color: #92928e;
-    border-radius: 0.5em;
+    border-radius: 0.5rem;
   }
   .decor-text {
-    margin: 0em 0.5em;
+    margin: 0em 0.5rem;
     color: #92928e;
     font-size: $m-font;
   }
@@ -126,11 +124,11 @@
 
 //facebook and google login button template
 @mixin other-button {
-  height: 2.8rem;
+  height: clamp(1.2rem, 5.8vh, 4.5rem);
   width: 85%;
   max-width: 500px;
   font-size: $m-font;
-  border-radius: 2em;
+  border-radius: 2rem;
   margin-bottom: 0.7rem;
 }
 
