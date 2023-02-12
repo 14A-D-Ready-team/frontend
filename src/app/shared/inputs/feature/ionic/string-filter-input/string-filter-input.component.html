@@ -1,28 +1,19 @@
 <div [formGroup]="bindedFormGroup" class="container">
   <ion-item class="highlight-primary">
-    <!-- <ion-label
-      [position]="
-        bindedFormGroup.controls.type.value === 'range' &&
-        (bindedFormGroup.controls.min.value !== null ||
-          bindedFormGroup.controls.max.value !== null)
-          ? 'stacked'
-          : 'floating'
-      ">
-      {{ title }}</ion-label -->
-    ><!-- OR position:floatig, have to set it manually -->
-    <ion-label>
+    <ion-label
+      [position]="bindedFormGroup.controls.searchString === null ? 'stacked' : 'floating'"
+    >
       {{ title }}
     </ion-label>
 
-    <ng-container >
-      <ion-input type="string" formControlName="searchName"></ion-input>
+    <ng-container>
+      <ion-input type="string" formControlName="searchString"></ion-input>
     </ng-container>
 
     <ion-note *ngIf="!bindedFormGroup.untouched" slot="error">
       {{
-        [
-          bindedFormGroup.controls.searchString.errors,
-        ] | transform : extractErrorMessages
+        [bindedFormGroup.controls.searchString.errors]
+          | transform : extractErrorMessages
       }}
     </ion-note>
   </ion-item>
@@ -31,4 +22,3 @@
     <ion-button (click)="resetForm()">Alaphelyzet</ion-button>
   </div>
 </div>
-

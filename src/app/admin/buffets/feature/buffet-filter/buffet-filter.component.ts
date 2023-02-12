@@ -22,7 +22,6 @@ export class BuffetFilterComponent implements OnInit, OnDestroy {
         searchString: new ClassValidatorFormControl<string | null>(null),
       },
     ),
-
   });
 
 
