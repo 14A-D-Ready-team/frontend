@@ -1,1 +1,1 @@
-export * from "./send-password-reset.page";
+export * from "./send-password-reset.module";

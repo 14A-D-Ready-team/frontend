@@ -27,7 +27,6 @@
 //card that contains the input options
 .card {
   @include flex-center(column, space-evenly);
-  height: 100%;
   background-color: $card-background;
   border-radius: 1rem 1rem 0em 0em;
   min-height: fit-content;

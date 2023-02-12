@@ -32,7 +32,7 @@ export interface SendPasswordResetStateModel {
 
 export const STATE = "sendPasswordReset";
 
-const emialVerificationFormPath = "sendPasswordReset.sendPasswordResetForm";
+const sendPasswordResetFormPath = "sendPasswordReset.sendPasswordResetForm";
 
 @State<SendPasswordResetStateModel>({
   name: STATE,
@@ -56,7 +56,7 @@ export class SendPasswordResetState {
   ) {}
 
   @Action(SendPasswordReset)
-  public startEmailVerification(
+  public startSendPasswordReset(
     ctx: StateContext<SendPasswordResetStateModel>,
   ) {
     const state = ctx.getState();
@@ -68,20 +68,20 @@ export class SendPasswordResetState {
     const payload = model;
     console.log(payload);
 
-    ctx.dispatch(new SetFormDisabled(emialVerificationFormPath));
+    ctx.dispatch(new SetFormDisabled(sendPasswordResetFormPath));
     ctx.patchState({ status: { loading: true } });
 
     return this.authService.emailVerification(payload).pipe(
       switchMap(user => ctx.dispatch(new SendPasswordResetSucceeded())),
       catchError(error => ctx.dispatch(new SendPasswordResetFailed(error))),
       finalize(() => {
-        ctx.dispatch(new SetFormEnabled(emialVerificationFormPath));
+        ctx.dispatch(new SetFormEnabled(sendPasswordResetFormPath));
       }),
     );
   }
 
   @Action(SendPasswordResetFailed)
-  public emailVerificationFailed(
+  public sendPasswordResetFailed(
     ctx: StateContext<SendPasswordResetStateModel>,
     action: SendPasswordResetFailed,
   ) {
@@ -89,7 +89,7 @@ export class SendPasswordResetState {
   }
 
   @Action(SendPasswordResetSucceeded)
-  public emailVerificationSucceeded(
+  public sendPasswordResetSucceeded(
     ctx: StateContext<SendPasswordResetStateModel>,
     action: SendPasswordResetSucceeded,
   ) {
