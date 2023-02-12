@@ -1,5 +1,5 @@
 import {
-  Expose,
+  Expose, Transform,
 } from "class-transformer";
 import { IsOptional, IsString } from "class-validator";
 
@@ -8,6 +8,17 @@ export class StringFilterQuery {
     return (
       // eslint-disable-next-line eqeqeq
       obj?.searchString == undefined
+    );
+  }
+
+  public static isUnchanged(
+    previous?: StringFilterQuery,
+    current?: StringFilterQuery,
+  ) {
+    return (
+      previous?.searchString !== current?.searchString &&
+      StringFilterQuery.isEmpty(previous) &&
+      StringFilterQuery.isEmpty(current)
     );
   }
   

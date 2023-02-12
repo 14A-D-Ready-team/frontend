@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngxs/store";
+import { SearchBuffetsQuery } from "@shared/buffet/data-access/query";
 import { Effect, EffectsBase } from "@shared/effects";
-import { skip, tap, debounceTime, withLatestFrom, map, filter, switchMap } from "rxjs";
+import { skip, tap, debounceTime, withLatestFrom, map, filter, switchMap, distinctUntilChanged } from "rxjs";
 import { Typing, StoppedTyping, FilterChanged } from "./buffet-filter.actions";
 import { BuffetFilterState } from "./buffet-filter.state";
 
@@ -11,6 +12,9 @@ export class BuffetFilterEffects extends EffectsBase {
   @Effect()
   public onFormUpdate$ = this.store.select(BuffetFilterState.formValue).pipe(
     skip(1),
+    distinctUntilChanged((prev, curr) =>
+      SearchBuffetsQuery.isUnchanged(prev, curr),
+    ),
     skip(1), // 2 skip operators needed, to give distinctUntilChanged the starting previous value
     tap(() => this.store.dispatch(new Typing())),
     debounceTime(600),

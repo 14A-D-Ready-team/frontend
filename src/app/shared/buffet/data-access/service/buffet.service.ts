@@ -19,12 +19,6 @@ export class BuffetService extends ApiService<
     super(httpClient, "/buffet/", Buffet);
   }
 
-  // public findAll() {
-  //   return this.httpClient
-  //     .get<Buffet[]>(environment.api.url + this.path)
-  //     .pipe(processPaginatedResponse(Buffet));
-  // }
-
   public find(query: SearchBuffetsQuery) {
     return this.httpClient
       .get<Buffet[]>(environment.api.url + this.path, {
