@@ -27,4 +27,10 @@ export class AuthService {
       .post(environment.api.url + "/auth/send-email-verification", payload)
       .pipe(processResponse());
   }
+
+  public sendPasswordReset(payload: { email: string }) {
+    return this.http
+      .post(environment.api.url + "/auth/send-password-reset", payload)
+      .pipe(processResponse());
+  }
 }

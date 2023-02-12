@@ -92,7 +92,7 @@
         <div class="pswd-container">
           <div
             class="input-container"
-            [ngClass]="[signupForm.get('pswd')?.errors && signupForm.get('pswd')?.value ? 'input-error-outline' : 'input-regular-outline',
+            [ngClass]="[signupForm.get('password')?.errors && signupForm.get('password')?.value ? 'input-error-outline' : 'input-regular-outline',
             (signupStatus | async)?.loading ? 'input-disabled-container' : '']"
           >
             <svg
