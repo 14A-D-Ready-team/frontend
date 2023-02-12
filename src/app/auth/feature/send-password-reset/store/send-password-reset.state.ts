@@ -71,7 +71,7 @@ export class SendPasswordResetState {
     ctx.dispatch(new SetFormDisabled(sendPasswordResetFormPath));
     ctx.patchState({ status: { loading: true } });
 
-    return this.authService.emailVerification(payload).pipe(
+    return this.authService.sendPasswordReset(payload).pipe(
       switchMap(user => ctx.dispatch(new SendPasswordResetSucceeded())),
       catchError(error => ctx.dispatch(new SendPasswordResetFailed(error))),
       finalize(() => {
