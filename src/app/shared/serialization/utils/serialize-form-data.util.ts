@@ -2,7 +2,6 @@ import { instanceToPlain } from "class-transformer";
 import { classTransformerConfig } from "./class-transformer.config";
 
 export function serializeFormData(data: any) {
-  console.log(data);
   const formData = new FormData();
   for (const key of Object.keys(data)) {
     const value = data[key];
@@ -12,7 +11,6 @@ export function serializeFormData(data: any) {
   }
 
   const plain = instanceToPlain(data, classTransformerConfig);
-  console.log(plain);
 
   for (const key of Object.keys(plain)) {
     formData.append(key, plain[key]);
