@@ -37,4 +37,11 @@ export class SearchBuffetsQuery extends PaginationQuery {
   @IsInstance(StringFilterQuery)
   @ValidateNested()
   public searchString?: StringFilterQuery;
+
+  @Expose()
+  @Type(() => StringFilterQuery)
+  @IsOptional()
+  @IsInstance(StringFilterQuery)
+  @ValidateNested()
+  public order?: StringFilterQuery;
 }

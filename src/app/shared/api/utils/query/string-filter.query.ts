@@ -28,4 +28,8 @@ export class StringFilterQuery {
     { message: "A keresésnek szövegnek kell lennie!" },
   )
   public searchString?: string;
+
+  @Expose()
+  @IsOptional()
+  public order?: string;
 }
