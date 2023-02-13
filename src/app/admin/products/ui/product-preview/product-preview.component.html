@@ -1,7 +1,7 @@
 <ion-card button (click)="cardClick.emit()">
   <img
     alt="Product image"
-    src="assets/images/product.png"
+    [src]="'data:image/png;base64,' + product.image"
     class="product-img"
   />
   <ion-card-header>

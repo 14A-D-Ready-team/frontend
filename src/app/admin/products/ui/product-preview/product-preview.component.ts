@@ -10,6 +10,7 @@ import {
 import { IonicModule } from "@ionic/angular";
 import { Product } from "@shared/product";
 import { Category } from "@shared/category";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "app-product-preview",
@@ -32,8 +33,7 @@ export class ProductPreviewComponent implements OnInit {
   @Output()
   public cardClick = new EventEmitter<void>();
 
-  constructor() {}
-
+  constructor(private sanitizer: DomSanitizer) {}
   public ngOnInit() {
     if (!this.product) {
       throw new Error("The property product is required");
