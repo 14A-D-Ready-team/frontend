@@ -11,6 +11,7 @@ import { IonicModule } from "@ionic/angular";
 import { Product } from "@shared/product";
 import { Category } from "@shared/category";
 import { DomSanitizer } from "@angular/platform-browser";
+import { environment } from "@/environments/environment";
 
 @Component({
   selector: "app-product-preview",
@@ -29,6 +30,8 @@ export class ProductPreviewComponent implements OnInit {
 
   @Input()
   public categoryLoading = false;
+
+  public apiUrl = environment.api.url;
 
   @Output()
   public cardClick = new EventEmitter<void>();

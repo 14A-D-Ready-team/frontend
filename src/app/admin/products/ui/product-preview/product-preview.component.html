@@ -1,7 +1,7 @@
 <ion-card button (click)="cardClick.emit()">
   <img
     alt="Product image"
-    [src]="'data:image/png;base64,' + product.image"
+    [src]="apiUrl + '/product/' + product.id + '/image'"
     class="product-img"
   />
   <ion-card-header>
@@ -16,11 +16,11 @@
     <p>{{ product.description }}</p>
     <p>
       <b>{{ product.discountedPrice ? "Teljes ár: " : "Ár: " }}</b
-      >{{ product.fullPrice | currency : "HUF" : "symbol" }}
+      >{{ product.fullPrice | currency: "HUF":"symbol" }}
     </p>
     <p *ngIf="product.discountedPrice">
       <b>Csökkentett ár: </b
-      >{{ product.discountedPrice | currency : "HUF" : "symbol" }}
+      >{{ product.discountedPrice | currency: "HUF":"symbol" }}
     </p>
     <p><b>Raktáron: </b>{{ product.stock }}</p>
     <div *ngIf="product.customizations.length > 0">
@@ -49,7 +49,7 @@
             <ion-item *ngFor="let option of customization.options">
               <ion-label>{{ option.name }}</ion-label>
               <ion-label slot="end">{{
-                option.extraCost | currency : "HUF" : "symbol"
+                option.extraCost | currency: "HUF":"symbol"
               }}</ion-label>
             </ion-item>
           </ion-list>

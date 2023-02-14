@@ -21,9 +21,6 @@ export class Product {
   public stock!: number;
 
   @Expose()
-  public image!: string;
-
-  @Expose()
   public customizations!: Customization[];
 
   @Expose()

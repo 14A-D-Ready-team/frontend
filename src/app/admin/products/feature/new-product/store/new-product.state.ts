@@ -54,7 +54,9 @@ export class NewProductState {
   }
 
   @Action(ProductActions.CreateSucceeded)
-  public createSucceeded(ctx: StateContext<NewProductStateModel>) {}
+  public createSucceeded(ctx: StateContext<NewProductStateModel>) {
+    ctx.dispatch(new SetFormEnabled(formPath));
+  }
 
   @Action(ProductActions.CreateFailed)
   public async createFailed(ctx: StateContext<NewProductStateModel>) {
