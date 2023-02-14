@@ -7,6 +7,7 @@ export class FilterChanged {
 
   constructor(filter: SearchBuffetsQuery) {
     this.filter = SearchBuffetsQuery.createOrCopy(filter);
+    console.log(this.filter);
   }
 }
 
