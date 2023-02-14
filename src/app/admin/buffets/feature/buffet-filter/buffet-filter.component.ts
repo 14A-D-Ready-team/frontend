@@ -19,7 +19,27 @@ export class BuffetFilterComponent implements OnInit, OnDestroy {
 
   public formPath = formPath;
 
+  
+  public descending() : void {
+    if (this.order === "DESC") {
+      this.order = "";
+    }
+    else {
+      this.order = "DESC";
+    }
+  }
+
+  public ascending() : void {
+    if (this.order === "ASC") {
+      this.order = "";
+    }
+    else {
+      this.order = "ASC";
+    }
+  }
+
   public form = new ClassValidatorFormGroup(SearchBuffetsQuery, {
+    order: new ClassValidatorFormControl<string | null>,
     search: new ClassValidatorFormGroup<StringFilterFormModel>(
       StringFilterQuery,
       {
@@ -41,24 +61,6 @@ export class BuffetFilterComponent implements OnInit, OnDestroy {
 
   public reset(): void {
     this.form.reset();
-  }
-
-  public descending() : void {
-    if (this.order === "DESC") {
-      this.order = "";
-    }
-    else {
-      this.order = "DESC";
-    }
-  }
-
-  public ascending() : void {
-    if (this.order === "ASC") {
-      this.order = "";
-    }
-    else {
-      this.order = "ASC";
-    }
   }
 
 }

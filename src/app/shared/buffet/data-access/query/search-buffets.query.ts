@@ -25,8 +25,7 @@ export class SearchBuffetsQuery extends PaginationQuery {
       StringFilterQuery.isUnchanged(
         prev.searchString,
         curr.searchString,
-      ) ||
-      StringFilterQuery.isUnchanged(prev.searchString, curr.searchString)
+      )
     );
   }
 
@@ -39,9 +38,6 @@ export class SearchBuffetsQuery extends PaginationQuery {
   public searchString?: StringFilterQuery;
 
   @Expose()
-  @Type(() => StringFilterQuery)
   @IsOptional()
-  @IsInstance(StringFilterQuery)
-  @ValidateNested()
-  public order?: StringFilterQuery;
+  public order?: string;
 }

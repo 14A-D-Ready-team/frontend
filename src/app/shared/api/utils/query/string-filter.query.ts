@@ -29,7 +29,4 @@ export class StringFilterQuery {
   )
   public searchString?: string;
 
-  @Expose()
-  @IsOptional()
-  public order?: string;
 }
