@@ -1,4 +1,13 @@
-<ion-item class="highlight-primary" class="no-end-padding">
+<ion-item
+  class="highlight-primary"
+  class="no-end-padding"
+  [disabled]="bindedFormControl.disabled"
+  *ngIf="
+    (bindedFormControl.statusChanges | async) ||
+    (bindedFormControl.valueChanges | async) ||
+    true
+  "
+>
   <ion-label position="floating">{{ title }}</ion-label>
   <ion-select
     interface="popup"
@@ -14,15 +23,6 @@
   </ion-select>
 
   <div class="end-button-container flex-vertical-center" slot="end">
-    <!-- <ion-button
-      [style.display]="loading ? 'none' : 'unset'"
-      fill="clear"
-      color="dark"
-      size="small"
-      (click)="resetForm()"
-    >
-      <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
-    </ion-button> -->
     <app-clear-input-button
       [bindedFormControl]="bindedFormControl"
     ></app-clear-input-button>
@@ -31,6 +31,7 @@
       color="primary"
       size="small"
       [style.display]="loading ? 'none' : 'unset'"
+      [disabled]="bindedFormControl.disabled"
       (click)="refresh.emit()"
     >
       <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
@@ -39,6 +40,8 @@
     <ng-container *ngIf="loading">
       <ion-spinner name="crescent" color="primary"></ion-spinner>
     </ng-container>
+
+    {{ bindedFormControl.disabled }}
   </div>
 
   <ion-note *ngIf="!bindedFormControl.untouched" slot="error">

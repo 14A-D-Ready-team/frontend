@@ -1,4 +1,8 @@
-<ion-label *ngIf="label">{{ label }}</ion-label>
+<ion-label
+  *ngIf="label"
+  [style.opacity]="bindedFormControl.disabled ? '0.3' : '1'"
+  >{{ label }}</ion-label
+>
 
 <div
   ngx-dropzone
