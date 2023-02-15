@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { StringFilterQuery } from '@shared/api';
 import { SearchBuffetsQuery } from '@shared/buffet/data-access/query';
 import { StringFilterFormModel } from '@shared/inputs/utils';
+import { OrderItemsFormModel } from '@shared/inputs/utils/order-items-form.model';
 import { ClassValidatorFormGroup, ClassValidatorFormControl } from 'ngx-reactive-form-class-validator';
 import { BuffetFilterEffects, formPath } from './store';
 
@@ -14,32 +15,10 @@ import { BuffetFilterEffects, formPath } from './store';
 })
 export class BuffetFilterComponent implements OnInit, OnDestroy {
 
-  @Input()
-  public order?: string;
-
   public formPath = formPath;
 
-  
-  public descending() : void {
-    if (this.order === "DESC") {
-      this.order = "";
-    }
-    else {
-      this.order = "DESC";
-    }
-  }
-
-  public ascending() : void {
-    if (this.order === "ASC") {
-      this.order = "";
-    }
-    else {
-      this.order = "ASC";
-    }
-  }
-
   public form = new ClassValidatorFormGroup(SearchBuffetsQuery, {
-    order: new ClassValidatorFormControl<string | null>,
+    order: new ClassValidatorFormControl<string | null>(null),
     search: new ClassValidatorFormGroup<StringFilterFormModel>(
       StringFilterQuery,
       {

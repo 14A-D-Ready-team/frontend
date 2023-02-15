@@ -6,7 +6,7 @@
   <ng-container *ngIf="(isDesktop$ | async) === false">
     <ion-header>
       <ion-toolbar>
-        <ion-title>Büfék szűrése</ion-title>
+        <ion-title class="title">Büfék szűrése</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="filterContent.reset()">
             <ion-icon
@@ -50,7 +50,7 @@
     <div class="ion-padding" *ngIf="vm.isDesktop">
       <ion-card>
         <ion-card-header>
-          <ion-card-title>Büfék szűrése</ion-card-title>
+          <ion-card-title class="title">Büfék szűrése</ion-card-title>
         </ion-card-header>
         <ion-card-content>
           <app-buffet-filter

@@ -9,6 +9,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ExtendedFormPluginModule } from '@shared/extended-form-plugin';
 import { StringFilterInputComponent } from '@shared/inputs/feature/ionic/string-filter-input/string-filter-input.component';
 import { SelectorInputComponent } from '@shared/inputs/feature/ionic';
+import { OrderItemsInputComponent } from '@shared/inputs/feature/ionic/order-items-input/order-items-input.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { SelectorInputComponent } from '@shared/inputs/feature/ionic';
     ReactiveFormsModule,
     SelectorInputComponent,
     StringFilterInputComponent,
+    OrderItemsInputComponent,
     NgxsModule.forFeature([BuffetFilterState]),
     NgxsFormPluginModule,
     ExtendedFormPluginModule,
