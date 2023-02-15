@@ -11,11 +11,15 @@ import { IonicModule } from "@ionic/angular";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomizationInputComponent implements OnInit {
+  a() {
+    console.log("ads");
+  }
   constructor() {}
 
   ngOnInit(): void {}
 
   public handleReorder(event: any) {
+    console.log(event);
     event.detail.complete();
   }
 }
