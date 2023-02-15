@@ -25,18 +25,11 @@
                 label="Termék képe"
                 [bindedFormControl]="form.controls.image"
               ></app-image-selector>
+              <ng-container
+                *ngIf="(isDesktop$|async) === false; else descriptionInput"
+              ></ng-container>
             </ion-col>
             <ion-col>
-              <app-selector-input
-                displayProperty="name"
-                valueProperty="id"
-                title="Kategória"
-                [bindedFormControl]="form.controls.categoryId"
-                [loading]="(categoriesLoading$ | async) === true"
-                [items]="(categories$ | async)!"
-                (refresh)="reloadCategories()"
-              ></app-selector-input>
-
               <ion-item class="highlight-primary no-end-padding" counter>
                 <ion-label position="floating">Név</ion-label>
                 <ion-input formControlName="name" [maxlength]="100"></ion-input>
@@ -55,135 +48,21 @@
                 ></app-error-list>
               </ion-item>
 
-              <ion-item class="highlight-primary no-end-padding" counter>
-                <ion-label position="floating">Leírás</ion-label>
-                <ion-textarea
-                  autoGrow
-                  formControlName="description"
-                  maxlength="800"
-                  minlength="1"
-                ></ion-textarea>
-                <div class="end-button-container" slot="end">
-                  <div class="top-margin">
-                    <app-clear-input-button
-                      [bindedFormControl]="form.controls.description"
-                    ></app-clear-input-button>
-                  </div>
-                </div>
-                <app-error-list
-                  slot="error"
-                  *ngIf="!form.controls.description.untouched"
-                  [errors]="form.controls.description.errors"
-                ></app-error-list>
-              </ion-item>
+              <app-selector-input
+                displayProperty="name"
+                valueProperty="id"
+                title="Kategória"
+                [bindedFormControl]="form.controls.categoryId"
+                [loading]="(categoriesLoading$ | async) === true"
+                [items]="(categories$ | async)!"
+                (refresh)="reloadCategories()"
+              ></app-selector-input>
             </ion-col>
           </ion-row>
           <ion-row>
+            <ion-col size-sm="4" size="12"></ion-col>
             <ion-col>
-              <ion-item class="highlight-primary no-end-padding">
-                <ion-label position="floating">Csökkentett ár</ion-label>
-                <ion-input
-                  autoGrow
-                  formControlName="discountedPrice"
-                  maxlength="800"
-                  minlength="1"
-                  type="number"
-                ></ion-input>
-                <div
-                  class="end-button-container flex-vertical-center"
-                  slot="end"
-                >
-                  <app-clear-input-button
-                    [bindedFormControl]="form.controls.discountedPrice"
-                  ></app-clear-input-button>
-                </div>
-                <app-error-list
-                  slot="error"
-                  *ngIf="!form.controls.discountedPrice.untouched"
-                  [errors]="form.controls.discountedPrice.errors"
-                ></app-error-list>
-              </ion-item>
-
-              <ion-item class="highlight-primary no-end-padding">
-                <ion-label position="floating">Teljes ár</ion-label>
-                <ion-input
-                  autoGrow
-                  formControlName="fullPrice"
-                  maxlength="800"
-                  minlength="1"
-                  type="number"
-                ></ion-input>
-                <div
-                  class="end-button-container flex-vertical-center"
-                  slot="end"
-                >
-                  <app-clear-input-button
-                    [bindedFormControl]="form.controls.fullPrice"
-                  ></app-clear-input-button>
-                </div>
-                <app-error-list
-                  slot="error"
-                  *ngIf="!form.controls.fullPrice.untouched"
-                  [errors]="form.controls.fullPrice.errors"
-                ></app-error-list>
-              </ion-item>
-
-              <ion-item class="highlight-primary no-end-padding">
-                <ion-label position="floating">Raktáron</ion-label>
-                <ion-input
-                  autoGrow
-                  formControlName="stock"
-                  maxlength="800"
-                  minlength="1"
-                  type="number"
-                ></ion-input>
-                <div
-                  class="end-button-container flex-vertical-center"
-                  slot="end"
-                >
-                  <app-clear-input-button
-                    [bindedFormControl]="form.controls.stock"
-                  ></app-clear-input-button>
-                </div>
-                <app-error-list
-                  slot="error"
-                  *ngIf="!form.controls.stock.untouched"
-                  [errors]="form.controls.stock.errors"
-                ></app-error-list>
-              </ion-item>
-
-              <ion-item class="margin-top no-left-padding" lines="none">
-                <div style="min-height: 120px; padding-left: 16px">
-                  <ion-label position="fixed">Opciók</ion-label>
-                  <ion-list>
-                    <ion-item
-                      *ngFor="let option of form.controls.customizations.controls; let i = index"
-                    >
-                      <ion-label position="floating">Név</ion-label>
-                      <ion-input
-                        formControlName="name"
-                        [maxlength]="100"
-                      ></ion-input>
-                      <div
-                        class="end-button-container flex-vertical-center"
-                        slot="end"
-                      >
-                        <app-clear-input-button
-                          [bindedFormControl]="option.controls.name"
-                        ></app-clear-input-button>
-                      </div>
-                      <app-error-list
-                        slot="error"
-                        *ngIf="!option.controls.name.untouched"
-                        [errors]="option.controls.name.errors"
-                      ></app-error-list>
-                    </ion-item>
-                  </ion-list>
-                  <ion-fab-button size="small">
-                    <ion-icon name="add"></ion-icon>
-                  </ion-fab-button>
-                </div>
-              </ion-item>
+              <!-- inputs template-->
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -212,3 +91,114 @@
     </div>
   </ion-card>
 </ion-content>
+
+<ng-template #descriptionInput>
+  <ion-item class="highlight-primary no-end-padding" counter>
+    <ion-label position="floating">Leírás</ion-label>
+    <ion-textarea
+      autoGrow
+      [formControl]="form.controls.description"
+      maxlength="800"
+      minlength="1"
+    ></ion-textarea>
+    <div class="end-button-container" slot="end">
+      <div class="top-margin">
+        <app-clear-input-button
+          [bindedFormControl]="form.controls.description"
+        ></app-clear-input-button>
+      </div>
+    </div>
+    <app-error-list
+      slot="error"
+      *ngIf="!form.controls.description.untouched"
+      [errors]="form.controls.description.errors"
+    ></app-error-list>
+  </ion-item>
+</ng-template>
+
+<ng-template #inputs>
+  <ng-container
+    *ngIf="(isDesktop$|async) === false; else descriptionInput"
+  ></ng-container>
+
+  <ion-item class="highlight-primary no-end-padding">
+    <ion-label position="floating">Csökkentett ár</ion-label>
+    <ion-input
+      autoGrow
+      formControlName="discountedPrice"
+      maxlength="800"
+      minlength="1"
+      type="number"
+    ></ion-input>
+    <div class="end-button-container flex-vertical-center" slot="end">
+      <app-clear-input-button
+        [bindedFormControl]="form.controls.discountedPrice"
+      ></app-clear-input-button>
+    </div>
+    <app-error-list
+      slot="error"
+      *ngIf="!form.controls.discountedPrice.untouched"
+      [errors]="form.controls.discountedPrice.errors"
+    ></app-error-list>
+  </ion-item>
+
+  <ion-item class="highlight-primary no-end-padding">
+    <ion-label position="floating">Teljes ár</ion-label>
+    <ion-input
+      autoGrow
+      formControlName="fullPrice"
+      maxlength="800"
+      minlength="1"
+      type="number"
+    ></ion-input>
+    <div class="end-button-container flex-vertical-center" slot="end">
+      <app-clear-input-button
+        [bindedFormControl]="form.controls.fullPrice"
+      ></app-clear-input-button>
+    </div>
+    <app-error-list
+      slot="error"
+      *ngIf="!form.controls.fullPrice.untouched"
+      [errors]="form.controls.fullPrice.errors"
+    ></app-error-list>
+  </ion-item>
+
+  <ion-item class="highlight-primary no-end-padding">
+    <ion-label position="floating">Raktáron</ion-label>
+    <ion-input
+      autoGrow
+      formControlName="stock"
+      maxlength="800"
+      minlength="1"
+      type="number"
+    ></ion-input>
+    <div class="end-button-container flex-vertical-center" slot="end">
+      <app-clear-input-button
+        [bindedFormControl]="form.controls.stock"
+      ></app-clear-input-button>
+    </div>
+    <app-error-list
+      slot="error"
+      *ngIf="!form.controls.stock.untouched"
+      [errors]="form.controls.stock.errors"
+    ></app-error-list>
+  </ion-item>
+
+  <!--<ion-list>
+                      <ion-item
+                        counter
+                        *ngFor="let customization of [1,2]; let i = index"
+                      >
+                        <ion-label position="floating">Név</ion-label>
+                        <ion-input [maxlength]="120"></ion-input>
+                         <ion-toggle slot="end" [checked]="true"></ion-toggle>
+                        <app-error-list
+                          slot="error"
+                          *ngIf="!option.controls.name.untouched"
+                          [errors]="option.controls.name.errors"
+                        ></app-error-list>
+                      </ion-item>
+                    </ion-list> -->
+
+  <app-customization-input></app-customization-input>
+</ng-template>

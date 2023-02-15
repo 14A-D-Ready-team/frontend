@@ -18,6 +18,7 @@ import { NgxsModule } from "@ngxs/store";
 import { NewProductState } from "./store";
 import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
 import { ClearInputButtonComponent } from "@shared/inputs/ui";
+import { CustomizationInputComponent } from "../customization-input";
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { ClearInputButtonComponent } from "@shared/inputs/ui";
     ImageSelectorComponent,
     ErrorMessagePipe,
     ClearInputButtonComponent,
+    CustomizationInputComponent,
   ],
   declarations: [NewProductPage],
 })

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Platform } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
 import { Category, CategoryState, loadAllCategories } from "@shared/category";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
@@ -9,7 +10,7 @@ import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
-import { Observable } from "rxjs";
+import { map, Observable, startWith } from "rxjs";
 import { ProductEditorFormModel } from "../../utils";
 import { formPath, LoadPage, Save } from "./store";
 
@@ -32,7 +33,16 @@ export class NewProductPage implements OnInit {
 
   public formPath = formPath;
 
-  constructor(private store: Store, private router: Router) {
+  public isDesktop$ = this.platform.resize.pipe(
+    startWith(undefined),
+    map(() => this.platform.width() >= 1200),
+  );
+
+  constructor(
+    private store: Store,
+    private router: Router,
+    private platform: Platform,
+  ) {
     this.form = new ClassValidatorFormGroup<ProductEditorFormModel>(
       CreateProductDto,
       {
@@ -43,7 +53,7 @@ export class NewProductPage implements OnInit {
         discountedPrice: new ClassValidatorFormControl<number | null>(null),
         fullPrice: new ClassValidatorFormControl<number | null>(null),
         stock: new ClassValidatorFormControl<number | null>(null),
-        customizations: new ClassValidatorFormGroup(),
+        /* customizations: new ClassValidatorFormGroup(), */
       },
     );
   }

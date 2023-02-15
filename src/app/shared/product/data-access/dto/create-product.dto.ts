@@ -1,4 +1,4 @@
-import { Exclude, Expose } from "class-transformer";
+import { Exclude, Expose, Type } from "class-transformer";
 import {
   IsDefined,
   IsNotEmpty,
@@ -6,6 +6,7 @@ import {
   IsPositive,
   Min,
 } from "class-validator";
+import { EditCustomizationDto } from "./edit-customization.dto";
 
 export class CreateProductDto {
   public static clone(dto: CreateProductDto) {
@@ -40,6 +41,10 @@ export class CreateProductDto {
   @Expose()
   @IsDefined({ message: "A mező kitöltése kötelező!" })
   public categoryId!: number;
+
+  @Expose()
+  @Type(() => EditCustomizationDto)
+  public customizations!: EditCustomizationDto[];
 
   constructor(model?: Partial<CreateProductDto>) {
     Object.assign(this, model);

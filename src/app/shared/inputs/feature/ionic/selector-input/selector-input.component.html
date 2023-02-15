@@ -40,8 +40,6 @@
     <ng-container *ngIf="loading">
       <ion-spinner name="crescent" color="primary"></ion-spinner>
     </ng-container>
-
-    {{ bindedFormControl.disabled }}
   </div>
 
   <ion-note *ngIf="!bindedFormControl.untouched" slot="error">
