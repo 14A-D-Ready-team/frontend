@@ -155,9 +155,9 @@
               <ion-item class="margin-top no-left-padding" lines="none">
                 <div style="min-height: 120px; padding-left: 16px">
                   <ion-label position="fixed">Opciók</ion-label>
-                  <!--  <ion-list>
+                  <ion-list>
                     <ion-item
-                      *ngFor="let option of form.controls.options.controls; let i = index"
+                      *ngFor="let option of form.controls.customizations.controls; let i = index"
                     >
                       <ion-label position="floating">Név</ion-label>
                       <ion-input
@@ -178,7 +178,7 @@
                         [errors]="option.controls.name.errors"
                       ></app-error-list>
                     </ion-item>
-                  </ion-list> -->
+                  </ion-list>
                   <ion-fab-button size="small">
                     <ion-icon name="add"></ion-icon>
                   </ion-fab-button>

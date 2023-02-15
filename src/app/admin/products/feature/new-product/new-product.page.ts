@@ -43,6 +43,7 @@ export class NewProductPage implements OnInit {
         discountedPrice: new ClassValidatorFormControl<number | null>(null),
         fullPrice: new ClassValidatorFormControl<number | null>(null),
         stock: new ClassValidatorFormControl<number | null>(null),
+        customizations: new ClassValidatorFormGroup(),
       },
     );
   }
