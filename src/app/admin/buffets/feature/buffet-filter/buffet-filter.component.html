@@ -1,18 +1,19 @@
-<form [formGroup]="form" [ngxsForm]="formPath" [ngxsFormDebounce]="0" >
+<form [formGroup]="form" [ngxsForm]="formPath" [ngxsFormDebounce]="0">
   <ion-grid>
     <ion-row>
       <ion-col class="bottom-margin">
-       <app-order-items-input
-       title="Rendezés"
-       [bindedFormControl]="form.controls.order" >
-      </app-order-items-input>
-
+        <app-order-items-input
+          title="Rendezés"
+          [bindedFormControl]="form.controls.order"
+        >
+        </app-order-items-input>
       </ion-col>
 
       <ion-col class="bottom-margin">
         <app-string-filter-input
           title="Büfé keresése"
-          [bindedFormGroup]="form.controls.search">
+          [bindedFormGroup]="form.controls.search"
+        >
         </app-string-filter-input>
       </ion-col>
     </ion-row>
