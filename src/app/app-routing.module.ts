@@ -15,6 +15,10 @@ const routes: Routes = [
     },
     component: AdminShellComponent,
   },
+  {
+    path: "customer",
+    loadChildren: () => import("./customer/").then(m => m.CustomerModule),
+  },
 ];
 
 @NgModule({

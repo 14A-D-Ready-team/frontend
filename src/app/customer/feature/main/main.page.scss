@@ -1,0 +1,33 @@
+@import "/src/global.scss";
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-rows: 10% 50% 30% 10%;
+
+  .navbar {
+    @include flex-center(row, space-evenly);
+    background-color: white;
+    grid-row: 4;
+    padding: 0.5rem;
+    font-size: $s-font;
+
+    .nav-item {
+      @include flex-center(column, center);
+      a {
+        text-decoration: none;
+        color: black;
+      }
+      svg {
+        width: 30%;
+        height: auto;
+        padding-bottom: 5px;
+      }
+    }
+
+    .selected a {
+      color: $ready-red;
+    }
+  }
+}
