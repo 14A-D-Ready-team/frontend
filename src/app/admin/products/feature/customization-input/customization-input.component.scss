@@ -2,6 +2,28 @@
   margin-top: 24px;
 }
 
-.main-label {
-  width: fit-content;
+.input-like {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 0;
+  justify-content: space-between;
+
+  ion-button {
+    display: block;
+    justify-self: end;
+  }
+}
+
+ion-accordion div {
+  padding: 0 16px 16px 16px;
+}
+
+ion-toggle {
+  padding-right: 0;
 }
