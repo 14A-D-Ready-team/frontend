@@ -1,5 +1,7 @@
 <ion-item class="margin-top" lines="none">
-  <ion-label position="fixed">Opciók</ion-label>
+  <ion-label class="main-label" position="fixed"
+    >Termék testreszabási lehetőségek</ion-label
+  >
 
   <ion-button slot="end" shape="round">
     <ion-icon name="add" slot="icon-only"></ion-icon>
@@ -16,19 +18,15 @@
         <ion-reorder slot="end"></ion-reorder>
       </ion-item>
       <div class="ion-padding" slot="content">
-        <ion-item>
-          <div>
-            <ion-label position="stacked">Név</ion-label>
-            <ion-input></ion-input>
-          </div>
-          <div slot="end">
-            <ion-label position="stacked">Multi</ion-label>
-            <ion-toggle></ion-toggle>
-          </div>
+        <ion-item class="highlight-primary no-end-padding" counter>
+          <ion-label position="floating">Név</ion-label>
+          <ion-input maxlength=""></ion-input>
         </ion-item>
-        <ion-button shape="round">
-          <ion-icon name="add" slot="icon-only"></ion-icon>
-        </ion-button>
+        <ion-item lines="none">
+          <ion-label position="stacked">Multi</ion-label>
+          <ion-toggle></ion-toggle>
+        </ion-item>
+        <ion-button> Opciók </ion-button>
       </div>
     </ion-accordion>
     <ion-accordion>
