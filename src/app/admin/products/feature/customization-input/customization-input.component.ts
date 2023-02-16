@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { IonicModule } from "@ionic/angular";
+import { IonicModule, ModalController } from "@ionic/angular";
+import { OptionEditorModalComponent } from "../option-editor-modal";
 
 @Component({
   selector: "app-customization-input",
@@ -11,15 +12,19 @@ import { IonicModule } from "@ionic/angular";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomizationInputComponent implements OnInit {
-  a() {
-    console.log("ads");
-  }
-  constructor() {}
+  constructor(private modalCtrl: ModalController) {}
 
   ngOnInit(): void {}
 
   public handleReorder(event: any) {
     console.log(event);
     event.detail.complete();
+  }
+
+  public async openOptionEditor() {
+    const modal = await this.modalCtrl.create({
+      component: OptionEditorModalComponent,
+    });
+    modal.present();
   }
 }

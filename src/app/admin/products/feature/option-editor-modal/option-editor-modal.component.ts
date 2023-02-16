@@ -14,4 +14,9 @@ export class OptionEditorModalComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  public close(event: any) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
 }
