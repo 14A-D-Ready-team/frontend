@@ -19,9 +19,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <app-buffet-filter
-        #filterContent
-      ></app-buffet-filter>
+      <app-buffet-filter #filterContent></app-buffet-filter>
     </ion-content>
   </ng-container>
 </ion-menu>
@@ -53,9 +51,7 @@
           <ion-card-title class="title">Büfék szűrése</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <app-buffet-filter
-            #filterContent
-          ></app-buffet-filter>
+          <app-buffet-filter #filterContent></app-buffet-filter>
         </ion-card-content>
         <ion-button fill="clear" (click)="filterContent.reset()">
           <ion-icon
@@ -82,7 +78,10 @@
               size-xl="3"
               *ngFor="let buffet of vm.buffets; trackBy: buffetById"
             >
-              <app-buffet-preview [buffet]="buffet" (cardClick)="editBuffet(buffet)"></app-buffet-preview>
+              <app-buffet-preview
+                [buffet]="buffet"
+                (cardClick)="editBuffet(buffet)"
+              ></app-buffet-preview>
             </ion-col>
             <ng-container *ngIf="vm.loading">
               <ion-col
@@ -110,4 +109,3 @@
     </div>
   </ion-content>
 </div>
-

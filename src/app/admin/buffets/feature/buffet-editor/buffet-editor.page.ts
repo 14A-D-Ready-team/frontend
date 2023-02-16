@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Select } from "@ngxs/store";
 import { Buffet, BuffetState, CreateBuffetDto } from "@shared/buffet";
 import { ClassValidatorFormGroup, ClassValidatorFormControl } from "ngx-reactive-form-class-validator";
@@ -16,6 +17,11 @@ export class BuffetEditorPage implements OnInit {
   save() {
     throw new Error("Method not implemented.");
   }
+  
+  public async cancel() {
+    this.router.navigate(["admin/buffets"]);
+  }
+
   @Select(BuffetState.entities)
   public buffets$!: Observable<Buffet[]>;
 
@@ -23,7 +29,9 @@ export class BuffetEditorPage implements OnInit {
 
   public formPath = formPath;
 
-  constructor() {
+  constructor(
+    private router: Router,
+  ) {
     this.form = new ClassValidatorFormGroup<BuffetEditorFormModel>(
       CreateBuffetDto,
       {

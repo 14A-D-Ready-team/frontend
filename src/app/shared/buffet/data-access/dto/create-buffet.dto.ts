@@ -25,12 +25,12 @@ export class CreateBuffetDto {
 
   @Expose()
   @IsString()
-  @MaxLength(15)
+  @MaxLength(200)
   @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
   public hours!: string;
 
   @Expose()
   @IsString()
-  @MaxLength(255)
+  @MaxLength(800)
   public description?: string;
 }

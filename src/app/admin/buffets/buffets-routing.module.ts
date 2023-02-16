@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: "edit",
     loadChildren: () =>
-      import("./feature/buffet-editor").then(m => m.BuffetEditorPage),
+      import("./feature/buffet-editor").then(m => m.BuffetEditorModule),
   },
 ];
 
