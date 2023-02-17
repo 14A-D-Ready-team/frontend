@@ -31,7 +31,10 @@
   }
   .location-input {
     all: unset;
-    @include flex-center(row, space-evenly);
+    display: grid;
+    grid-template-columns: 15% 85%;
+    justify-items: center;
+    align-items: center;
     border-radius: 2em;
 
     width: 60vw;
@@ -41,6 +44,18 @@
 
     outline: 0.5px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+
+    svg {
+      grid-column: 1;
+      width: 70%;
+      max-width: 30px;
+      height: auto;
+      object-fit: contain;
+    }
+    span {
+      grid-column: 2;
+      justify-self: start;
+    }
   }
   .notification {
     width: 8%;
@@ -57,6 +72,7 @@
     font-size: $l-font;
   }
   p {
+    margin-top: 0.2rem;
     font-size: $m-font;
   }
   .user-name {
@@ -80,7 +96,7 @@
         height: 0.35rem;
         width: 0.35rem;
         + span {
-          color: rgba(0, 0, 0, 0.725);
+          color: rgba(0, 0, 0, 0.5);
         }
       }
       input[type="radio"]:checked {
@@ -102,12 +118,12 @@
       margin: 0rem 1.3rem;
       margin-bottom: 2rem;
       width: 100%;
-      min-width: 16.8rem;
+      min-width: 16rem;
       height: fit-content;
       .product-img {
         object-fit: cover;
         border-radius: 25px 0px;
-        height: 25vh;
+        height: 220px;
         width: 100%;
       }
       .product-description {
