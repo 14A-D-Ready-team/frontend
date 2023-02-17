@@ -19,6 +19,7 @@ import { Buffet } from "@shared/buffet";
   styleUrls: ["./buffet-preview.component.scss"],
 })
 export class BuffetPreviewComponent implements OnInit {
+
   @Input()
   public buffet!: Buffet;
 
@@ -31,5 +32,13 @@ export class BuffetPreviewComponent implements OnInit {
     if (!this.buffet) {
       throw new Error("The property buffet is required");
     }
+  }
+
+  delete(event: any) {
+    event.stopPropagation();
+  }
+
+  select(event: any) {
+    event.stopPropagation();
   }
 }

@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./feature/buffet-editor").then(m => m.BuffetEditorModule),
   },
+  {
+    path: "new",
+    loadChildren: () =>
+      import("./feature/new-buffet").then(m => m.NewBuffetModule),
+  },
 ];
 
 @NgModule({
