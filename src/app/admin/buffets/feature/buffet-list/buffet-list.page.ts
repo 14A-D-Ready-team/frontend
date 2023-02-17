@@ -106,15 +106,14 @@ export class BuffetListPage implements OnInit, OnDestroy {
   }
 
   public async editBuffet(buffet: Buffet) {
-    // const modal = await this.modalController.create({
-    //   component: ProductEditorModalComponent,
-    //   componentProps: {
-    //     mode: "edit",
-    //   },
-    // }); 
-    // await modal.present();
     this.router.navigate(["edit"], {
       queryParams: { id: buffet.id },
+      relativeTo: this.route,
+    });
+  }
+
+  public create() {
+    this.router.navigate(["new"], {
       relativeTo: this.route,
     });
   }
