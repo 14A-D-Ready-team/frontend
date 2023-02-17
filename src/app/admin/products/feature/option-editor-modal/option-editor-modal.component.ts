@@ -42,6 +42,13 @@ export class OptionEditorModalComponent implements OnInit {
   }
 
   public toggleSorting() {
-    this.sortingSubject.next(!this.sortingSubject.value);
+    const isSorting = !this.sortingSubject.value;
+    if (isSorting) {
+      this.bindedFormArray.disable();
+    } else {
+      this.bindedFormArray.enable();
+    }
+
+    this.sortingSubject.next(isSorting);
   }
 }

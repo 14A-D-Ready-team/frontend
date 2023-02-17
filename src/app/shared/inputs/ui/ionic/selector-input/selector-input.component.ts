@@ -10,7 +10,7 @@ import { CommonModule } from "@angular/common";
 import { IonicModule } from "@ionic/angular";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { FirstErrorMessagePipe } from "@shared/exceptions";
-import { ClearInputButtonComponent } from "@shared/inputs/ui";
+import { ClearInputButtonComponent } from "@shared/inputs/ui/ionic";
 
 @Component({
   selector: "app-selector-input",

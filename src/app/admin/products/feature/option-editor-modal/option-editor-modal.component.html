@@ -11,9 +11,9 @@
 </ion-header>
 <ion-content class="ion-padding">
   <div class="btn-container">
-    <ion-button (click)="toggleSorting()">{{
-      (sorting$ | async) === false ? "Átrendezés" : "Kész"
-    }}</ion-button>
+    <ion-button (click)="toggleSorting()">
+      {{ (sorting$ | async) === false ? "Átrendezés" : "Kész" }}
+    </ion-button>
   </div>
   <ion-reorder-group
     [disabled]="(sorting$ | async) === false"
@@ -27,7 +27,5 @@
       <ion-input maxlength="120"></ion-input>
       <ion-reorder slot="end"></ion-reorder>
     </ion-item>
-    <ion-item> <ion-reorder slot="end"></ion-reorder> </ion-item>
-    <ion-item> <ion-reorder slot="end"></ion-reorder> </ion-item>
   </ion-reorder-group>
 </ion-content>

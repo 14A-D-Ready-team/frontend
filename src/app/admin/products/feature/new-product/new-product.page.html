@@ -150,7 +150,9 @@
                       </ion-item>
                     </ion-list> -->
 
-              <app-customization-input></app-customization-input>
+              <app-customization-input
+                [bindedFormArray]="form.controls.customizations"
+              ></app-customization-input>
             </ion-col>
           </ion-row>
         </ion-grid>

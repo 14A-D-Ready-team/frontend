@@ -11,13 +11,13 @@ import {
   ErrorListComponent,
   ImageSelectorComponent,
   SelectorInputComponent,
-} from "@shared/inputs/feature/ionic";
+} from "@shared/inputs/ui/ionic";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
 import { NgxsModule } from "@ngxs/store";
 import { NewProductState } from "./store";
 import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
-import { ClearInputButtonComponent } from "@shared/inputs/ui";
+import { ClearInputButtonComponent } from "@shared/inputs/ui/ionic";
 import { CustomizationInputComponent } from "../customization-input";
 
 @NgModule({

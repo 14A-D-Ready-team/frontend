@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Platform } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
@@ -7,11 +7,12 @@ import { Category, CategoryState, loadAllCategories } from "@shared/category";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
 import { CreateProductDto, ProductState } from "@shared/product";
 import {
+  ClassValidatorFormArray,
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
 import { map, Observable, startWith } from "rxjs";
-import { ProductEditorFormModel } from "../../utils";
+import { CustomizationFormModel, ProductEditorFormModel } from "../../utils";
 import { formPath, LoadPage, Save } from "./store";
 
 @Component({
@@ -53,7 +54,9 @@ export class NewProductPage implements OnInit {
         discountedPrice: new ClassValidatorFormControl<number | null>(null),
         fullPrice: new ClassValidatorFormControl<number | null>(null),
         stock: new ClassValidatorFormControl<number | null>(null),
-        /* customizations: new ClassValidatorFormGroup(), */
+        customizations: new ClassValidatorFormArray([]) as FormArray<
+          FormGroup<CustomizationFormModel>
+        >,
       },
     );
   }
