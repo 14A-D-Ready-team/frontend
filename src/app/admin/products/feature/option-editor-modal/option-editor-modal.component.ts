@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { IonicModule } from "@ionic/angular";
+import { IonicModule, ModalController } from "@ionic/angular";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Component({
   selector: "app-option-editor-modal",
@@ -11,12 +12,26 @@ import { IonicModule } from "@ionic/angular";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OptionEditorModalComponent implements OnInit {
-  constructor() {}
+  public sorting$: Observable<boolean>;
+
+  private sortingSubject: BehaviorSubject<boolean>;
+
+  constructor(private modalController: ModalController) {
+    this.sortingSubject = new BehaviorSubject<boolean>(false);
+    this.sorting$ = this.sortingSubject.asObservable();
+  }
 
   ngOnInit(): void {}
 
-  public close(event: any) {
-    event.stopPropagation();
-    event.preventDefault();
+  public close() {
+    this.modalController.dismiss();
+  }
+
+  public handleReorder(event: any) {
+    event.detail.complete();
+  }
+
+  public toggleSorting() {
+    this.sortingSubject.next(!this.sortingSubject.value);
   }
 }

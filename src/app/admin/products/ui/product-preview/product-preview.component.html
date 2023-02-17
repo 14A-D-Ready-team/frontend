@@ -31,6 +31,7 @@
         <ion-accordion
           [value]="customization"
           *ngFor="let customization of product.customizations"
+          (click)="$event.stopPropagation()"
         >
           <ion-item slot="header" class="no-left-padding">
             <ion-icon
@@ -58,7 +59,7 @@
     </div>
   </ion-card-content>
 
-  <ion-button fill="clear" color="danger">
+  <ion-button fill="clear" color="danger" (click)="delete($event)">
     <ion-icon slot="start" name="trash"></ion-icon>
     Törlés
   </ion-button>

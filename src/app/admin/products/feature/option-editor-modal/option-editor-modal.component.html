@@ -1,23 +1,30 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <!-- <ion-button color="medium" (click)="close()">
-        <ion-icon slot="start" icon="chevron-back-outline"></ion-icon>
-        Vissza</ion-button
-      > -->
-      <ion-button color="primary">
-        <div class="back-btn-ios">
-          <ion-icon slot="start" icon="chevron-back"></ion-icon>
-          Vissza
-        </div>
-        <div class="back-btn-md">
-          <ion-icon slot="start" icon="arrow-back"></ion-icon>
-        </div>
-      </ion-button>
+      <ion-back-button
+        defaultHref="/admin/products/new"
+        (click)="close()"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title>Opciók szerkesztése</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <ion-item> </ion-item>
+  <div class="btn-container">
+    <ion-button (click)="toggleSorting()">{{
+      (sorting$ | async) === false ? "Átrendezés" : "Kész"
+    }}</ion-button>
+  </div>
+  <ion-reorder-group
+    [disabled]="(sorting$ | async) === false"
+    (ionItemReorder)="handleReorder($event)"
+  >
+    <ion-item>
+      <ion-label position="floating">Név</ion-label>
+      <ion-input maxlength="120"></ion-input>
+      <ion-reorder slot="end"></ion-reorder>
+    </ion-item>
+    <ion-item> <ion-reorder slot="end"></ion-reorder> </ion-item>
+    <ion-item> <ion-reorder slot="end"></ion-reorder> </ion-item>
+  </ion-reorder-group>
 </ion-content>
