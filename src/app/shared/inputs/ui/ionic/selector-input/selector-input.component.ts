@@ -11,6 +11,7 @@ import { IonicModule } from "@ionic/angular";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { FirstErrorMessagePipe } from "@shared/exceptions";
 import { ClearInputButtonComponent } from "@shared/inputs/ui/ionic";
+import { FormChangesPipe } from "@shared/utils";
 
 @Component({
   selector: "app-selector-input",
@@ -21,6 +22,7 @@ import { ClearInputButtonComponent } from "@shared/inputs/ui/ionic";
     ReactiveFormsModule,
     FirstErrorMessagePipe,
     ClearInputButtonComponent,
+    FormChangesPipe,
   ],
   templateUrl: "./selector-input.component.html",
   styleUrls: ["./selector-input.component.scss"],

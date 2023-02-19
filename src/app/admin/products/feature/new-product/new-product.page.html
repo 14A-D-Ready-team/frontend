@@ -150,9 +150,9 @@
                       </ion-item>
                     </ion-list> -->
 
-              <app-customization-input
+              <app-customization-editor
                 [bindedFormArray]="form.controls.customizations"
-              ></app-customization-input>
+              ></app-customization-editor>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -180,6 +180,8 @@
       ></ion-spinner>
     </div>
   </ion-card>
+
+  <p>{{(a|async).customizations | json}}</p>
 </ion-content>
 
 <ng-template #descriptionInput>

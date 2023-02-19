@@ -2,6 +2,7 @@ import { Exclude, Expose, Type } from "class-transformer";
 import {
   IsDefined,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsPositive,
   Min,
@@ -26,6 +27,10 @@ export class CreateProductDto {
 
   @Expose()
   @IsPositive({ message: "A mezőnek pozitív számnak kell lennie!" })
+  @IsNumber(
+    { allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 },
+    { message: "A mezőnek egész számnak kell lennie!" },
+  )
   public fullPrice!: number;
 
   @Expose()
@@ -34,8 +39,11 @@ export class CreateProductDto {
   public discountedPrice!: number | null;
 
   @Expose()
-  /* @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 }) */
-  @Min(0, { message: "A mezőnek 0-nál nagyobb számnak kell lennie!" })
+  @IsNumber(
+    { allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 },
+    { message: "A mezőnek egész számnak kell lennie!" },
+  )
+  @Min(0, { message: "A mezőnek nemnegatív számnak kell lennie!" })
   public stock!: number;
 
   @Expose()

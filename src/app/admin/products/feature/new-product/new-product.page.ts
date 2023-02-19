@@ -13,7 +13,13 @@ import {
 } from "ngx-reactive-form-class-validator";
 import { map, Observable, startWith } from "rxjs";
 import { CustomizationFormModel, ProductEditorFormModel } from "../../utils";
-import { formPath, LoadPage, Save } from "./store";
+import {
+  formPath,
+  LoadPage,
+  NewProductState,
+  NewProductStateModel,
+  Save,
+} from "./store";
 
 @Component({
   selector: "app-new-product",
@@ -29,6 +35,12 @@ export class NewProductPage implements OnInit {
 
   @Select(CategoryState.loading)
   public categoriesLoading$!: Observable<boolean>;
+
+  @Select(
+    (state: { newProduct: NewProductStateModel }) =>
+      state.newProduct.form.model,
+  )
+  public a!: Observable<any>;
 
   public form: FormGroup<ProductEditorFormModel>;
 

@@ -9,6 +9,7 @@ import { CommonModule } from "@angular/common";
 import {
   IonAccordionGroup,
   IonicModule,
+  ItemReorderCustomEvent,
   ModalController,
 } from "@ionic/angular";
 import { OptionEditorModalComponent } from "../option-editor-modal";
@@ -20,16 +21,29 @@ import {
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
 import { EditCustomizationDto, OptionCount } from "@shared/product";
+import {
+  ClearInputButtonComponent,
+  ErrorListComponent,
+} from "@shared/inputs/ui/ionic";
+import { Subscription } from "rxjs";
+import { CustomizationInputComponent } from "../../ui";
 
 @Component({
-  selector: "app-customization-input",
+  selector: "app-customization-editor",
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule],
-  templateUrl: "./customization-input.component.html",
-  styleUrls: ["./customization-input.component.scss"],
+  imports: [
+    CommonModule,
+    IonicModule,
+    ReactiveFormsModule,
+    ClearInputButtonComponent,
+    ErrorListComponent,
+    CustomizationInputComponent,
+  ],
+  templateUrl: "./customization-editor.component.html",
+  styleUrls: ["./customization-editor.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomizationInputComponent implements OnInit {
+export class CustomizationEditorComponent implements OnInit {
   @Input()
   public bindedFormArray!: FormArray<FormGroup<CustomizationFormModel>>;
 
@@ -44,9 +58,12 @@ export class CustomizationInputComponent implements OnInit {
     }
   }
 
-  public handleReorder(event: any) {
-    console.log(event);
-    event.detail.complete();
+  public handleReorder(e: any) {
+    const event = e as ItemReorderCustomEvent;
+    let valueSorted = event.detail.complete(this.bindedFormArray.value);
+    valueSorted = JSON.parse(JSON.stringify(valueSorted));
+    // !!!! IT DOESNT EMIT NGXS FORM PLUGIN STATE CHANGE
+    this.bindedFormArray.setValue(valueSorted);
   }
 
   public async openOptionEditor(

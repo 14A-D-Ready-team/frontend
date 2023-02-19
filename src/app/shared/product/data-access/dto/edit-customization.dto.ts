@@ -1,9 +1,19 @@
 import { Exclude, Expose, Transform, Type } from "class-transformer";
+import {
+  IsString,
+  MinLength,
+  MaxLength,
+  IsArray,
+  IsInstance,
+  ValidateNested,
+  IsNotEmpty,
+} from "class-validator";
 import { OptionCount } from "../option-count.enum";
 import { EditOptionDto } from "./edit-option.dto";
 
 export class EditCustomizationDto {
   @Expose()
+  @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
   public description!: string;
 
   @Exclude()
@@ -17,5 +27,6 @@ export class EditCustomizationDto {
 
   @Expose()
   @Type(() => EditOptionDto)
+  @ValidateNested()
   public options!: EditOptionDto[];
 }

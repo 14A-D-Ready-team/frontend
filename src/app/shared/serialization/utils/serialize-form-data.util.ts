@@ -13,7 +13,11 @@ export function serializeFormData(data: any) {
   const plain = instanceToPlain(data, classTransformerConfig);
 
   for (const key of Object.keys(plain)) {
-    formData.append(key, plain[key]);
+    let value = plain[key];
+    if (value && typeof value === "object") {
+      value = JSON.stringify(value);
+    }
+    formData.append(key, value);
   }
 
   return formData;

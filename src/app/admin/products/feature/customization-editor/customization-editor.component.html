@@ -1,0 +1,26 @@
+<div class="header">
+  <ion-label class="input-like">Választási lehetőségek</ion-label>
+
+  <ion-button
+    slot="end"
+    shape="round"
+    size="small"
+    (click)="addCustomization()"
+  >
+    <ion-icon name="add" slot="icon-only"></ion-icon>
+  </ion-button>
+</div>
+
+<ion-accordion-group #accordionGroup>
+  <ion-reorder-group
+    [disabled]="false"
+    (ionItemReorder)="handleReorder($event)"
+  >
+    <app-customization-input
+      *ngFor="let customization of bindedFormArray.controls; let i = index"
+      [bindedFormGroup]="customization"
+      (deleted)="removeCustomization(i)"
+      (optionEditorOpened)="openOptionEditor(customization.controls.options)"
+    ></app-customization-input>
+  </ion-reorder-group>
+</ion-accordion-group>

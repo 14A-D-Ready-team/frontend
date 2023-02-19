@@ -2,11 +2,7 @@
   class="highlight-primary"
   class="no-end-padding"
   [disabled]="bindedFormControl.disabled"
-  *ngIf="
-    (bindedFormControl.statusChanges | async) ||
-    (bindedFormControl.valueChanges | async) ||
-    true
-  "
+  *ngIf="bindedFormControl | formChanges | async"
 >
   <ion-label position="floating">{{ title }}</ion-label>
   <ion-select
