@@ -2,9 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Select } from "@ngxs/store";
-import { Buffet, BuffetState, CreateBuffetDto } from "@shared/buffet";
+import { Buffet, BuffetService, BuffetState, CreateBuffetDto } from "@shared/buffet";
 import { ClassValidatorFormGroup, ClassValidatorFormControl } from "ngx-reactive-form-class-validator";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { BuffetEditorFormModel } from "../../utils";
 import { formPath } from "./store";
 
@@ -25,13 +25,24 @@ export class BuffetEditorPage implements OnInit {
   @Select(BuffetState.entities)
   public buffets$!: Observable<Buffet[]>;
 
+  @Select(BuffetState.nthEntity(buffetId))
+  public buffet$!: Observable<Buffet>;
+
   public form: FormGroup<BuffetEditorFormModel>;
 
   public formPath = formPath;
 
   constructor(
     private router: Router,
+    private buffetService: BuffetService,
+    private route: ActivatedRoute,
   ) {
+    const buffetId = this.route.snapshot.paramMap.get('id');
+
+    //   map(params => this.buffets$.pipe(
+    //     map(buffets => buffets.find(buffet => buffet.id === +params.id))
+    //   )));
+
     this.form = new ClassValidatorFormGroup<BuffetEditorFormModel>(
       CreateBuffetDto,
       {
@@ -44,6 +55,7 @@ export class BuffetEditorPage implements OnInit {
     );
   }
 
+  
   public buffetById(index: number, el: Buffet): number {
     return el.id;
   }
