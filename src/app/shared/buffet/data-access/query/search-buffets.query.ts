@@ -45,6 +45,7 @@ export class SearchBuffetsQuery extends PaginationQuery {
   @IsOptional()
   public order?: string;
 
+  @Expose()
   @IsOptional()
   public orderByField?: string;
 }

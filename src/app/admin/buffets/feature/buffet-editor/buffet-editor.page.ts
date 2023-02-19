@@ -44,5 +44,9 @@ export class BuffetEditorPage implements OnInit {
     );
   }
 
+  public buffetById(index: number, el: Buffet): number {
+    return el.id;
+  }
+
   ngOnInit() {}
 }

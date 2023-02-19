@@ -14,12 +14,12 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  <ion-content class="ion-padding">
+  <ion-content class="ion-padding" *ngIf="buffets$ | async as buffets">
     <ion-card>
-      <ion-card-content>
+      <ion-card-content *ngFor="let buffet of buffets; trackBy:buffetById">
         <form [formGroup]="form" [ngxsForm]="formPath">
           <ion-grid>
-            <ion-row>
+            <ion-row *ngIf="buffet.id === buffetById">
               <ion-col size-sm="4" size="12">
                 <ion-img src="assets/images/buffet.png"></ion-img>
               </ion-col>
@@ -31,7 +31,7 @@
                     formControlName="name"
                     maxlength="100"
                     minlength="1"
-                  ></ion-input>
+                  >{{ buffet.name }}</ion-input>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
@@ -61,7 +61,7 @@
                     formControlName="description"
                     maxlength="800"
                     minlength="1"
-                  ></ion-textarea>
+                  >{{ buffet.description }}</ion-textarea>
                   <div class="end-button-container" slot="end">
                     <ion-button
                       class="top-margin"
@@ -90,7 +90,7 @@
                     maxlength="100"
                     minlength="1"
                     type="string"
-                  ></ion-input>
+                  >{{ buffet.address }}</ion-input>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
@@ -122,7 +122,7 @@
                     maxlength="100"
                     minlength="1"
                     type="string"
-                  ></ion-input>
+                  >{{ buffet.coords }}</ion-input>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
@@ -154,7 +154,7 @@
                     maxlength="200"
                     minlength="1"
                     type="string"
-                  ></ion-textarea>
+                  >{{ buffet.hours }}</ion-textarea>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
