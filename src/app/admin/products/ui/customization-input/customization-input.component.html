@@ -1,5 +1,6 @@
 <ion-accordion
   [formGroup]="bindedFormGroup"
+  [value]="i.toString()"
   *ngIf="bindedFormGroup | formChanges | async"
 >
   <ion-item slot="header">

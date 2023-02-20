@@ -18,6 +18,7 @@
   >
     <app-customization-input
       *ngFor="let customization of bindedFormArray.controls; let i = index"
+      [i]="i"
       [bindedFormGroup]="customization"
       (deleted)="removeCustomization(i)"
       (optionEditorOpened)="openOptionEditor(customization.controls.options)"

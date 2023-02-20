@@ -134,22 +134,6 @@
                 ></app-error-list>
               </ion-item>
 
-              <!--<ion-list>
-                      <ion-item
-                        counter
-                        *ngFor="let customization of [1,2]; let i = index"
-                      >
-                        <ion-label position="floating">Név</ion-label>
-                        <ion-input [maxlength]="120"></ion-input>
-                         <ion-toggle slot="end" [checked]="true"></ion-toggle>
-                        <app-error-list
-                          slot="error"
-                          *ngIf="!option.controls.name.untouched"
-                          [errors]="option.controls.name.errors"
-                        ></app-error-list>
-                      </ion-item>
-                    </ion-list> -->
-
               <app-customization-editor
                 [bindedFormArray]="form.controls.customizations"
               ></app-customization-editor>
@@ -180,8 +164,6 @@
       ></ion-spinner>
     </div>
   </ion-card>
-
-  <p>{{(a|async).customizations | json}}</p>
 </ion-content>
 
 <ng-template #descriptionInput>

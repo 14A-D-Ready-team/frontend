@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   ViewChild,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -25,7 +27,6 @@ import {
   ClearInputButtonComponent,
   ErrorListComponent,
 } from "@shared/inputs/ui/ionic";
-import { Subscription } from "rxjs";
 import { CustomizationInputComponent } from "../../ui";
 
 @Component({

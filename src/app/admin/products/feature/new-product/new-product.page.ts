@@ -36,12 +36,6 @@ export class NewProductPage implements OnInit {
   @Select(CategoryState.loading)
   public categoriesLoading$!: Observable<boolean>;
 
-  @Select(
-    (state: { newProduct: NewProductStateModel }) =>
-      state.newProduct.form.model,
-  )
-  public a!: Observable<any>;
-
   public form: FormGroup<ProductEditorFormModel>;
 
   public formPath = formPath;

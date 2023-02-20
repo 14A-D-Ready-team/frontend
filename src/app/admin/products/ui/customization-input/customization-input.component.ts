@@ -50,13 +50,14 @@ export class CustomizationInputComponent implements OnInit {
   @Input()
   public bindedFormGroup!: FormGroup<CustomizationFormModel>;
 
+  @Input()
+  public i = 0;
+
   @Output()
   public optionEditorOpened = new EventEmitter<void>();
 
   @Output()
   public deleted = new EventEmitter<void>();
-
-  public optionsStatus$: Observable<FormControlStatus>;
 
   public get description() {
     return this.bindedFormGroup.controls.description;
@@ -66,26 +67,11 @@ export class CustomizationInputComponent implements OnInit {
     return this.bindedFormGroup.controls.options;
   }
 
-  private initialized$ = new BehaviorSubject<boolean>(false);
-
-  constructor() {
-    this.optionsStatus$ = this.initialized$.pipe(
-      filter(x => x),
-      switchMap(() =>
-        this.bindedFormGroup.statusChanges.pipe(
-          delay(1),
-          map(() => this.options.status),
-        ),
-      ),
-      startWith<FormControlStatus>("VALID"),
-    );
-  }
+  constructor() {}
 
   public ngOnInit(): void {
     if (!this.bindedFormGroup) {
       throw new Error("bindedFormGroup is required");
     }
-
-    this.initialized$.next(true);
   }
 }

@@ -66,6 +66,12 @@ export class OptionEditorModalComponent implements OnInit {
     const event = e as ItemReorderCustomEvent;
     let valueSorted = event.detail.complete(this.bindedFormArray.value);
     valueSorted = JSON.parse(JSON.stringify(valueSorted));
+    // !!! IT DOESNT EMIT NGXS FORM PLUGIN STATE CHANGE!
+    // The FormDirective uses distinctUntilChanged on the valueChanges observable,
+    // but somehow Angular's FormArray doesn't change the reference of the array even if we supply a cloned one
+    // this._formGroupDirective.valueChanges!.pipe(distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))....
+    // here, b should be the new value, but the previously stored a value's formarray array got changed as well
+    // (due to it being a reference type) and therefore the distinctUntilChanged doesn't emit a new value
     this.bindedFormArray.setValue(valueSorted);
   }
 
