@@ -25,23 +25,20 @@ export class BuffetEditorPage implements OnInit {
   @Select(BuffetState.entities)
   public buffets$!: Observable<Buffet[]>;
 
-  @Select(BuffetState.nthEntity(buffetId))
-  public buffet$!: Observable<Buffet>;
+  // @Select(BuffetState.nthEntity(1))
+  // public buffet$!: Observable<Buffet>;
 
   public form: FormGroup<BuffetEditorFormModel>;
 
   public formPath = formPath;
 
+ // private routeId: string | null;
+
   constructor(
     private router: Router,
-    private buffetService: BuffetService,
     private route: ActivatedRoute,
   ) {
-    const buffetId = this.route.snapshot.paramMap.get('id');
-
-    //   map(params => this.buffets$.pipe(
-    //     map(buffets => buffets.find(buffet => buffet.id === +params.id))
-    //   )));
+    //this.routeId = this.route.snapshot.paramMap.get('');
 
     this.form = new ClassValidatorFormGroup<BuffetEditorFormModel>(
       CreateBuffetDto,

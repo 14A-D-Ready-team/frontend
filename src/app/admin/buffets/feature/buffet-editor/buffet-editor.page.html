@@ -1,4 +1,4 @@
-<div class="ion-page" *ngIf="buffet$ | async as buffets">
+<div class="ion-page" *ngFor="let buffet of buffets$ | async as buffets">
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title class="font-bold">Büfé szerkesztése</ion-title>
@@ -14,16 +14,16 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  <ion-content class="ion-padding">
+  <ion-content class="ion-padding" >
     <ion-card>
-      <ion-card-content *ngIf="buffets">
+      <ion-card-content>
         <form [formGroup]="form" [ngxsForm]="formPath">
-          <ion-grid>
-            <ion-row>
+          <ion-grid *ngFor="let buffet of buffets; trackBy: buffetById">
+            <ion-row *ngIf="buffet.id === 1">
               <ion-col size-sm="4" size="12">
                 <ion-img src="assets/images/buffet.png"></ion-img>
               </ion-col>
-              <ion-col>
+              <ion-col >
 
                 <ion-item class="highlight-primary no-end-padding" counter>
                   <ion-label position="floating">Név</ion-label>
@@ -31,7 +31,7 @@
                     formControlName="name"
                     maxlength="100"
                     minlength="1"
-                  >{{ buffets.name }}</ion-input>
+                  >{{ buffet.name }}</ion-input>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
@@ -61,7 +61,7 @@
                     formControlName="description"
                     maxlength="800"
                     minlength="1"
-                  >{{ buffets.description }}</ion-textarea>
+                  >{{ buffet.description }}</ion-textarea>
                   <div class="end-button-container" slot="end">
                     <ion-button
                       class="top-margin"
@@ -90,7 +90,7 @@
                     maxlength="100"
                     minlength="1"
                     type="string"
-                  >{{ buffets.address }}</ion-input>
+                  >{{ buffet.address }}</ion-input>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
@@ -122,7 +122,7 @@
                     maxlength="100"
                     minlength="1"
                     type="string"
-                  >{{ buffets.coords }}</ion-input>
+                  >{{ buffet.coords }}</ion-input>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
@@ -154,7 +154,7 @@
                     maxlength="200"
                     minlength="1"
                     type="string"
-                  >{{ buffets.hours }}</ion-textarea>
+                  >{{ buffet.hours }}</ion-textarea>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
