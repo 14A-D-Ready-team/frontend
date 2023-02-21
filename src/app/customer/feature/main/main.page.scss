@@ -4,6 +4,8 @@
   color: black;
   font-family: "Poppins";
   font-size: $m-font;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
@@ -12,6 +14,7 @@
   position: relative;
   background-color: white;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .top-container {
@@ -35,10 +38,9 @@
     grid-template-columns: 15% 85%;
     justify-items: center;
     align-items: center;
-    border-radius: 2em;
-
-    width: 60vw;
-    max-width: 500px;
+    border-radius: 2rem;
+    width: 65vw;
+    max-width: 23rem;
     min-height: 2rem;
     height: 3.8vh;
 
@@ -55,6 +57,7 @@
     span {
       grid-column: 2;
       justify-self: start;
+      font-size: $s-font;
     }
   }
   .notification {
@@ -65,6 +68,7 @@
 }
 
 .text-container {
+  margin-bottom: 1.5rem;
   padding: 0 1rem;
   color: black;
   h1 {
@@ -72,8 +76,9 @@
     font-size: $l-font;
   }
   p {
-    margin-top: 0.2rem;
+    margin-top: 0.6rem;
     font-size: $m-font;
+    font-weight: 500;
   }
   .user-name {
     color: $ready-red;
@@ -85,6 +90,7 @@
   .category-container {
     overflow-x: auto;
     display: flex;
+    padding-bottom: 1rem;
     .category-item {
       @include flex-center(column-reverse, center);
       margin: 0 1rem;
@@ -108,28 +114,30 @@
     }
   }
   .product-container {
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     overflow-x: auto;
     display: flex;
     .product-card {
       border-radius: 25px 0px 25px 25px;
       background-color: $card-background;
       box-shadow: 0px 10px 20px -10px rgb(181, 181, 181);
-      margin: 0rem 1.3rem;
-      margin-bottom: 2rem;
-      width: 100%;
-      min-width: 16rem;
-      height: fit-content;
+
+      margin: 0rem 1rem;
+      margin-bottom: 1.3rem;
+
+      min-width: 15.5rem;
+
       .product-img {
         object-fit: cover;
         border-radius: 25px 0px;
-        height: 220px;
+        height: 55vw;
+        max-height: 20rem;
         width: 100%;
       }
       .product-description {
         display: flex;
         flex-direction: column;
-        padding: 0rem 0.5rem;
+        padding: 0rem 0.8rem;
         padding-bottom: 1rem;
         position: relative;
         .product-category {
@@ -146,18 +154,14 @@
         .add-btn {
           position: absolute;
           right: 5%;
-          bottom: 10%;
-          width: 2.5rem;
-          height: 2.5rem;
+          bottom: 15%;
+          width: 20%;
+          max-width: 40px;
+          aspect-ratio: 1/1;
           border-radius: 100%;
           background-color: $ready-red;
           color: white;
           font-size: 1.5rem;
-        }
-
-        p {
-          padding: 0;
-          margin: 0;
         }
       }
     }
@@ -165,10 +169,54 @@
 }
 
 .recommend-container {
+  @include flex-center(column, center);
+  padding-bottom: 10vh;
+  .recommend-caption {
+    align-self: flex-start;
+    padding-left: 1rem;
+    margin: 1rem 0rem;
+    font-weight: 500;
+  }
+  .daily-recommend-card {
+    display: grid;
+    grid-template-columns: 20% 70% 10%;
+    align-items: center;
+    width: 95vw;
+    max-width: 38rem;
+    background-color: $card-background;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 10px 20px -10px rgb(181, 181, 181);
+    margin-bottom: 3vh;
+    img {
+      grid-column: 1;
+      height: 100%;
+      width: 12vh;
+      object-fit: cover;
+      align-self: flex-start;
+    }
+    .recommend-text-container {
+      grid-column: 2;
+      margin: 0rem 1rem;
+      word-wrap: break-word;
+      .recommendation {
+        font-weight: 500;
+      }
+      .detail {
+        font-size: $s-font;
+      }
+      .price {
+        font-weight: bold;
+      }
+    }
+    a {
+      grid-column: 3;
+    }
+  }
 }
 
 .navbar {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   @include flex-center(row, space-evenly);
   background-color: $card-background;
@@ -181,9 +229,10 @@
     a {
       text-decoration: none;
       color: black;
+      font-size: $s-font;
     }
     svg {
-      width: 30%;
+      width: 28%;
       max-width: 50px;
       height: auto;
       padding-bottom: 5px;
