@@ -1,9 +1,17 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { Select } from "@ngxs/store";
-import { Buffet, BuffetService, BuffetState, CreateBuffetDto } from "@shared/buffet";
-import { ClassValidatorFormGroup, ClassValidatorFormControl } from "ngx-reactive-form-class-validator";
+import {
+  Buffet,
+  BuffetService,
+  BuffetState,
+  CreateBuffetDto,
+} from "@shared/buffet";
+import {
+  ClassValidatorFormGroup,
+  ClassValidatorFormControl,
+} from "ngx-reactive-form-class-validator";
 import { map, Observable } from "rxjs";
 import { BuffetEditorFormModel } from "../../utils";
 import { formPath } from "./store";
@@ -17,7 +25,7 @@ export class BuffetEditorPage implements OnInit {
   save() {
     throw new Error("Method not implemented.");
   }
-  
+
   public async cancel() {
     this.router.navigate(["admin/buffets"]);
   }
@@ -25,20 +33,17 @@ export class BuffetEditorPage implements OnInit {
   @Select(BuffetState.entities)
   public buffets$!: Observable<Buffet[]>;
 
-  // @Select(BuffetState.nthEntity(1))
-  // public buffet$!: Observable<Buffet>;
-
   public form: FormGroup<BuffetEditorFormModel>;
 
   public formPath = formPath;
 
- // private routeId: string | null;
+  // eslint-disable-next-line
+  public idFromRoute: any;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {
-    //this.routeId = this.route.snapshot.paramMap.get('');
+  nameHelp: any;
+
+  constructor(private router: Router, private route: ActivatedRoute) {
+    
 
     this.form = new ClassValidatorFormGroup<BuffetEditorFormModel>(
       CreateBuffetDto,
@@ -52,10 +57,29 @@ export class BuffetEditorPage implements OnInit {
     );
   }
 
-  
   public buffetById(index: number, el: Buffet): number {
     return el.id;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      // eslint-disable-next-line
+      this.idFromRoute = params["id"];
+    });
+    //console.log(this.idFromRoute);
+
+    // csak az első büfé nevét írja ki, utána nem frissül 
+    this.buffets$.forEach(buffets =>
+      buffets.forEach(buffet => {
+        if (this.idFromRoute === buffet.id.toString()) {
+          // if(buffet.name !== name){
+
+          // }
+          //this.nameHelp = buffet.name;
+          this.form.controls.name.setValue(buffet.name);
+          console.log(buffet.name);
+        }
+      }),
+    );
+  }
 }

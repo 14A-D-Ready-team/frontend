@@ -19,7 +19,7 @@
       <ion-card-content>
         <form [formGroup]="form" [ngxsForm]="formPath">
           <ion-grid *ngFor="let buffet of buffets; trackBy: buffetById">
-            <ion-row *ngIf="buffet.id === 1">
+            <ion-row *ngIf="buffet.id.toString() === idFromRoute">
               <ion-col size-sm="4" size="12">
                 <ion-img src="assets/images/buffet.png"></ion-img>
               </ion-col>
@@ -31,7 +31,7 @@
                     formControlName="name"
                     maxlength="100"
                     minlength="1"
-                  >{{ buffet.name }}</ion-input>
+                  ></ion-input>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
