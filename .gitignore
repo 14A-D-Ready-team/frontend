@@ -33,3 +33,5 @@ npm-debug.log*
 /cypress/videos/*
 /.vscode/**
 package-lock.json
+android/app/src/main/assets
+android/app/src/build
