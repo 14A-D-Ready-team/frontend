@@ -85,9 +85,7 @@ export class CustomizationEditorComponent implements OnInit {
         EditCustomizationDto,
         {
           description: new ClassValidatorFormControl<string | null>(null),
-          isMulti: new ClassValidatorFormControl<OptionCount>(
-            OptionCount.SingleChoice,
-          ),
+          isMulti: new ClassValidatorFormControl<boolean>(false),
           options: new ClassValidatorFormArray([]) as FormArray<
             FormGroup<OptionFormModel>
           >,
