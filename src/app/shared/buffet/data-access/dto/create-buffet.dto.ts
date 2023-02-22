@@ -3,34 +3,33 @@ import { IsString, MinLength, MaxLength, IsNotEmpty } from "class-validator";
 
 export class CreateBuffetDto {
   @Expose()
-  @IsString()
-  @MinLength(1)
-  @MaxLength(100)
+  @IsString({ message: "A mező nem szöveget tartalmaz!" })
+  @MinLength(1, { message: "A mezőnek legalább 1 karakternek kell elnnie!" })
+  @MaxLength(100, { message: "A mező legfeljebb 100 karakter hosszú lehet!" })
   @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
   public name!: string;
 
   @Expose()
-  @IsString()
-  @MinLength(1)
-  @MaxLength(100)
+  @IsString({ message: "A mező nem szöveget tartalmaz!" })
+  @MinLength(1, { message: "A mezőnek legalább 1 karakternek kell elnnie!" })
+  @MaxLength(100, { message: "A mező legfeljebb 100 karakter hosszú lehet!" })
   @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
   public coords!: string;
 
   @Expose()
-  @IsString()
-  @MinLength(1)
-  @MaxLength(100)
+  @IsString({ message: "A mező nem szöveget tartalmaz!" })
+  @MinLength(1, { message: "A mezőnek legalább 1 karakternek kell elnnie!" })
+  @MaxLength(100, { message: "A mező legfeljebb 100 karakter hosszú lehet!" })
   @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
   public address!: string;
 
   @Expose()
-  @IsString()
-  @MaxLength(200)
-  @IsNotEmpty({ message: "A mező kitöltése kötelező!" })
-  public hours!: string;
+  @IsString({ message: "A mező nem szöveget tartalmaz!" })
+  @MaxLength(200, { message: "A mező legfeljebb 200 karakter hosszú lehet!" })
+  public hours?: string;
 
   @Expose()
-  @IsString()
-  @MaxLength(800)
+  @IsString({ message: "A mező nem szöveget tartalmaz!" })
+  @MaxLength(800, { message: "A mező legfeljebb 800 karakter hosszú lehet!" })
   public description?: string;
 }

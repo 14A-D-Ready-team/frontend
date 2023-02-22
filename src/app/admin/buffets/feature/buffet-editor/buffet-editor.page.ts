@@ -1,10 +1,9 @@
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { ActivatedRoute, ParamMap, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Select } from "@ngxs/store";
 import {
   Buffet,
-  BuffetService,
   BuffetState,
   CreateBuffetDto,
 } from "@shared/buffet";
@@ -12,7 +11,7 @@ import {
   ClassValidatorFormGroup,
   ClassValidatorFormControl,
 } from "ngx-reactive-form-class-validator";
-import { map, Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { BuffetEditorFormModel } from "../../utils";
 import { formPath } from "./store";
 
@@ -39,6 +38,10 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
 
   public idFromRoute!: string;
 
+  private idSubscription!: Subscription;
+
+  private formSubscription!: Subscription;
+
   constructor(private router: Router, private route: ActivatedRoute) {
     
 
@@ -61,16 +64,13 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
   ngOnInit() {
     //hibaforrás lehet
 
-    let idSubscription = this.route.queryParams.subscribe(params => {
+    this.idSubscription = this.route.queryParams.subscribe(params => {
       // eslint-disable-next-line
       this.idFromRoute = params["id"];
     });
     //console.log(this.idFromRoute);
 
-    // csere subsribe-re
-    // let subscription = asd.subscribe()......
-    // a subscriptiont kell unsubscribeolni
-    let formSubscription = this.buffets$.subscribe(buffets =>
+    this.formSubscription = this.buffets$.subscribe(buffets =>
       buffets.forEach(buffet => {
         if (this.idFromRoute === buffet.id.toString()) {
           this.form.controls.name.setValue(buffet.name);
@@ -85,6 +85,7 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    
+    this.idSubscription.unsubscribe();
+    this.formSubscription.unsubscribe();
   }
 }
