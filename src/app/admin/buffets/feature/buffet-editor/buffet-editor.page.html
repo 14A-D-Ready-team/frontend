@@ -17,7 +17,7 @@
   <ion-content class="ion-padding" >
     <ion-card>
       <ion-card-content>
-        <form [formGroup]="form" [ngxsForm]="formPath">
+        <form [formGroup]="form" [ngxsForm]="formPath" [ngxsFormClearOnDestroy]="true">
           <ion-grid *ngFor="let buffet of buffets; trackBy: buffetById">
             <ion-row *ngIf="buffet.id.toString() === idFromRoute">
               <ion-col size-sm="4" size="12">
@@ -61,7 +61,7 @@
                     formControlName="description"
                     maxlength="800"
                     minlength="1"
-                  >{{ buffet.description }}</ion-textarea>
+                  ></ion-textarea>
                   <div class="end-button-container" slot="end">
                     <ion-button
                       class="top-margin"
@@ -90,7 +90,7 @@
                     maxlength="100"
                     minlength="1"
                     type="string"
-                  >{{ buffet.address }}</ion-input>
+                  ></ion-input>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
@@ -122,7 +122,7 @@
                     maxlength="100"
                     minlength="1"
                     type="string"
-                  >{{ buffet.coords }}</ion-input>
+                  ></ion-input>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"
@@ -154,7 +154,7 @@
                     maxlength="200"
                     minlength="1"
                     type="string"
-                  >{{ buffet.hours }}</ion-textarea>
+                  ></ion-textarea>
                   <div
                     class="end-button-container flex-vertical-center"
                     slot="end"

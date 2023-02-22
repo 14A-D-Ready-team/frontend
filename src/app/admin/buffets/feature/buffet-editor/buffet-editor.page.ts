@@ -21,7 +21,7 @@ import { formPath } from "./store";
   templateUrl: "./buffet-editor.page.html",
   styleUrls: ["./buffet-editor.page.scss"],
 })
-export class BuffetEditorPage implements OnInit {
+export class BuffetEditorPage implements OnInit, OnDestroy {
   save() {
     throw new Error("Method not implemented.");
   }
@@ -37,10 +37,7 @@ export class BuffetEditorPage implements OnInit {
 
   public formPath = formPath;
 
-  // eslint-disable-next-line
-  public idFromRoute: any;
-
-  nameHelp: any;
+  public idFromRoute!: string;
 
   constructor(private router: Router, private route: ActivatedRoute) {
     
@@ -62,24 +59,32 @@ export class BuffetEditorPage implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    //hibaforrás lehet
+
+    let idSubscription = this.route.queryParams.subscribe(params => {
       // eslint-disable-next-line
       this.idFromRoute = params["id"];
     });
     //console.log(this.idFromRoute);
 
-    // csak az első büfé nevét írja ki, utána nem frissül 
-    this.buffets$.forEach(buffets =>
+    // csere subsribe-re
+    // let subscription = asd.subscribe()......
+    // a subscriptiont kell unsubscribeolni
+    let formSubscription = this.buffets$.subscribe(buffets =>
       buffets.forEach(buffet => {
         if (this.idFromRoute === buffet.id.toString()) {
-          // if(buffet.name !== name){
-
-          // }
-          //this.nameHelp = buffet.name;
           this.form.controls.name.setValue(buffet.name);
-          console.log(buffet.name);
+          this.form.controls.coords.setValue(buffet.coords);
+          this.form.controls.address.setValue(buffet.address);
+          this.form.controls.hours.setValue(buffet.hours || null);
+          this.form.controls.description.setValue(buffet.description || null);
+          //console.log(buffet.name);
         }
       }),
     );
+  }
+
+  ngOnDestroy() {
+    
   }
 }
