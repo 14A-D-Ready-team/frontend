@@ -1,5 +1,8 @@
 import { NumberFilterQuery, PaginationQuery } from "@shared/api";
-import { deleteEmptyPropertiesDeep } from "@shared/serialization";
+import {
+  classTransformerConfig,
+  deleteEmptyPropertiesDeep,
+} from "@shared/serialization";
 import {
   Expose,
   instanceToPlain,
@@ -21,10 +24,11 @@ export class FilterProductsQuery extends PaginationQuery {
   ): FilterProductsQuery {
     const rawCopy = JSON.parse(JSON.stringify(existing));
 
-    return plainToInstance(FilterProductsQuery, rawCopy, {
-      excludeExtraneousValues: true,
-      exposeUnsetFields: false,
-    });
+    return plainToInstance(
+      FilterProductsQuery,
+      rawCopy as unknown,
+      classTransformerConfig,
+    );
   }
 
   public static isUnchanged(

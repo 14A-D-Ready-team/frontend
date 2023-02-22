@@ -5,7 +5,6 @@ import { ProductsListRoutingModule } from "./products-list-routing.module";
 import { ProductsListPage } from "./products-list.page";
 import { IonicModule } from "@ionic/angular";
 import { ProductsListEffects, ProductsListState } from "./store";
-import { NgxsEffectsModule } from "ngxs-effects";
 import { NgxsModule } from "@ngxs/store";
 import {
   ProductPreviewComponent,
@@ -25,7 +24,6 @@ import { AdminHeaderComponent } from "@app/admin/shell";
     IonicModule,
     NglrxPipesModule,
     NgxsModule.forFeature([ProductsListState, ProductFilterState]),
-    NgxsEffectsModule.forFeature(ProductsListEffects),
     ProductsListRoutingModule,
     ProductFilterModule,
     ProductPreviewComponent,
@@ -34,6 +32,6 @@ import { AdminHeaderComponent } from "@app/admin/shell";
     TypingOverlayComponent,
     AdminHeaderComponent,
   ],
-  providers: [],
+  providers: [ProductsListEffects],
 })
 export class ProductsListModule {}

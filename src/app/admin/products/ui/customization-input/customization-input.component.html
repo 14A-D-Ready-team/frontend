@@ -1,0 +1,47 @@
+<ion-accordion
+  [formGroup]="bindedFormGroup"
+  [value]="i.toString()"
+  *ngIf="bindedFormGroup | formChanges | async"
+>
+  <ion-item slot="header">
+    <ion-label>{{ description.value }}</ion-label>
+    <ion-reorder slot="end"></ion-reorder>
+  </ion-item>
+  <div slot="content">
+    <ion-item class="highlight-primary no-end-padding" counter>
+      <ion-label position="floating">Leírás</ion-label>
+      <ion-input formControlName="description" maxlength="120"></ion-input>
+      <div class="end-button-container flex-vertical-center" slot="end">
+        <app-clear-input-button
+          [bindedFormControl]="description"
+        ></app-clear-input-button>
+      </div>
+      <app-error-list
+        slot="error"
+        *ngIf="description.touched"
+        [errors]="description.errors"
+      ></app-error-list>
+    </ion-item>
+    <ion-item lines="none" class="no-end-padding">
+      <ion-label position="fixed">Multi</ion-label>
+      <ion-toggle formControlName="isMulti" slot="end"></ion-toggle>
+    </ion-item>
+    <div class="btn-container">
+      <ion-button
+        [disabled]="bindedFormGroup.disabled"
+        (click)="optionEditorOpened.emit()"
+      >
+        Opciók
+        <ion-icon slot="end" icon="warning" *ngIf="options.invalid"></ion-icon>
+      </ion-button>
+      <ion-button
+        [disabled]="bindedFormGroup.disabled"
+        (click)="deleted.emit()"
+        fill="clear"
+        color="danger"
+      >
+        <ion-icon name="trash" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-accordion>
