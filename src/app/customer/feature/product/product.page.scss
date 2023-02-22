@@ -1,0 +1,93 @@
+@import "/src/global.scss";
+
+* {
+  font-family: "Poppins";
+  color: black;
+  font-size: $m-font;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 40% 60%;
+  width: 100vw;
+  height: 100vh;
+}
+
+.product-image-container {
+  grid-row: 1;
+  position: relative;
+  a {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    svg {
+      fill: white;
+    }
+  }
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 45vh;
+  }
+}
+
+.card {
+  background-color: $card-background;
+  border-radius: 1rem 1rem 0px 0px;
+  padding: 1rem;
+  z-index: 1;
+
+  p {
+    margin: 0.5rem 0rem;
+  }
+  .product-name,
+  .price {
+    font-size: $l-font;
+    font-weight: 600;
+  }
+  .extra-info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .prep-time {
+      margin: 0 1.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        margin: 0 0.3rem;
+      }
+      span {
+        font-size: $s-font;
+      }
+    }
+    .star-rating {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      span {
+        font-size: $s-font;
+        margin: 0 0.3rem;
+      }
+    }
+  }
+  .extras-container {
+    p {
+      font-weight: 500;
+    }
+    .possibilities {
+      display: flex;
+      justify-content: space-evenly;
+
+      input[type="checkbox"] {
+        height: 25px;
+        width: 25px;
+        accent-color: $ready-red;
+        border-radius: 50%;
+      }
+    }
+  }
+}

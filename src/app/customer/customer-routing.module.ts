@@ -11,6 +11,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./feature/buffet-select").then(m => m.BuffetSelectPageModule),
   },
+  {
+    path: "product",
+    loadChildren: () =>
+      import("./feature/product").then(m => m.ProductPageModule),
+  },
 ];
 
 @NgModule({
