@@ -38,13 +38,14 @@
 }
 
 .login-form {
-  @include flex-center(column, center);
+  @include flex-center(column, flex-start);
+  height: 100%;
 
   .input-container {
     @include flex-center(row, center);
     border-radius: 2rem;
     margin-top: 2vh;
-    margin-bottom: 5vh;
+    margin-bottom: 2vh;
 
     width: 85%;
     max-width: 500px;
@@ -69,6 +70,31 @@
     }
     select:focus ~ .arrow {
       transform: rotate(180deg);
+    }
+  }
+  .buffet-description {
+    width: 95%;
+    .buffet-name {
+      font-size: $m-font;
+    }
+    p {
+      font-size: $s-font;
+      text-align: center;
+      font-weight: 500;
+    }
+    .star-rating {
+      @include flex-center(row, center);
+      margin: 2vh 0;
+      span {
+        font-size: $s-font;
+      }
+      .stars {
+        display: flex;
+        flex-direction: row;
+        svg {
+          margin-right: 0.5rem;
+        }
+      }
     }
   }
 }
