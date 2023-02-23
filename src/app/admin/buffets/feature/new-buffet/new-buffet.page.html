@@ -2,7 +2,7 @@
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title class="font-bold">Új büfé létrehozása</ion-title>
-      <ion-buttons slot="end">
+      <!-- <ion-buttons slot="end">
         <ion-button
           (click)="save()"
           [disabled]="form.invalid"
@@ -11,20 +11,25 @@
         >
           <ion-icon name="save-outline" slot="icon-only"></ion-icon>
         </ion-button>
-      </ion-buttons>
+      </ion-buttons> -->
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
     <ion-card>
       <ion-card-content>
-        <form [formGroup]="form" [ngxsForm]="formPath">
+        <form [formGroup]="form" [ngxsForm]="formPath" [ngxsFormClearOnDestroy]="true">
           <ion-grid>
             <ion-row>
               <ion-col size-sm="4" size="12">
-                <ion-img src="assets/images/buffet.png"></ion-img>
+                <app-image-selector
+                  label="Büfé képe"
+                  [bindedFormControl]="form.controls.image"
+                ></app-image-selector>
+                <ng-container
+                  *ngIf="(isDesktop$|async) === false; else descriptionInput"
+                ></ng-container>
               </ion-col>
               <ion-col>
-
                 <ion-item class="highlight-primary no-end-padding" counter>
                   <ion-label position="floating">Név</ion-label>
                   <ion-input
@@ -36,16 +41,9 @@
                     class="end-button-container flex-vertical-center"
                     slot="end"
                   >
-                    <ion-button
-                      fill="clear"
-                      color="dark"
-                      (click)="form.controls.name.reset()"
-                    >
-                      <ion-icon
-                        name="close-circle-outline"
-                        slot="icon-only"
-                      ></ion-icon>
-                    </ion-button>
+                  <app-clear-input-button
+                  [bindedFormControl]="form.controls.name"
+                ></app-clear-input-button>
                   </div>
                   <app-error-list
                     slot="error"
@@ -54,33 +52,9 @@
                   ></app-error-list>
                 </ion-item>
 
-                <ion-item class="highlight-primary no-end-padding" counter>
-                  <ion-label position="floating">Leírás</ion-label>
-                  <ion-textarea
-                    autoGrow
-                    formControlName="description"
-                    maxlength="800"
-                    minlength="1"
-                  ></ion-textarea>
-                  <div class="end-button-container" slot="end">
-                    <ion-button
-                      class="top-margin"
-                      fill="clear"
-                      color="dark"
-                      (click)="form.controls.description.reset()"
-                    >
-                      <ion-icon
-                        name="close-circle-outline"
-                        slot="icon-only"
-                      ></ion-icon>
-                    </ion-button>
-                  </div>
-                  <app-error-list
-                    slot="error"
-                    *ngIf="!form.controls.description.untouched"
-                    [errors]="form.controls.description.errors"
-                  ></app-error-list>
-                </ion-item>
+                <ng-container
+                  *ngIf="(isDesktop$|async) === true; else descriptionInput"
+                ></ng-container>
 
                 <ion-item class="highlight-primary no-end-padding" counter>
                   <ion-label position="floating">Büfé címe</ion-label>
@@ -95,17 +69,9 @@
                     class="end-button-container flex-vertical-center"
                     slot="end"
                   >
-                    <ion-button
-                      class="top-margin"
-                      fill="clear"
-                      color="dark"
-                      (click)="form.controls.address.reset()"
-                    >
-                      <ion-icon
-                        name="close-circle-outline"
-                        slot="icon-only"
-                      ></ion-icon>
-                    </ion-button>
+                  <app-clear-input-button
+                  [bindedFormControl]="form.controls.address"
+                ></app-clear-input-button>
                   </div>
                   <app-error-list
                     slot="error"
@@ -127,17 +93,9 @@
                     class="end-button-container flex-vertical-center"
                     slot="end"
                   >
-                    <ion-button
-                      class="top-margin"
-                      fill="clear"
-                      color="dark"
-                      (click)="form.controls.coords.reset()"
-                    >
-                      <ion-icon
-                        name="close-circle-outline"
-                        slot="icon-only"
-                      ></ion-icon>
-                    </ion-button>
+                  <app-clear-input-button
+                  [bindedFormControl]="form.controls.coords"
+                ></app-clear-input-button>
                   </div>
                   <app-error-list
                     slot="error"
@@ -159,17 +117,9 @@
                     class="end-button-container flex-vertical-center"
                     slot="end"
                   >
-                    <ion-button
-                      class="top-margin"
-                      fill="clear"
-                      color="dark"
-                      (click)="form.controls.hours.reset()"
-                    >
-                      <ion-icon
-                        name="close-circle-outline"
-                        slot="icon-only"
-                      ></ion-icon>
-                    </ion-button>
+                  <app-clear-input-button
+                  [bindedFormControl]="form.controls.hours"
+                ></app-clear-input-button>
                   </div>
                   <app-error-list
                     slot="error"
@@ -177,7 +127,6 @@
                     [errors]="form.controls.hours.errors"
                   ></app-error-list>
                 </ion-item>
-
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -188,8 +137,41 @@
         <ion-icon name=""></ion-icon>
         Mégse
       </ion-button>
-      <ion-button fill="clear" color="success">Mentés</ion-button>
+      <ion-button
+        fill="clear"
+        color="success"
+        [disabled]="form.invalid || (status$ | async)?.loading === true"
+        (click)="save()"
+        >Mentés</ion-button
+      >
+      <ion-spinner
+        color="primary"
+        *ngIf="(status$ | async)?.loading === true"
+      ></ion-spinner>
     </ion-card>
   </ion-content>
-</div>
 
+  <ng-template #descriptionInput>
+    <ion-item class="highlight-primary no-end-padding" counter>
+      <ion-label position="floating">Leírás</ion-label>
+      <ion-textarea
+        autoGrow
+        [formControl]="form.controls.description"
+        maxlength="800"
+        minlength="1"
+      ></ion-textarea>
+      <div class="end-button-container" slot="end">
+        <div class="top-margin">
+          <app-clear-input-button
+            [bindedFormControl]="form.controls.description"
+          ></app-clear-input-button>
+        </div>
+      </div>
+      <app-error-list
+        slot="error"
+        *ngIf="!form.controls.description.untouched"
+        [errors]="form.controls.description.errors"
+      ></app-error-list>
+    </ion-item>
+  </ng-template>
+</div>

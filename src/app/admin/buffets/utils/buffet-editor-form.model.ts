@@ -6,4 +6,5 @@ export interface BuffetEditorFormModel {
   address: FormControl<string | null>;
   hours: FormControl<string | null>;
   description: FormControl<string | null>;
+  image: FormControl<File | null>;
 }

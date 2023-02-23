@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Select } from "@ngxs/store";
 import {
@@ -53,6 +53,7 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
         address: new ClassValidatorFormControl<string | null>(null),
         hours: new ClassValidatorFormControl<string | null>(null),
         description: new ClassValidatorFormControl<string | null>(null),
+        image: new FormControl<File | null>(null),
       },
     );
   }
