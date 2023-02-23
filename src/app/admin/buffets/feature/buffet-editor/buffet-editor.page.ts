@@ -11,7 +11,7 @@ import {
   ClassValidatorFormGroup,
   ClassValidatorFormControl,
 } from "ngx-reactive-form-class-validator";
-import { Observable, Subscription } from "rxjs";
+import { Observable, Subscription, take } from "rxjs";
 import { BuffetEditorFormModel } from "../../utils";
 import { formPath } from "./store";
 
@@ -70,7 +70,7 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
     });
     //console.log(this.idFromRoute);
 
-    this.formSubscription = this.buffets$.subscribe(buffets =>
+    this.formSubscription = this.buffets$.pipe(take(1)).subscribe(buffets =>
       buffets.forEach(buffet => {
         if (this.idFromRoute === buffet.id.toString()) {
           this.form.controls.name.setValue(buffet.name);
@@ -86,6 +86,5 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.idSubscription.unsubscribe();
-    this.formSubscription.unsubscribe();
   }
 }
