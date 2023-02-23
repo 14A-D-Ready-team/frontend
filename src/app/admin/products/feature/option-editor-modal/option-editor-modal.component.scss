@@ -1,0 +1,32 @@
+ion-toolbar ion-icon {
+  margin-right: 0;
+}
+
+.ios .back-btn-ios {
+  display: block;
+}
+
+.md .back-btn-md {
+  display: block;
+}
+
+.back-btn-ios {
+  display: none;
+}
+
+.back-btn-md {
+  display: none;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+ion-list {
+  width: 100%;
+}
+
+ion-card-content {
+  padding-top: 0;
+}

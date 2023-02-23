@@ -7,10 +7,15 @@ const routes: Routes = [
     loadChildren: () =>
       import("./feature/products-list").then(m => m.ProductsListModule),
   },
-  {
+  /* {
     path: "edit",
     loadChildren: () =>
       import("./feature/product-editor").then(m => m.ProductEditorPageModule),
+  }, */
+  {
+    path: "new",
+    loadChildren: () =>
+      import("./feature/new-product").then(m => m.NewProductPageModule),
   },
 ];
 

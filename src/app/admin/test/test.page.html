@@ -1,0 +1,21 @@
+<app-admin-header title="test"></app-admin-header>
+
+<ion-content>
+  <form [formGroup]="myForm">
+    <ion-label>Test</ion-label>
+    <ion-input formControlName="test"></ion-input>
+    <ion-list>
+      <ion-item
+        *ngFor="let item of itemsArray.controls; let i=index"
+        [formGroup]="item"
+      >
+        <ion-label>Name</ion-label>
+        <ion-input formControlName="name"></ion-input>
+        <ion-label>Extra Cost</ion-label>
+        <ion-input formControlName="extraCost"></ion-input>
+      </ion-item>
+    </ion-list>
+  </form>
+  <div *ngIf="false;true">haló</div>
+  <ion-button (click)="a()">asd</ion-button>
+</ion-content>

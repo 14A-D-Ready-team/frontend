@@ -1,0 +1,45 @@
+<ion-card
+  [formGroup]="bindedFormGroup"
+  *ngIf="bindedFormGroup | formChanges | async"
+>
+  <ion-card-content>
+    <ion-list>
+      <ion-item class="highlight-primary" counter="">
+        <ion-label position="floating">Név</ion-label>
+        <ion-input maxlength="120" formControlName="name"></ion-input>
+        <div class="end-button-container flex-vertical-center" slot="end">
+          <app-clear-input-button
+            [bindedFormControl]="name"
+          ></app-clear-input-button>
+        </div>
+        <app-error-list
+          slot="error"
+          *ngIf="!name.untouched"
+          [errors]="name.errors"
+        ></app-error-list>
+      </ion-item>
+      <ion-item class="highlight-primary">
+        <ion-label position="floating">Ár</ion-label>
+        <ion-input formControlName="extraCost" type="number"></ion-input>
+        <div class="end-button-container flex-vertical-center" slot="end">
+          <app-clear-input-button
+            [bindedFormControl]="extraCost"
+          ></app-clear-input-button>
+        </div>
+        <app-error-list
+          slot="error"
+          *ngIf="!extraCost.untouched"
+          [errors]="extraCost.errors"
+        ></app-error-list>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+  <ion-button
+    [disabled]="bindedFormGroup.disabled"
+    (click)="deleted.emit()"
+    fill="clear"
+    color="danger"
+  >
+    <ion-icon name="trash" slot="icon-only"></ion-icon>
+  </ion-button>
+</ion-card>

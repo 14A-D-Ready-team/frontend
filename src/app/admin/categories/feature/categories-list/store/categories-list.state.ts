@@ -45,6 +45,7 @@ import {
 import { Platform, ToastController } from "@ionic/angular";
 import { ErrorCode, ExceptionService } from "@app/shared/exceptions";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
+import { FilterCategoriesQuery } from "@shared/category/data-access/query";
 
 export interface CategoriesListStateModel {
   editorForm: NgxsFormStateModel<Partial<Category>>;
@@ -107,7 +108,7 @@ export class CategoriesListState {
   public reload(ctx: StateContext<CategoriesListStateModel>) {
     return concat(
       ctx.dispatch(new SetError(CategoryState, undefined)),
-      ctx.dispatch(new CategoryActions.LoadAll()),
+      ctx.dispatch(new CategoryActions.Load(new FilterCategoriesQuery())),
     );
   }
 
@@ -148,7 +149,6 @@ export class CategoriesListState {
     const model = state.editorForm.model;
     const payload = new EditCategoryDto({
       ...model,
-      id: state.editedId,
     } as Category);
 
     ctx.dispatch(new SetFormDisabled(editorFormPath));
@@ -204,11 +204,10 @@ export class CategoriesListState {
     const model = state.editorForm.model;
     const payload = new EditCategoryDto({
       ...model,
-      id: state.editedId,
     } as Category);
 
     const original = this.store.selectSnapshot(
-      CategoryState.entityById(payload.id),
+      CategoryState.entityById(state.editedId!),
     );
     payload.omitUnchangedProperties(original);
 
@@ -218,7 +217,7 @@ export class CategoriesListState {
 
     ctx.dispatch(new SetFormDisabled(editorFormPath));
 
-    return ctx.dispatch(new CategoryActions.Update(payload));
+    return ctx.dispatch(new CategoryActions.Update(state.editedId!, payload));
   }
 
   @Action(CategoryActions.UpdateSucceeded)

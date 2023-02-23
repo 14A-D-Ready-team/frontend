@@ -25,22 +25,4 @@ export class Product {
 
   @Expose()
   public categoryId!: string;
-
-  constructor(
-    id: number,
-    name: string,
-    description: string,
-    fullPrice: number,
-    discountedPrice: number,
-    stock: number,
-    customizations: Customization[],
-  ) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.fullPrice = fullPrice;
-    this.discountedPrice = discountedPrice;
-    this.stock = stock;
-    this.customizations = customizations;
-  }
 }

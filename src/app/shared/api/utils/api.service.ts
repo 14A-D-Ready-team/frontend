@@ -3,8 +3,15 @@ import { HttpClient } from "@angular/common/http";
 import { Type } from "@angular/core";
 import { processResponse } from "@shared/serialization";
 import { instanceToPlain } from "class-transformer";
+import { Observable } from "rxjs";
 
-export class ApiService<EntityType, CreateDtoType, UpdateDtoType> {
+export abstract class ApiService<
+  EntityType,
+  Query,
+  FindResultType,
+  CreateDtoType,
+  UpdateDtoType,
+> {
   constructor(
     protected httpClient: HttpClient,
     protected path: string,
@@ -13,9 +20,11 @@ export class ApiService<EntityType, CreateDtoType, UpdateDtoType> {
 
   public create(payload: CreateDtoType) {
     return this.httpClient
-      .post(environment.api.url + this.path, instanceToPlain(payload))
+      .post(environment.api.url + this.path, this.serialize(payload))
       .pipe(processResponse(this.entityClass));
   }
+
+  public abstract find(query: Query): Observable<FindResultType>;
 
   public findOne(id: number) {
     return this.httpClient
@@ -23,9 +32,9 @@ export class ApiService<EntityType, CreateDtoType, UpdateDtoType> {
       .pipe(processResponse(this.entityClass));
   }
 
-  public update(id: number, payload: Partial<UpdateDtoType>) {
+  public update(id: number, payload: UpdateDtoType) {
     return this.httpClient
-      .patch(environment.api.url + this.path + id, instanceToPlain(payload))
+      .patch(environment.api.url + this.path + id, this.serialize(payload))
       .pipe(processResponse(this.entityClass));
   }
 
@@ -33,5 +42,9 @@ export class ApiService<EntityType, CreateDtoType, UpdateDtoType> {
     return this.httpClient
       .delete(environment.api.url + this.path + id)
       .pipe(processResponse<void>());
+  }
+
+  protected serialize(payload: CreateDtoType | UpdateDtoType) {
+    return instanceToPlain(payload);
   }
 }

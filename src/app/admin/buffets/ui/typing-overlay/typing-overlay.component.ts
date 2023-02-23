@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { CommonModule } from "@angular/common";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { IonicModule } from "@ionic/angular";
 
 @Component({
-  selector: 'app-typing-overlay',
+  selector: "app-typing-overlay",
   standalone: true,
   imports: [CommonModule, IonicModule],
   changeDetection: ChangeDetectionStrategy.OnPush,

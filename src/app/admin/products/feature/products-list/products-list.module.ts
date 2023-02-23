@@ -5,7 +5,6 @@ import { ProductsListRoutingModule } from "./products-list-routing.module";
 import { ProductsListPage } from "./products-list.page";
 import { IonicModule } from "@ionic/angular";
 import { ProductsListEffects, ProductsListState } from "./store";
-import { NgxsEffectsModule } from "ngxs-effects";
 import { NgxsModule } from "@ngxs/store";
 import {
   ProductPreviewComponent,
@@ -16,6 +15,7 @@ import { NglrxPipesModule } from "@nglrx/pipes";
 import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
 import { ProductFilterModule } from "../product-filter";
 import { ProductFilterState } from "../product-filter";
+import { AdminHeaderComponent } from "@app/admin/shell";
 
 @NgModule({
   declarations: [ProductsListPage],
@@ -24,14 +24,14 @@ import { ProductFilterState } from "../product-filter";
     IonicModule,
     NglrxPipesModule,
     NgxsModule.forFeature([ProductsListState, ProductFilterState]),
-    NgxsEffectsModule.forFeature(ProductsListEffects),
     ProductsListRoutingModule,
     ProductFilterModule,
     ProductPreviewComponent,
     ProductPreviewSkeletonComponent,
     ErrorCardComponent,
     TypingOverlayComponent,
+    AdminHeaderComponent,
   ],
-  providers: [],
+  providers: [ProductsListEffects],
 })
 export class ProductsListModule {}

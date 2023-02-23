@@ -1,10 +1,17 @@
 import { Injectable } from "@angular/core";
 import { ExternalAuthService } from "@shared/external-auth";
-import { Action, State, StateContext, StateToken, Store } from "@ngxs/store";
+import {
+  Action,
+  Selector,
+  State,
+  StateContext,
+  StateToken,
+  Store,
+} from "@ngxs/store";
 import { delay, map, of, switchMap, tap } from "rxjs";
 import { GoogleAuthService } from "../service";
-import { VerifyGoogleAuth } from "./auth.actions";
-import { UserType } from "@app/shared/user";
+import { VerifyGoogleAuth, SetCurrentLogin, Logout } from "./auth.actions";
+import { User, UserType } from "@app/shared/user";
 
 enum SocialAuthStatus {
   Idle,
@@ -15,6 +22,7 @@ enum SocialAuthStatus {
 
 export interface AuthStateModel {
   googleVerifyStatus: SocialAuthStatus;
+  user?: User;
 }
 
 export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
@@ -25,13 +33,22 @@ export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
 })
 @Injectable()
 export class AuthState {
+  @Selector()
+  public static user(state: AuthStateModel) {
+    return state.user;
+  }
+
   constructor(
     private externalAuthService: ExternalAuthService,
     private googleAuthService: GoogleAuthService,
     private store: Store,
   ) {
+    setTimeout(() => {
+      const user = new User();
+      user.name = "asd";
+      store.dispatch(new SetCurrentLogin(user));
+    }, 1);
     externalAuthService.loginDisabled$ = of(false);
-
     externalAuthService.googleToken$
       .pipe(
         switchMap(idToken =>
@@ -53,5 +70,19 @@ export class AuthState {
         console.log(res);
       }),
     );
+  }
+
+  @Action(SetCurrentLogin)
+  public setCurrentLogin(
+    ctx: StateContext<AuthStateModel>,
+    action: SetCurrentLogin,
+  ) {
+    ctx.patchState({ user: action.user });
+  }
+
+  @Action(Logout)
+  public logout(ctx: StateContext<AuthStateModel>) {
+    // !!! log the user out, notify the server to destroy the session
+    ctx.patchState({ user: undefined });
   }
 }

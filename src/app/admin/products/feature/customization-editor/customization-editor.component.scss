@@ -1,0 +1,21 @@
+.margin-top {
+  margin-top: 24px;
+}
+
+.input-like {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 0;
+  justify-content: space-between;
+
+  ion-button {
+    display: block;
+    justify-self: end;
+  }
+}

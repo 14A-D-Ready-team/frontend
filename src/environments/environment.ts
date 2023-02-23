@@ -12,7 +12,7 @@ export const environment = {
   //   url: "https://ready-backend-z88i.onrender.com",
   // },
   api: {
-    url: "http://localhost:3000",
+    url: /* "https://ready-backend-z88i.onrender.com" */ "http://localhost:3000",
   },
 };
 

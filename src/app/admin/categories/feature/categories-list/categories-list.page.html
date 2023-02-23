@@ -1,11 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <div class="ion-page">
-  <ion-header>
-    <ion-toolbar color="primary">
-      <ion-title class="font-bold">Kategóriák</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+  <app-admin-header pageTitle="Kategóriák"></app-admin-header>
   <ion-content class="ion-padding" *ngIf="vm$ | async as vm">
     <ion-refresher
       slot="fixed"

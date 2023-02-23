@@ -1,34 +1,14 @@
 import { Dictionary } from "@/types";
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Category, CategoryState, loadAllCategories } from "@shared/category";
-import {
-  Customization,
-  Option,
-  OptionCount,
-  Product,
-  ProductState,
-} from "@app/shared/product";
+import { Product, ProductState } from "@app/shared/product";
 import {
   InfiniteScrollCustomEvent,
-  ModalController,
   Platform,
   RefresherCustomEvent,
 } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
-import {
-  combineLatest,
-  map,
-  Observable,
-  startWith,
-  switchMap,
-  take,
-  tap,
-} from "rxjs";
+import { combineLatest, map, Observable, startWith, take } from "rxjs";
 import {
   LoadMore,
   LoadPage,
@@ -43,8 +23,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-buffets-products-list",
-  templateUrl: "./products-list.component.html",
-  styleUrls: ["./products-list.component.scss"],
+  templateUrl: "./products-list.page.html",
+  styleUrls: ["./products-list.page.scss"],
 })
 export class ProductsListPage implements OnInit, OnDestroy {
   @Select(ProductsListState.shownProducts)
@@ -67,7 +47,7 @@ export class ProductsListPage implements OnInit, OnDestroy {
 
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
-    map(() => this.platform.width() > 992),
+    map(() => this.platform.width() >= 992),
   );
 
   public vm$ = combineLatest([
@@ -158,6 +138,12 @@ export class ProductsListPage implements OnInit, OnDestroy {
     // await modal.present();
     this.router.navigate(["edit"], {
       queryParams: { id: product.id },
+      relativeTo: this.route,
+    });
+  }
+
+  public create() {
+    this.router.navigate(["new"], {
       relativeTo: this.route,
     });
   }
