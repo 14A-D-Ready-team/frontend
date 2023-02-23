@@ -25,7 +25,7 @@ export class CreateBuffetDto {
 
   @Expose()
   @IsString({ message: "A mező nem szöveget tartalmaz!" })
-  @MaxLength(200, { message: "A mező legfeljebb 200 karakter hosszú lehet!" })
+  @MaxLength(300, { message: "A mező legfeljebb 200 karakter hosszú lehet!" })
   public hours?: string;
 
   @Expose()
