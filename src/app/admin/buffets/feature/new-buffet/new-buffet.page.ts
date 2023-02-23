@@ -9,7 +9,6 @@ import { BuffetEditorFormModel } from "../../utils";
 import { Platform } from "@ionic/angular";
 import {
   formPath,
-  LoadPage,
   Save,
 } from "./store";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
@@ -54,9 +53,7 @@ export class NewBuffetPage implements OnInit {
     );
   }
   
-  ngOnInit() {
-    this.store.dispatch(new LoadPage());
-  }
+  ngOnInit() {}
 
   save() {
     this.store.dispatch(new Save());

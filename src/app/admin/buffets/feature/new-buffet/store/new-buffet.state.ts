@@ -27,7 +27,7 @@ export const formPath = "newBuffet.form";
 
 @Injectable()
 export class NewBuffetState {
-  constructor(private store: Store) {}
+  constructor() {}
 
   @Action(Save)
   public save(ctx: StateContext<NewBuffetStateModel>) {
