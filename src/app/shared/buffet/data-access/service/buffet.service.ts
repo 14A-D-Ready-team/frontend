@@ -1,7 +1,7 @@
 import { environment } from "@/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ApiService } from "@shared/api";
+import { ApiService, PaginatedResponse } from "@shared/api";
 import { processPaginatedResponse, serializeQueryParams } from "@shared/serialization";
 import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
 import { Buffet } from "../entity";
@@ -12,6 +12,8 @@ import { SearchBuffetsQuery } from "../query";
 })
 export class BuffetService extends ApiService<
   Buffet,
+  SearchBuffetsQuery,
+  PaginatedResponse<Buffet>,
   CreateBuffetDto,
   UpdateBuffetDto
 > {

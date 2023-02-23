@@ -25,16 +25,13 @@
 </ion-menu>
 
 <div class="ion-page" id="buffets-list-page-content">
-  <ion-header>
-    <ion-toolbar color="primary">
-      <ion-title class="font-bold">Büfék</ion-title>
-      <ion-buttons slot="end">
-        <ion-menu-button>
-          <ion-icon part="icon" name="funnel"></ion-icon>
-        </ion-menu-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
+  
+
+  <app-admin-header pageTitle="Büfék">
+    <ion-menu-button menu="end" end-buttons>
+      <ion-icon part="icon" name="funnel"></ion-icon>
+    </ion-menu-button>
+  </app-admin-header>
 
   <ion-content *ngIf="vm$ | async as vm">
     <ion-refresher

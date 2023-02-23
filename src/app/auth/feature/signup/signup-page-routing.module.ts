@@ -8,11 +8,6 @@ const routes: Routes = [
     path: "",
     component: SignupPage,
   },
-  {
-    path: "edit",
-    loadChildren: () =>
-      import("./feature/product-editor").then(m => m.ProductEditorPageModule),
-  },
 ];
 
 @NgModule({

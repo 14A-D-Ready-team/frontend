@@ -82,12 +82,12 @@ export class BuffetsListState {
     newIds.splice(
       action.query.skip || 0,
       action.query.take || state.buffetIds.length,
-      ...action.buffets.map(b => b.id),
+      ...action.entities.map(b => b.id),
     );
 
    // const remaining = action.count - action.buffets.length;
 
-    const remaining = action.count - (action.query.skip || 0) - action.buffets.length;
+    const remaining = action.count - (action.query.skip || 0) - action.entities.length;
 
     ctx.patchState({
       buffetIds: newIds,

@@ -14,6 +14,7 @@ import { NgxsEffectsModule } from 'ngxs-effects';
 import { BuffetFilterModule } from '../buffet-filter/buffet-filter.module';
 import { BuffetsListEffects } from './store';
 import { BuffetFilterState } from '../buffet-filter/store';
+import { AdminHeaderComponent } from '@app/admin/shell';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { BuffetFilterState } from '../buffet-filter/store';
     BuffetPreviewSkeletonComponent,
     ErrorCardComponent,
     TypingOverlayComponent,
+    AdminHeaderComponent
   ],
   providers: [],
 })
