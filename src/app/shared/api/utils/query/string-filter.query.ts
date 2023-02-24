@@ -4,6 +4,10 @@ import {
 import { IsOptional, IsString } from "class-validator";
 
 export class StringFilterQuery {
+  public static clone(query: StringFilterQuery) {
+    return new StringFilterQuery(query);
+  }
+
   public static isEmpty(obj?: StringFilterQuery) {
     return (
       // eslint-disable-next-line eqeqeq
@@ -29,4 +33,7 @@ export class StringFilterQuery {
   )
   public searchString?: string;
 
+  constructor(model?: Partial<StringFilterQuery>) {
+    Object.assign(this, model);
+  }
 }

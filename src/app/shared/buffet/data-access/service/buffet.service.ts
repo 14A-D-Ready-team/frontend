@@ -2,7 +2,7 @@ import { environment } from "@/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiService, PaginatedResponse } from "@shared/api";
-import { processPaginatedResponse, serializeQueryParams } from "@shared/serialization";
+import { processPaginatedResponse, serializeFormData, serializeQueryParams } from "@shared/serialization";
 import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
 import { Buffet } from "../entity";
 import { SearchBuffetsQuery } from "../query";
@@ -27,5 +27,9 @@ export class BuffetService extends ApiService<
         params: serializeQueryParams(query),
       })
       .pipe(processPaginatedResponse(Buffet));
+  }
+
+  protected serialize(payload: CreateBuffetDto | UpdateBuffetDto) {
+    return serializeFormData(payload);
   }
 }

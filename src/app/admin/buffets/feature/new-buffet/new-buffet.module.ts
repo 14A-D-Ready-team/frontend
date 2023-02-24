@@ -8,6 +8,8 @@ import { ErrorListComponent } from '@shared/inputs/feature/ionic';
 import { NewBuffetPage } from './new-buffet.page';
 import { NewBuffetRoutingModule } from './new-buffet-routing.module';
 import { ClearInputButtonComponent, ImageSelectorComponent } from '@shared/inputs/ui/ionic';
+import { NewBuffetState } from './store';
+import { NgxsModule } from '@ngxs/store';
 
 
 
@@ -21,7 +23,8 @@ import { ClearInputButtonComponent, ImageSelectorComponent } from '@shared/input
     NewBuffetRoutingModule,
     ErrorListComponent,
     ImageSelectorComponent,
-    ClearInputButtonComponent
+    ClearInputButtonComponent,
+    NgxsModule.forFeature([NewBuffetState]),
   ],
   declarations: [NewBuffetPage]
 })

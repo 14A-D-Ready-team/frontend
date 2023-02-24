@@ -4,17 +4,20 @@ import { IsInstance, IsOptional, ValidateNested } from "class-validator";
 import { isEqual } from "lodash";
 
 export class SearchBuffetsQuery extends PaginationQuery {
-  public static createOrCopy(
-    existing: Partial<SearchBuffetsQuery> = {},
-  ): SearchBuffetsQuery {
-    const rawCopy = JSON.parse(JSON.stringify(existing));
+  // public static createOrCopy(
+  //   existing: Partial<SearchBuffetsQuery> = {},
+  // ): SearchBuffetsQuery {
+  //   const rawCopy = JSON.parse(JSON.stringify(existing));
 
-    return plainToInstance(SearchBuffetsQuery, rawCopy, {
-      excludeExtraneousValues: true,
-      exposeUnsetFields: false,
-    });
+  //   return plainToInstance(SearchBuffetsQuery, rawCopy, {
+  //     excludeExtraneousValues: true,
+  //     exposeUnsetFields: false,
+  //   });
+  // }
+
+  public static clone(query: SearchBuffetsQuery) {
+    return new SearchBuffetsQuery(query);
   }
-
   
   public static isUnchanged(
     prev: SearchBuffetsQuery,
@@ -47,5 +50,10 @@ export class SearchBuffetsQuery extends PaginationQuery {
 
   @Expose()
   @IsOptional()
-  public orderByField?: string;
+  public orderByField? = "name";
+
+  constructor(model?: Partial<SearchBuffetsQuery>) {
+    super();
+    Object.assign(this, model);
+  }
 }

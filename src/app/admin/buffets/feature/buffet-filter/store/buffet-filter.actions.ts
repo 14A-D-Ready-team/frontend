@@ -3,11 +3,11 @@ import { SearchBuffetsQuery } from "@shared/buffet/data-access/query";
 export class FilterChanged {
   public static readonly type = "[BuffetFilter] Filter Changed";
 
-  public readonly filter: SearchBuffetsQuery;
+  // public readonly filter: SearchBuffetsQuery;
 
-  constructor(filter: SearchBuffetsQuery) {
-    this.filter = SearchBuffetsQuery.createOrCopy(filter);
-  }
+  // constructor(filter: SearchBuffetsQuery) {
+  //   this.filter = SearchBuffetsQuery.createOrCopy(filter);
+  // }
 }
 
 export class Typing {

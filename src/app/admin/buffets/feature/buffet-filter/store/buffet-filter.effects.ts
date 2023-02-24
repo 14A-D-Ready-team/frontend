@@ -15,7 +15,7 @@ export class BuffetFilterEffects extends EffectsBase {
     distinctUntilChanged((prev, curr) =>
       SearchBuffetsQuery.isUnchanged(prev, curr),
     ),
-    skip(1), // 2 skip operators needed, to give distinctUntilChanged the starting previous value
+    skip(1),
     tap(() => this.store.dispatch(new Typing())),
     debounceTime(600),
     tap(() => this.store.dispatch(new StoppedTyping())),
@@ -26,7 +26,7 @@ export class BuffetFilterEffects extends EffectsBase {
     })),
     tap(console.log),
     filter(form => form.status === "VALID"),
-    switchMap(form => this.store.dispatch(new FilterChanged(form.value))),
+    //switchMap(form => this.store.dispatch(new FilterChanged(form.value))),
   );
 
   constructor(private store: Store) {

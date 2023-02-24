@@ -17,7 +17,7 @@ export class BuffetFilterComponent implements OnInit, OnDestroy {
   
   public form = new ClassValidatorFormGroup(SearchBuffetsQuery, {
     //INVALID      miért?
-    orderByField: new ClassValidatorFormControl<string>("name"),
+    //orderByField: new ClassValidatorFormControl<string | null>(null),
     order: new ClassValidatorFormControl<string | null>(null),
     search: new ClassValidatorFormGroup<StringFilterFormModel>(
       StringFilterQuery,
@@ -28,9 +28,14 @@ export class BuffetFilterComponent implements OnInit, OnDestroy {
   });
 
 
-  constructor(private effects: BuffetFilterEffects) {}
+  constructor(private effects: BuffetFilterEffects) {
+    this.form.valueChanges.subscribe(value =>
+      console.log(this.form)
+      )
+  }
 
   public ngOnInit(): void {
+    //this.form.controls.orderByField.setValue("name");
     this.effects.start();
   }
 
