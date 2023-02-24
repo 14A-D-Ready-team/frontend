@@ -54,7 +54,11 @@ export class CreateProductDto {
   @Type(() => EditCustomizationDto)
   public customizations!: EditCustomizationDto[];
 
-  constructor(model?: Partial<CreateProductDto>) {
-    Object.assign(this, model);
+  constructor(existing: Partial<CreateProductDto> = {}) {
+    const { customizations, ...rest } = existing || {};
+    Object.assign(this, rest);
+    if (customizations) {
+      this.customizations = customizations.map((c) => new EditCustomizationDto(c));
+    }
   }
 }

@@ -13,4 +13,8 @@ export class EditOptionDto {
   )
   @Min(0, { message: "A mezőnek nemnegatív számnak kell lennie!" })
   public extraCost!: number;
+
+  constructor(existing: Partial<EditOptionDto> = {}) {
+    Object.assign(this, existing);
+  }
 }

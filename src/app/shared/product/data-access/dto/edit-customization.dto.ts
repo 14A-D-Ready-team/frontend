@@ -29,4 +29,12 @@ export class EditCustomizationDto {
   @Type(() => EditOptionDto)
   @ValidateNested()
   public options!: EditOptionDto[];
+
+  constructor(existing: Partial<EditCustomizationDto> = {}) {
+    const { options, ...rest } = existing;
+    Object.assign(this, rest);
+    if (options) {
+      this.options = options.map(o => new EditOptionDto(o));
+    }
+  }
 }
