@@ -46,7 +46,7 @@ export class BuffetsListState {
   @Action(LoadPage)
   public loadPage(ctx: StateContext<BuffetsListStateModel>) {
     const state = ctx.getState();
-    const query = SearchBuffetsQuery.createOrCopy({
+    const query = SearchBuffetsQuery.clone({
       ...state.query,
       skip: 0,
       take: productsLoadedPerScroll,
@@ -62,7 +62,7 @@ export class BuffetsListState {
       return;
     }
 
-      const query = SearchBuffetsQuery.createOrCopy({
+      const query = SearchBuffetsQuery.clone({
         ...state.query,
         skip: state.buffetIds.length,
         take: productsLoadedPerScroll,
@@ -113,7 +113,7 @@ export class BuffetsListState {
       remainingItems: undefined,
     });
 
-    const query = SearchBuffetsQuery.createOrCopy({
+    const query = SearchBuffetsQuery.clone({
       ...state.query,
       skip: 0,
       take: numberOfBuffetsToLoad,
@@ -127,18 +127,18 @@ export class BuffetsListState {
     ctx: StateContext<BuffetsListStateModel>,
     action: FilterChanged,
   ) {
-    ctx.patchState({
-      query: action.filter,
-      buffetIds: [],
-      remainingItems: undefined,
-    });
+    // ctx.patchState({
+    //   query: action.filter,
+    //   buffetIds: [],
+    //   remainingItems: undefined,
+    // });
 
-    const query = FilterProductsQuery.createOrCopy({
-      ...action.filter,
-      skip: 0,
-      take: buffetsLoadedPerScroll,
-    });
+    // const query = FilterProductsQuery.createOrCopy({
+    //   ...action.filter,
+    //   skip: 0,
+    //   take: buffetsLoadedPerScroll,
+    // });
 
-    return ctx.dispatch(new BuffetActions.Load(query));
+    //return ctx.dispatch(new BuffetActions.Load(query));
   }
 }
