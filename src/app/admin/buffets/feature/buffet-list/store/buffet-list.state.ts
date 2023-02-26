@@ -47,7 +47,7 @@ export class BuffetsListState {
       skip: 0,
       take: buffetsLoadedPerScroll,
     });
-
+    
     return ctx.dispatch(new BuffetActions.Load(query));
   }
 

@@ -29,8 +29,8 @@ export class BuffetFilterComponent implements OnInit, OnDestroy {
 
 
   constructor(private effects: BuffetFilterEffects) {
-    this.form.valueChanges.subscribe(value =>
-      console.log(this.form));
+    // this.form.valueChanges.subscribe(value =>
+    //   console.log(this.form));
   }
 
   public ngOnInit(): void {

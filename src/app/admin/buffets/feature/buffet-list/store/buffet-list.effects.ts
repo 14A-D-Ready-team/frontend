@@ -15,8 +15,5 @@ export class BuffetsListEffects extends EffectsBase {
   @Effect()
   public a = this.store
     .select(BuffetsListState)
-    .pipe
-    //filter(buffets => buffets.some(buffet => !buffet)),
-    /*  switchMap(() => {}), */
-    ();
+    .pipe();
 }
