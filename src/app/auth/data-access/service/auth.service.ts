@@ -22,6 +22,12 @@ export class AuthService {
       .pipe(processResponse(User));
   }
 
+  public signOut() {
+    return this.http
+      .post(environment.api.url + "/auth/logout", {})
+      .pipe(processResponse());
+  }
+
   public emailVerification(payload: { email: string }) {
     return this.http
       .post(environment.api.url + "/auth/send-email-verification", payload)

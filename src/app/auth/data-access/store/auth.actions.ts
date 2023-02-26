@@ -20,3 +20,13 @@ export class SetCurrentLogin {
 export class Logout {
   public static readonly type = "[Auth] Logout";
 }
+
+export class LogoutFailed {
+  public static readonly type = "[Auth] Logout Failed";
+
+  constructor(public error: any) {}
+}
+
+export class LogoutSucceeded {
+  public static readonly type = "[Auth] Logout Succeeded";
+}

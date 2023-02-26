@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
-import { AdminShellComponent } from "./admin/shell";
+import { AdminShellComponent, AdminShellModule } from "./admin/shell";
 
 const routes: Routes = [
   {
@@ -23,7 +23,7 @@ const routes: Routes = [
       preloadingStrategy: PreloadAllModules,
       initialNavigation: "enabledBlocking",
     }),
-    AdminShellComponent,
+    AdminShellModule,
   ],
   exports: [RouterModule],
 })

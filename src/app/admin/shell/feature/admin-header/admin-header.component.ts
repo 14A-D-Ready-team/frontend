@@ -5,12 +5,13 @@ import {
   OnInit,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { IonicModule } from "@ionic/angular";
+import { IonicModule, ToastController } from "@ionic/angular";
 import { RouterModule } from "@angular/router";
-import { Observable } from "rxjs";
+import { catchError, from, Observable, of, skip, take } from "rxjs";
 import { User } from "@shared/user";
 import { Select, Store } from "@ngxs/store";
 import { AuthState, Logout } from "@app/auth/data-access";
+import { ExceptionService } from "@shared/exceptions";
 
 @Component({
   selector: "app-admin-header",

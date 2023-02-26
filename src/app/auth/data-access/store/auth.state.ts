@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import { ExternalAuthService } from "@shared/external-auth";
 import {
   Action,
@@ -8,10 +8,17 @@ import {
   StateToken,
   Store,
 } from "@ngxs/store";
-import { delay, map, of, switchMap, tap } from "rxjs";
-import { GoogleAuthService } from "../service";
-import { VerifyGoogleAuth, SetCurrentLogin, Logout } from "./auth.actions";
+import { catchError, delay, from, map, of, switchMap, tap } from "rxjs";
+import { AuthService, GoogleAuthService } from "../service";
+import {
+  VerifyGoogleAuth,
+  SetCurrentLogin,
+  Logout,
+  LogoutSucceeded,
+  LogoutFailed,
+} from "./auth.actions";
 import { User, UserType } from "@app/shared/user";
+import { Router } from "@angular/router";
 
 enum SocialAuthStatus {
   Idle,
@@ -41,13 +48,11 @@ export class AuthState {
   constructor(
     private externalAuthService: ExternalAuthService,
     private googleAuthService: GoogleAuthService,
+    private authService: AuthService,
     private store: Store,
+    private router: Router,
+    private ngZone: NgZone,
   ) {
-    setTimeout(() => {
-      const user = new User();
-      user.name = "asd";
-      store.dispatch(new SetCurrentLogin(user));
-    }, 1);
     externalAuthService.loginDisabled$ = of(false);
     externalAuthService.googleToken$
       .pipe(
@@ -82,7 +87,15 @@ export class AuthState {
 
   @Action(Logout)
   public logout(ctx: StateContext<AuthStateModel>) {
-    // !!! log the user out, notify the server to destroy the session
+    return this.authService.signOut().pipe(
+      switchMap(() => ctx.dispatch(new LogoutSucceeded())),
+      catchError(error => ctx.dispatch(new LogoutFailed(error))),
+    );
+  }
+
+  @Action(LogoutSucceeded)
+  public logoutS(ctx: StateContext<AuthStateModel>) {
     ctx.patchState({ user: undefined });
+    return from(this.ngZone.run(() => this.router.navigate(["/auth/login"])));
   }
 }
