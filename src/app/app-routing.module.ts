@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
 import { AdminShellComponent, AdminShellModule } from "./admin/shell";
+import { AuthGuard } from "./auth/feature/guards";
+import { GuardedCustomerPage } from "./guarded-customer/guarded-customer.page";
 
 const routes: Routes = [
   {
@@ -15,6 +17,11 @@ const routes: Routes = [
     },
     component: AdminShellComponent,
   },
+  {
+    path: "guarded-customer-route",
+    component: GuardedCustomerPage,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
@@ -24,6 +31,7 @@ const routes: Routes = [
       initialNavigation: "enabledBlocking",
     }),
     AdminShellModule,
+    GuardedCustomerPage,
   ],
   exports: [RouterModule],
 })

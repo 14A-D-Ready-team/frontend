@@ -94,7 +94,7 @@ export class AuthState {
   }
 
   @Action(LogoutSucceeded)
-  public logoutS(ctx: StateContext<AuthStateModel>) {
+  public logoutSucceeded(ctx: StateContext<AuthStateModel>) {
     ctx.patchState({ user: undefined });
     return from(this.ngZone.run(() => this.router.navigate(["/auth/login"])));
   }

@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { AuthRoutingModule } from "./auth-routing.module";
 import { AuthService, AuthState, GoogleAuthService } from "./data-access";
 import { ExceptionsModule } from "@app/shared/exceptions";
+import { AuthGuard } from "./feature/guards";
 
 @NgModule({
   declarations: [],
@@ -19,6 +20,6 @@ import { ExceptionsModule } from "@app/shared/exceptions";
       InactiveUserException: "Ez a profil inaktív!",
     }),
   ],
-  providers: [AuthService, GoogleAuthService],
+  providers: [AuthService, GoogleAuthService, AuthGuard],
 })
 export class AuthModule {}
