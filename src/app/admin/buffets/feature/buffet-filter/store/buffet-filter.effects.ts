@@ -26,7 +26,7 @@ export class BuffetFilterEffects extends EffectsBase {
     })),
     tap(console.log),
     filter(form => form.status === "VALID"),
-    //switchMap(form => this.store.dispatch(new FilterChanged(form.value))),
+    switchMap(form => this.store.dispatch(new FilterChanged(form.value))),
   );
 
   constructor(private store: Store) {

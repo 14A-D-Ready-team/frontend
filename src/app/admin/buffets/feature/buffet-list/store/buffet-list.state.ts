@@ -6,13 +6,9 @@ import {
   RetryLoading,
 } from "./buffet-list.actions";
 import { Injectable } from "@angular/core";
-import { take } from "rxjs";
-
 import { BuffetActions, BuffetState, BuffetStateModel } from "@shared/buffet";
 import { SearchBuffetsQuery } from "@shared/buffet/data-access/query";
-import { productsLoadedPerScroll } from "@app/admin/products/feature/products-list/store";
 import { DeepReadonly } from "@ngxs-labs/entity-state";
-import { FilterProductsQuery } from "@shared/product";
 import { FilterChanged } from "../../buffet-filter/store";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -49,7 +45,7 @@ export class BuffetsListState {
     const query = SearchBuffetsQuery.clone({
       ...state.query,
       skip: 0,
-      take: productsLoadedPerScroll,
+      take: buffetsLoadedPerScroll,
     });
 
     return ctx.dispatch(new BuffetActions.Load(query));
@@ -65,7 +61,7 @@ export class BuffetsListState {
       const query = SearchBuffetsQuery.clone({
         ...state.query,
         skip: state.buffetIds.length,
-        take: productsLoadedPerScroll,
+        take: buffetsLoadedPerScroll,
       });
     return ctx.dispatch(new BuffetActions.Load(query));
   }
@@ -127,18 +123,18 @@ export class BuffetsListState {
     ctx: StateContext<BuffetsListStateModel>,
     action: FilterChanged,
   ) {
-    // ctx.patchState({
-    //   query: action.filter,
-    //   buffetIds: [],
-    //   remainingItems: undefined,
-    // });
+    ctx.patchState({
+      query: action.filter,
+      buffetIds: [],
+      remainingItems: undefined,
+    });
 
-    // const query = FilterProductsQuery.createOrCopy({
-    //   ...action.filter,
-    //   skip: 0,
-    //   take: buffetsLoadedPerScroll,
-    // });
+    const query = SearchBuffetsQuery.clone({
+      ...action.filter,
+      skip: 0,
+      take: buffetsLoadedPerScroll,
+    });
 
-    //return ctx.dispatch(new BuffetActions.Load(query));
+    return ctx.dispatch(new BuffetActions.Load(query));
   }
 }
