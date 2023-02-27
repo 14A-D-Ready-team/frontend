@@ -1,7 +1,8 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
 import { AdminShellComponent, AdminShellModule } from "./admin/shell";
-import { AuthGuard } from "./auth/utils";
+import { AuthShellComponent } from "./auth/feature/shell";
+import { AuthGuard, SessionLoginGuard } from "./auth/utils";
 import { GuardedCustomerPage } from "./guarded-customer/guarded-customer.page";
 
 const routes: Routes = [
@@ -30,13 +31,15 @@ const routeWrapper: Routes = [
   {
     path: "",
     children: routes,
-    component,
+    component: AuthShellComponent,
+    canActivate: [SessionLoginGuard],
+    canActivateChild: [SessionLoginGuard],
   },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, {
+    RouterModule.forRoot(routeWrapper, {
       preloadingStrategy: PreloadAllModules,
       initialNavigation: "enabledBlocking",
     }),
