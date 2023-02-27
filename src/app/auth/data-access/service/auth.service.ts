@@ -28,6 +28,12 @@ export class AuthService {
       .pipe(processResponse());
   }
 
+  public sessionSignin() {
+    return this.http
+      .post(environment.api.url + "/auth/session-signin", {})
+      .pipe(processResponse(User));
+  }
+
   public emailVerification(payload: { email: string }) {
     return this.http
       .post(environment.api.url + "/auth/send-email-verification", payload)

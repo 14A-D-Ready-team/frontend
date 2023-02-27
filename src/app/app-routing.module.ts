@@ -26,6 +26,14 @@ const routes: Routes = [
   },
 ];
 
+const routeWrapper: Routes = [
+  {
+    path: "",
+    children: routes,
+    component,
+  },
+];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {

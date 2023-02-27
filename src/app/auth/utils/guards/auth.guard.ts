@@ -35,25 +35,19 @@ export class AuthGuard implements CanActivateChild, CanActivate {
     const url = this.router.routerState.snapshot.url;
     const isCurrentlyOnAuth = !!url.match(/auth/);
 
-    return this.store.select(AuthState.user).pipe(
-      map(user => !!user),
-      tap(isUserLoggedIn => {
-        if (!isUserLoggedIn) {
-          this.showWarning();
-        }
-      }),
-      map(isUserLoggedIn => {
-        if (isUserLoggedIn) {
-          return true;
-        }
+    const isUserLoggedIn = !!this.store.selectSnapshot(AuthState.user);
 
-        if (isCurrentlyOnAuth) {
-          return false;
-        }
+    if (isUserLoggedIn) {
+      return true;
+    }
 
-        return this.router.parseUrl("/auth/login");
-      }),
-    );
+    this.showWarning();
+
+    if (isCurrentlyOnAuth) {
+      return false;
+    }
+
+    return this.router.parseUrl("/auth/login");
   }
 
   public async showWarning() {
