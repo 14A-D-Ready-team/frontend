@@ -1,5 +1,6 @@
 import { PaginationQuery, StringFilterQuery } from "@shared/api";
-import { Expose, plainToInstance, Type } from "class-transformer";
+import { classTransformerConfig } from "@shared/serialization";
+import { Expose, plainToInstance, Transform, Type, instanceToPlain } from "class-transformer";
 import { IsInstance, IsOptional, ValidateNested } from "class-validator";
 import { isEqual } from "lodash";
 
@@ -42,6 +43,7 @@ export class SearchBuffetsQuery extends PaginationQuery {
   @IsOptional()
   @IsInstance(StringFilterQuery)
   @ValidateNested()
+  @Transform(params => instanceToPlain(params.value, classTransformerConfig))
   public searchString?: StringFilterQuery;
 
   @Expose()
