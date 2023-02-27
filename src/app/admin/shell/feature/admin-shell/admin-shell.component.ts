@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnDestroy } from "@angular/core";
 import { Platform, ToastController } from "@ionic/angular";
 import { Actions, ofActionDispatched } from "@ngxs/store";
 import { LogoutFailed } from "@shared/authentication";
@@ -16,7 +16,7 @@ import { map, startWith, Subscription, tap } from "rxjs";
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminShellComponent {
+export class AdminShellComponent implements OnDestroy {
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
     map(() => this.platform.width() >= 1200),
@@ -49,5 +49,9 @@ export class AdminShellComponent {
     });
 
     toast.present();
+  }
+
+  public ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
