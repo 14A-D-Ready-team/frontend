@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
 import { AdminShellComponent, AdminShellModule } from "./admin/shell";
-import { AuthGuard } from "./auth/feature/guards";
+import { AuthGuard } from "./auth/utils";
 import { GuardedCustomerPage } from "./guarded-customer/guarded-customer.page";
 
 const routes: Routes = [
@@ -16,6 +16,8 @@ const routes: Routes = [
       showAdminMenu: true,
     },
     component: AdminShellComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
   },
   {
     path: "guarded-customer-route",

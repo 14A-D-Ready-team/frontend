@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 import { AuthRoutingModule } from "./auth-routing.module";
 import { AuthService, AuthState, GoogleAuthService } from "./data-access";
 import { ExceptionsModule } from "@app/shared/exceptions";
-import { AuthGuard } from "./feature/guards";
+import { AuthGuard } from "./utils";
 
 @NgModule({
   declarations: [],
