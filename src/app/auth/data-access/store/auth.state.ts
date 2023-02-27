@@ -16,9 +16,13 @@ import {
   Logout,
   LogoutSucceeded,
   LogoutFailed,
+  SessionSignin,
+  SessionSigninSucceeded,
+  SessionSigninFailed,
 } from "./auth.actions";
 import { User, UserType } from "@app/shared/user";
 import { Router } from "@angular/router";
+import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
 
 enum SocialAuthStatus {
   Idle,
@@ -30,19 +34,28 @@ enum SocialAuthStatus {
 export interface AuthStateModel {
   googleVerifyStatus: SocialAuthStatus;
   user?: User;
+  sessionSigninStatus?: ApiRequestStatus;
 }
 
 export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
 
 @State<AuthStateModel>({
   name: AUTH_STATE_TOKEN,
-  defaults: { googleVerifyStatus: SocialAuthStatus.Idle },
+  defaults: {
+    googleVerifyStatus: SocialAuthStatus.Idle,
+    sessionSigninStatus: { loading: true },
+  },
 })
 @Injectable()
 export class AuthState {
   @Selector()
   public static user(state: AuthStateModel) {
     return state.user;
+  }
+
+  @Selector()
+  public static sessionSigninStatus(state: AuthStateModel) {
+    return state.sessionSigninStatus;
   }
 
   constructor(
@@ -97,5 +110,32 @@ export class AuthState {
   public logoutSucceeded(ctx: StateContext<AuthStateModel>) {
     ctx.patchState({ user: undefined });
     return from(this.ngZone.run(() => this.router.navigate(["/auth/login"])));
+  }
+
+  @Action(SessionSignin)
+  public sessionSignin(ctx: StateContext<AuthStateModel>) {
+    ctx.patchState({ sessionSigninStatus: { loading: true } });
+    return this.authService.sessionSignin().pipe(
+      switchMap(user => ctx.dispatch(new SessionSigninSucceeded(user))),
+      catchError(error => ctx.dispatch(new SessionSigninFailed(error))),
+    );
+  }
+
+  @Action(SessionSigninFailed)
+  public sessionSigninFailed(
+    ctx: StateContext<AuthStateModel>,
+    action: SessionSigninFailed,
+  ) {
+    ctx.patchState({
+      sessionSigninStatus: { loading: false, error: action.error },
+    });
+  }
+
+  public sessionSigninSucceeded(
+    ctx: StateContext<AuthStateModel>,
+    action: SessionSigninSucceeded,
+  ) {
+    ctx.patchState({ sessionSigninStatus: undefined });
+    ctx.dispatch(new SetCurrentLogin(action.user));
   }
 }

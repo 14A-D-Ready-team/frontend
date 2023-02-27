@@ -1,14 +1,21 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { IonicModule } from "@ionic/angular";
+import { Select, Store } from "@ngxs/store";
+import { AuthState, SessionSignin } from "@app/auth/data-access";
+import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-auth-shell",
-  standalone: true,
-  imports: [CommonModule, IonicModule],
   template: `
-    <div class="overlay">
-      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <div class="overlay" *ngIf="status$ | async as status">
+      <ion-spinner
+        *ngIf="status.loading"
+        name="crescent"
+        color="primary"
+      ></ion-spinner>
+      <h1 *ngIf="status.error">{{ status.error | errorMessage }}</h1>
     </div>
     <ion-router-outlet></ion-router-outlet>
   `,
@@ -37,7 +44,12 @@ import { IonicModule } from "@ionic/angular";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthShellComponent implements OnInit {
-  constructor() {}
+  @Select(AuthState.sessionSigninStatus)
+  public status$!: Observable<ApiRequestStatus>;
 
-  ngOnInit(): void {}
+  constructor(private store: Store) {}
+
+  public ngOnInit(): void {
+    this.store.dispatch(new SessionSignin());
+  }
 }

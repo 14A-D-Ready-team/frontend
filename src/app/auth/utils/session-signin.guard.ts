@@ -10,8 +10,19 @@ import { Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class SessionLoginGuard implements CanActivate {
+export class SessionSigninGuard implements CanActivate {
   public canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot,
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    return true;
+  }
+
+  public canActivateChild(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ):
