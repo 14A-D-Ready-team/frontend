@@ -1,18 +1,13 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
-import { SignupDto } from "@app/auth/data-access/dto";
 import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
 import { Signup, SignupStateModel, SignupStatus } from "./store";
 import { Observable } from "rxjs";
+import { SignupDto } from "@shared/authentication";
 
 interface SignupForm {
   name: FormControl<string>;

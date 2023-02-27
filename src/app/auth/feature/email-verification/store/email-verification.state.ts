@@ -1,5 +1,4 @@
 import { catchError, finalize, switchMap } from "rxjs";
-import { AuthService } from "@app/auth/data-access";
 import { Dictionary } from "@/types";
 import { FormControlStatus } from "@angular/forms";
 import { Action, State, StateContext } from "@ngxs/store";
@@ -12,6 +11,7 @@ import {
   EmailVerificationFailed,
   EmailVerificationSucceeded,
 } from "./email-verifictaion.actions";
+import { AuthService } from "@shared/authentication";
 export interface EmailVerificationStatus {
   loading: boolean;
   error?: any;

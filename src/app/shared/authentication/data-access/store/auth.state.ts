@@ -127,7 +127,7 @@ export class AuthState {
     action: SessionSigninFailed,
   ) {
     ctx.patchState({
-      sessionSigninStatus: { loading: false, error: action.error },
+      sessionSigninStatus: undefined,
     });
   }
 

@@ -1,21 +1,15 @@
-import { User } from "@shared/user";
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
 import { FormControlStatus } from "@angular/forms";
-import { AuthService, SetCurrentLogin } from "@app/auth/data-access";
-import { SignupDto } from "@app/auth/data-access/dto";
-import { ApiException, ErrorCode } from "@app/shared/exceptions";
-import {
-  FormControlErrors,
-  UpdateFormControlErrors,
-} from "@app/shared/extended-form-plugin";
-import {
-  SetFormDisabled,
-  SetFormEnabled,
-  UpdateFormErrors,
-} from "@ngxs/form-plugin";
+import { FormControlErrors } from "@app/shared/extended-form-plugin";
+import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, State, StateContext, StateToken } from "@ngxs/store";
-import { catchError, concatWith, finalize, of, switchMap } from "rxjs";
+import {
+  AuthService,
+  SetCurrentLogin,
+  SignupDto,
+} from "@shared/authentication";
+import { catchError, finalize, switchMap } from "rxjs";
 import { Signup, SignupSucceeded, SignupFailed } from "./signup.actions";
 
 export interface SignupStatus {

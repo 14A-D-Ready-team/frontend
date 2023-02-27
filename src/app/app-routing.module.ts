@@ -2,13 +2,19 @@ import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
 import { AdminShellComponent, AdminShellModule } from "./admin/shell";
 import { AuthShellComponent } from "./auth/feature/shell";
-import { AuthGuard, SessionSigninGuard } from "./auth/utils";
+import { AuthGuard, SessionSigninGuard } from "@shared/authentication";
 import { GuardedCustomerPage } from "./guarded-customer/guarded-customer.page";
 
 const routes: Routes = [
   {
     path: "auth",
     loadChildren: () => import("./auth/").then(m => m.AuthModule),
+    /*  canActivate: [
+       SessionSigninGuard 
+    ],
+    canActivateChild: [
+       SessionSigninGuard 
+    ], */
   },
   {
     path: "admin",
@@ -17,13 +23,16 @@ const routes: Routes = [
       showAdminMenu: true,
     },
     component: AdminShellComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
+    canActivate: [, /* SessionSigninGuard */ AuthGuard],
+    canActivateChild: [, /* SessionSigninGuard */ AuthGuard],
   },
   {
     path: "guarded-customer-route",
     component: GuardedCustomerPage,
-    canActivate: [AuthGuard],
+    canActivate: [, /* SessionSigninGuard */ AuthGuard],
+    canActivateChild: [
+      /* SessionSigninGuard */
+    ],
   },
 ];
 
@@ -32,8 +41,6 @@ const routeWrapper: Routes = [
     path: "",
     children: routes,
     component: AuthShellComponent,
-    canActivate: [SessionSigninGuard],
-    canActivateChild: [SessionSigninGuard],
   },
 ];
 

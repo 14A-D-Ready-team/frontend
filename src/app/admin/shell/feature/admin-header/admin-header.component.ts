@@ -1,17 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { IonicModule, ToastController } from "@ionic/angular";
+import { IonicModule } from "@ionic/angular";
 import { RouterModule } from "@angular/router";
-import { catchError, from, Observable, of, skip, take } from "rxjs";
+import { Observable } from "rxjs";
 import { User } from "@shared/user";
 import { Select, Store } from "@ngxs/store";
-import { AuthState, Logout } from "@app/auth/data-access";
-import { ExceptionService } from "@shared/exceptions";
+import { AuthState, Logout } from "@shared/authentication";
 
 @Component({
   selector: "app-admin-header",

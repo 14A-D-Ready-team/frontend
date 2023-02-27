@@ -14,7 +14,7 @@ import { ClassValidatorFormBuilderModule } from "ngx-reactive-form-class-validat
 import { ExtendedFormPluginModule } from "./shared/extended-form-plugin";
 import { ExceptionsModule } from "./shared/exceptions";
 import { ProductModule } from "@shared/product";
-import { AuthState } from "./auth/data-access";
+import { AuthenticationModule } from "@shared/authentication";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
@@ -35,6 +35,7 @@ const routeReuseStrategyProvider = {
     ExternalAuthModule.forRoot(),
     ClassValidatorFormBuilderModule.forRoot(),
     ExceptionsModule,
+    AuthenticationModule,
     CategoryModule,
     ProductModule,
     AppRoutingModule,

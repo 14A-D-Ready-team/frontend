@@ -4,7 +4,6 @@ import {
   SendPasswordResetSucceeded,
 } from "./send-password-reset.actions";
 import { catchError, finalize, switchMap } from "rxjs";
-import { AuthService } from "@app/auth/data-access";
 import { Dictionary } from "@/types";
 import { FormControlStatus } from "@angular/forms";
 import { Action, State, StateContext } from "@ngxs/store";
@@ -12,6 +11,7 @@ import { Injectable, NgZone } from "@angular/core";
 import { Router } from "@angular/router";
 import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { FormControlErrors } from "@shared/extended-form-plugin";
+import { AuthService } from "@shared/authentication";
 
 export interface SendPasswordResetStatus {
   loading: boolean;

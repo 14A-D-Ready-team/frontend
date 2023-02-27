@@ -1,11 +1,9 @@
-import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import { LogoutFailed } from "@app/auth/data-access";
-import { IonicModule, Platform, ToastController } from "@ionic/angular";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Platform, ToastController } from "@ionic/angular";
 import { Actions, ofActionDispatched } from "@ngxs/store";
+import { LogoutFailed } from "@shared/authentication";
 import { ExceptionService } from "@shared/exceptions";
 import { map, startWith, Subscription, tap } from "rxjs";
-import { AdminSideMenuComponent } from "../admin-side-menu/admin-side-menu.component";
 
 @Component({
   selector: "app-admin-shell",

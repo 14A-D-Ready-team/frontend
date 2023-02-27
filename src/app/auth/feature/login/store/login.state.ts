@@ -1,23 +1,13 @@
-import { User } from "@shared/user";
 import { Dictionary } from "@/types";
 import { Injectable, NgZone } from "@angular/core";
 import { FormControlStatus } from "@angular/forms";
-import { AuthService, SetCurrentLogin } from "@app/auth/data-access";
-import { LoginDto } from "@app/auth/data-access/dto";
-import { ApiException, ErrorCode } from "@app/shared/exceptions";
-import {
-  FormControlErrors,
-  UpdateFormControlErrors,
-} from "@app/shared/extended-form-plugin";
-import {
-  SetFormDisabled,
-  SetFormEnabled,
-  UpdateFormErrors,
-} from "@ngxs/form-plugin";
+import { FormControlErrors } from "@app/shared/extended-form-plugin";
+import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, State, StateContext, StateToken } from "@ngxs/store";
-import { catchError, concatWith, finalize, of, switchMap } from "rxjs";
+import { catchError, finalize, switchMap } from "rxjs";
 import { Login, LoginFailed, LoginSucceeded } from "./login.actions";
 import { Router } from "@angular/router";
+import { AuthService, LoginDto, SetCurrentLogin } from "@shared/authentication";
 
 export interface LoginStatus {
   loading: boolean;

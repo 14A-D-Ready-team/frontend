@@ -9,9 +9,9 @@ import { IonicModule, ToastController } from "@ionic/angular";
 import { catchError, from, Observable, take } from "rxjs";
 import { User } from "@shared/user";
 import { Select, Store } from "@ngxs/store";
-import { AuthState, Logout } from "@app/auth/data-access";
 import { RouterModule } from "@angular/router";
 import { ExceptionService } from "@shared/exceptions";
+import { AuthState, Logout } from "@shared/authentication";
 
 @Component({
   selector: "app-admin-side-menu",

@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { IonicModule } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
-import { AuthState, SessionSignin } from "@app/auth/data-access";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
-import { Observable } from "rxjs";
+import { filter, map, Observable, takeWhile, tap } from "rxjs";
+import { AuthState, SessionSignin } from "@shared/authentication";
 
 @Component({
   selector: "app-auth-shell",
@@ -15,7 +15,6 @@ import { Observable } from "rxjs";
         name="crescent"
         color="primary"
       ></ion-spinner>
-      <h1 *ngIf="status.error">{{ status.error | errorMessage }}</h1>
     </div>
     <ion-router-outlet></ion-router-outlet>
   `,
