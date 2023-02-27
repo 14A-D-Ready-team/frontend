@@ -1,6 +1,12 @@
 import { PaginationQuery, StringFilterQuery } from "@shared/api";
 import { classTransformerConfig } from "@shared/serialization";
-import { Expose, plainToInstance, Transform, Type, instanceToPlain } from "class-transformer";
+import {
+  Expose,
+  plainToInstance,
+  Transform,
+  Type,
+  instanceToPlain,
+} from "class-transformer";
 import { IsInstance, IsOptional, ValidateNested } from "class-validator";
 import { isEqual } from "lodash";
 
@@ -19,32 +25,27 @@ export class SearchBuffetsQuery extends PaginationQuery {
   public static clone(query: SearchBuffetsQuery) {
     return new SearchBuffetsQuery(query);
   }
-  
+
   public static isUnchanged(
     prev: SearchBuffetsQuery,
     curr: SearchBuffetsQuery,
   ) {
     return (
       isEqual(prev, curr) ||
-      StringFilterQuery.isUnchanged(
-        prev.searchString,
-        curr.searchString,
-      ) || 
-      isEqual(
-        prev.order,
-        curr.order,
-      )
+      StringFilterQuery.isUnchanged(prev.search, curr.search) ||
+      isEqual(prev.order, curr.order)
     );
   }
 
-
   @Expose()
-  @Type(() => StringFilterQuery)
   @IsOptional()
   @IsInstance(StringFilterQuery)
   @ValidateNested()
-  @Transform(params => instanceToPlain(params.value, classTransformerConfig))
-  public searchString?: StringFilterQuery;
+  @Transform(params => {
+    console.log(params);
+    return instanceToPlain(params.value, classTransformerConfig);
+  })
+  public search?: StringFilterQuery;
 
   @Expose()
   @IsOptional()
@@ -53,16 +54,14 @@ export class SearchBuffetsQuery extends PaginationQuery {
   @Expose()
   @IsOptional()
   public orderByField? = "name";
-  //public orderByField?: string; 
+  //public orderByField?: string;
 
-
-
-  constructor(model: Partial<SearchBuffetsQuery> = {}) {   
+  constructor(model: Partial<SearchBuffetsQuery> = {}) {
     super();
-    const { searchString, ... rest } = model || {};
+    const { search: searchString, ...rest } = model || {};
     Object.assign(this, rest);
     if (searchString) {
-      this.searchString = StringFilterQuery.clone(searchString);
+      this.search = StringFilterQuery.clone(searchString);
     }
   }
 }
