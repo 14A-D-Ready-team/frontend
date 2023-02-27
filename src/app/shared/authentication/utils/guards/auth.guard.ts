@@ -32,6 +32,7 @@ export class AuthGuard implements CanActivateChild, CanActivate {
   }
 
   private guard() {
+    console.log("auth guard");
     const url = this.router.routerState.snapshot.url;
     const isCurrentlyOnAuth = !!url.match(/auth/);
 

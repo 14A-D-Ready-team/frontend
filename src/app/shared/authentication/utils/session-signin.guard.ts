@@ -3,7 +3,10 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
+  CanMatch,
+  Route,
   RouterStateSnapshot,
+  UrlSegment,
   UrlTree,
 } from "@angular/router";
 import { Store } from "@ngxs/store";
@@ -13,8 +16,14 @@ import { AuthState } from "../data-access";
 @Injectable({
   providedIn: "root",
 })
-export class SessionSigninGuard implements CanActivate, CanActivateChild {
+export class SessionSigninGuard
+  implements CanActivate, CanActivateChild, CanMatch
+{
   constructor(private store: Store) {}
+
+  public canMatch(route: Route, segments: UrlSegment[]) {
+    return this.guard();
+  }
 
   public canActivate() {
     return this.guard();
@@ -25,10 +34,13 @@ export class SessionSigninGuard implements CanActivate, CanActivateChild {
   }
 
   private guard() {
-    return this.store.select(AuthState.sessionSigninStatus).pipe(
+    console.log("session signin guard");
+    const status = this.store.selectSnapshot(AuthState.sessionSigninStatus);
+    return status?.loading !== true;
+    /* return this.store.select(AuthState.sessionSigninStatus).pipe(
       map(status => status?.loading !== true),
       takeWhile(completed => !completed, true),
       filter(completed => completed),
-    );
+    ); */
   }
 }
