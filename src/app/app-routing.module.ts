@@ -9,12 +9,8 @@ const routes: Routes = [
   {
     path: "auth",
     loadChildren: () => import("./auth/").then(m => m.AuthModule),
-    /*  canActivate: [
-       SessionSigninGuard 
-    ],
-    canActivateChild: [
-       SessionSigninGuard 
-    ], */
+    canActivate: [],
+    canActivateChild: [],
   },
   {
     path: "admin",
@@ -23,16 +19,13 @@ const routes: Routes = [
       showAdminMenu: true,
     },
     component: AdminShellComponent,
-    canActivate: [, /* SessionSigninGuard */ AuthGuard],
-    canActivateChild: [, /* SessionSigninGuard */ AuthGuard],
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
   },
   {
     path: "guarded-customer-route",
     component: GuardedCustomerPage,
-    canActivate: [, /* SessionSigninGuard */ AuthGuard],
-    canActivateChild: [
-      /* SessionSigninGuard */
-    ],
+    canActivate: [AuthGuard],
   },
 ];
 
@@ -40,6 +33,10 @@ const routeWrapper: Routes = [
   {
     path: "",
     children: routes,
+    canMatch: [SessionSigninGuard],
+  },
+  {
+    path: "**",
     component: AuthShellComponent,
   },
 ];
