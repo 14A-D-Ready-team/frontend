@@ -31,7 +31,6 @@
 }
 
 .card {
-  background-color: $card-background;
   border-radius: 1rem 1rem 0px 0px;
   padding: 0.8rem 1.2rem;
   z-index: 1;
@@ -95,17 +94,29 @@
         --padding-start: 0px;
         --inner-padding-end: 0px;
         ion-checkbox {
-          --size: 1.4rem;
+          width: 1.4rem;
+          height: 1.4rem;
           --background-checked: #c30b00;
-          --checkmark-width: 0.17rem;
+          --checkmark-width: 0.15rem;
           margin: 0 0.3rem;
         }
+        ion-radio {
+          width: 1.4rem;
+          height: 1.4rem;
+          margin: 0 0.3rem;
+        }
+
         ion-label {
           font-size: $s-font;
         }
 
         ion-checkbox::part(container) {
           border-radius: 0.4rem;
+          border: 2px solid $ready-red;
+        }
+
+        ion-radio::part(container) {
+          border-radius: 100%;
           border: 2px solid $ready-red;
         }
       }
