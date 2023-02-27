@@ -53,8 +53,14 @@ export class SearchBuffetsQuery extends PaginationQuery {
   public orderByField? = "name";
   //public orderByField?: string; 
 
-  constructor(model?: Partial<SearchBuffetsQuery>) {
+
+
+  constructor(model: Partial<SearchBuffetsQuery> = {}) {   
     super();
-    Object.assign(this, model);
+    const { searchString, ... rest } = model || {};
+    Object.assign(this, rest);
+    if (searchString) {
+      this.searchString = StringFilterQuery.clone(searchString);
+    }
   }
 }

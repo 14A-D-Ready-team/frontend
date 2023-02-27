@@ -9,6 +9,7 @@ export function serializeQueryParams(params: object) {
     }),
   );
 
+  console.log(transformed);
   const serialized = {} as Record<string, string>;
   for (const key in transformed) {
     if (transformed.hasOwnProperty(key) && transformed[key] !== undefined) {

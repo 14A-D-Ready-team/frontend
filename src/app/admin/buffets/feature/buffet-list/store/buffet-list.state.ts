@@ -10,6 +10,7 @@ import { BuffetActions, BuffetState, BuffetStateModel } from "@shared/buffet";
 import { SearchBuffetsQuery } from "@shared/buffet/data-access/query";
 import { DeepReadonly } from "@ngxs-labs/entity-state";
 import { FilterChanged } from "../../buffet-filter/store";
+import { ClassValidatorFormGroup } from "ngx-reactive-form-class-validator";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface BuffetsListStateModel {
