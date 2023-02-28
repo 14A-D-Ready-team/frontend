@@ -6,7 +6,7 @@ import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, State, StateContext, StateToken } from "@ngxs/store";
 import { catchError, finalize, switchMap } from "rxjs";
 import { Login, LoginFailed, LoginSucceeded } from "./login.actions";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService, LoginDto, SetCurrentLogin } from "@shared/authentication";
 
 export interface LoginStatus {
@@ -49,6 +49,7 @@ export class LoginState {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private ngZone: NgZone,
   ) {}
 
@@ -112,6 +113,10 @@ export class LoginState {
     ctx.patchState({ status: { loading: false, error: undefined } });
 
     ctx.dispatch(new SetCurrentLogin(action.user));
-    this.ngZone.run(() => this.router.navigate(["/admin/products"]));
+
+    const nextUrl =
+      this.route.snapshot.queryParams.nextUrl || "/admin/products";
+
+    this.ngZone.run(() => this.router.navigate([nextUrl]));
   }
 }

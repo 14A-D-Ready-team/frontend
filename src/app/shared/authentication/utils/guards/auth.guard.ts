@@ -23,18 +23,24 @@ export class AuthGuard implements CanActivateChild, CanActivate {
     private toastController: ToastController,
   ) {}
 
-  public canActivateChild() {
-    return this.guard();
+  public canActivateChild(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot,
+  ) {
+    return this.guard(state);
   }
 
-  public canActivate() {
-    return this.guard();
+  public canActivate(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot,
+  ) {
+    return this.guard(state);
   }
 
-  private guard() {
-    console.log("auth guard");
-    const url = this.router.routerState.snapshot.url;
-    const isCurrentlyOnAuth = !!url.match(/auth/);
+  private guard(state: RouterStateSnapshot) {
+    const currentUrl = this.router.routerState.snapshot.url;
+    const isCurrentlyOnAuth = !!currentUrl.match(/auth/);
+    const isCurrentlyOnLogin = !!currentUrl.match(/^auth\/login\/.*$/);
 
     const isUserLoggedIn = !!this.store.selectSnapshot(AuthState.user);
 
@@ -45,10 +51,13 @@ export class AuthGuard implements CanActivateChild, CanActivate {
     this.showWarning();
 
     if (isCurrentlyOnAuth) {
+      if (isCurrentlyOnLogin) {
+        return this.router.parseUrl(`${currentUrl}?nextUrl=${state.url}`);
+      }
       return false;
     }
 
-    return this.router.parseUrl("/auth/login");
+    return this.router.parseUrl("/auth/login?nextUrl=" + state.url);
   }
 
   public async showWarning() {
