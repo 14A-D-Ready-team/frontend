@@ -28,6 +28,7 @@ import {
   SessionSignin,
   SessionSigninSucceeded,
   SessionSigninFailed,
+  SessionSigninCompleted,
 } from "./auth.actions";
 import { User, UserType } from "@app/shared/user";
 import { Router } from "@angular/router";
@@ -40,15 +41,15 @@ enum SocialAuthStatus {
   Error,
 }
 
-type SessionSigninStatus = ApiRequestStatus & {
-  nextUrl: string;
+type SessionSigninStatus = {
+  loading: boolean;
+  completed: boolean;
 };
 
 export interface AuthStateModel {
   googleVerifyStatus: SocialAuthStatus;
   user?: User;
-  sessionSigninCompleted: boolean;
-  sessionSigninStatus?: SessionSigninStatus;
+  sessionSigninStatus: SessionSigninStatus;
 }
 
 export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
@@ -57,7 +58,10 @@ export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
   name: AUTH_STATE_TOKEN,
   defaults: {
     googleVerifyStatus: SocialAuthStatus.Idle,
-    sessionSigninCompleted: false,
+    sessionSigninStatus: {
+      completed: false,
+      loading: false,
+    },
   },
 })
 @Injectable()
@@ -70,11 +74,6 @@ export class AuthState {
   @Selector()
   public static sessionSigninStatus(state: AuthStateModel) {
     return state.sessionSigninStatus;
-  }
-
-  @Selector()
-  public static sessionSigninCompleted(state: AuthStateModel) {
-    return state.sessionSigninCompleted;
   }
 
   constructor(
@@ -137,22 +136,33 @@ export class AuthState {
     action: SessionSignin,
   ) {
     ctx.patchState({
-      sessionSigninStatus: { loading: true, nextUrl: action.nextUrl },
+      sessionSigninStatus: {
+        loading: true,
+        completed: false,
+      },
     });
 
     return this.authService.sessionSignin().pipe(
       switchMap(user => ctx.dispatch(new SessionSigninSucceeded(user))),
       catchError(error => ctx.dispatch(new SessionSigninFailed(error))),
-      finalize(() => {
-        ctx.patchState({ sessionSigninStatus: undefined });
-      }),
+      finalize(() => ctx.dispatch(new SessionSigninCompleted(action.nextUrl))),
     );
   }
 
+  @Action(SessionSigninSucceeded)
   public sessionSigninSucceeded(
     ctx: StateContext<AuthStateModel>,
     action: SessionSigninSucceeded,
   ) {
     ctx.dispatch(new SetCurrentLogin(action.user));
+  }
+
+  @Action(SessionSigninCompleted)
+  public sessionSigninCompleted(ctx: StateContext<AuthStateModel>) {
+    {
+      ctx.patchState({
+        sessionSigninStatus: { loading: false, completed: true },
+      });
+    }
   }
 }

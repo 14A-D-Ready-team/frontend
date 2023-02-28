@@ -18,13 +18,11 @@ export class SessionSigninGuard implements CanActivateChild {
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ) {
-    const sessionSigninCompleted = this.store.selectSnapshot(
-      AuthState.sessionSigninCompleted,
-    );
     const status = this.store.selectSnapshot(AuthState.sessionSigninStatus);
-    const loading = status?.loading;
+    const loading = status.loading;
+    const completed = status.completed;
 
-    if (sessionSigninCompleted) {
+    if (completed) {
       return true;
     }
 

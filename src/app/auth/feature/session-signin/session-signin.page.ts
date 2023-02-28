@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
+import { Router } from "@angular/router";
+import { Actions, ofActionDispatched, Store } from "@ngxs/store";
+import { SessionSigninCompleted } from "@shared/authentication";
+import { Subscription, take } from "rxjs";
 
 @Component({
   selector: "app-session-signin",
@@ -31,4 +41,26 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SessionSigninPage {}
+export class SessionSigninPage implements OnInit, OnDestroy {
+  private subscription!: Subscription;
+
+  constructor(
+    private actions: Actions,
+    private router: Router,
+    private ngZone: NgZone,
+  ) {}
+
+  public ngOnInit() {
+    this.subscription = this.actions
+      .pipe(ofActionDispatched(SessionSigninCompleted), take(1))
+      .subscribe({
+        next: (action: SessionSigninCompleted) => {
+          this.ngZone.run(() => this.router.navigate([action.nextUrl]));
+        },
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+}

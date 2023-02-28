@@ -48,3 +48,9 @@ export class SessionSigninSucceeded {
 
   constructor(public user: User) {}
 }
+
+export class SessionSigninCompleted {
+  public static readonly type = "[Auth] Session Signin Completed";
+
+  constructor(public nextUrl: string) {}
+}
