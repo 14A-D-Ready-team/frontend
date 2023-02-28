@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { IonicModule } from "@ionic/angular";
-import { AuthShellComponent } from "./auth-shell.component";
+import { SessionSigninPage } from "./session-signin.page";
 import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
 
 @NgModule({
-  declarations: [AuthShellComponent],
+  declarations: [SessionSigninPage],
   imports: [
     CommonModule,
     IonicModule,
@@ -13,4 +13,4 @@ import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
     ErrorMessagePipe,
   ],
 })
-export class AuthShellModule {}
+export class SessionSigninPageModule {}

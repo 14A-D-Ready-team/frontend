@@ -1,11 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import { Select, Store } from "@ngxs/store";
-import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
-import { Observable } from "rxjs";
-import { AuthState, SessionSignin } from "@shared/authentication";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 @Component({
-  selector: "app-auth-shell",
+  selector: "app-session-signin",
   template: `
     <div class="overlay">
       <ion-spinner name="crescent" color="primary"></ion-spinner>
@@ -35,13 +31,4 @@ import { AuthState, SessionSignin } from "@shared/authentication";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuthShellComponent implements OnInit {
-  @Select(AuthState.sessionSigninStatus)
-  public status$!: Observable<ApiRequestStatus>;
-
-  constructor(private store: Store) {}
-
-  public ngOnInit(): void {
-    this.store.dispatch(new SessionSignin());
-  }
-}
+export class SessionSigninPage {}

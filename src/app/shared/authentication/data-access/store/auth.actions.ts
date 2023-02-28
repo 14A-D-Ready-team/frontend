@@ -31,17 +31,19 @@ export class LogoutSucceeded {
   public static readonly type = "[Auth] Logout Succeeded";
 }
 
-export class SessionSignin{
+export class SessionSignin {
   public static readonly type = "[Auth] Session Signin";
+
+  constructor(public nextUrl: string) {}
 }
 
-export class SessionSigninFailed{
+export class SessionSigninFailed {
   public static readonly type = "[Auth] Session Signin Failed";
 
   constructor(public error: any) {}
 }
 
-export class SessionSigninSucceeded{
+export class SessionSigninSucceeded {
   public static readonly type = "[Auth] Session Signin Succeeded";
 
   constructor(public user: User) {}

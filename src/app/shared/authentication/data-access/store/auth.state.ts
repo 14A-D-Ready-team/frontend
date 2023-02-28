@@ -8,7 +8,16 @@ import {
   StateToken,
   Store,
 } from "@ngxs/store";
-import { catchError, delay, from, map, of, switchMap, tap } from "rxjs";
+import {
+  catchError,
+  delay,
+  finalize,
+  from,
+  map,
+  of,
+  switchMap,
+  tap,
+} from "rxjs";
 import { AuthService, GoogleAuthService } from "../service";
 import {
   VerifyGoogleAuth,
@@ -31,10 +40,15 @@ enum SocialAuthStatus {
   Error,
 }
 
+type SessionSigninStatus = ApiRequestStatus & {
+  nextUrl: string;
+};
+
 export interface AuthStateModel {
   googleVerifyStatus: SocialAuthStatus;
   user?: User;
-  sessionSigninStatus?: ApiRequestStatus;
+  sessionSigninCompleted: boolean;
+  sessionSigninStatus?: SessionSigninStatus;
 }
 
 export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
@@ -43,7 +57,7 @@ export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
   name: AUTH_STATE_TOKEN,
   defaults: {
     googleVerifyStatus: SocialAuthStatus.Idle,
-    sessionSigninStatus: { loading: true },
+    sessionSigninCompleted: false,
   },
 })
 @Injectable()
@@ -56,6 +70,11 @@ export class AuthState {
   @Selector()
   public static sessionSigninStatus(state: AuthStateModel) {
     return state.sessionSigninStatus;
+  }
+
+  @Selector()
+  public static sessionSigninCompleted(state: AuthStateModel) {
+    return state.sessionSigninCompleted;
   }
 
   constructor(
@@ -113,29 +132,27 @@ export class AuthState {
   }
 
   @Action(SessionSignin)
-  public sessionSignin(ctx: StateContext<AuthStateModel>) {
-    ctx.patchState({ sessionSigninStatus: { loading: true } });
+  public sessionSignin(
+    ctx: StateContext<AuthStateModel>,
+    action: SessionSignin,
+  ) {
+    ctx.patchState({
+      sessionSigninStatus: { loading: true, nextUrl: action.nextUrl },
+    });
+
     return this.authService.sessionSignin().pipe(
       switchMap(user => ctx.dispatch(new SessionSigninSucceeded(user))),
       catchError(error => ctx.dispatch(new SessionSigninFailed(error))),
+      finalize(() => {
+        ctx.patchState({ sessionSigninStatus: undefined });
+      }),
     );
-  }
-
-  @Action(SessionSigninFailed)
-  public sessionSigninFailed(
-    ctx: StateContext<AuthStateModel>,
-    action: SessionSigninFailed,
-  ) {
-    ctx.patchState({
-      sessionSigninStatus: undefined,
-    });
   }
 
   public sessionSigninSucceeded(
     ctx: StateContext<AuthStateModel>,
     action: SessionSigninSucceeded,
   ) {
-    ctx.patchState({ sessionSigninStatus: undefined });
     ctx.dispatch(new SetCurrentLogin(action.user));
   }
 }
