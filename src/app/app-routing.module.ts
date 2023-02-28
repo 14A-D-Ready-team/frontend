@@ -21,7 +21,7 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
   },
   {
-    path: "guarded-customer-route",
+    path: "",
     component: GuardedCustomerPage,
     canActivate: [AuthGuard],
   },
@@ -36,6 +36,8 @@ const routeWrapper: Routes = [
   {
     path: "session-signin",
     component: SessionSigninPage,
+    canActivate: [SessionSigninGuard],
+    canDeactivate: [SessionSigninGuard],
   },
 ];
 
