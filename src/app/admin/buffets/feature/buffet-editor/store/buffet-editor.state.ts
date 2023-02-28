@@ -1,9 +1,11 @@
-import { State } from "@ngxs/store";
-import { CreateBuffetDto } from "@shared/buffet";
+import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
+import { Action, State, StateContext } from "@ngxs/store";
+import { BuffetActions, CreateBuffetDto, UpdateBuffetDto } from "@shared/buffet";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
+import { Update } from "./buffet-editor.actions";
 
 export interface BuffetEditorStateModel {
-  form: NgxsFormStateModel<CreateBuffetDto>;
+  form: NgxsFormStateModel<UpdateBuffetDto>;
 }
 
 export const formPath = "buffetEditor.form";
@@ -12,7 +14,7 @@ export const formPath = "buffetEditor.form";
   name: "buffetEditor",
   defaults: {
     form: {
-      model: new CreateBuffetDto(),
+      model: new UpdateBuffetDto(),
       errors: {},
       dirty: false,
       status: "VALID",
@@ -21,4 +23,30 @@ export const formPath = "buffetEditor.form";
     },
   },
 })
-export class BuffetEditorState {}
+export class BuffetEditorState {
+  constructor() {}
+
+  @Action(Update)
+  public update(ctx: StateContext<BuffetEditorStateModel>) {
+    const state = ctx.getState();
+    if (state.form.status === "INVALID") {
+      return;
+    }
+
+    const dto = UpdateBuffetDto.clone(state.form.model);
+
+    ctx.dispatch(new SetFormDisabled(formPath));
+
+    return ctx.dispatch(new BuffetActions.Update(3 ,dto));
+  }
+
+  @Action(BuffetActions.UpdateSucceeded)
+  public createSucceeded(ctx: StateContext<BuffetEditorStateModel>) {
+    ctx.dispatch(new SetFormEnabled(formPath));
+  }
+
+  @Action(BuffetActions.UpdateFailed)
+  public async createFailed(ctx: StateContext<BuffetEditorStateModel>) {
+    ctx.dispatch(new SetFormEnabled(formPath));
+  }
+}

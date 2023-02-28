@@ -8,6 +8,7 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { ExtendedFormPluginModule } from '@shared/extended-form-plugin';
 import { ErrorListComponent } from '@shared/inputs/feature/ionic';
 import { BuffetEditorPage } from './buffet-editor.page';
+import { ClearInputButtonComponent, ImageSelectorComponent } from '@shared/inputs/ui/ionic';
 
 
 @NgModule({
@@ -18,7 +19,9 @@ import { BuffetEditorPage } from './buffet-editor.page';
     NgxsFormPluginModule,
     ExtendedFormPluginModule,
     BuffetEditorRoutingModule,
-    ErrorListComponent
+    ErrorListComponent,
+    ImageSelectorComponent,
+    ClearInputButtonComponent,
   ],
   declarations: [BuffetEditorPage]
 })

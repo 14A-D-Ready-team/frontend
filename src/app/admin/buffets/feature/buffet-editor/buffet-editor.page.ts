@@ -1,19 +1,17 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Select } from "@ngxs/store";
-import {
-  Buffet,
-  BuffetState,
-  CreateBuffetDto,
-} from "@shared/buffet";
+import { Platform } from "@ionic/angular";
+import { Select, Store } from "@ngxs/store";
+import { Buffet, BuffetState, CreateBuffetDto } from "@shared/buffet";
+import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
 import {
   ClassValidatorFormGroup,
   ClassValidatorFormControl,
 } from "ngx-reactive-form-class-validator";
-import { Observable, Subscription, take } from "rxjs";
+import { map, Observable, startWith, Subscription, take } from "rxjs";
 import { BuffetEditorFormModel } from "../../utils";
-import { formPath } from "./store";
+import { formPath, Update } from "./store";
 
 @Component({
   selector: "app-buffet-editor",
@@ -21,16 +19,12 @@ import { formPath } from "./store";
   styleUrls: ["./buffet-editor.page.scss"],
 })
 export class BuffetEditorPage implements OnInit, OnDestroy {
-  save() {
-    throw new Error("Method not implemented.");
-  }
-
-  public async cancel() {
-    this.router.navigate(["admin/buffets"]);
-  }
 
   @Select(BuffetState.entities)
   public buffets$!: Observable<Buffet[]>;
+
+  @Select(BuffetState.createStatus)
+  public status$!: Observable<ApiRequestStatus | undefined>;
 
   public form: FormGroup<BuffetEditorFormModel>;
 
@@ -40,11 +34,17 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
 
   private idSubscription!: Subscription;
 
-  private formSubscription!: Subscription;
+  public isDesktop$ = this.platform.resize.pipe(
+    startWith(undefined),
+    map(() => this.platform.width() >= 1200),
+  );
 
-  constructor(private router: Router, private route: ActivatedRoute) {
-    
-
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private platform: Platform,
+    private store: Store,
+  ) {
     this.form = new ClassValidatorFormGroup<BuffetEditorFormModel>(
       CreateBuffetDto,
       {
@@ -69,9 +69,7 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
       // eslint-disable-next-line
       this.idFromRoute = params["id"];
     });
-    //console.log(this.idFromRoute);
-
-    this.formSubscription = this.buffets$.pipe(take(1)).subscribe(buffets =>
+    this.buffets$.pipe(take(1)).subscribe(buffets =>
       buffets.forEach(buffet => {
         if (this.idFromRoute === buffet.id.toString()) {
           this.form.controls.name.setValue(buffet.name);
@@ -79,10 +77,17 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
           this.form.controls.address.setValue(buffet.address);
           this.form.controls.hours.setValue(buffet.hours || null);
           this.form.controls.description.setValue(buffet.description || null);
-          //console.log(buffet.name);
         }
       }),
     );
+  }
+
+  update() {
+    this.store.dispatch(new Update());
+  }
+
+  public async cancel() {
+    this.router.navigate(["admin/buffets"]);
   }
 
   ngOnDestroy() {
