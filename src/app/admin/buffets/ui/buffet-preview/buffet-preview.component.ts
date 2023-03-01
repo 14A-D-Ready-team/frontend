@@ -1,3 +1,4 @@
+import { environment } from "@/environments/environment";
 import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
@@ -31,6 +32,11 @@ export class BuffetPreviewComponent implements OnInit {
 
   @Output()
   public deleteBuffet = new EventEmitter<void>();
+
+  public get imageUrl()
+  {
+    return environment.api.url + "/buffet/" + this.buffet.id + "/image";
+  }
 
   constructor() {}
 
