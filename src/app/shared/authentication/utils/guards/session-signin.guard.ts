@@ -6,9 +6,11 @@ import {
   CanDeactivate,
   Router,
   RouterStateSnapshot,
+  UrlSegment,
 } from "@angular/router";
 import { SessionSigninPage } from "@app/auth/feature/session-signin";
 import { Store } from "@ngxs/store";
+import { omit } from "lodash";
 import { AuthState, SessionSignin } from "../../data-access";
 
 @Injectable({
@@ -32,8 +34,12 @@ export class SessionSigninGuard
       return true;
     }
 
+    const nextUrl = [...collectPaths(childRoute), omit(childRoute.queryParams)];
+
+    console.log(nextUrl);
+
     if (!loading) {
-      this.store.dispatch(new SessionSignin(state.url));
+      this.store.dispatch(new SessionSignin(nextUrl));
     }
 
     return this.router.parseUrl("/session-signin");
@@ -48,9 +54,8 @@ export class SessionSigninGuard
     if (completed) {
       return false;
     }
-
     if (!loading) {
-      this.store.dispatch(new SessionSignin("/"));
+      this.store.dispatch(new SessionSignin(["/"]));
     }
 
     return true;
@@ -64,4 +69,16 @@ export class SessionSigninGuard
 
     return completed;
   }
+}
+
+function collectPaths(node: ActivatedRouteSnapshot): string[] {
+  const paths: string[] = [];
+  if (node.url && node.url.length > 0) {
+    paths.push(node.url[0].path);
+  }
+  if (node.children && node.children.length > 0) {
+    const childPaths = collectPaths(node.children[0]);
+    paths.push(...childPaths);
+  }
+  return paths;
 }

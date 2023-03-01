@@ -9,7 +9,7 @@ export const environment = {
       "101784584402-d88n8hpcomqdhd10iolmcoh9nrco9mkl.apps.googleusercontent.com",
   },
   api: {
-    url: "https://ready-backend-z88i.onrender.com" ,
+    url: /* "https://ready-backend-z88i.onrender.com" */ "http://localhost:3000",
   },
 };
 
