@@ -19,7 +19,8 @@
 
 .top-container {
   height: 10vh;
-  margin-top: 2rem;
+  margin-top: env(safe-area-inset-top);
+  margin-top: constant(safe-area-inset-top);
   margin-bottom: 1rem;
   @include flex-center(row, space-evenly);
   .profile {
