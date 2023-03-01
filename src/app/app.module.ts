@@ -15,6 +15,7 @@ import { ExtendedFormPluginModule } from "./shared/extended-form-plugin";
 import { ExceptionsModule } from "./shared/exceptions";
 import { ProductModule } from "@shared/product";
 import { AuthenticationModule } from "@shared/authentication";
+import { PolicyModule } from "@shared/policy";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
@@ -39,6 +40,7 @@ const routeReuseStrategyProvider = {
     CategoryModule,
     ProductModule,
     AppRoutingModule,
+    PolicyModule,
   ],
   providers: [routeReuseStrategyProvider],
   bootstrap: [AppComponent],
