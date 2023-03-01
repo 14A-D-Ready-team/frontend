@@ -1,5 +1,6 @@
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import {
+  Delete,
   LoadMore,
   LoadPage,
   Reload,
@@ -138,4 +139,11 @@ export class BuffetsListState {
 
     return ctx.dispatch(new BuffetActions.Load(query));
   }
+
+  @Action(Delete)
+  public delete(ctx: StateContext<BuffetsListStateModel>, action: Delete) {
+
+    return ctx.dispatch(new BuffetActions.Delete(+action.id));
+  }
+
 }
