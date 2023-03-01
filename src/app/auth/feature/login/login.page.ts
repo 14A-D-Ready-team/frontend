@@ -9,6 +9,7 @@ import {
 import { Observable } from "rxjs";
 import { LoadingController } from "@ionic/angular";
 import { AuthService, LoginDto } from "@shared/authentication";
+import { ActivatedRoute } from "@angular/router";
 
 interface LoginForm {
   email: FormControl<string>;
@@ -30,6 +31,7 @@ export class LoginPage implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private loadingCtrl: LoadingController,
+    private route: ActivatedRoute,
   ) {
     this.loginForm = new ClassValidatorFormGroup<LoginForm>(LoginDto, {
       email: new ClassValidatorFormControl<string>(""),

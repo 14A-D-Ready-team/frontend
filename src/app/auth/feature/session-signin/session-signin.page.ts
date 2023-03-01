@@ -55,10 +55,10 @@ export class SessionSigninPage implements OnInit, OnDestroy {
       .pipe(ofActionDispatched(SessionSigninCompleted), take(1))
       .subscribe({
         next: (action: SessionSigninCompleted) => {
-          console.log(action.nextUrl);
           this.ngZone.run(() =>
             this.router.navigate(action.nextUrl, {
               replaceUrl: true,
+              queryParams: action.queryParams,
             }),
           );
         },

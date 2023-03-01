@@ -6,8 +6,9 @@ import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, State, StateContext, StateToken } from "@ngxs/store";
 import { catchError, finalize, switchMap } from "rxjs";
 import { Login, LoginFailed, LoginSucceeded } from "./login.actions";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, UrlSegment } from "@angular/router";
 import { AuthService, LoginDto, SetCurrentLogin } from "@shared/authentication";
+import { IonRadioGroup } from "@ionic/angular";
 
 export interface LoginStatus {
   loading: boolean;
@@ -117,6 +118,14 @@ export class LoginState {
     const nextUrl =
       this.route.snapshot.queryParams.nextUrl || "/admin/products";
 
-    this.ngZone.run(() => this.router.navigate([nextUrl]));
+    const url = new URL(nextUrl, window.location.origin);
+    const queryParams: Dictionary<any> = {};
+    for (const [key, value] of url.searchParams.entries()) {
+      queryParams[key] = value;
+    }
+
+    this.ngZone.run(() =>
+      this.router.navigate([url.pathname], { queryParams }),
+    );
   }
 }

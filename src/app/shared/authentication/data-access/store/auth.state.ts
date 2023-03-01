@@ -145,7 +145,11 @@ export class AuthState {
     return this.authService.sessionSignin().pipe(
       switchMap(user => ctx.dispatch(new SessionSigninSucceeded(user))),
       catchError(error => ctx.dispatch(new SessionSigninFailed(error))),
-      finalize(() => ctx.dispatch(new SessionSigninCompleted(action.nextUrl))),
+      finalize(() =>
+        ctx.dispatch(
+          new SessionSigninCompleted(action.nextUrl, action.queryParams),
+        ),
+      ),
     );
   }
 

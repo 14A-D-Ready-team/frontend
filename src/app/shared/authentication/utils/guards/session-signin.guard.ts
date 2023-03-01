@@ -34,12 +34,9 @@ export class SessionSigninGuard
       return true;
     }
 
-    const nextUrl = [...collectPaths(childRoute), omit(childRoute.queryParams)];
-
-    console.log(nextUrl);
-
+    const nextUrl = collectPaths(childRoute);
     if (!loading) {
-      this.store.dispatch(new SessionSignin(nextUrl));
+      this.store.dispatch(new SessionSignin(nextUrl, childRoute.queryParams));
     }
 
     return this.router.parseUrl("/session-signin");
