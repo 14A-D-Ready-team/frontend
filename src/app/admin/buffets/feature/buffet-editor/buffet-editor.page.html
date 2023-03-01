@@ -29,7 +29,7 @@
                 <app-image-selector
                   label="Büfé képe"
                   [bindedFormControl]="form.controls.image"
-                  initialImageUrl="assets/images/buffet.png"
+                  [initialImageUrl]="imageUrl"
                 ></app-image-selector>
                 <ng-container
                   *ngIf="(isDesktop$|async) === false; else descriptionInput"

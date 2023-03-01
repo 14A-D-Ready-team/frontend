@@ -1,3 +1,4 @@
+import { environment } from "@/environments/environment";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -33,6 +34,13 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
   public idFromRoute!: string;
 
   private idSubscription!: Subscription;
+
+  public get imageUrl()
+  {
+    return environment.api.url + "/buffet/" + this.idFromRoute + "/image";
+  }
+
+ 
 
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
@@ -83,7 +91,7 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
   }
 
   update() {
-    this.store.dispatch(new Update());
+    this.store.dispatch(new Update(this.idFromRoute));
   }
 
   public async cancel() {

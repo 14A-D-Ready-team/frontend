@@ -33,6 +33,8 @@
     </ion-menu-button>
   </app-admin-header>
 
+  
+
   <ion-content *ngIf="vm$ | async as vm">
     <ion-refresher
       slot="fixed"
@@ -43,6 +45,7 @@
     </ion-refresher>
 
     <div class="ion-padding" *ngIf="vm.isDesktop">
+      <!-- <p>{{ activeBuffet$ | async | json }}</p> -->
       <ion-card>
         <ion-card-header>
           <ion-card-title class="title">Büfék szűrése</ion-card-title>
@@ -78,6 +81,8 @@
               <app-buffet-preview
                 [buffet]="buffet"
                 (cardClick)="editBuffet(buffet)"
+                (selectBuffet)="select(buffet.id)"
+                (deleteBuffet)="delete(buffet.id)"
               ></app-buffet-preview>
             </ion-col>
             <ng-container *ngIf="vm.loading">

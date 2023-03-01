@@ -5,6 +5,7 @@ import {
   RefresherCustomEvent,
   InfiniteScrollCustomEvent,
 } from "@ionic/angular";
+import { SetActive } from "@ngxs-labs/entity-state";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Observable, startWith, map, combineLatest, take } from "rxjs";
@@ -15,6 +16,7 @@ import {
   RetryLoading,
   Reload,
   LoadMore,
+  Delete,
 } from "./store/buffet-list.actions";
 import { BuffetsListState } from "./store/buffet-list.state";
 
@@ -35,6 +37,9 @@ export class BuffetListPage implements OnInit, OnDestroy {
 
   @Select(BuffetFilterState.typing)
   public typing$!: Observable<boolean>;
+
+  @Select(BuffetState.active)
+  public activeBuffet$!: Observable<Buffet>
 
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
@@ -116,5 +121,15 @@ export class BuffetListPage implements OnInit, OnDestroy {
     this.router.navigate(["new"], {
       relativeTo: this.route,
     });
+  }
+
+  public select(id: number) {
+    const idString = id.toString();
+    this.store.dispatch(new SetActive(BuffetState, idString));
+  }
+
+  public delete(id: number) {
+    const idString = id.toString();
+    this.store.dispatch(new Delete(idString))
   }
 }

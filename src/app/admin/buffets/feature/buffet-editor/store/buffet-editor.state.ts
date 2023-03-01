@@ -27,7 +27,7 @@ export class BuffetEditorState {
   constructor() {}
 
   @Action(Update)
-  public update(ctx: StateContext<BuffetEditorStateModel>) {
+  public update(ctx: StateContext<BuffetEditorStateModel>, action: Update) {
     const state = ctx.getState();
     if (state.form.status === "INVALID") {
       return;
@@ -37,7 +37,8 @@ export class BuffetEditorState {
 
     ctx.dispatch(new SetFormDisabled(formPath));
 
-    return ctx.dispatch(new BuffetActions.Update(3 ,dto));
+    console.log(dto);
+    return ctx.dispatch(new BuffetActions.Update(+action.id, dto));
   }
 
   @Action(BuffetActions.UpdateSucceeded)

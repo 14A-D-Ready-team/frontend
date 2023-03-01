@@ -9,6 +9,8 @@ import { ExtendedFormPluginModule } from '@shared/extended-form-plugin';
 import { ErrorListComponent } from '@shared/inputs/feature/ionic';
 import { BuffetEditorPage } from './buffet-editor.page';
 import { ClearInputButtonComponent, ImageSelectorComponent } from '@shared/inputs/ui/ionic';
+import { NgxsModule } from '@ngxs/store';
+import { BuffetEditorState } from './store';
 
 
 @NgModule({
@@ -22,6 +24,7 @@ import { ClearInputButtonComponent, ImageSelectorComponent } from '@shared/input
     ErrorListComponent,
     ImageSelectorComponent,
     ClearInputButtonComponent,
+    NgxsModule.forFeature([BuffetEditorState])
   ],
   declarations: [BuffetEditorPage]
 })

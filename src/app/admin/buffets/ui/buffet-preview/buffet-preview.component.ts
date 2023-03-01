@@ -26,6 +26,12 @@ export class BuffetPreviewComponent implements OnInit {
   @Output()
   public cardClick = new EventEmitter<void>();
 
+  @Output()
+  public selectBuffet = new EventEmitter<void>();
+
+  @Output()
+  public deleteBuffet = new EventEmitter<void>();
+
   constructor() {}
 
   public ngOnInit() {
@@ -36,9 +42,11 @@ export class BuffetPreviewComponent implements OnInit {
 
   delete(event: any) {
     event.stopPropagation();
+    this.deleteBuffet.emit();
   }
 
   select(event: any) {
     event.stopPropagation();
+    this.selectBuffet.emit();
   }
 }
