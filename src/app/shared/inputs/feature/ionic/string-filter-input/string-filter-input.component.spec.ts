@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { BuffetListComponent } from './buffet-list.component';
+import { StringFilterInputComponent } from './string-filter-input.component';
 
-describe('BuffetListComponent', () => {
-  let component: BuffetListComponent;
-  let fixture: ComponentFixture<BuffetListComponent>;
+describe('StringFilterInputComponent', () => {
+  let component: StringFilterInputComponent;
+  let fixture: ComponentFixture<StringFilterInputComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ BuffetListComponent ],
+      declarations: [ StringFilterInputComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BuffetListComponent);
+    fixture = TestBed.createComponent(StringFilterInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

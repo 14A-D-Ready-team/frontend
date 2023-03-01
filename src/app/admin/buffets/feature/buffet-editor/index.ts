@@ -1,1 +1,1 @@
-export * from './buffet-editor.component'
+export * from './buffet-editor.module';

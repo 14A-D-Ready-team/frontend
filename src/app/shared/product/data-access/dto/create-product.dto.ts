@@ -10,8 +10,8 @@ import {
 import { EditCustomizationDto } from "./edit-customization.dto";
 
 export class CreateProductDto {
-  public static clone(dto: CreateProductDto) {
-    return new CreateProductDto(dto);
+  public static clone(query: CreateProductDto) {
+    return new CreateProductDto(query);
   }
 
   @Expose()

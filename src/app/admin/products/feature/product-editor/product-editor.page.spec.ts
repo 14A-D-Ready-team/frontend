@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { BuffetEditorComponent } from './buffet-editor.component';
+import { ProductEditorPage } from './product-editor.page';
 
-describe('BuffetEditorComponent', () => {
-  let component: BuffetEditorComponent;
-  let fixture: ComponentFixture<BuffetEditorComponent>;
+describe('ProductEditorPage', () => {
+  let component: ProductEditorPage;
+  let fixture: ComponentFixture<ProductEditorPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ BuffetEditorComponent ],
+      declarations: [ ProductEditorPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BuffetEditorComponent);
+    fixture = TestBed.createComponent(ProductEditorPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

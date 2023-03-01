@@ -1,3 +1,29 @@
-<p>
-  buffet-preview works!
-</p>
+<ion-card button (click)="cardClick.emit()">
+  <img alt="Buffet image" src="assets/images/buffet.png" class="buffet-img" />
+  <ion-card-header>
+    <ion-card-title>{{ buffet.name }}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <p><b>Büfé címe: </b> {{ buffet.address }}</p>
+    <p><b>Nyitvatartás: </b>{{ buffet.hours }}</p>
+    <p><b>Leírás: </b> {{ buffet.description }}</p>
+  </ion-card-content>
+
+
+  <ion-row>
+    <ion-col size-xs="6" size-md="6" size-lg="6">
+      <ion-button fill="clear" color="danger" expand="block" (click)="delete($event)">
+        <ion-icon slot="start" name="trash"></ion-icon>
+        Törlés
+      </ion-button>
+    </ion-col>
+
+    <ion-col size-xs="6" size-md="6" size-lg="6">
+      <ion-button fill="clear" color="success" expand="block" (click)="select($event)">
+        <ion-icon slot="end" name="checkmark"></ion-icon>
+        Kiválasztás
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>
