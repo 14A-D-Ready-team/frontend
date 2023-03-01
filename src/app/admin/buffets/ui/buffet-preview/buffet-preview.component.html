@@ -1,5 +1,5 @@
 <ion-card button (click)="cardClick.emit()">
-  <img alt="Buffet image" src="assets/images/buffet.png" class="buffet-img" />
+  <img alt="Buffet image" [src]="imageUrl" class="buffet-img" />
   <ion-card-header>
     <ion-card-title>{{ buffet.name }}</ion-card-title>
   </ion-card-header>
