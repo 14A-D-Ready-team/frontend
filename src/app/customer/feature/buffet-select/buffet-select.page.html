@@ -5,7 +5,12 @@
   <div class="card">
     <h1>Büfé kiválasztása</h1>
     <form action="" class="login-form">
-      <div class="input-container">
+      <ion-item
+        [button]="true"
+        id="select-buffet"
+        class="select-container"
+        lines="none"
+      >
         <svg
           class="input-icon"
           width="24"
@@ -24,26 +29,35 @@
           />
         </svg>
 
-        <select name="" id="">
-          <option disabled selected value>Válasszon büfét</option>
-          <option value="">Asd</option>
-          <option value="">xd</option>
-          <option value="">Nem</option>
-        </select>
-        <svg
-          class="input-icon arrow"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M11.9995 16.8001C11.2995 16.8001 10.5995 16.5301 10.0695 16.0001L3.54953 9.48014C3.25953 9.19014 3.25953 8.71014 3.54953 8.42014C3.83953 8.13014 4.31953 8.13014 4.60953 8.42014L11.1295 14.9401C11.6095 15.4201 12.3895 15.4201 12.8695 14.9401L19.3895 8.42014C19.6795 8.13014 20.1595 8.13014 20.4495 8.42014C20.7395 8.71014 20.7395 9.19014 20.4495 9.48014L13.9295 16.0001C13.3995 16.5301 12.6995 16.8001 11.9995 16.8001Z"
-            fill="#292D32"
-          />
-        </svg>
-      </div>
+        <ion-label>Válasszon büfét kezdésnek</ion-label>
+      </ion-item>
+      <ion-modal trigger="select-buffet">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-buttons slot="start">
+                <ion-button (click)="cancel()">Vissza</ion-button>
+              </ion-buttons>
+              <ion-title slot="">Büfék</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="confirm()" [strong]="true"
+                  >Választás</ion-button
+                >
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="radio-buttons">
+            <ion-list>
+              <ion-radio-group value="strawberries">
+                <ion-item>
+                  <ion-label>Győr Jedlik Ányos Technikum</ion-label>
+                  <ion-radio slot="end" value="grapes"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
       <div class="buffet-description">
         <p class="buffet-name">
           Győri SZC Jedlik Ányos Gépipari és Informatikai Technikum és Kollégium
