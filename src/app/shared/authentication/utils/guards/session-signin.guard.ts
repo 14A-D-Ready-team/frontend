@@ -34,7 +34,8 @@ export class SessionSigninGuard
       return true;
     }
 
-    const nextUrl = collectPaths(childRoute);
+    const nextUrl = ["/", ...collectPaths(childRoute)];
+
     if (!loading) {
       this.store.dispatch(new SessionSignin(nextUrl, childRoute.queryParams));
     }

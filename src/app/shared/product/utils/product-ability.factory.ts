@@ -7,7 +7,7 @@ import {
 import { InferSubjects } from "@casl/ability/dist/types/types";
 import { AbilityFactory, Action } from "@shared/policy";
 import { User } from "@shared/user";
-import { Product } from "./entity";
+import { Product } from "../data-access";
 
 export type ProductSubjects = InferSubjects<typeof Product>;
 
