@@ -8,7 +8,7 @@ import { TestPageRoutingModule } from "./test-routing.module";
 
 import { TestPage } from "./test.page";
 import { AdminHeaderComponent } from "../shell";
-import { ImageSelectorComponent } from "@shared/inputs/feature/ionic";
+import { ImageSelectorComponent } from "@shared/inputs/ui/ionic";
 
 @NgModule({
   imports: [

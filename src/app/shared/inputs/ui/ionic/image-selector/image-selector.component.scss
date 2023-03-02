@@ -1,0 +1,13 @@
+.image-selector {
+  width: fit-content;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+:host {
+  width: 100%;
+}

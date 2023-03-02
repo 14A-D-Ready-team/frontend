@@ -1,0 +1,16 @@
+@use "/src/theme/variables" as v;
+@use "../../utils/styles.scss" as utils;
+
+@media screen and (min-width: v.$breakpoint-xxl) {
+  ion-card {
+    margin: 0 16rem;
+  }
+}
+
+.name-input ion-input {
+  @include utils.buffet-title;
+}
+
+ion-button.top-margin {
+  margin-top: 20px;
+}

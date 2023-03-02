@@ -7,18 +7,6 @@
   }
 }
 
-@media screen and (min-width: v.$breakpoint-xl) {
-  .mobile-buttons {
-    display: none;
-  }
-}
-
-@media screen and (max-width: v.$breakpoint-xl) {
-  .desktop-buttons {
-    display: none;
-  }
-}
-
 .name-input ion-input {
   @include utils.product-title;
 }

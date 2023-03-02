@@ -149,7 +149,6 @@ export class CategoriesListState {
     const model = state.editorForm.model;
     const payload = new EditCategoryDto({
       ...model,
-      id: state.editedId,
     } as Category);
 
     ctx.dispatch(new SetFormDisabled(editorFormPath));
@@ -205,11 +204,10 @@ export class CategoriesListState {
     const model = state.editorForm.model;
     const payload = new EditCategoryDto({
       ...model,
-      id: state.editedId,
     } as Category);
 
     const original = this.store.selectSnapshot(
-      CategoryState.entityById(payload.id),
+      CategoryState.entityById(state.editedId!),
     );
     payload.omitUnchangedProperties(original);
 
@@ -219,7 +217,7 @@ export class CategoriesListState {
 
     ctx.dispatch(new SetFormDisabled(editorFormPath));
 
-    return ctx.dispatch(new CategoryActions.Update(payload.id, payload));
+    return ctx.dispatch(new CategoryActions.Update(state.editedId!, payload));
   }
 
   @Action(CategoryActions.UpdateSucceeded)

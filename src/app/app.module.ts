@@ -13,7 +13,7 @@ import { CategoryModule } from "./shared/category";
 import { ClassValidatorFormBuilderModule } from "ngx-reactive-form-class-validator";
 import { ExtendedFormPluginModule } from "./shared/extended-form-plugin";
 import { ExceptionsModule } from "./shared/exceptions";
-import { NgxsEffectsModule } from "ngxs-effects";
+import { BuffetModule } from "@shared/buffet";
 import { ProductModule } from "@shared/product";
 import { AuthState } from "./auth/data-access";
 
@@ -31,7 +31,6 @@ const routeReuseStrategyProvider = {
     }),
     NgxsReduxDevtoolsPluginModule.forRoot({ disabled: environment.production }),
     NgxsFormPluginModule.forRoot(),
-    NgxsEffectsModule.forRoot(),
     IonicModule.forRoot(),
     ExtendedFormPluginModule.forRoot(),
     ExternalAuthModule.forRoot(),
@@ -39,6 +38,7 @@ const routeReuseStrategyProvider = {
     ExceptionsModule,
     CategoryModule,
     ProductModule,
+    BuffetModule,
     AppRoutingModule,
   ],
   providers: [routeReuseStrategyProvider],

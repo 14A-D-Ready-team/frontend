@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/admin/products/new"
+        (click)="close()"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title>Opciók szerkesztése</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="btn-container ion-margin-bottom">
+    <ion-button (click)="toggleSorting()">
+      {{ (sorting$ | async) === false ? "Átrendezés" : "Kész" }}
+    </ion-button>
+    <ion-button
+      [disabled]="(sorting$ | async) === true"
+      color="primary"
+      (click)="addOption()"
+    >
+      <ion-icon name="add" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+  <ion-reorder-group
+    [disabled]="(sorting$ | async) === false"
+    (ionItemReorder)="handleReorder($event)"
+  >
+    <ion-reorder *ngFor="let option of bindedFormArray.controls; let i = index">
+      <app-option-input
+        [bindedFormGroup]="option"
+        (deleted)="removeOption(i)"
+      ></app-option-input>
+    </ion-reorder>
+  </ion-reorder-group>
+</ion-content>

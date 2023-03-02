@@ -9,7 +9,6 @@ import { ProductEditorPageRoutingModule } from "./product-editor-routing.module"
 import { ProductEditorPage } from "./product-editor.page";
 import {
   ErrorListComponent,
-  ImageSelectorComponent,
   SelectorInputComponent,
 } from "@shared/inputs/feature/ionic";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
@@ -25,7 +24,6 @@ import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
     ProductEditorPageRoutingModule,
     SelectorInputComponent,
     ErrorListComponent,
-    ImageSelectorComponent,
   ],
   declarations: [ProductEditorPage],
 })

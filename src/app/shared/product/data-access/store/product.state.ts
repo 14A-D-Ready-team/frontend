@@ -7,7 +7,7 @@ import * as Actions from "./product.actions";
 import { FilterProductsQuery } from "../query";
 import { ExtendedEntityState } from "@shared/extended-entity-state";
 import { CreateProductDto, UpdateProductDto } from "../dto";
-import { ExtendedEntityStateModel } from "@shared/extended-entity-state/utils";
+import { ExtendedEntityStateModel } from "@shared/extended-entity-state";
 import { PaginatedResponse } from "@shared/api/utils/paginated.response";
 
 export type ProductStateModel = ExtendedEntityStateModel<Product>;

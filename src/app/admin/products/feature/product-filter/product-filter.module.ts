@@ -6,7 +6,7 @@ import { NgxsModule } from "@ngxs/store";
 import {
   SelectorInputComponent,
   NumericFilterInputComponent,
-} from "@shared/inputs/feature/ionic";
+} from "@shared/inputs/ui/ionic";
 import { ProductFilterComponent } from "./product-filter.component";
 import { ProductFilterEffects, ProductFilterState } from "./store";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
