@@ -1,6 +1,10 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
-import { AdminShellComponent, AdminShellModule } from "./admin/shell";
+import {
+  AdminGuard,
+  AdminShellComponent,
+  AdminShellModule,
+} from "./admin/shell";
 import { SessionSigninPage } from "./auth/feature/session-signin";
 import { AuthGuard, SessionSigninGuard } from "@shared/authentication";
 import { GuardedCustomerPage } from "./guarded-customer/guarded-customer.page";
@@ -18,7 +22,7 @@ const routes: Routes = [
     },
     component: AdminShellComponent,
     canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
+    canActivateChild: [AuthGuard, AdminGuard],
   },
   {
     path: "",
