@@ -11,7 +11,10 @@ export class PolicyEffects extends EffectsBase {
   @Effect()
   public onCurrentUserChanged$ = this.store.select(AuthState.user).pipe(
     switchMap(user => Promise.resolve(this.abilityFactory.createForUser(user))),
-    tap(ability => this.ability.update(ability.rules)),
+    tap(ability => {
+      console.log(ability);
+      return this.ability.update(ability.rules);
+    }),
   );
 
   constructor(

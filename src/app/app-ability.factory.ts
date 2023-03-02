@@ -32,6 +32,10 @@ export class AppAbilityFactory implements AbilityFactory {
 
     const { can } = builder;
 
+    if (user.admin) {
+      can(Action.Manage, "all");
+    }
+
     return this.buildAbility(builder, user);
   }
 
