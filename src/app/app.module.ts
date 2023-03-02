@@ -15,11 +15,17 @@ import { ExtendedFormPluginModule } from "./shared/extended-form-plugin";
 import { ExceptionsModule } from "./shared/exceptions";
 import { ProductModule } from "@shared/product";
 import { AuthenticationModule } from "@shared/authentication";
-import { PolicyModule } from "@shared/policy";
+import { APP_ABILITY_FACTORY, PolicyModule } from "@shared/policy";
+import { AppAbilityFactory } from "./app-ability.factory";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
   useClass: IonicRouteStrategy,
+};
+
+const appAbilityFactoryProvider = {
+  provide: APP_ABILITY_FACTORY,
+  useClass: AppAbilityFactory,
 };
 
 @NgModule({
@@ -39,10 +45,10 @@ const routeReuseStrategyProvider = {
     AuthenticationModule,
     CategoryModule,
     ProductModule,
-    AppRoutingModule,
     PolicyModule,
+    AppRoutingModule,
   ],
-  providers: [routeReuseStrategyProvider],
+  providers: [routeReuseStrategyProvider, appAbilityFactoryProvider],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
