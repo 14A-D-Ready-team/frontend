@@ -60,9 +60,10 @@
     }
   }
   .buffet-description {
-    width: 95%;
+    width: 90%;
     .buffet-name {
-      font-size: $m-font;
+      font-size: $l-font;
+      margin: 0 1rem;
     }
     p {
       font-size: $s-font;

@@ -29,10 +29,12 @@
           />
         </svg>
 
-        <ion-label *ngIf="selectedData.name; else elseBlock"
-          >{{selectedData.name}}</ion-label
+        <ion-label *ngIf="activeBuffet$ | async as active; else default"
+          >{{active.name}}</ion-label
         >
-        <ng-template #elseBlock>Válasszon bűfét kezdésnek</ng-template>
+        <ng-template #default>
+          <ion-label> Válasszon büfét </ion-label>
+        </ng-template>
       </ion-item>
       <ion-modal trigger="select-buffet">
         <ng-template>
@@ -52,17 +54,17 @@
           <ion-content class="radio-buttons">
             <ion-list>
               <ion-radio-group #radios>
-                <ion-item *ngFor="let d of data">
-                  <ion-label>{{d.name}}</ion-label>
-                  <ion-radio slot="end" [value]="d.id"></ion-radio>
+                <ion-item *ngFor="let buffet of (buffets$ | async)">
+                  <ion-label>{{buffet.name}}</ion-label>
+                  <ion-radio slot="end" [value]="buffet.id"></ion-radio>
                 </ion-item>
               </ion-radio-group>
             </ion-list>
           </ion-content>
         </ng-template>
       </ion-modal>
-      <div class="buffet-description" *ngIf="selectedData.id != 0">
-        <p class="buffet-name">{{selectedData.name}}</p>
+      <div class="buffet-description" *ngIf="activeBuffet$ | async as active">
+        <p class="buffet-name">{{active.name}}</p>
         <div class="star-rating">
           <div class="stars">
             <svg
@@ -128,10 +130,16 @@
           </div>
           <span>0.0</span>
         </div>
-        <p>{{selectedData.address}}</p>
-        <p>{{selectedData.description}}</p>
+        <p>{{active.description}}</p>
+        <p>{{active.hours}}</p>
       </div>
-      <button type="submit" class="ready-btn">Kiválasztás</button>
+      <button
+        [disabled]="(activeBuffet$ | async) == undefined"
+        routerLink="/customer/main"
+        class="ready-btn"
+      >
+        Kiválasztás
+      </button>
       <a href="">Vissza</a>
     </div>
   </div>

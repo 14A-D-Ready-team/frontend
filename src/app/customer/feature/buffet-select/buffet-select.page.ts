@@ -1,5 +1,21 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { IonLabel, IonModal } from "@ionic/angular";
+import {
+  InfiniteScrollCustomEvent,
+  IonLabel,
+  IonModal,
+  RefresherCustomEvent,
+} from "@ionic/angular";
+import { SetActive } from "@ngxs-labs/entity-state";
+import { Select, Store } from "@ngxs/store";
+import { Buffet, BuffetState } from "@shared/buffet";
+import { Observable, take } from "rxjs";
+import {
+  BuffetSelectState,
+  LoadMore,
+  LoadPage,
+  Reload,
+  RetryLoading,
+} from "./store";
 
 @Component({
   selector: "app-buffet-select",
@@ -11,62 +27,57 @@ export class BuffetSelectPage implements OnInit {
 
   name!: string;
 
-  data = [
-    {
-      id: 2,
-      name: "Jedlik büfé",
-      coords: "47.68245999072191, 17.63033089810631",
-      address: "Győr, Szent István út 7, 9021",
-      hours:
-        "\n        Hétfő:     08:00 – 13:00\n        Kedd: \t   08:00 – 13:00\n        Szerda:\t   08:00 – 13:00\n        Csütörtök: 08:00 – 13:00\n        Péntek:\t   08:00 – 13:00\n        Szombat:   Zárva\n        Vasárnap:\t Zárva\n ",
-      description:
-        "Büfé a Győri Szakképzési Centrum Jedlik Ányos Gépipari és Informatikai iskolában. Széles választék, gyors kiszolgálás.",
-      ownerId: 4,
-    },
-    {
-      id: 1,
-      name: "Sörkert",
-      coords: "47.69535097415908, 17.667713973715607",
-      address: "Győr, Nagysándor József utca 52",
-      hours:
-        "\n        Hétfő:     10:00 – 18:00\n        Kedd: \t   10:00 – 18:00\n        Szerda:\t   10:00 – 18:00\n        Csütörtök: 10:00 – 18:00\n        Péntek:\t   10:00 – 18:00\n        Szombat:   10:00 - 14:00\n        Vasárnap:\t Zárva\n  ",
-      description:
-        "Büfé a Xantus János Állatkert közelében. Baráti környezet, olcsó árak.",
-      ownerId: 4,
-    },
-  ];
+  @Select(BuffetSelectState.shownBuffets)
+  public buffets$!: Observable<Buffet[]>;
 
-  selectedData = {
-    id: 0,
-    name: "",
-    coords: "",
-    address: "",
-    hours: "",
-    description: "",
-    ownerId: 0,
-  };
+  @Select(BuffetState.loading)
+  public loading$!: Observable<Boolean>;
+
+  @Select(BuffetState.active)
+  public activeBuffet$!: Observable<Buffet>
 
   cancel() {
     this.modal.dismiss(null, "cancel");
   }
 
   confirm(s: any) {
+    const idString = s.toString();
+    this.store.dispatch(new SetActive(BuffetState, idString));
     this.modal.dismiss(this.name, "confirm");
     console.log(s);
-    this.selectedData = {
-      id: 2,
-      name: "Jedlik büfé",
-      coords: "47.68245999072191, 17.63033089810631",
-      address: "Győr, Szent István út 7, 9021",
-      hours:
-        "\n        Hétfő:     08:00 – 13:00\n        Kedd: \t   08:00 – 13:00\n        Szerda:\t   08:00 – 13:00\n        Csütörtök: 08:00 – 13:00\n        Péntek:\t   08:00 – 13:00\n        Szombat:   Zárva\n        Vasárnap:\t Zárva\n ",
-      description:
-        "Büfé a Győri Szakképzési Centrum Jedlik Ányos Gépipari és Informatikai iskolában. Széles választék, gyors kiszolgálás.",
-      ownerId: 4,
-    };
   }
 
-  constructor() {}
+  public retryLoading() {
+    this.store.dispatch(new RetryLoading());
+  }
 
-  ngOnInit() {}
+  public handleRefresh(event: any) {
+    const refresherEvent = event as RefresherCustomEvent;
+    return this.store
+      .dispatch(new Reload())
+      .pipe(take(1))
+      .subscribe(() => refresherEvent.detail.complete());
+  }
+
+  public onIonInfinite(event: any) {
+    this.store
+      .dispatch(new LoadMore())
+      .pipe(take(1))
+      .subscribe(() => (event as InfiniteScrollCustomEvent).target.complete());
+  }
+
+  public buffetById(index: number, el: Buffet): number {
+    return el.id;
+  }
+
+  public select(id: number) {
+    const idString = id.toString();
+    this.store.dispatch(new SetActive(BuffetState, idString));
+  }
+
+  constructor(private store: Store) {}
+
+  ngOnInit() {
+    this.store.dispatch(new LoadPage());
+  }
 }
