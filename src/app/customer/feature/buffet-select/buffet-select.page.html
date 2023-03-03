@@ -32,9 +32,7 @@
         <ion-label *ngIf="activeBuffet$ | async as active; else default"
           >{{active.name}}</ion-label
         >
-        <ng-template #default>
-          <ion-label> Válasszon büfét </ion-label>
-        </ng-template>
+        <ng-template #default> Válasszon büfét</ng-template>
       </ion-item>
       <ion-modal trigger="select-buffet">
         <ng-template>
