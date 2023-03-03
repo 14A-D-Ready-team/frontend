@@ -4,14 +4,12 @@
 * {
   font-size: $m-font;
   color: black;
-  font-family: "Poppins";
 }
 
 .container {
   display: grid;
   grid-template-rows: 35vh 65vh;
   background-color: black;
-
   .logo-container {
     @include flex-center(column, center);
     height: 100%;
@@ -31,6 +29,7 @@
     border-radius: 1rem 1rem 0em 0em;
     min-height: fit-content;
     overflow-y: auto;
+    overscroll-behavior: none;
   }
 
   h1 {

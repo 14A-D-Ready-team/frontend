@@ -34,9 +34,9 @@ $card-background: #f9fbfc;
 $disabled-grey: #e4e4e4;
 
 //font sizes
-$s-font: clamp(0.6rem, 3vw, 1rem);
-$m-font: clamp(0.7rem, 3.8vw, 1.2rem);
-$l-font: clamp(1.5rem, 6.9vw, 3rem);
+$s-font: clamp(0.6rem, 3.4vw, 1.2rem);
+$m-font: clamp(1rem, 4.5vw, 1.6rem);
+$l-font: clamp(1.6rem, 6.9vw, 3rem);
 
 //flex container
 @mixin flex-center($direction, $justify) {
@@ -49,6 +49,7 @@ $l-font: clamp(1.5rem, 6.9vw, 3rem);
 
 //default red button
 .ready-btn {
+  min-height: 3rem;
   height: 6.5vh;
   width: 85%;
   max-width: 400px;

@@ -1,0 +1,120 @@
+@import "/src/global.scss";
+
+* {
+  font-family: "Poppins" !important;
+  font-size: $m-font;
+  color: black;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 35vh 65vh;
+  background-color: black;
+
+  .logo-container {
+    @include flex-center(column, center);
+    height: 100%;
+    .logo {
+      height: auto;
+      width: 70%;
+      max-width: 320px;
+      margin: 0.5rem;
+      object-fit: contain;
+    }
+  }
+
+  .card {
+    @include flex-center(column, flex-start);
+    background-color: $card-background;
+    border-radius: 1em 1em 0em 0em;
+    min-height: fit-content;
+    overflow-y: auto;
+
+    h1 {
+      font-size: $l-font;
+      color: $ready-red;
+      font-weight: 600;
+    }
+  }
+}
+
+.login-form {
+  @include flex-center(column, flex-start);
+  height: 100%;
+  overflow-y: auto;
+
+  .select-button {
+    outline: 0.5px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 3rem;
+    margin: 1rem 0rem;
+    width: 80%;
+    min-height: 2.7rem;
+
+    ion-label {
+      padding: 0;
+      margin: 0;
+    }
+    .input-icon {
+      width: auto;
+      height: 3vh;
+      object-fit: contain;
+      margin-right: 0.4rem;
+    }
+  }
+  .buffet-description {
+    width: 90%;
+    .buffet-name {
+      font-size: $l-font;
+      margin: 0 1rem;
+    }
+    p {
+      font-size: $s-font;
+      text-align: center;
+      font-weight: 500;
+    }
+    .star-rating {
+      @include flex-center(row, center);
+      margin: 2vh 0;
+      span {
+        font-size: $s-font;
+      }
+      .stars {
+        display: flex;
+        flex-direction: row;
+        svg {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+ion-modal {
+  ion-title {
+    text-align: center;
+  }
+  ion-button {
+    color: $ready-red;
+  }
+}
+
+ion-spinner {
+  transform: scale(4);
+  position: absolute;
+  top: 50%;
+  color: $ready-red;
+}
+
+.input-disabled-container {
+  background-color: $disabled-grey;
+}
+
+.text {
+  color: black;
+  margin-top: 2vh;
+  text-align: center;
+  width: 85%;
+  max-width: 400px;
+  font-size: $m-font;
+}
