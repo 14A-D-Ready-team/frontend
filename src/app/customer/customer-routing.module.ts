@@ -15,11 +15,14 @@ const routes: Routes = [
     path: "product",
     loadChildren: () =>
       import("./feature/product").then(m => m.ProductPageModule),
-  },  {
-    path: 'main-desktop',
-    loadChildren: () => import('./desktop/feature/main-desktop/main-desktop.module').then( m => m.MainDesktopPageModule)
   },
-
+  {
+    path: "main-desktop",
+    loadChildren: () =>
+      import("./desktop/feature/main-desktop").then(
+        m => m.MainDesktopPageModule,
+      ),
+  },
 ];
 
 @NgModule({
