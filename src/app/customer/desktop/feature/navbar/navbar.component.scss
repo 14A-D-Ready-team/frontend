@@ -1,0 +1,48 @@
+@import "/src/global.scss";
+* {
+  font-size: $s-font;
+  color: black;
+  font-family: "Poppins";
+}
+.navbar {
+  height: 5rem;
+  display: flex;
+  justify-items: flex-start;
+  align-items: center;
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  background-color: $card-background;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  .nav-item {
+    margin: 0 2vw;
+    object-fit: contain;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    a {
+      text-decoration: none;
+      font-size: 1rem;
+      color: black;
+    }
+    a:hover {
+      color: $ready-red;
+    }
+    .active {
+      border-bottom: 1.5px solid $ready-red;
+      color: $ready-red;
+    }
+  }
+  .logo {
+    margin: 0 0.5vw;
+    min-width: 4rem;
+    max-width: 5rem;
+    height: auto;
+  }
+  .login {
+    justify-self: flex-end;
+    margin-left: auto;
+    padding-left: 1vw;
+    margin-right: 1rem;
+  }
+}
