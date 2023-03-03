@@ -7,9 +7,17 @@ import { IonicModule } from "@ionic/angular";
 import { MainPageRoutingModule } from "./main-routing.module";
 
 import { MainPage } from "./main.page";
+import { NgxsModule } from "@ngxs/store";
+import { CategoryState } from "@shared/category";
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, MainPageRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    MainPageRoutingModule,
+    NgxsModule.forFeature([CategoryState]),
+  ],
   declarations: [MainPage],
 })
 export class MainPageModule {}

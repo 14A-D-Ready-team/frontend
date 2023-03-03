@@ -51,27 +51,19 @@
   <!-- a büfé aktuális menü ajánlata a kategóriákkal -->
   <div class="menu-container">
     <div class="category-container">
-      <label class="category-item">
-        <input type="radio" checked="true" name="radios" />
-        <span>Melegszendvicsek</span>
+      <ion-radio-group></ion-radio-group>
+      <label
+        class="category-item"
+        *ngFor="let category of (categories$ | async)"
+      >
+        <input
+          type="radio"
+          checked="true"
+          name="radios"
+          (value)="category.id"
+        />
+        <span>{{category.name}}</span>
       </label>
-
-      <!-- <label class="category-item">
-        <input type="radio" checked="true" name="radios" />
-        <span>Melegszendvicsek</span>
-      </label>
-      <label class="category-item">
-        <input type="radio" name="radios" />
-        <span>Péksütik</span>
-      </label>
-      <label class="category-item">
-        <input type="radio" name="radios" />
-        <span>Italok</span>
-      </label>
-      <label class="category-item">
-        <input type="radio" name="radios" />
-        <span>Harapnivalók</span>
-      </label> -->
     </div>
     <div class="product-container">
       <div class="product-card">

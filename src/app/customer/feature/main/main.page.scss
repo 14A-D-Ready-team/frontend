@@ -97,6 +97,7 @@
     .category-item {
       @include flex-center(column-reverse, center);
       margin: 0 1rem;
+      white-space: nowrap;
       input[type="radio"] {
         all: unset;
         background-color: transparent;

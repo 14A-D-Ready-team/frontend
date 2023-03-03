@@ -1,8 +1,7 @@
-import { Dictionary } from "@/types";
 import { Component, OnInit } from "@angular/core";
-import { Select } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
-import { Category, CategoryState } from "@shared/category";
+import { Category, loadAllCategories } from "@shared/category";
 import { Observable } from "rxjs";
 import { MainState } from "./store";
 
@@ -15,11 +14,12 @@ export class MainPage implements OnInit {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
-  
   @Select(MainState.shownCategories)
   public categories$!: Observable<Category[]>;
 
-  constructor() {}
+  constructor(private store: Store) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    loadAllCategories(this.store).subscribe();
+  }
 }

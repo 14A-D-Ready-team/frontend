@@ -1,29 +1,35 @@
 import { Injectable } from "@angular/core";
-import { State, Store, Selector } from "@ngxs/store";
-import { CategoryStateModel } from "@shared/category";
-
+import { DeepReadonly } from "@ngxs-labs/entity-state";
+import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
+import {
+  Category,
+  CategoryActions,
+  CategoryState,
+  CategoryStateModel,
+  FilterCategoriesQuery,
+} from "@shared/category";
 
 export interface MainStateModel {
-    categoryIds: number[];
+  categoryIds: number[];
+  query: DeepReadonly<FilterCategoriesQuery>;
 }
 
 @State<MainStateModel>({
   name: "main",
   defaults: {
     categoryIds: [],
+    query: new FilterCategoriesQuery(),
   },
 })
 @Injectable()
 export class MainState {
   constructor(private store: Store) {}
 
-  @Selector([MainState])
+  @Selector([CategoryState])
   public static shownCategories(
     state: MainStateModel,
     categoryState: CategoryStateModel,
   ) {
-    return state.categoryIds
-      .map(id => categoryState.entities[id])
-      .filter(c => c);
+    return Object.values(categoryState.entities);
   }
 }
