@@ -11,11 +11,9 @@ import { ProductSubjects } from "@shared/product";
 import { User, UserSubjects } from "@shared/user";
 import { AbilityFactory, ABILITY_FACTORY, Action } from "@shared/policy";
 import { map } from "p-iteration";
+import { CategorySubjects } from "./admin/categories";
 
-type AppSubjects =
-  | "all"
-  | UserSubjects
-  | ProductSubjects; /*  | BuffetSubjects; */
+type AppSubjects = "all" | UserSubjects | ProductSubjects | CategorySubjects;
 
 export type AppAbility = MongoAbility<[Action, AppSubjects]>;
 

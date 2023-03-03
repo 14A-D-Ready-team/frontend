@@ -6,11 +6,13 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from "@angular/router";
-import { combineLatest, map, Observable, take } from "rxjs";
+import { combineLatest, map, Observable, of, switchMap, take, tap } from "rxjs";
 import { AbilityService } from "@casl/angular";
 import { AppAbility } from "@app/app-ability.factory";
 import { Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
+import { PolicyHandler } from "@shared/policy";
+import { ToastController } from "@ionic/angular";
 
 @Injectable({
   providedIn: "root",
@@ -19,6 +21,7 @@ export class AdminGuard implements CanActivateChild {
   constructor(
     private abilityService: AbilityService<AppAbility>,
     private store: Store,
+    private toastController: ToastController,
   ) {}
 
   public canActivateChild(
@@ -34,8 +37,32 @@ export class AdminGuard implements CanActivateChild {
           return false;
         }
 
-        return true;
+        const policyHandler: PolicyHandler | undefined =
+          route.data?.policyHandler;
+        if (!policyHandler) {
+          return of(true);
+        }
+
+        return policyHandler(ability, route);
+      }),
+      switchMap(result => (typeof result === "boolean" ? of(result) : result)),
+      tap(result => {
+        if (!result) {
+          this.showWarning();
+        }
       }),
     );
+  }
+
+  public async showWarning() {
+    const toast = await this.toastController.create({
+      icon: "warning",
+      message: "Ehhez nincs jogosultsága!",
+      duration: 2000,
+      position: "top",
+      color: "warning",
+      buttons: [{ icon: "close", role: "cancel" }],
+    });
+    toast.present();
   }
 }

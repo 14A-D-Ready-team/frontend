@@ -17,12 +17,13 @@ export type ProductAbility = MongoAbility<[Action, ProductSubjects]>;
 export class ProductAbilityFactory implements AbilityFactory {
   public createForUser(user?: User | undefined) {
     const builder = new AbilityBuilder<ProductAbility>(createMongoAbility);
+    const { can } = builder;
+
+    can(Action.Read, Product);
 
     if (!user) {
       return builder.build();
     }
-
-    const { can } = builder;
 
     return builder.build();
   }

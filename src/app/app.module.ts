@@ -16,7 +16,8 @@ import { ExceptionsModule } from "./shared/exceptions";
 import { ProductModule } from "@shared/product";
 import { AuthenticationModule } from "@shared/authentication";
 import { APP_ABILITY_FACTORY, PolicyModule } from "@shared/policy";
-import { AppAbilityFactory } from "./app-ability.factory";
+import { AppAbility, AppAbilityFactory } from "./app-ability.factory";
+import { AbilityModule, AbilityService } from "@casl/angular";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
@@ -51,4 +52,8 @@ const appAbilityFactoryProvider = {
   providers: [routeReuseStrategyProvider, appAbilityFactoryProvider],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private s: AbilityService<AppAbility>) {
+    console.log(s);
+  }
+}

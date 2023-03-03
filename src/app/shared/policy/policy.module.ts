@@ -7,7 +7,8 @@ import {
   PureAbility,
 } from "@casl/ability";
 import { AbilityModule, AbilityService } from "@casl/angular";
-import { AppAbility, PolicyEffects } from "./data-access";
+import { PolicyEffects } from "./data-access";
+import { AppAbility } from "@app/app-ability.factory";
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,7 @@ import { AppAbility, PolicyEffects } from "./data-access";
     },
     { provide: PureAbility, useExisting: Ability },
     PolicyEffects,
+    AbilityService,
   ],
 })
 export class PolicyModule {
