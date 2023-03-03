@@ -1,11 +1,17 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
-import { AdminShellComponent } from "./admin/shell";
+import {
+  AdminGuard,
+  AdminShellComponent,
+  AdminShellModule,
+} from "./admin/shell";
+import { AuthGuard, SessionSigninGuard } from "@shared/authentication";
+import { SessionSigninPage } from "./customer/auth";
 
 const routes: Routes = [
   {
-    path: "auth",
-    loadChildren: () => import("./auth/").then(m => m.AuthModule),
+    path: "",
+    loadChildren: () => import("./customer/").then(m => m.CustomerModule),
   },
   {
     path: "admin",
@@ -14,20 +20,31 @@ const routes: Routes = [
       showAdminMenu: true,
     },
     component: AdminShellComponent,
+    canActivateChild: [AuthGuard, AdminGuard],
+  },
+];
+
+const routeWrapper: Routes = [
+  {
+    path: "",
+    children: routes,
+    canActivateChild: [SessionSigninGuard],
   },
   {
-    path: "customer",
-    loadChildren: () => import("./customer/").then(m => m.CustomerModule),
+    path: "session-signin",
+    component: SessionSigninPage,
+    canActivate: [SessionSigninGuard],
+    canDeactivate: [SessionSigninGuard],
   },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, {
+    RouterModule.forRoot(routeWrapper, {
       preloadingStrategy: PreloadAllModules,
       initialNavigation: "enabledBlocking",
     }),
-    AdminShellComponent,
+    AdminShellModule,
   ],
   exports: [RouterModule],
 })

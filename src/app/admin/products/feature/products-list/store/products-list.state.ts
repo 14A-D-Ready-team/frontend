@@ -28,6 +28,7 @@ export interface ProductsListStateModel {
   productIds: number[];
   remainingItems?: number;
   query: DeepReadonly<FilterProductsQuery>;
+  
 }
 
 export const productsLoadedPerScroll = 12;
