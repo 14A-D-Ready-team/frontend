@@ -43,6 +43,10 @@ const routeWrapper: Routes = [
     canActivate: [SessionSigninGuard],
     canDeactivate: [SessionSigninGuard],
   },
+  {
+    path: "customer",
+    loadChildren: () => import("./customer/").then(m => m.CustomerModule),
+  },
 ];
 
 @NgModule({

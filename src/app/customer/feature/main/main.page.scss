@@ -1,0 +1,249 @@
+@import "/src/global.scss";
+
+* {
+  font-family: "Poppins";
+  color: black;
+  font-size: $m-font;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background-color: white;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.top-container {
+  height: 10vh;
+  margin-top: env(safe-area-inset-top);
+  margin-top: constant(safe-area-inset-top);
+  margin-bottom: 1rem;
+  @include flex-center(row, space-evenly);
+  .profile {
+    @include flex-center(row, center);
+    background-color: $ready-red;
+    border-radius: 100%;
+    width: 15%;
+    max-width: 80px;
+    aspect-ratio: 1/1;
+    font-size: $m-font;
+    color: white;
+  }
+  .location-input {
+    all: unset;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    justify-items: center;
+    align-items: center;
+    border-radius: 2rem;
+    width: 65vw;
+    max-width: 23rem;
+    min-height: 2rem;
+    height: 3.8vh;
+
+    outline: 0.5px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+
+    svg {
+      grid-column: 1;
+      width: 70%;
+      max-width: 30px;
+      height: auto;
+      object-fit: contain;
+    }
+    span {
+      grid-column: 2;
+      justify-self: start;
+      font-size: $s-font;
+    }
+  }
+  .notification {
+    width: 8%;
+    height: auto;
+    max-width: 50px;
+  }
+}
+
+.text-container {
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+  color: black;
+  h1 {
+    margin: 0;
+    font-size: $l-font;
+  }
+  p {
+    margin-top: 0.6rem;
+    font-size: $m-font;
+    font-weight: 500;
+  }
+  .user-name {
+    color: $ready-red;
+    font-size: $l-font;
+  }
+}
+
+.menu-container {
+  .category-container {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: scroll;
+    cursor: grabbing;
+    display: flex;
+    padding-bottom: 1rem;
+    .category-item {
+      @include flex-center(column-reverse, center);
+      margin: 0 1rem;
+      white-space: nowrap;
+      input[type="radio"] {
+        all: unset;
+        background-color: transparent;
+        border-radius: 50%;
+        height: 0.35rem;
+        width: 0.35rem;
+        + span {
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+      input[type="radio"]:checked {
+        background-color: black;
+        + span {
+          color: black;
+        }
+      }
+    }
+  }
+  .product-container {
+    margin: 0.5rem 0;
+    overflow-x: auto;
+    display: flex;
+    .product-card {
+      border-radius: 25px 0px 25px 25px;
+      background-color: $card-background;
+      box-shadow: 0px 10px 20px -10px rgb(181, 181, 181);
+
+      margin: 0rem 1rem;
+      margin-bottom: 1.3rem;
+
+      min-width: 15.5rem;
+
+      .product-img {
+        object-fit: cover;
+        border-radius: 25px 0px;
+        height: 55vw;
+        max-height: 20rem;
+        width: 100%;
+      }
+      .product-description {
+        display: flex;
+        flex-direction: column;
+        padding: 0rem 0.8rem;
+        padding-bottom: 1rem;
+        position: relative;
+        .product-category {
+          font-size: $s-font;
+        }
+        .product-name {
+          font-size: $m-font;
+          font-weight: 500;
+        }
+        .product-price {
+          font-size: $l-font;
+          font-weight: 600;
+        }
+        .add-btn {
+          position: absolute;
+          right: 5%;
+          bottom: 15%;
+          width: 20%;
+          max-width: 40px;
+          aspect-ratio: 1/1;
+          border-radius: 100%;
+          background-color: $ready-red;
+          color: white;
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+.recommend-container {
+  @include flex-center(column, center);
+  padding-bottom: 10vh;
+  .recommend-caption {
+    align-self: flex-start;
+    padding-left: 1rem;
+    margin: 1rem 0rem;
+    font-weight: 500;
+  }
+  .daily-recommend-card {
+    display: grid;
+    grid-template-columns: 20% 70% 10%;
+    align-items: center;
+    width: 95vw;
+    max-width: 38rem;
+    background-color: $card-background;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 10px 20px -10px rgb(181, 181, 181);
+    margin-bottom: 5vh;
+    img {
+      grid-column: 1;
+      height: 100%;
+      width: 12vh;
+      object-fit: cover;
+      align-self: flex-start;
+    }
+    .recommend-text-container {
+      grid-column: 2;
+      margin: 0rem 1rem;
+      word-wrap: break-word;
+      .recommendation {
+        font-weight: 500;
+      }
+      .detail {
+        font-size: $s-font;
+      }
+      .price {
+        font-weight: bold;
+      }
+    }
+    a {
+      grid-column: 3;
+    }
+  }
+}
+
+.navbar {
+  position: fixed;
+  bottom: 0;
+  @include flex-center(row, space-evenly);
+  background-color: $card-background;
+  box-shadow: 0px -10px 30px -25px rgb(161, 161, 161);
+  padding: 0.5rem;
+  font-size: $s-font;
+
+  .nav-item {
+    @include flex-center(column, center);
+    a {
+      text-decoration: none;
+      color: black;
+      font-size: $s-font;
+    }
+    svg {
+      width: 28%;
+      max-width: 50px;
+      height: auto;
+      padding-bottom: 5px;
+      object-fit: contain;
+    }
+  }
+
+  .selected a {
+    color: $ready-red;
+  }
+}

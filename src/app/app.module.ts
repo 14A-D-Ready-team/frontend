@@ -13,6 +13,7 @@ import { CategoryModule } from "./shared/category";
 import { ClassValidatorFormBuilderModule } from "ngx-reactive-form-class-validator";
 import { ExtendedFormPluginModule } from "./shared/extended-form-plugin";
 import { ExceptionsModule } from "./shared/exceptions";
+import { BuffetModule } from "@shared/buffet";
 import { ProductModule } from "@shared/product";
 import { AuthenticationModule } from "@shared/authentication";
 import { APP_ABILITY_FACTORY, PolicyModule } from "@shared/policy";
@@ -47,6 +48,7 @@ const appAbilityFactoryProvider = {
     CategoryModule,
     ProductModule,
     PolicyModule,
+    BuffetModule,
     AppRoutingModule,
   ],
   providers: [routeReuseStrategyProvider, appAbilityFactoryProvider],
