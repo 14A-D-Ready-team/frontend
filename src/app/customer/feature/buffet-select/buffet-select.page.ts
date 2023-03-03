@@ -31,7 +31,7 @@ export class BuffetSelectPage implements OnInit {
   public buffets$!: Observable<Buffet[]>;
 
   @Select(BuffetState.loading)
-  public loading$!: Observable<Boolean>;
+  public loading$!: Observable<boolean>;
 
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>

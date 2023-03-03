@@ -132,7 +132,7 @@
         <p>{{active.hours}}</p>
       </div>
       <button
-        [disabled]="(activeBuffet$ | async) == undefined"
+        [disabled]="(activeBuffet$ | async) === undefined"
         routerLink="/customer/main"
         class="ready-btn"
       >
