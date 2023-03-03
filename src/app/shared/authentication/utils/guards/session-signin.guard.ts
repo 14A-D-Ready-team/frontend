@@ -8,7 +8,7 @@ import {
   RouterStateSnapshot,
   UrlSegment,
 } from "@angular/router";
-import { SessionSigninPage } from "@app/auth/feature/session-signin";
+import { SessionSigninPage } from "@app/customer/auth";
 import { Store } from "@ngxs/store";
 import { omit } from "lodash";
 import { AuthState, SessionSignin } from "../../data-access";

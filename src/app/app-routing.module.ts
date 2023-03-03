@@ -5,14 +5,13 @@ import {
   AdminShellComponent,
   AdminShellModule,
 } from "./admin/shell";
-import { SessionSigninPage } from "./auth/feature/session-signin";
 import { AuthGuard, SessionSigninGuard } from "@shared/authentication";
-import { GuardedCustomerPage } from "./guarded-customer/guarded-customer.page";
+import { SessionSigninPage } from "./customer/auth";
 
 const routes: Routes = [
   {
-    path: "auth",
-    loadChildren: () => import("./auth/").then(m => m.AuthModule),
+    path: "",
+    loadChildren: () => import("./customer/").then(m => m.CustomerModule),
   },
   {
     path: "admin",
@@ -21,13 +20,7 @@ const routes: Routes = [
       showAdminMenu: true,
     },
     component: AdminShellComponent,
-    canActivate: [AuthGuard],
     canActivateChild: [AuthGuard, AdminGuard],
-  },
-  {
-    path: "",
-    component: GuardedCustomerPage,
-    canActivate: [AuthGuard],
   },
 ];
 
@@ -43,10 +36,6 @@ const routeWrapper: Routes = [
     canActivate: [SessionSigninGuard],
     canDeactivate: [SessionSigninGuard],
   },
-  {
-    path: "customer",
-    loadChildren: () => import("./customer/").then(m => m.CustomerModule),
-  },
 ];
 
 @NgModule({
@@ -56,7 +45,6 @@ const routeWrapper: Routes = [
       initialNavigation: "enabledBlocking",
     }),
     AdminShellModule,
-    GuardedCustomerPage,
   ],
   exports: [RouterModule],
 })

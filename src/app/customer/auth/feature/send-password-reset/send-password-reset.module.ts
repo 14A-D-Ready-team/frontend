@@ -10,7 +10,7 @@ import { IonicModule } from "@ionic/angular";
 import { SendPasswordResetPageRoutingModule } from "./send-password-reset-routing.module";
 
 import { SendPasswordResetPage } from "./send-password-reset.page";
-import { ValidationMessageModule } from "@app/auth/ui";
+import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 import { ErrorMessagePipe } from "@shared/exceptions";
 
 @NgModule({

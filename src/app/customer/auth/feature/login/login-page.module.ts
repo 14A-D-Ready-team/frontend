@@ -1,37 +1,30 @@
+import { NgxsModule } from "@ngxs/store";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
 import { IonicModule } from "@ionic/angular";
-
-import { SignupPageRoutingModule } from "./signup-page-routing.module";
-
-import { SignupPage } from "./signup.page";
-import { NgxsModule } from "@ngxs/store";
-import { SignupState } from "./store";
+import { LoginPageRoutingModule } from "./login-page-routing.module";
+import { LoginPage } from "./login.page";
+import { LoginState } from "./store/";
 import { ExternalAuthModule } from "@app/shared/external-auth";
+import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ErrorMessagePipe } from "@app/shared/exceptions/utils/pipes";
-import {
-  ValidationMessageComponent,
-  ValidationMessageModule,
-} from "@app/auth/ui";
-import { ExtendedFormPluginModule } from "@app/shared/extended-form-plugin";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SignupPageRoutingModule,
-    NgxsModule.forFeature([SignupState]),
+    LoginPageRoutingModule,
+    NgxsModule.forFeature([LoginState]),
     ExternalAuthModule.forFeature(),
-    ExtendedFormPluginModule,
     ReactiveFormsModule,
     ValidationMessageModule,
     NgxsFormPluginModule,
     ErrorMessagePipe,
   ],
-  declarations: [SignupPage],
+  declarations: [LoginPage],
+  providers: [],
 })
-export class SignupPageModule {}
+export class LoginPageModule {}

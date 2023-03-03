@@ -1,6 +1,5 @@
 import { ErrorMessagePipe } from "@app/shared/exceptions/utils/pipes";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
-import { ValidationMessageModule } from "@app/auth/ui";
 import { ReactiveFormsModule } from "@angular/forms";
 import { EmailVerificationState } from "./store";
 import { NgxsModule } from "@ngxs/store";
@@ -13,6 +12,7 @@ import { IonicModule } from "@ionic/angular";
 import { EmailVerificationPageRoutingModule } from "./email-verification-routing.module";
 
 import { EmailVerificationPage } from "./email-verification.page";
+import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 
 @NgModule({
   imports: [

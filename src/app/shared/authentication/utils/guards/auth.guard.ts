@@ -57,7 +57,7 @@ export class AuthGuard implements CanActivateChild, CanActivate {
       return false;
     }
 
-    return this.router.parseUrl("/auth/login?nextUrl=" + state.url);
+    return this.router.parseUrl("/login?nextUrl=" + state.url);
   }
 
   public async showWarning() {
