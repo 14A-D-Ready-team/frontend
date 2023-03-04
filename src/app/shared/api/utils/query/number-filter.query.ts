@@ -19,11 +19,11 @@ export class NumberFilterQuery {
     previous?: NumberFilterQuery,
     current?: NumberFilterQuery,
   ) {
-    return (
-      previous?.type !== current?.type &&
-      NumberFilterQuery.isEmpty(previous) &&
-      NumberFilterQuery.isEmpty(current)
-    );
+    const typeChanged = previous?.type !== current?.type;
+    const previousEmpty = NumberFilterQuery.isEmpty(previous);
+    const currentEmpty = NumberFilterQuery.isEmpty(current);
+
+    return typeChanged && previousEmpty && currentEmpty;
   }
 
   @Expose()
