@@ -10,6 +10,7 @@ import { ExternalAuthModule } from '@shared/external-auth';
 import { AdminSignupPage } from './admin-signup.page';
 
 
+
 @NgModule({
   declarations: [AdminSignupPage],
   imports: [
@@ -21,7 +22,7 @@ import { AdminSignupPage } from './admin-signup.page';
     ExternalAuthModule.forFeature(),
     ExtendedFormPluginModule,
     ReactiveFormsModule,
-    //ValidationMessageModule,
+    admin
     NgxsFormPluginModule,
     ErrorMessagePipe,
   ]
