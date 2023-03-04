@@ -12,7 +12,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $ready-red;
+  background: gray;
   border-radius: 1rem;
 }
 
@@ -71,15 +71,15 @@
 }
 
 .images-container {
-  background-color: $card-background;
+  background-color: $ready-red;
   padding: 1rem;
-  color: black;
-  box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.25);
 }
 
 .news-container {
-  background-color: $ready-red;
+  background-color: $card-background;
   padding: 1rem;
+  color: black;
+  box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.5);
 }
 
 @media only screen and (min-width: 750px) {
@@ -98,6 +98,11 @@
   .news-container {
     grid-row: 2;
     grid-column: 2;
+  }
+
+  .login {
+    display: none;
+    visibility: hidden;
   }
 }
 
