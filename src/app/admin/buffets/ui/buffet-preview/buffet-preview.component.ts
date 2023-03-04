@@ -12,7 +12,7 @@ import { IonicModule } from "@ionic/angular";
 import { Buffet } from "@shared/buffet";
 
 @Component({
-  selector: "app-buffet-preview",
+  selector: "app-admin-buffet-preview",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, IonicModule],
@@ -20,7 +20,6 @@ import { Buffet } from "@shared/buffet";
   styleUrls: ["./buffet-preview.component.scss"],
 })
 export class BuffetPreviewComponent implements OnInit {
-
   @Input()
   public buffet!: Buffet;
 
@@ -33,8 +32,7 @@ export class BuffetPreviewComponent implements OnInit {
   @Output()
   public deleteBuffet = new EventEmitter<void>();
 
-  public get imageUrl()
-  {
+  public get imageUrl() {
     return environment.api.url + "/buffet/" + this.buffet.id + "/image";
   }
 

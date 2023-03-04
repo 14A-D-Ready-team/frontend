@@ -6,7 +6,7 @@ export class FilterChanged {
   public readonly filter: SearchBuffetsQuery;
 
   constructor(filter: SearchBuffetsQuery) {
-    this.filter = SearchBuffetsQuery.clone(filter);
+    this.filter = new SearchBuffetsQuery(filter);
   }
 }
 

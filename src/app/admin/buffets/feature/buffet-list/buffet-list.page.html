@@ -1,6 +1,6 @@
 <ion-menu
   side="end"
-  contentId="buffets-list-page-content"
+  contentId="buffet-list-page-content"
   [disabled]="isDesktop$ | async"
 >
   <ng-container *ngIf="(isDesktop$ | async) === false">
@@ -19,21 +19,17 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <app-buffet-filter #filterContent></app-buffet-filter>
+      <app-admin-buffet-filter #filterContent></app-admin-buffet-filter>
     </ion-content>
   </ng-container>
 </ion-menu>
 
-<div class="ion-page" id="buffets-list-page-content">
-  
-
+<div class="ion-page" id="buffet-list-page-content">
   <app-admin-header pageTitle="Büfék">
     <ion-menu-button menu="end" end-buttons>
       <ion-icon part="icon" name="funnel"></ion-icon>
     </ion-menu-button>
   </app-admin-header>
-
-  
 
   <ion-content *ngIf="vm$ | async as vm">
     <ion-refresher
@@ -51,7 +47,7 @@
           <ion-card-title class="title">Büfék szűrése</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <app-buffet-filter #filterContent></app-buffet-filter>
+          <app-admin-buffet-filter #filterContent></app-admin-buffet-filter>
         </ion-card-content>
         <ion-button fill="clear" (click)="filterContent.reset()">
           <ion-icon
@@ -66,7 +62,7 @@
 
     <div class="content">
       <div class="overlay-container" *ngIf="vm.typing">
-        <app-typing-overlay></app-typing-overlay>
+        <app-admin-typing-overlay></app-admin-typing-overlay>
       </div>
       <div class="ion-padding">
         <ion-grid>
@@ -78,12 +74,12 @@
               size-xl="3"
               *ngFor="let buffet of vm.buffets; trackBy: buffetById"
             >
-              <app-buffet-preview
+              <app-admin-buffet-preview
                 [buffet]="buffet"
                 (cardClick)="editBuffet(buffet)"
                 (selectBuffet)="select(buffet.id)"
                 (deleteBuffet)="delete(buffet.id)"
-              ></app-buffet-preview>
+              ></app-admin-buffet-preview>
             </ion-col>
             <ng-container *ngIf="vm.loading">
               <ion-col
@@ -93,7 +89,7 @@
                 size-md="6"
                 size-xl="3"
               >
-                <app-buffet-preview-skeleton></app-buffet-preview-skeleton>
+                <app-admin-buffet-preview-skeleton></app-admin-buffet-preview-skeleton>
               </ion-col>
             </ng-container>
             <app-error-card

@@ -22,7 +22,7 @@ import {
 } from "./store";
 
 @Component({
-  selector: "app-new-product",
+  selector: "app-admin-new-product",
   templateUrl: "./new-product.page.html",
   styleUrls: ["./new-product.page.scss"],
 })

@@ -1,6 +1,11 @@
+import { Injectable } from "@angular/core";
 import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, State, StateContext } from "@ngxs/store";
-import { BuffetActions, CreateBuffetDto, UpdateBuffetDto } from "@shared/buffet";
+import {
+  BuffetActions,
+  CreateBuffetDto,
+  UpdateBuffetDto,
+} from "@shared/buffet";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import { Update } from "./buffet-editor.actions";
 
@@ -8,10 +13,10 @@ export interface BuffetEditorStateModel {
   form: NgxsFormStateModel<UpdateBuffetDto>;
 }
 
-export const formPath = "buffetEditor.form";
+export const formPath = "adminBuffetEditor.form";
 
 @State<BuffetEditorStateModel>({
-  name: "buffetEditor",
+  name: "adminBuffetEditor",
   defaults: {
     form: {
       model: new UpdateBuffetDto(),
@@ -23,6 +28,7 @@ export const formPath = "buffetEditor.form";
     },
   },
 })
+@Injectable()
 export class BuffetEditorState {
   constructor() {}
 

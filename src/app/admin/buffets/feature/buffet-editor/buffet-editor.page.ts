@@ -15,12 +15,11 @@ import { BuffetEditorFormModel } from "../../utils";
 import { formPath, Update } from "./store";
 
 @Component({
-  selector: "app-buffet-editor",
+  selector: "app-admin-buffet-editor",
   templateUrl: "./buffet-editor.page.html",
   styleUrls: ["./buffet-editor.page.scss"],
 })
 export class BuffetEditorPage implements OnInit, OnDestroy {
-
   @Select(BuffetState.entities)
   public buffets$!: Observable<Buffet[]>;
 
@@ -35,12 +34,9 @@ export class BuffetEditorPage implements OnInit, OnDestroy {
 
   private idSubscription!: Subscription;
 
-  public get imageUrl()
-  {
+  public get imageUrl() {
     return environment.api.url + "/buffet/" + this.idFromRoute + "/image";
   }
-
- 
 
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),

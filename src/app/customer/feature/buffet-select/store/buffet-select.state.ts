@@ -40,7 +40,7 @@ export class BuffetSelectState {
   @Action(LoadPage)
   public loadPage(ctx: StateContext<BuffetSelectStateModel>) {
     const state = ctx.getState();
-    const query = SearchBuffetsQuery.clone({
+    const query = new SearchBuffetsQuery({
       ...state.query,
       skip: 0,
       take: buffetsLoadPerScroll,
@@ -56,7 +56,7 @@ export class BuffetSelectState {
       return;
     }
 
-    const query = SearchBuffetsQuery.clone({
+    const query = new SearchBuffetsQuery({
       ...state.query,
       skip: state.buffetIds.length,
       take: buffetsLoadPerScroll,
@@ -108,7 +108,7 @@ export class BuffetSelectState {
       remainingItems: undefined,
     });
 
-    const query = SearchBuffetsQuery.clone({
+    const query = new SearchBuffetsQuery({
       ...state.query,
       skip: 0,
       take: numberOfBuffetsToLoad,

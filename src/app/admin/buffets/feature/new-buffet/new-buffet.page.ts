@@ -3,23 +3,22 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
 import { BuffetState, Buffet, CreateBuffetDto } from "@shared/buffet";
 import { Router } from "@angular/router";
-import { ClassValidatorFormGroup, ClassValidatorFormControl } from "ngx-reactive-form-class-validator";
+import {
+  ClassValidatorFormGroup,
+  ClassValidatorFormControl,
+} from "ngx-reactive-form-class-validator";
 import { map, Observable, startWith } from "rxjs";
 import { BuffetEditorFormModel } from "../../utils";
 import { Platform } from "@ionic/angular";
-import {
-  formPath,
-  Save,
-} from "./store";
+import { formPath, Save } from "./store";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
 
 @Component({
-  selector: "app-new-buffet",
+  selector: "app-admin-new-buffet",
   templateUrl: "./new-buffet.page.html",
   styleUrls: ["./new-buffet.page.scss"],
 })
 export class NewBuffetPage implements OnInit {
-
   @Select(BuffetState.entities)
   public buffets$!: Observable<Buffet[]>;
 
@@ -52,15 +51,14 @@ export class NewBuffetPage implements OnInit {
       },
     );
   }
-  
+
   ngOnInit() {}
 
   save() {
     this.store.dispatch(new Save());
   }
-  
+
   public cancel() {
     this.router.navigate(["admin/buffets"]);
   }
-
 }

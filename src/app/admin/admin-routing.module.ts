@@ -1,5 +1,8 @@
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { ActivatedRoute, RouterModule, Routes } from "@angular/router";
+import { AppAbility } from "@app/app-ability.factory";
+import { Category } from "@shared/category";
+import { Action } from "@shared/policy";
 
 const routes: Routes = [
   {
@@ -9,12 +12,11 @@ const routes: Routes = [
   {
     path: "categories",
     loadChildren: () => import("./categories").then(m => m.CategoriesModule),
+    data: {
+      policyHandler: (ability: AppAbility, route: ActivatedRoute) =>
+        ability.can(Action.Read, Category),
+    },
   },
-  {
-    path: 'test',
-    loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
-  },
-
   {
     path: "buffets",
     loadChildren: () => import("./buffets").then(m => m.BuffetsModule),

@@ -15,7 +15,7 @@ import {
 import { BuffetFilterEffects, formPath } from "./store";
 
 @Component({
-  selector: "app-buffet-filter",
+  selector: "app-admin-buffet-filter",
   templateUrl: "./buffet-filter.component.html",
   styleUrls: ["./buffet-filter.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

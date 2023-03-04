@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 
 import { BuffetListRoutingModule } from "./buffet-list-routing.module";
 import { BuffetListPage } from "./buffet-list.page";
-import { BuffetsListState } from "./store/buffet-list.state";
+import { BuffetListState } from "./store/buffet-list.state";
 
 import {
   BuffetPreviewComponent,
@@ -15,7 +15,7 @@ import { NglrxPipesModule } from "@nglrx/pipes";
 import { NgxsModule } from "@ngxs/store";
 import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
 import { BuffetFilterModule } from "../buffet-filter/buffet-filter.module";
-import { BuffetsListEffects } from "./store";
+import { BuffetListEffects } from "./store";
 import { BuffetFilterState } from "../buffet-filter/store";
 import { AdminHeaderComponent } from "@app/admin/shell";
 
@@ -25,7 +25,7 @@ import { AdminHeaderComponent } from "@app/admin/shell";
     CommonModule,
     IonicModule,
     NglrxPipesModule,
-    NgxsModule.forFeature([BuffetsListState, BuffetFilterState]),
+    NgxsModule.forFeature([BuffetListState, BuffetFilterState]),
     BuffetListRoutingModule,
     BuffetFilterModule,
     BuffetPreviewComponent,
@@ -34,6 +34,6 @@ import { AdminHeaderComponent } from "@app/admin/shell";
     TypingOverlayComponent,
     AdminHeaderComponent,
   ],
-  providers: [BuffetsListEffects],
+  providers: [BuffetListEffects],
 })
 export class BuffetListModule {}

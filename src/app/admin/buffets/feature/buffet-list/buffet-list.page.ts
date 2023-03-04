@@ -10,7 +10,7 @@ import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Observable, startWith, map, combineLatest, take } from "rxjs";
 import { BuffetFilterState } from "../buffet-filter/store";
-import { BuffetsListEffects } from "./store";
+import { BuffetListEffects } from "./store";
 import {
   LoadPage,
   RetryLoading,
@@ -18,15 +18,15 @@ import {
   LoadMore,
   Delete,
 } from "./store/buffet-list.actions";
-import { BuffetsListState } from "./store/buffet-list.state";
+import { BuffetListState } from "./store/buffet-list.state";
 
 @Component({
-  selector: "app-buffet-list",
+  selector: "app-admin-buffet-list",
   templateUrl: "./buffet-list.page.html",
   styleUrls: ["./buffet-list.page.scss"],
 })
 export class BuffetListPage implements OnInit, OnDestroy {
-  @Select(BuffetsListState.shownBuffets)
+  @Select(BuffetListState.shownBuffets)
   public buffets$!: Observable<Buffet[]>;
 
   @Select(BuffetState.loading)
@@ -39,7 +39,7 @@ export class BuffetListPage implements OnInit, OnDestroy {
   public typing$!: Observable<boolean>;
 
   @Select(BuffetState.active)
-  public activeBuffet$!: Observable<Buffet>
+  public activeBuffet$!: Observable<Buffet>;
 
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
@@ -53,26 +53,18 @@ export class BuffetListPage implements OnInit, OnDestroy {
     this.typing$,
     this.isDesktop$,
   ]).pipe(
-    map(
-      ([
-        buffets,
-        loading,
-        error,
-        typing,
-        isDesktop,
-      ]) => ({
-        buffets,
-        loading,
-        error,
-        typing,
-        isDesktop,
-      }),
-    ),
+    map(([buffets, loading, error, typing, isDesktop]) => ({
+      buffets,
+      loading,
+      error,
+      typing,
+      isDesktop,
+    })),
   );
 
   constructor(
     private store: Store,
-    private effects: BuffetsListEffects,
+    private effects: BuffetListEffects,
     private platform: Platform,
     private router: Router,
     private route: ActivatedRoute,
@@ -130,6 +122,6 @@ export class BuffetListPage implements OnInit, OnDestroy {
 
   public delete(id: number) {
     const idString = id.toString();
-    this.store.dispatch(new Delete(idString))
+    this.store.dispatch(new Delete(idString));
   }
 }

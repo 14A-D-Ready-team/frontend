@@ -15,11 +15,19 @@ import { ExtendedFormPluginModule } from "./shared/extended-form-plugin";
 import { ExceptionsModule } from "./shared/exceptions";
 import { BuffetModule } from "@shared/buffet";
 import { ProductModule } from "@shared/product";
-import { AuthState } from "./auth/data-access";
+import { AuthenticationModule } from "@shared/authentication";
+import { APP_ABILITY_FACTORY, PolicyModule } from "@shared/policy";
+import { AppAbility, AppAbilityFactory } from "./app-ability.factory";
+import { AbilityModule, AbilityService } from "@casl/angular";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
   useClass: IonicRouteStrategy,
+};
+
+const appAbilityFactoryProvider = {
+  provide: APP_ABILITY_FACTORY,
+  useClass: AppAbilityFactory,
 };
 
 @NgModule({
@@ -36,12 +44,14 @@ const routeReuseStrategyProvider = {
     ExternalAuthModule.forRoot(),
     ClassValidatorFormBuilderModule.forRoot(),
     ExceptionsModule,
+    AuthenticationModule,
     CategoryModule,
     ProductModule,
+    PolicyModule,
     BuffetModule,
     AppRoutingModule,
   ],
-  providers: [routeReuseStrategyProvider],
+  providers: [routeReuseStrategyProvider, appAbilityFactoryProvider],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

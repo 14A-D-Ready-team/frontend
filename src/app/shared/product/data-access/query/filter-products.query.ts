@@ -1,14 +1,5 @@
 import { NumberFilterQuery, PaginationQuery } from "@shared/api";
-import {
-  classTransformerConfig,
-  deleteEmptyPropertiesDeep,
-} from "@shared/serialization";
-import {
-  Expose,
-  instanceToPlain,
-  plainToInstance,
-  Type,
-} from "class-transformer";
+import { Expose, Type } from "class-transformer";
 import {
   IsInstance,
   IsNumber,
@@ -19,31 +10,21 @@ import {
 import { isEqual } from "lodash";
 
 export class FilterProductsQuery extends PaginationQuery {
-  public static createOrCopy(
-    existing: Partial<FilterProductsQuery> = {},
-  ): FilterProductsQuery {
-    const rawCopy = JSON.parse(JSON.stringify(existing));
-
-    return plainToInstance(
-      FilterProductsQuery,
-      rawCopy as unknown,
-      classTransformerConfig,
-    );
-  }
-
   public static isUnchanged(
     prev: FilterProductsQuery,
     curr: FilterProductsQuery,
   ) {
-    return (
-      isEqual(prev, curr) ||
+    const numberFiltersUnchanged =
       NumberFilterQuery.isUnchanged(
         prev.discountedPrice,
         curr.discountedPrice,
-      ) ||
-      NumberFilterQuery.isUnchanged(prev.fullPrice, curr.fullPrice) ||
-      NumberFilterQuery.isUnchanged(prev.stock, curr.stock)
-    );
+      ) &&
+      NumberFilterQuery.isUnchanged(prev.fullPrice, curr.fullPrice) &&
+      NumberFilterQuery.isUnchanged(prev.stock, curr.stock);
+
+    const categoryIdUnchanged = prev.categoryId === curr.categoryId;
+
+    return categoryIdUnchanged && numberFiltersUnchanged;
   }
 
   @Expose()
@@ -72,4 +53,19 @@ export class FilterProductsQuery extends PaginationQuery {
   @IsInstance(NumberFilterQuery)
   @ValidateNested()
   public stock?: NumberFilterQuery;
+
+  constructor(existing: Partial<FilterProductsQuery> = {}) {
+    super();
+    const { fullPrice, discountedPrice, stock, ...rest } = existing;
+    Object.assign(this, rest);
+    if (fullPrice) {
+      this.fullPrice = new NumberFilterQuery(fullPrice);
+    }
+    if (discountedPrice) {
+      this.discountedPrice = new NumberFilterQuery(discountedPrice);
+    }
+    if (stock) {
+      this.stock = new NumberFilterQuery(stock);
+    }
+  }
 }

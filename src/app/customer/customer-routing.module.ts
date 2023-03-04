@@ -3,8 +3,12 @@ import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
   {
-    path: "main",
+    path: "",
     loadChildren: () => import("./feature/main").then(m => m.MainPageModule),
+  },
+  {
+    path: "",
+    loadChildren: () => import("./auth").then(m => m.AuthModule),
   },
   {
     path: "buffet-select",
