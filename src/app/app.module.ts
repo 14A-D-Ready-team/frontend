@@ -54,8 +54,4 @@ const appAbilityFactoryProvider = {
   providers: [routeReuseStrategyProvider, appAbilityFactoryProvider],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-  constructor(private s: AbilityService<AppAbility>) {
-    console.log(s);
-  }
-}
+export class AppModule {}

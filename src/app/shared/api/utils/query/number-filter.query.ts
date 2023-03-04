@@ -53,8 +53,11 @@ export class NumberFilterQuery {
   )
   public value?: number;
 
-  @Expose({ toClassOnly: true })
   public type!: NumericFilterType;
+
+  constructor(existing?: Partial<NumberFilterQuery>) {
+    Object.assign(this, existing);
+  }
 }
 
 function onlyWhenTypeMatches(expectedType: NumericFilterType) {

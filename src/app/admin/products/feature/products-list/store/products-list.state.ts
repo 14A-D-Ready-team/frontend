@@ -28,7 +28,6 @@ export interface ProductsListStateModel {
   productIds: number[];
   remainingItems?: number;
   query: DeepReadonly<FilterProductsQuery>;
-  
 }
 
 export const productsLoadedPerScroll = 12;
@@ -68,7 +67,7 @@ export class ProductsListState {
     loadAllCategories(this.store).pipe(take(1)).subscribe();
 
     const state = ctx.getState();
-    const query = FilterProductsQuery.createOrCopy({
+    const query = new FilterProductsQuery({
       ...state.query,
       skip: 0,
       take: productsLoadedPerScroll,
@@ -84,7 +83,7 @@ export class ProductsListState {
       return;
     }
 
-    const query = FilterProductsQuery.createOrCopy({
+    const query = new FilterProductsQuery({
       ...state.query,
       skip: state.productIds.length,
       take: productsLoadedPerScroll,
@@ -136,7 +135,7 @@ export class ProductsListState {
       remainingItems: undefined,
     });
 
-    const query = FilterProductsQuery.createOrCopy({
+    const query = new FilterProductsQuery({
       ...state.query,
       skip: 0,
       take: numberOfProductsToLoad,
@@ -156,7 +155,7 @@ export class ProductsListState {
       remainingItems: undefined,
     });
 
-    const query = FilterProductsQuery.createOrCopy({
+    const query = new FilterProductsQuery({
       ...action.filter,
       skip: 0,
       take: productsLoadedPerScroll,
