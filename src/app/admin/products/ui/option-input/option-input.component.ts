@@ -17,7 +17,7 @@ import { OptionFormModel } from "../../utils";
 import { FormChangesPipe } from "@shared/utils";
 
 @Component({
-  selector: "app-option-input",
+  selector: "app-admin-option-input",
   standalone: true,
   imports: [
     CommonModule,

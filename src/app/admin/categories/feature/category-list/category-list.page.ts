@@ -11,7 +11,7 @@ import {
   Edit,
   Delete,
   Reload,
-  CategoriesListState,
+  CategoryListState,
   AddNew,
   editorFormPath,
   SaveNew,
@@ -34,19 +34,19 @@ import {
 } from "@shared/extended-entity-state/utils";
 
 @Component({
-  selector: "app-categories-list",
-  templateUrl: "./categories-list.page.html",
-  styleUrls: ["./categories-list.page.scss"],
+  selector: "app-admin-category-list",
+  templateUrl: "./category-list.page.html",
+  styleUrls: ["./category-list.page.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoriesListPage implements OnInit {
-  @Select(CategoriesListState.categories)
+export class CategoryListPage implements OnInit {
+  @Select(CategoryListState.categories)
   public categories$!: Observable<Category[]>;
 
-  @Select(CategoriesListState.creatingNew)
+  @Select(CategoryListState.creatingNew)
   public creatingNew$!: Observable<boolean>;
 
-  @Select(CategoriesListState.editedId)
+  @Select(CategoryListState.editedId)
   public editedId$!: Observable<number>;
 
   @Select(CategoryState.updateStatus)

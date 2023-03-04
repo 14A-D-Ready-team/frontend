@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
-      import("./feature/categories-list").then(m => m.CategoriesListPageModule),
+      import("./feature/category-list").then(m => m.CategoryListPageModule),
   },
 ];
 

@@ -25,7 +25,7 @@ import {
 import { OptionInputComponent } from "../../ui";
 
 @Component({
-  selector: "app-option-editor-modal",
+  selector: "app-admin-option-editor-modal",
   standalone: true,
   imports: [
     CommonModule,

@@ -16,12 +16,12 @@
     [disabled]="false"
     (ionItemReorder)="handleReorder($event)"
   >
-    <app-customization-input
+    <app-admin-customization-input
       *ngFor="let customization of bindedFormArray.controls; let i = index"
       [i]="i"
       [bindedFormGroup]="customization"
       (deleted)="removeCustomization(i)"
       (optionEditorOpened)="openOptionEditor(customization.controls.options)"
-    ></app-customization-input>
+    ></app-admin-customization-input>
   </ion-reorder-group>
 </ion-accordion-group>

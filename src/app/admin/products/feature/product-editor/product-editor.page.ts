@@ -12,7 +12,7 @@ import { ProductEditorFormModel } from "../../utils";
 import { formPath, ProductEditorState } from "./store";
 
 @Component({
-  selector: "app-product-editor",
+  selector: "app-admin-product-editor",
   templateUrl: "./product-editor.page.html",
   styleUrls: ["./product-editor.page.scss"],
 })

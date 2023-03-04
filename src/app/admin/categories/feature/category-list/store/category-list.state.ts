@@ -15,16 +15,7 @@ import {
   StateToken,
   Store,
 } from "@ngxs/store";
-import {
-  concat,
-  delay,
-  filter,
-  of,
-  switchMap,
-  take,
-  takeWhile,
-  tap,
-} from "rxjs";
+import { concat, of, switchMap } from "rxjs";
 import {
   StopEdit as StopEdit,
   Edit,
@@ -35,7 +26,7 @@ import {
   StopAddingNew,
   SaveNew,
   Delete,
-} from "./categories-list.actions";
+} from "./category-list.actions";
 import {
   ResetForm,
   SetFormDisabled,
@@ -47,19 +38,20 @@ import { ErrorCode, ExceptionService } from "@app/shared/exceptions";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import { FilterCategoriesQuery } from "@shared/category/data-access/query";
 
-export interface CategoriesListStateModel {
+export interface CategoryListStateModel {
   editorForm: NgxsFormStateModel<Partial<Category>>;
   editedId?: number;
   creatingNew: boolean;
 }
 
-export const CATEGORIES_LIST_STATE_TOKEN =
-  new StateToken<CategoriesListStateModel>("buffetsCategoriesList");
+export const CATEGORY_LIST_STATE_TOKEN = new StateToken<CategoryListStateModel>(
+  "adminCategoryList",
+);
 
-export const editorFormPath = "buffetsCategoriesList.editorForm";
+export const editorFormPath = "adminCategoryList.editorForm";
 
-@State<CategoriesListStateModel>({
-  name: CATEGORIES_LIST_STATE_TOKEN,
+@State<CategoryListStateModel>({
+  name: CATEGORY_LIST_STATE_TOKEN,
   defaults: {
     editorForm: {
       model: {},
@@ -73,7 +65,7 @@ export const editorFormPath = "buffetsCategoriesList.editorForm";
   },
 })
 @Injectable()
-export class CategoriesListState {
+export class CategoryListState {
   constructor(
     private store: Store,
     private toastController: ToastController,
@@ -83,29 +75,29 @@ export class CategoriesListState {
 
   @Selector([CategoryState.entities])
   public static categories(
-    state: CategoriesListStateModel,
+    state: CategoryListStateModel,
     categories: Category[],
   ) {
     return categories;
   }
 
   @Selector()
-  public static creatingNew(state: CategoriesListStateModel) {
+  public static creatingNew(state: CategoryListStateModel) {
     return state.creatingNew;
   }
 
   @Selector()
-  public static editedId(state: CategoriesListStateModel) {
+  public static editedId(state: CategoryListStateModel) {
     return state.editedId;
   }
 
   @Action(LoadPage)
-  public loadPage(ctx: StateContext<CategoriesListStateModel>) {
+  public loadPage(ctx: StateContext<CategoryListStateModel>) {
     return loadAllCategories(this.store);
   }
 
   @Action(Reload)
-  public reload(ctx: StateContext<CategoriesListStateModel>) {
+  public reload(ctx: StateContext<CategoryListStateModel>) {
     return concat(
       ctx.dispatch(new SetError(CategoryState, undefined)),
       ctx.dispatch(new CategoryActions.Load(new FilterCategoriesQuery())),
@@ -113,7 +105,7 @@ export class CategoriesListState {
   }
 
   @Action(AddNew)
-  public addNew(ctx: StateContext<CategoriesListStateModel>) {
+  public addNew(ctx: StateContext<CategoryListStateModel>) {
     const state = ctx.getState();
     // eslint-disable-next-line eqeqeq
     if (state.editedId != undefined) {
@@ -132,14 +124,14 @@ export class CategoriesListState {
   }
 
   @Action(StopAddingNew)
-  public stopAddingNew(ctx: StateContext<CategoriesListStateModel>) {
+  public stopAddingNew(ctx: StateContext<CategoryListStateModel>) {
     ctx.patchState({ creatingNew: false });
 
     return this.resetEditorForm(ctx);
   }
 
   @Action(SaveNew)
-  public saveNew(ctx: StateContext<CategoriesListStateModel>) {
+  public saveNew(ctx: StateContext<CategoryListStateModel>) {
     const state = ctx.getState();
 
     if (state.editorForm.status === "INVALID") {
@@ -157,13 +149,13 @@ export class CategoriesListState {
   }
 
   @Action(CategoryActions.CreateSucceeded)
-  public createSucceeded(ctx: StateContext<CategoriesListStateModel>) {
+  public createSucceeded(ctx: StateContext<CategoryListStateModel>) {
     return ctx.dispatch(new StopAddingNew());
   }
 
   @Action(CategoryActions.CreateFailed)
   public async createFailed(
-    ctx: StateContext<CategoriesListStateModel>,
+    ctx: StateContext<CategoryListStateModel>,
     action: CategoryActions.CreateFailed,
   ) {
     ctx.dispatch(new SetFormEnabled(editorFormPath));
@@ -172,7 +164,7 @@ export class CategoriesListState {
   }
 
   @Action(Edit)
-  public edit(ctx: StateContext<CategoriesListStateModel>, action: Edit) {
+  public edit(ctx: StateContext<CategoryListStateModel>, action: Edit) {
     const state = ctx.getState();
     // eslint-disable-next-line eqeqeq
     if (state.editedId != undefined) {
@@ -189,12 +181,12 @@ export class CategoriesListState {
   }
 
   @Action(StopEdit)
-  public stopEdit(ctx: StateContext<CategoriesListStateModel>) {
+  public stopEdit(ctx: StateContext<CategoryListStateModel>) {
     return this.resetEditorForm(ctx);
   }
 
   @Action(SaveEdit)
-  public saveEdit(ctx: StateContext<CategoriesListStateModel>) {
+  public saveEdit(ctx: StateContext<CategoryListStateModel>) {
     const state = ctx.getState();
 
     if (state.editorForm.status === "INVALID") {
@@ -221,13 +213,13 @@ export class CategoriesListState {
   }
 
   @Action(CategoryActions.UpdateSucceeded)
-  public updateSucceeded(ctx: StateContext<CategoriesListStateModel>) {
+  public updateSucceeded(ctx: StateContext<CategoryListStateModel>) {
     return ctx.dispatch(new StopEdit());
   }
 
   @Action(CategoryActions.UpdateFailed)
   public async updateFailed(
-    ctx: StateContext<CategoriesListStateModel>,
+    ctx: StateContext<CategoryListStateModel>,
     action: CategoryActions.UpdateFailed,
   ) {
     ctx.dispatch(new SetFormEnabled(editorFormPath));
@@ -242,11 +234,11 @@ export class CategoriesListState {
   }
 
   @Action(Delete)
-  public delete(ctx: StateContext<CategoriesListStateModel>, action: Delete) {
+  public delete(ctx: StateContext<CategoryListStateModel>, action: Delete) {
     return ctx.dispatch(new CategoryActions.Delete(action.id));
   }
 
-  private resetEditorForm(ctx: StateContext<CategoriesListStateModel>) {
+  private resetEditorForm(ctx: StateContext<CategoryListStateModel>) {
     ctx.patchState({ editedId: undefined });
 
     return of(undefined).pipe(

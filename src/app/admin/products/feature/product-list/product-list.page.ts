@@ -22,7 +22,7 @@ import { ProductFilterState } from "../product-filter";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: "app-admin-product-list",
+  selector: "app-product-list",
   templateUrl: "./product-list.page.html",
   styleUrls: ["./product-list.page.scss"],
 })

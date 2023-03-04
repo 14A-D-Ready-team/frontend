@@ -27,10 +27,10 @@
     (ionItemReorder)="handleReorder($event)"
   >
     <ion-reorder *ngFor="let option of bindedFormArray.controls; let i = index">
-      <app-option-input
+      <app-admin-option-input
         [bindedFormGroup]="option"
         (deleted)="removeOption(i)"
-      ></app-option-input>
+      ></app-admin-option-input>
     </ion-reorder>
   </ion-reorder-group>
 </ion-content>

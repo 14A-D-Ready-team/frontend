@@ -15,7 +15,7 @@ import { environment } from "@/environments/environment";
 import { defaultThrottleConfig } from "rxjs/internal/operators/throttle";
 
 @Component({
-  selector: "app-product-preview",
+  selector: "app-admin-product-preview",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, IonicModule],

@@ -4,11 +4,11 @@ import { ReactiveFormsModule } from "@angular/forms";
 
 import { IonicModule } from "@ionic/angular";
 
-import { CategoriesListPageRoutingModule } from "./categories-list-routing.module";
+import { CategoryListPageRoutingModule } from "./category-list-routing.module";
 
-import { CategoriesListPage } from "./categories-list.page";
+import { CategoryListPage } from "./category-list.page";
 import { NgxsModule } from "@ngxs/store";
-import { CategoriesListState } from "./store";
+import { CategoryListState } from "./store";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ExtendedFormPluginModule } from "@app/shared/extended-form-plugin";
 import { ActionInProgressPipe } from "../../utils";
@@ -24,16 +24,16 @@ import { AdminHeaderComponent } from "@app/admin/shell";
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
-    NgxsModule.forFeature([CategoriesListState]),
+    NgxsModule.forFeature([CategoryListState]),
     NgxsFormPluginModule,
     ExtendedFormPluginModule,
-    CategoriesListPageRoutingModule,
+    CategoryListPageRoutingModule,
     CategoryDisplayComponent,
     CategoryDisplaySkeletonComponent,
     ErrorCardComponent,
     ActionInProgressPipe,
     AdminHeaderComponent,
   ],
-  declarations: [CategoriesListPage],
+  declarations: [CategoryListPage],
 })
-export class CategoriesListPageModule {}
+export class CategoryListPageModule {}

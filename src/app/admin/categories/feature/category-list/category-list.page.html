@@ -15,10 +15,10 @@
         <ion-col offset-xl="3" size-xl="6">
           <ion-list>
             <div *ngIf="vm.loading">
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
-              <app-buffets-category-display-skeleton></app-buffets-category-display-skeleton>
+              <app-admin-category-display-skeleton></app-admin-category-display-skeleton>
+              <app-admin-category-display-skeleton></app-admin-category-display-skeleton>
+              <app-admin-category-display-skeleton></app-admin-category-display-skeleton>
+              <app-admin-category-display-skeleton></app-admin-category-display-skeleton>
             </div>
 
             <app-error-card
@@ -34,7 +34,7 @@
                 <ng-container
                   *ngFor="let category of vm.categories; trackBy: categoryById"
                 >
-                  <app-buffets-category-display
+                  <app-admin-category-display
                     *ngIf="{
                       isEditing: vm.editedId === category.id,
                       updating: vm.updateStatus | actionInProgress: category,
@@ -49,11 +49,11 @@
                     (editingDone)="onEditingDone($event)"
                     (delete)="onDelete(category)"
                   >
-                  </app-buffets-category-display>
+                  </app-admin-category-display>
                 </ng-container>
               </ng-container>
 
-              <app-buffets-category-display
+              <app-admin-category-display
                 *ngIf="vm.creatingNew"
                 action="create"
                 [isEditing]="true"
@@ -61,7 +61,7 @@
                 [editorForm]="editorForm"
                 (editingDone)="onCreatingDone($event)"
               >
-              </app-buffets-category-display>
+              </app-admin-category-display>
             </form>
           </ion-list>
         </ion-col>

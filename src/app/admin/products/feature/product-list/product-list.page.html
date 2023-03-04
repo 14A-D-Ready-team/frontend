@@ -19,12 +19,12 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <app-product-filter
+      <app-admin-product-filter
         #filterContent
         [categories]="(categories$ | async)! | keyvalue | map : extractValue"
         [categoriesLoading]="(categoriesLoading$ | async) || false"
         (refreshCategories)="refreshCategories()"
-      ></app-product-filter>
+      ></app-admin-product-filter>
     </ion-content>
   </ng-container>
 </ion-menu>
@@ -51,14 +51,14 @@
           <ion-card-title>Termékek szűrése</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <app-product-filter
+          <app-admin-product-filter
             #filterContent
             [categories]="
               (categories$ | async)! | keyvalue | map : extractValue
             "
             [categoriesLoading]="(categoriesLoading$ | async) || false"
             (refreshCategories)="refreshCategories()"
-          ></app-product-filter>
+          ></app-admin-product-filter>
         </ion-card-content>
         <ion-button fill="clear" (click)="filterContent.reset()">
           <ion-icon
@@ -73,7 +73,7 @@
 
     <div class="content">
       <div class="overlay-container" *ngIf="vm.typing">
-        <app-typing-overlay></app-typing-overlay>
+        <app-admin-typing-overlay></app-admin-typing-overlay>
       </div>
       <div class="ion-padding">
         <ion-grid>
@@ -85,14 +85,14 @@
               size-xl="3"
               *ngFor="let product of vm.products; trackBy: productById"
             >
-              <app-product-preview
+              <app-admin-product-preview
                 [product]="product"
                 [category]="vm.categories[product.categoryId]"
                 [categoryLoading]="
                   !vm.categories[product.categoryId] && vm.categoriesLoading
                 "
                 (cardClick)="editProduct(product)"
-              ></app-product-preview>
+              ></app-admin-product-preview>
             </ion-col>
             <ng-container *ngIf="vm.loading">
               <ion-col
@@ -102,7 +102,7 @@
                 size-md="6"
                 size-xl="3"
               >
-                <app-product-preview-skeleton></app-product-preview-skeleton>
+                <app-admin-product-preview-skeleton></app-admin-product-preview-skeleton>
               </ion-col>
             </ng-container>
             <app-error-card

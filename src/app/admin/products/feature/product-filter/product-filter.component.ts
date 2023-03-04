@@ -19,7 +19,7 @@ import {
 import { FilterProductsQuery } from "@shared/product";
 
 @Component({
-  selector: "app-product-filter",
+  selector: "app-admin-product-filter",
   templateUrl: "./product-filter.component.html",
   styleUrls: ["./product-filter.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
