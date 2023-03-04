@@ -4,10 +4,10 @@ import { loadAllCategories } from "@shared/category";
 import { Effect, EffectsBase } from "@shared/effects";
 import { ProductActions } from "@shared/product";
 import { concatMap, filter, switchMap, tap } from "rxjs";
-import { ProductsListState } from "./products-list.state";
+import { ProductListState } from "./product-list.state";
 
 @Injectable()
-export class ProductsListEffects extends EffectsBase {
+export class ProductListEffects extends EffectsBase {
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions,
@@ -19,7 +19,7 @@ export class ProductsListEffects extends EffectsBase {
   public onProductLoaded$ = this.actions$.pipe(
     ofActionSuccessful(ProductActions.LoadingSucceeded),
     switchMap(() =>
-      this.store.selectOnce(ProductsListState.hasUnknownCategories),
+      this.store.selectOnce(ProductListState.hasUnknownCategories),
     ),
     filter(hasUnknownCategories => hasUnknownCategories),
     concatMap(() => loadAllCategories(this.store, true)),
@@ -27,7 +27,7 @@ export class ProductsListEffects extends EffectsBase {
 
   @Effect()
   public a = this.store
-    .select(ProductsListState.shownProducts)
+    .select(ProductListState.shownProducts)
     .pipe
     //filter(products => products.some(product => !product)),
     /*  switchMap(() => {}), */

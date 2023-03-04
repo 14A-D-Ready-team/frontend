@@ -1,6 +1,6 @@
 <ion-menu
   side="end"
-  contentId="products-list-page-content"
+  contentId="product-list-page-content"
   [disabled]="isDesktop$ | async"
 >
   <ng-container *ngIf="(isDesktop$ | async) === false">
@@ -29,7 +29,7 @@
   </ng-container>
 </ion-menu>
 
-<div class="ion-page" id="products-list-page-content">
+<div class="ion-page" id="product-list-page-content">
   <app-admin-header pageTitle="Termékek">
     <ion-menu-button menu="end" end-buttons>
       <ion-icon part="icon" name="funnel"></ion-icon>

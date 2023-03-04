@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import { ProductsListRoutingModule } from "./products-list-routing.module";
-import { ProductsListPage } from "./products-list.page";
+import { ProductListRoutingModule } from "./product-list-routing.module";
+import { ProductListPage } from "./product-list.page";
 import { IonicModule } from "@ionic/angular";
-import { ProductsListEffects, ProductsListState } from "./store";
+import { ProductListEffects, ProductListState } from "./store";
 import { NgxsModule } from "@ngxs/store";
 import {
   ProductPreviewComponent,
@@ -18,13 +18,13 @@ import { ProductFilterState } from "../product-filter";
 import { AdminHeaderComponent } from "@app/admin/shell";
 
 @NgModule({
-  declarations: [ProductsListPage],
+  declarations: [ProductListPage],
   imports: [
     CommonModule,
     IonicModule,
     NglrxPipesModule,
-    NgxsModule.forFeature([ProductsListState, ProductFilterState]),
-    ProductsListRoutingModule,
+    NgxsModule.forFeature([ProductListState, ProductFilterState]),
+    ProductListRoutingModule,
     ProductFilterModule,
     ProductPreviewComponent,
     ProductPreviewSkeletonComponent,
@@ -32,6 +32,6 @@ import { AdminHeaderComponent } from "@app/admin/shell";
     TypingOverlayComponent,
     AdminHeaderComponent,
   ],
-  providers: [ProductsListEffects],
+  providers: [ProductListEffects],
 })
-export class ProductsListModule {}
+export class ProductListModule {}

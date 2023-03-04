@@ -12,8 +12,8 @@ import { combineLatest, map, Observable, startWith, take } from "rxjs";
 import {
   LoadMore,
   LoadPage,
-  ProductsListEffects,
-  ProductsListState,
+  ProductListEffects,
+  ProductListState,
   Reload,
   RetryLoading,
 } from "./store";
@@ -22,12 +22,12 @@ import { ProductFilterState } from "../product-filter";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: "app-buffets-products-list",
-  templateUrl: "./products-list.page.html",
-  styleUrls: ["./products-list.page.scss"],
+  selector: "app-admin-product-list",
+  templateUrl: "./product-list.page.html",
+  styleUrls: ["./product-list.page.scss"],
 })
-export class ProductsListPage implements OnInit, OnDestroy {
-  @Select(ProductsListState.shownProducts)
+export class ProductListPage implements OnInit, OnDestroy {
+  @Select(ProductListState.shownProducts)
   public products$!: Observable<Product[]>;
 
   @Select(CategoryState.entitiesMap)
@@ -82,7 +82,7 @@ export class ProductsListPage implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private effects: ProductsListEffects,
+    private effects: ProductListEffects,
     private platform: Platform,
     private router: Router,
     private route: ActivatedRoute,

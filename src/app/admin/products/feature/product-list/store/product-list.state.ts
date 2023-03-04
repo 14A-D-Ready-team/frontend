@@ -11,7 +11,7 @@ import {
   LoadPage,
   Reload,
   RetryLoading,
-} from "./products-list.actions";
+} from "./product-list.actions";
 import {
   CategoryState,
   CategoryStateModel,
@@ -24,7 +24,7 @@ import { FilterChanged } from "../../product-filter";
 import { EntityActions } from "@shared/extended-entity-state";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ProductsListStateModel {
+export interface ProductListStateModel {
   productIds: number[];
   remainingItems?: number;
   query: DeepReadonly<FilterProductsQuery>;
@@ -32,28 +32,28 @@ export interface ProductsListStateModel {
 
 export const productsLoadedPerScroll = 12;
 
-@State<ProductsListStateModel>({
-  name: "buffetsProductsList",
+@State<ProductListStateModel>({
+  name: "adminProductsList",
   defaults: {
     productIds: [],
     query: new FilterProductsQuery(),
   },
 })
 @Injectable()
-export class ProductsListState {
+export class ProductListState {
   constructor(private store: Store) {}
 
   @Selector([ProductState])
   public static shownProducts(
-    state: ProductsListStateModel,
+    state: ProductListStateModel,
     productState: ProductStateModel,
   ) {
     return state.productIds.map(id => productState.entities[id]).filter(p => p);
   }
 
-  @Selector([ProductsListState.shownProducts, CategoryState])
+  @Selector([ProductListState.shownProducts, CategoryState])
   public static hasUnknownCategories(
-    state: ProductsListStateModel,
+    state: ProductListStateModel,
     products: Product[],
     categoryState: CategoryStateModel,
   ) {
@@ -63,7 +63,7 @@ export class ProductsListState {
   }
 
   @Action(LoadPage)
-  public loadPage(ctx: StateContext<ProductsListStateModel>) {
+  public loadPage(ctx: StateContext<ProductListStateModel>) {
     loadAllCategories(this.store).pipe(take(1)).subscribe();
 
     const state = ctx.getState();
@@ -77,7 +77,7 @@ export class ProductsListState {
   }
 
   @Action(LoadMore)
-  public loadMore(ctx: StateContext<ProductsListStateModel>) {
+  public loadMore(ctx: StateContext<ProductListStateModel>) {
     const state = ctx.getState();
     if (state.remainingItems === 0) {
       return;
@@ -93,7 +93,7 @@ export class ProductsListState {
 
   @Action(ProductActions.LoadingSucceeded)
   public loadingSucceeded(
-    ctx: StateContext<ProductsListStateModel>,
+    ctx: StateContext<ProductListStateModel>,
     action: ProductActions.LoadingSucceeded,
   ) {
     const state = ctx.getState();
@@ -115,13 +115,13 @@ export class ProductsListState {
   }
 
   @Action(RetryLoading)
-  public retryLoading(ctx: StateContext<ProductsListStateModel>) {
+  public retryLoading(ctx: StateContext<ProductListStateModel>) {
     loadAllCategories(this.store).pipe(take(1)).subscribe();
     ctx.dispatch(new LoadMore());
   }
 
   @Action(Reload)
-  public reload(ctx: StateContext<ProductsListStateModel>) {
+  public reload(ctx: StateContext<ProductListStateModel>) {
     loadAllCategories(this.store, true).pipe(take(1)).subscribe();
 
     const state = ctx.getState();
@@ -146,7 +146,7 @@ export class ProductsListState {
 
   @Action(FilterChanged, { cancelUncompleted: true })
   public filter(
-    ctx: StateContext<ProductsListStateModel>,
+    ctx: StateContext<ProductListStateModel>,
     action: FilterChanged,
   ) {
     ctx.patchState({
