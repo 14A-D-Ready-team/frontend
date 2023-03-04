@@ -13,10 +13,10 @@ export interface BuffetEditorStateModel {
   form: NgxsFormStateModel<UpdateBuffetDto>;
 }
 
-export const formPath = "buffetEditor.form";
+export const formPath = "adminBuffetEditor.form";
 
 @State<BuffetEditorStateModel>({
-  name: "buffetEditor",
+  name: "adminBuffetEditor",
   defaults: {
     form: {
       model: new UpdateBuffetDto(),

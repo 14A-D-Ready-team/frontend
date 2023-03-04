@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { CommonModule } from "@angular/common";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { IonicModule } from "@ionic/angular";
 
 @Component({
-  selector: 'app-buffet-preview-skeleton',
+  selector: "app-admin-buffet-preview-skeleton",
   template: `
     <ion-card>
       <ion-thumbnail>
@@ -38,7 +38,7 @@ import { IonicModule } from '@ionic/angular';
       </ion-thumbnail>
     </ion-card>
   `,
-  styleUrls: ['./buffet-preview-skeleton.component.scss'],
+  styleUrls: ["./buffet-preview-skeleton.component.scss"],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, IonicModule],
