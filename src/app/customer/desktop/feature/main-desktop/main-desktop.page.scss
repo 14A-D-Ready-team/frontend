@@ -4,6 +4,7 @@
   padding: 0;
   margin: 0;
   font-family: "Poppins";
+  color: black;
 }
 
 ::-webkit-scrollbar {
@@ -50,7 +51,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  p {
+    color: white;
+  }
   img {
     width: 50%;
     max-width: 20rem;
@@ -108,9 +111,11 @@
 
 ion-modal {
   --width: 50%;
+  --min-width: 320px;
+  --border-radius: 0.8rem;
   --max-width: 500px;
-  --height: fit-conent;
-  --border-radius: 1.5rem;
+  --height: fit-content;
+
   h1 {
     color: black;
   }
@@ -121,5 +126,14 @@ ion-modal {
   }
   ion-title {
     text-align: center;
+    font-size: 2rem;
+    margin: 2rem 0;
   }
+  img {
+    width: 60%;
+  }
+}
+
+app-login-form {
+  margin-bottom: 1rem;
 }

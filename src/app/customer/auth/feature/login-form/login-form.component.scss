@@ -1,0 +1,151 @@
+@import "/src/global.scss";
+
+.card {
+  @include flex-center(column, space-evenly);
+  background-color: $card-background;
+  border-radius: 1rem 1rem 0em 0em;
+  min-height: fit-content;
+  overflow-y: auto;
+  overscroll-behavior: none;
+  img {
+    height: auto;
+    width: 50%;
+  }
+}
+
+h1 {
+  font-size: 2rem;
+  color: $ready-red;
+  font-weight: 600;
+  margin: 2.5rem 0;
+}
+
+.login-form {
+  @include flex-center(column, center);
+}
+
+.input-container {
+  @include flex-center(row, center);
+  margin: 0.5em 0em;
+  border-radius: 2em;
+
+  width: 70%;
+  max-width: 500px;
+  height: 2.5rem;
+
+  outline: 0.5px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+  position: relative;
+
+  input {
+    all: unset;
+    width: 90%;
+    font-size: 1rem;
+  }
+  .input-icon {
+    height: auto;
+    width: 1.6rem;
+    margin: 0em 0.6rem;
+    object-fit: contain;
+  }
+  .forgot-pswd-link {
+    position: absolute;
+    top: 105%;
+    right: 0%;
+    font-size: 0.8rem;
+    color: #92928e;
+  }
+}
+
+.login-error-message {
+  margin-top: 2.2vh;
+}
+
+//link for sign up
+.text-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  .router-container {
+    text-align: center;
+    margin-bottom: 0.5vh;
+  }
+  .sign-up-text {
+    all: unset;
+    display: inline-block;
+    font-size: 1rem;
+    color: black !important;
+  }
+  .sign-up-link {
+    font-size: 1rem;
+    margin-left: 0.3em;
+    color: $ready-red;
+  }
+}
+
+//decoration
+.decor-container {
+  @include flex-center(row, center);
+  margin-bottom: 1vh;
+  .line {
+    width: 25%;
+    max-width: 200px;
+    height: 0.1rem;
+    background-color: #92928e;
+    border-radius: 0.5rem;
+  }
+  .decor-text {
+    margin: 0em 0.5rem;
+    color: #92928e;
+    font-size: 1rem;
+  }
+}
+
+//facebook and google login button template
+@mixin other-button {
+  height: 2.5rem;
+  width: 70%;
+  max-width: 500px;
+  font-size: 1rem;
+  border-radius: 2rem;
+  margin-bottom: 0.7rem;
+}
+
+.other-container {
+  @include flex-center(column, center);
+  button {
+    @include other-button();
+  }
+  .facebook-btn {
+    color: #fcfcfa;
+    background: linear-gradient(264.57deg, #2660da -4.06%, #3c68a0 96.41%);
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15),
+      inset 0px 4px 16px rgba(59, 89, 152, 0.25);
+  }
+  .google-btn {
+    color: #25251c;
+    background: #fcfcfa;
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 2px rgba(37, 37, 28, 0.15),
+      inset 0px 4px 16px rgba(59, 89, 152, 0.25);
+  }
+}
+
+ion-spinner {
+  transform: scale(4);
+  position: absolute;
+  top: 50%;
+  color: $ready-red;
+}
+
+.input-disabled-container {
+  background-color: $disabled-grey;
+}
+
+.ready-btn {
+  font-size: 1rem;
+  width: 70%;
+  max-width: 500px;
+  height: 2.5rem;
+}

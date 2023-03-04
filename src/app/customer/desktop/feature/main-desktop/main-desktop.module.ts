@@ -1,3 +1,4 @@
+import { LoginFormModule } from "@app/customer/auth/feature/login-form";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
@@ -16,6 +17,7 @@ import { NavbarModule } from "../navbar";
     IonicModule,
     MainDesktopPageRoutingModule,
     NavbarModule,
+    LoginFormModule,
   ],
   declarations: [MainDesktopPage],
 })

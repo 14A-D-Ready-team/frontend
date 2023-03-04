@@ -37,16 +37,18 @@
 
   <ion-modal #loginModal id="login-modal" trigger="open-login">
     <ng-template>
-      <ion-fab slot="fixed" horizontal="end" [edge]="true">
-        <ion-fab-button>
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
       <ion-header>
-        <ion-toolbar>
-          <ion-title> Bejelenetkezés</ion-title>
-        </ion-toolbar>
+        <ion-segment value="login" (ionChange)="segmentChanged($event)">
+          <ion-segment-button value="login">
+            <ion-label>Bejelentkezés</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="signin">
+            <ion-label>Regisztráció</ion-label>
+          </ion-segment-button>
+        </ion-segment>
       </ion-header>
+
+      <app-login-form *ngIf="selectedSegment == 'login'"></app-login-form>
     </ng-template>
   </ion-modal>
 </div>

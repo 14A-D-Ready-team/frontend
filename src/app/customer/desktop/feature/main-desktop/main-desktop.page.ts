@@ -9,5 +9,12 @@ import { Router } from "@angular/router";
 export class MainDesktopPage implements OnInit {
   constructor() {}
 
+  selectedSegment: string = "login";
+
+  segmentChanged(event: any) {
+    console.log(event.target.value);
+    this.selectedSegment = event.target.value;
+  }
+
   ngOnInit() {}
 }

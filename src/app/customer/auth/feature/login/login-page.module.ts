@@ -10,6 +10,7 @@ import { ExternalAuthModule } from "@app/shared/external-auth";
 import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ErrorMessagePipe } from "@app/shared/exceptions/utils/pipes";
+import { LoginFormModule } from "@app/customer/auth/feature/login-form";
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ErrorMessagePipe } from "@app/shared/exceptions/utils/pipes";
     ValidationMessageModule,
     NgxsFormPluginModule,
     ErrorMessagePipe,
+    LoginFormModule,
   ],
   declarations: [LoginPage],
   providers: [],
