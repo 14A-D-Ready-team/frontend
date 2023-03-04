@@ -57,6 +57,8 @@ $l-font: clamp(1.6rem, 6.9vw, 3rem);
   color: white;
   font-size: $m-font;
   border-radius: 4rem;
+  --border-radius: 4rem;
+
   margin: 2vh 0em;
   box-shadow: 0px 10px 60px rgba(37, 37, 28, 0.15),
     inset 0px 4px 16px rgba(36, 36, 36, 0.25);
