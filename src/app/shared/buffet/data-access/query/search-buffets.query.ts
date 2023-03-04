@@ -9,11 +9,7 @@ export class SearchBuffetsQuery extends PaginationQuery {
     prev: SearchBuffetsQuery,
     curr: SearchBuffetsQuery,
   ) {
-    return (
-      isEqual(prev, curr) ||
-      prev.order !== curr.order ||
-      StringFilterQuery.isUnchanged(prev.search, curr.search)
-    );
+    return isEqual(prev, curr);
   }
 
   @Expose()

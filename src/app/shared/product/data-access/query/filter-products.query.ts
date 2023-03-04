@@ -14,15 +14,17 @@ export class FilterProductsQuery extends PaginationQuery {
     prev: FilterProductsQuery,
     curr: FilterProductsQuery,
   ) {
-    return (
-      isEqual(prev, curr) ||
+    const numberFiltersUnchanged =
       NumberFilterQuery.isUnchanged(
         prev.discountedPrice,
         curr.discountedPrice,
-      ) ||
-      NumberFilterQuery.isUnchanged(prev.fullPrice, curr.fullPrice) ||
-      NumberFilterQuery.isUnchanged(prev.stock, curr.stock)
-    );
+      ) &&
+      NumberFilterQuery.isUnchanged(prev.fullPrice, curr.fullPrice) &&
+      NumberFilterQuery.isUnchanged(prev.stock, curr.stock);
+
+    const categoryIdUnchanged = prev.categoryId === curr.categoryId;
+
+    return categoryIdUnchanged && numberFiltersUnchanged;
   }
 
   @Expose()

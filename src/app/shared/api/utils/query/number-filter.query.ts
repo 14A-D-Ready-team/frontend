@@ -5,6 +5,7 @@ import {
   TransformFnParams,
 } from "class-transformer";
 import { IsNumber, IsOptional } from "class-validator";
+import { isEqual } from "lodash";
 import { NumericFilterType } from "../numeric-filter-type.enum";
 
 export class NumberFilterQuery {
@@ -16,14 +17,14 @@ export class NumberFilterQuery {
   }
 
   public static isUnchanged(
-    previous?: NumberFilterQuery,
-    current?: NumberFilterQuery,
+    prev?: NumberFilterQuery,
+    curr?: NumberFilterQuery,
   ) {
-    const typeChanged = previous?.type !== current?.type;
-    const previousEmpty = NumberFilterQuery.isEmpty(previous);
-    const currentEmpty = NumberFilterQuery.isEmpty(current);
+    if (isEqual(prev, curr)) {
+      return true;
+    }
 
-    return typeChanged && previousEmpty && currentEmpty;
+    return NumberFilterQuery.isEmpty(prev) && NumberFilterQuery.isEmpty(curr);
   }
 
   @Expose()
