@@ -46,7 +46,7 @@ const signupFormPath = "adminsignup.signupForm";
   },
 })
 @Injectable()
-export class SignupState {
+export class AdminSignupState {
   constructor(private authService: AuthService) {}
 
   @Action(AdminSignup)

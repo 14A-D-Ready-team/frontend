@@ -7,4 +7,4 @@ import { AdminValidationMessageComponent } from "./admin-validation-message.comp
   imports: [CommonModule],
   exports: [AdminValidationMessageComponent],
 })
-export class ValidationMessageModule {}
+export class AdminValidationMessageModule {}

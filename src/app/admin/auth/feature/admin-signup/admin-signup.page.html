@@ -4,7 +4,7 @@
       <img class="logo" src="/assets/icon/Logo.png" alt="ready logo" />
     </div>
     <div class="card">
-      <h1>Regisztráció</h1>
+      <h1>Admin Regisztráció</h1>
 
       <form
         action=""
@@ -134,10 +134,35 @@
             </div>
           </div>
         </div>
-        <app-validation-message
+
+        <div>
+          <h1>Felhasználó típusa</h1>
+          <ion-radio-group formControlName="type">
+            <ion-item>
+              <ion-radio slot="start" value="1"></ion-radio>
+              <ion-label>Büfé dolgozó</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-radio slot="start" value="2"></ion-radio>
+              <ion-label>Büfé tulajdonos</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-radio slot="start" value="3"></ion-radio>
+              <ion-label>Ready! Admin</ion-label>
+            </ion-item>
+          </ion-radio-group>
+        </div>
+
+        <ion-select placeholder="Büfé kiválsztása" class="input-container">
+          <ion-select-option value="1">Sör</ion-select-option>
+          <ion-select-option value="2">Jedlik</ion-select-option>
+          <ion-select-option value="bananas">TODO!!!!</ion-select-option>
+        </ion-select>
+
+        <app-admin-validation-message
           [errorMessage]="(signupStatus | async)?.error | errorMessage"
           [visible]="(signupStatus | async)?.error"
-        ></app-validation-message>
+        ></app-admin-validation-message>
         <ion-spinner *ngIf="(signupStatus | async)?.loading"></ion-spinner>
 
         <button
@@ -153,18 +178,6 @@
         <p class="sign-up-text">Van már fiókja?</p>
         <a class="sign-up-link" routerLink="/auth/login">Bejelentkezés</a>
       </div>
-
-      <div class="decor-container">
-        <div class="line"></div>
-        <p class="decor-text">Vagy</p>
-        <div class="line"></div>
-      </div>
-
-      <div class="other-container">
-        <button class="facebook-btn">Regisztráció Facebook fiókkal</button>
-        <button class="google-btn">Regisztráció Google fiókkal</button>
-      </div>
     </div>
   </div>
 </ion-content>
-
