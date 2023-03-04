@@ -19,6 +19,8 @@ import { AuthenticationModule } from "@shared/authentication";
 import { APP_ABILITY_FACTORY, PolicyModule } from "@shared/policy";
 import { AppAbility, AppAbilityFactory } from "./app-ability.factory";
 import { AbilityModule, AbilityService } from "@casl/angular";
+import { AdminAuthModule } from "./admin/auth/admin-auth.module";
+import { AdminSignupModule } from './admin/auth/feature/admin-signup';
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
@@ -50,6 +52,8 @@ const appAbilityFactoryProvider = {
     PolicyModule,
     BuffetModule,
     AppRoutingModule,
+    AdminAuthModule,
+    AdminSignupModule,
   ],
   providers: [routeReuseStrategyProvider, appAbilityFactoryProvider],
   bootstrap: [AppComponent],
