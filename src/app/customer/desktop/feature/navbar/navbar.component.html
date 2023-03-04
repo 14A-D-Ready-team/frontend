@@ -3,13 +3,39 @@
     <img src="/assets/icon/Logo-nolabel.png" alt="" />
   </div>
 
-  <div class="nav-item"><a class="active" href="">Menü</a></div>
+  <div class="nav-item">
+    <a
+      [ngClass]="currentPage == '/customer/main-desktop' ? 'active' : ''"
+      href=""
+      >Menü</a
+    >
+  </div>
 
-  <div class="nav-item"><a href="">Kosár</a></div>
+  <div class="nav-item">
+    <a
+      [ngClass]="currentPage == '/customer/cart-desktop' ? 'active' : ''"
+      href=""
+      >Kosár</a
+    >
+  </div>
 
-  <div class="nav-item"><a href="">Rendelésem</a></div>
+  <div class="nav-item">
+    <a
+      [ngClass]="currentPage == '/customer/order-desktop' ? 'active' : ''"
+      href=""
+      >Rendelésem</a
+    >
+  </div>
 
-  <div class="nav-item"><a href="">Helyzet</a></div>
+  <div class="nav-item">
+    <a
+      [ngClass]="
+        currentPage == '/customer/buffet-select-desktop' ? 'active' : ''
+      "
+      href=""
+      >Helyzet</a
+    >
+  </div>
 
   <div class="nav-item login"><a href="">Bejelentkezés</a></div>
 </div>

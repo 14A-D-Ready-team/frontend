@@ -1,8 +1,8 @@
 @import "/src/global.scss";
 * {
-  font-size: $s-font;
   color: black;
   font-family: "Poppins";
+  font-size: clamp(0.6rem, 0.65rem + 0.6vw, 1rem);
 }
 .navbar {
   height: 5rem;
@@ -22,7 +22,6 @@
     justify-content: center;
     a {
       text-decoration: none;
-      font-size: 1rem;
       color: black;
     }
     a:hover {
