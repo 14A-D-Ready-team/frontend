@@ -62,8 +62,8 @@ workflows:
     jobs:
       - format-code
       - build-and-test:
-        requires:
-          - format-code
+          requires:
+            - format-code
       - cypress/run:
           requires:
             - build-and-test
