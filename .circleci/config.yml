@@ -61,8 +61,12 @@ workflows:
   workflow:
     jobs:
       - format-code
-      - build-and-test
+      - build-and-test:
+        requires:
+          - format-code
       - cypress/run:
+          requires:
+            - build-and-test
           install-command: npm i --legacy-peer-deps
           record: true
           store_artifacts: true
