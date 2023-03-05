@@ -2,7 +2,11 @@ import { environment } from "@/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiService, PaginatedResponse } from "@shared/api";
-import { processPaginatedResponse, serializeFormData, serializeQueryParams } from "@shared/serialization";
+import {
+  processPaginatedResponse,
+  serializeFormData,
+  serializeQueryParams,
+} from "@shared/serialization";
 import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
 import { Buffet } from "../entity";
 import { SearchBuffetsQuery } from "../query";

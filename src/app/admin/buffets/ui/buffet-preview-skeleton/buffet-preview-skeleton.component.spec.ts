@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { BuffetPreviewSkeletonComponent } from './buffet-preview-skeleton.component';
+import { BuffetPreviewSkeletonComponent } from "./buffet-preview-skeleton.component";
 
-describe('BuffetPreviewSkeletonComponent', () => {
+describe("BuffetPreviewSkeletonComponent", () => {
   let component: BuffetPreviewSkeletonComponent;
   let fixture: ComponentFixture<BuffetPreviewSkeletonComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ BuffetPreviewSkeletonComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [BuffetPreviewSkeletonComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BuffetPreviewSkeletonComponent);
@@ -18,7 +18,7 @@ describe('BuffetPreviewSkeletonComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

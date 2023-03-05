@@ -34,7 +34,7 @@ export class BuffetSelectPage implements OnInit {
   public loading$!: Observable<boolean>;
 
   @Select(BuffetState.active)
-  public activeBuffet$!: Observable<Buffet>
+  public activeBuffet$!: Observable<Buffet>;
 
   cancel() {
     this.modal.dismiss(null, "cancel");

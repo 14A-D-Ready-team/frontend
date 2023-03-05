@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { TypingOverlayComponent } from './typing-overlay.component';
+import { TypingOverlayComponent } from "./typing-overlay.component";
 
-describe('TypingOverlayComponent', () => {
+describe("TypingOverlayComponent", () => {
   let component: TypingOverlayComponent;
   let fixture: ComponentFixture<TypingOverlayComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TypingOverlayComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [TypingOverlayComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TypingOverlayComponent);
@@ -18,7 +18,7 @@ describe('TypingOverlayComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,2 +1,2 @@
 export * from "./data-access";
-export * from './buffet.module';
+export * from "./buffet.module";

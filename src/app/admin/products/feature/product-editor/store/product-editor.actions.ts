@@ -1,3 +1,1 @@
-export class Save{
-    
-}
+export class Save {}

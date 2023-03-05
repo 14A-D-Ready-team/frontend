@@ -1,7 +1,7 @@
-import { TransformPipe } from './transform.pipe';
+import { TransformPipe } from "./transform.pipe";
 
-describe('TransformPipe', () => {
-  it('create an instance', () => {
+describe("TransformPipe", () => {
+  it("create an instance", () => {
     const pipe = new TransformPipe();
     expect(pipe).toBeTruthy();
   });

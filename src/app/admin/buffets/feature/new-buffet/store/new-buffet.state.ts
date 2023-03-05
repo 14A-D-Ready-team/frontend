@@ -24,7 +24,6 @@ export const formPath = "newBuffet.form";
     },
   },
 })
-
 @Injectable()
 export class NewBuffetState {
   constructor() {}
