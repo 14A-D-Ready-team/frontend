@@ -1,9 +1,9 @@
-setup: true
 version: 2.1
 
 orbs:
   node: circleci/node@4.7
-  continuation: circleci/continuation@0.2.0
+  codecov: codecov/codecov@3.0.0
+  cypress: cypress-io/cypress@2.2.0
 
 jobs:
   format-code:
@@ -17,8 +17,9 @@ jobs:
       - run:
           name: Npm config
           command: npm config set legacy-peer-deps true
-      - node/install-packages:
-          pkg-manager: npm
+      - run:
+          name: Install dependencies
+          command: npm install
       - run:
           name: Format code
           command: npm run format || echo ""
@@ -36,23 +37,32 @@ jobs:
           name: Push changes
           command: git push origin $CIRCLE_BRANCH
 
+  build-and-test:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - checkout
+      - run:
+          name: Npm config
+          command: npm config set legacy-peer-deps true
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Build
+          command: npm run build
+      #- run:
+      #    name: Run tests
+      #    command: npm run test
+      #- codecov/upload:
+      #    token: CODECOV_TOKEN
+
 workflows:
-  setup:
+  workflow:
     jobs:
       - format-code
-      - continuation/continue:
-          requires:
-            - format-code
-          configuration_path: ".circleci/main.yml"
-          parameters: /home/circleci/params.json
-          pre-steps:
-            - run:
-                command: |
-                  if [ -z "${CIRCLE_PULL_REQUEST##*/}" ]
-                  then
-                    RUN_BUILD=false
-                  else
-                    RUN_BUILD=true
-                  fi
-                  echo $RUN_BUILD
-                  echo '{ "run_build": '$RUN_BUILD' }' >> /home/circleci/params.json
+      - build-and-test
+      - cypress/run:
+          install-command: npm i --legacy-peer-deps
+          record: true
+          store_artifacts: true
+          attach-workspace: false
