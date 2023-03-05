@@ -16,5 +16,7 @@ export class MainDesktopPage implements OnInit {
     this.selectedSegment = event.target.value;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.selectedSegment = "login";
+  }
 }

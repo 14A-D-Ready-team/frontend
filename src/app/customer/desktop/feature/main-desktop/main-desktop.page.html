@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div class="images-container">
+    <div class="team-container">
       <h1>A csapatról</h1>
       <p>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci
@@ -35,10 +35,111 @@
     </div>
   </div>
 
+  <!-- <div class="after-login">
+    <div class="greeting-container">
+      <h1>Üdvözöljük Alex!</h1>
+      <p>Válogass a büfékíbálatból!</p>
+      <div class="menu-container">
+        <div class="category-product-container">
+          <h1>Melegszendvicsek</h1>
+          <div class="product-container">
+            <div class="product-card">
+              <img
+                src="/assets/images/product.png"
+                class="product-img"
+                alt=""
+              />
+              <div class="product-description">
+                <p class="product-category">Melegszendvics</p>
+                <p class="product-name">Sonkás</p>
+                <p class="product-price">500Ft</p>
+                <button class="add-btn">+</button>
+              </div>
+            </div>
+            <div class="product-card">
+              <img
+                src="/assets/images/product.png"
+                class="product-img"
+                alt=""
+              />
+              <div class="product-description">
+                <p class="product-category">Melegszendvics</p>
+                <p class="product-name">Sonkás</p>
+                <p class="product-price">500Ft</p>
+                <button class="add-btn">+</button>
+              </div>
+            </div>
+            <div class="product-card">
+              <img
+                src="/assets/images/product.png"
+                class="product-img"
+                alt=""
+              />
+              <div class="product-description">
+                <p class="product-category">Melegszendvics</p>
+                <p class="product-name">Sonkás</p>
+                <p class="product-price">500Ft</p>
+                <button class="add-btn">+</button>
+              </div>
+            </div>
+            <div class="product-card">
+              <img
+                src="/assets/images/product.png"
+                class="product-img"
+                alt=""
+              />
+              <div class="product-description">
+                <p class="product-category">Melegszendvics</p>
+                <p class="product-name">Sonkás</p>
+                <p class="product-price">500Ft</p>
+                <button class="add-btn">+</button>
+              </div>
+            </div>
+            <div class="product-card">
+              <img
+                src="/assets/images/product.png"
+                class="product-img"
+                alt=""
+              />
+              <div class="product-description">
+                <p class="product-category">Melegszendvics</p>
+                <p class="product-name">Sonkás</p>
+                <p class="product-price">500Ft</p>
+                <button class="add-btn">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="category-product-container">
+          <h1>Péksütik</h1>
+          <div class="product-container">
+            <div class="product-card">
+              <img
+                src="/assets/images/product.png"
+                class="product-img"
+                alt=""
+              />
+              <div class="product-description">
+                <p class="product-category">Melegszendvics</p>
+                <p class="product-name">Sonkás</p>
+                <p class="product-price">500Ft</p>
+                <button class="add-btn">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
   <ion-modal #loginModal id="login-modal" trigger="open-login">
     <ng-template>
       <ion-header>
-        <ion-segment value="login" (ionChange)="segmentChanged($event)">
+        <ion-segment
+          [value]="selectedSegment"
+          (ionChange)="segmentChanged($event)"
+        >
           <ion-segment-button value="login">
             <ion-label>Bejelentkezés</ion-label>
           </ion-segment-button>
