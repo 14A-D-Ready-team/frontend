@@ -45,8 +45,9 @@ jobs:
       - run:
           name: Npm config
           command: npm config set legacy-peer-deps true
-      - node/install-packages:
-          pkg-manager: npm
+      - run:
+          name: Install dependencies
+          command: npm install
       - run:
           name: Build
           command: npm run build
