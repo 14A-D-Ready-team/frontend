@@ -28,6 +28,10 @@ import { AuthState, Logout } from "@shared/authentication";
             <ion-icon name="fast-food-outline" slot="start"></ion-icon>
             <ion-label>Termékek</ion-label>
           </ion-item>
+          <ion-item lines="none" routerLink="/admin">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            <ion-label>Meghívó küldése</ion-label>
+          </ion-item>
           <ion-item
             class="user-item"
             lines="none"

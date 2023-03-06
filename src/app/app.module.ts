@@ -21,6 +21,8 @@ import { AppAbility, AppAbilityFactory } from "./app-ability.factory";
 import { AbilityModule, AbilityService } from "@casl/angular";
 import { AdminAuthModule } from "./admin/auth/admin-auth.module";
 import { AdminSignupModule } from './admin/auth/feature/admin-signup';
+import { DashboardModule } from './admin/dashboard/dashboard.module';
+import { CreateInviteTokenModule } from './admin/dashboard/feature/create-invite-token/create-invite-token.module';
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
@@ -54,6 +56,8 @@ const appAbilityFactoryProvider = {
     AppRoutingModule,
     AdminAuthModule,
     AdminSignupModule,
+    DashboardModule,
+    CreateInviteTokenModule,
   ],
   providers: [routeReuseStrategyProvider, appAbilityFactoryProvider],
   bootstrap: [AppComponent],
