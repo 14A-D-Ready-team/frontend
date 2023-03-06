@@ -54,7 +54,7 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px $card-background inset !important;
 }
-input:-webkit-autofill{
+input:-webkit-autofill {
   -webkit-text-fill-color: black !important;
 }
 
@@ -78,6 +78,14 @@ input:-webkit-autofill{
 
 .ready-btn:disabled {
   background-color: #c63d36;
+}
+
+.desktop-background {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
 }
 
 .no-opacity .native-input[disabled] {
