@@ -27,6 +27,13 @@ const routes: Routes = [
         m => m.MainDesktopPageModule,
       ),
   },
+  {
+    path: "buffet-select-desktop",
+    loadChildren: () =>
+      import("./desktop/feature/buffet-select").then(
+        m => m.BuffetSelectPageModule,
+      ),
+  },
 ];
 
 @NgModule({
