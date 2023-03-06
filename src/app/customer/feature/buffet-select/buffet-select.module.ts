@@ -17,7 +17,6 @@ import { BuffetSelectState } from "./store";
     IonicModule,
     BuffetSelectPageRoutingModule,
     NgxsModule.forFeature([BuffetSelectState]),
-    
   ],
   declarations: [BuffetSelectPage],
 })

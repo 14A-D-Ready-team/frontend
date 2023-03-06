@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-import { SendPasswordResetPage } from './send-password-reset.page';
+import { SendPasswordResetPage } from "./send-password-reset.page";
 
 const routes: Routes = [
   {
-    path: '',
-    component: SendPasswordResetPage
-  }
+    path: "",
+    component: SendPasswordResetPage,
+  },
 ];
 
 @NgModule({

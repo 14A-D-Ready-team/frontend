@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-import { BuffetSelectPage } from './buffet-select.page';
+import { BuffetSelectPage } from "./buffet-select.page";
 
 const routes: Routes = [
   {
-    path: '',
-    component: BuffetSelectPage
-  }
+    path: "",
+    component: BuffetSelectPage,
+  },
 ];
 
 @NgModule({

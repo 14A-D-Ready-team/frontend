@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import "zone.js/dist/zone-node";
 
 import { APP_BASE_HREF } from "@angular/common";
@@ -49,7 +50,7 @@ export function app(): express.Express {
 }
 
 function run(): void {
-  const port = process.env["PORT"] || 4000;
+  const port = process.env.PORT || 4000;
 
   // Start up the Node server
   const server = app();

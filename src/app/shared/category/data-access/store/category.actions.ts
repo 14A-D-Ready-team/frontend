@@ -7,7 +7,7 @@ export class Load extends EntityActions.Load<FilterCategoriesQuery> {
   public static readonly type = `[Category] Load`;
 }
 
-export class Load2  {
+export class Load2 {
   public static readonly type = `[Category] Load2`;
 }
 
