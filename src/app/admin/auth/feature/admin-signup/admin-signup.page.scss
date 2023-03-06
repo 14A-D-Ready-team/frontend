@@ -9,7 +9,7 @@
 
 .container {
   display: grid;
-  grid-template-rows: 35vh 65vh;
+  grid-template-rows: 25vh 75vh;
   background-color: black;
 }
 
@@ -197,4 +197,10 @@ ion-spinner {
 
 .input-disabled-container {
   background-color: $disabled-grey;
+}
+
+.user-type {
+  ion-radio-group{
+    --ion-background-color: #fcfcfa;
+  }
 }

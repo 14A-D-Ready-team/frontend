@@ -18,13 +18,13 @@ interface AdminSignupForm {
   styleUrls: ['./admin-signup.page.scss'],
 })
 export class AdminSignupPage implements OnInit {
-  public signupForm: FormGroup<AdminSignupForm>;
+  public adminSignupForm: FormGroup<AdminSignupForm>;
 
   @Select((state: { signup: AdminSignupStateModel }) => state.signup.status)
   public signupStatus!: Observable<AdminSignupStatus>;
 
   constructor(private store: Store) {
-    this.signupForm = new ClassValidatorFormGroup<AdminSignupForm>(SignupDto, {
+    this.adminSignupForm = new ClassValidatorFormGroup<AdminSignupForm>(SignupDto, {
       name: new ClassValidatorFormControl<string>(""),
       email: new ClassValidatorFormControl<string>(""),
       password: new ClassValidatorFormControl<string>(""),

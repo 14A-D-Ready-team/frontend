@@ -17,7 +17,7 @@ export interface AdminSignupStatus {
 }
 
 export interface AdminSignupStateModel {
-  signupForm: {
+  adminSignupForm: {
     model: SignupDto;
     dirty: boolean;
     status: FormControlStatus;
@@ -28,14 +28,14 @@ export interface AdminSignupStateModel {
   status?: AdminSignupStatus;
 }
 
-export const SIGNUP_STATE_TOKEN = new StateToken<AdminSignupStateModel>("adminsignup");
+export const SIGNUP_STATE_TOKEN = new StateToken<AdminSignupStateModel>("adminSignup");
 
-const signupFormPath = "adminsignup.signupForm";
+const signupFormPath = "adminSignup.signupForm";
 
 @State<AdminSignupStateModel>({
   name: SIGNUP_STATE_TOKEN,
   defaults: {
-    signupForm: {
+    adminSignupForm: {
       model: new SignupDto("", "", "", 1),
       dirty: false,
       status: "VALID",
@@ -53,11 +53,11 @@ export class AdminSignupState {
   public startSignup(ctx: StateContext<AdminSignupStateModel>) {
     const state = ctx.getState();
 
-    if (state.signupForm.status === "INVALID") {
+    if (state.adminSignupForm.status === "INVALID") {
       return;
     }
 
-    const model = state.signupForm.model;
+    const model = state.adminSignupForm.model;
     const payload = new SignupDto(model.name, model.email, model.password, model.type);
 
     ctx.dispatch(new SetFormDisabled(signupFormPath));
