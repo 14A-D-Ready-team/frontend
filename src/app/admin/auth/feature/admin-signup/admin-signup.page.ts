@@ -33,6 +33,7 @@ export class AdminSignupPage implements OnInit {
   }
 
   public signup() {
+    //console.log(this.adminSignupForm);
     this.store.dispatch(new AdminSignup());
   }
 
