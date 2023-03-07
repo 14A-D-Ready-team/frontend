@@ -3,8 +3,6 @@ import { CommonModule } from "@angular/common";
 import { SignupFormComponent } from "./signup-form.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { IonicModule } from "@ionic/angular";
-import { NgxsModule } from "@ngxs/store";
-import { SignupState } from "./store";
 import { ExternalAuthModule } from "@shared/external-auth";
 import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
 import { ValidationMessageModule } from "@app/customer/ui/validation-message";
@@ -16,7 +14,6 @@ import { ErrorMessagePipe } from "@shared/exceptions";
     CommonModule,
     FormsModule,
     IonicModule,
-    NgxsModule.forFeature([SignupState]),
     ExternalAuthModule.forFeature(),
     ExtendedFormPluginModule,
     ReactiveFormsModule,

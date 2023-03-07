@@ -8,7 +8,7 @@ import { BuffetSelectPageRoutingModule } from "./buffet-select-routing.module";
 
 import { BuffetSelectPage } from "./buffet-select.page";
 import { BuffetSelectComponent } from "@shared/inputs/feature/ionic";
-import { NavbarComponent, NavbarModule } from "../navbar";
+import { NavbarModule } from "../navbar";
 
 @NgModule({
   imports: [

@@ -9,9 +9,10 @@
 
 //card that contains the input options
 .card {
-  @include flex-center(column, space-evenly);
+  @include flex-center(column, center);
   background-color: $card-background;
   border-radius: 1rem 1rem 0em 0em;
+  height: 100%;
   min-height: fit-content;
   overflow-y: auto;
 }
@@ -20,20 +21,19 @@ h1 {
   font-size: 2rem;
   color: $ready-red;
   font-weight: 600;
-  margin: 2.5rem 0;
+  margin: 1.5rem 0;
 }
 
 //sign up form
 .login-form {
-  @include flex-center(column, center);
-
+  @include flex-center(column, flex-start);
   .input-container {
     @include flex-center(row, center);
     margin: 0.5em 0em;
     border-radius: 2em;
 
-    width: 70%;
-    max-width: 500px;
+    width: 80%;
+    max-width: 400px;
     height: 2.5rem;
 
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
@@ -42,7 +42,7 @@ h1 {
 
     input {
       all: unset;
-      width: 90%;
+      width: 85%;
       font-size: 1rem;
     }
     .input-icon {
@@ -108,7 +108,7 @@ h1 {
 
 //link for sign up
 .sign-up-container {
-  margin-bottom: 1vh;
+  margin-bottom: 2vh;
   .sign-up-text {
     display: inline-block;
     font-size: 1rem;
@@ -125,10 +125,10 @@ h1 {
 //decoration
 .decor-container {
   @include flex-center(row, center);
-  margin-bottom: 1vh;
+  margin-bottom: 2vh;
   .line {
     width: 25%;
-    max-width: 200px;
+    max-width: 100px;
     height: 0.1rem;
     background-color: #92928e;
     border-radius: 0.5rem;
@@ -143,8 +143,8 @@ h1 {
 //facebook and google login button template
 @mixin other-button {
   height: 2.5rem;
-  width: 70%;
-  max-width: 500px;
+  width: 80%;
+  max-width: 400px;
   font-size: 1rem;
   border-radius: 2rem;
   margin-bottom: 1rem;
@@ -184,7 +184,7 @@ ion-spinner {
 
 .ready-btn {
   font-size: 1rem;
-  width: 70%;
-  max-width: 500px;
+  width: 75%;
+  max-width: 400px;
   height: 2.5rem;
 }

@@ -1,17 +1,17 @@
-import { User } from "@shared/user";
+// import { User } from "@shared/user";
 
-export class Signup {
-  static readonly type = "[SignupPage] Signup";
-}
+// export class Signup {
+//   static readonly type = "[SignupPage] Signup";
+// }
 
-export class SignupFailed {
-  static readonly type = "[Auth API] Signup Failed";
+// export class SignupFailed {
+//   static readonly type = "[Auth API] Signup Failed";
 
-  constructor(public error: any) {}
-}
+//   constructor(public error: any) {}
+// }
 
-export class SignupSucceeded {
-  static readonly type = "[Auth API] Signup Succeeded";
+// export class SignupSucceeded {
+//   static readonly type = "[Auth API] Signup Succeeded";
 
-  constructor(public user: User) {}
-}
+//   constructor(public user: User) {}
+// }
