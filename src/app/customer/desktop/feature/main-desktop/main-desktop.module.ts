@@ -8,7 +8,7 @@ import { IonicModule } from "@ionic/angular";
 import { MainDesktopPageRoutingModule } from "./main-desktop-routing.module";
 
 import { MainDesktopPage } from "./main-desktop.page";
-import { NavbarComponent, NavbarModule } from "../navbar";
+import { NavbarModule } from "../navbar";
 import { SignupFormModule } from "@app/customer/auth/feature/signup-form/signup-form.module";
 
 @NgModule({

@@ -8,14 +8,15 @@ import {
 import { SetActive } from "@ngxs-labs/entity-state";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
+import { BuffetSelectState } from "@shared/inputs/feature/ionic/buffet-select/store";
 import { Observable, take } from "rxjs";
-import {
-  BuffetSelectState,
-  LoadMore,
-  LoadPage,
-  Reload,
-  RetryLoading,
-} from "./store";
+// import {
+//   BuffetSelectState,
+//   LoadMore,
+//   LoadPage,
+//   Reload,
+//   RetryLoading,
+// } from "./store";
 
 @Component({
   selector: "app-buffet-select",
@@ -34,50 +35,50 @@ export class BuffetSelectPage implements OnInit {
   public loading$!: Observable<boolean>;
 
   @Select(BuffetState.active)
-  public activeBuffet$!: Observable<Buffet>
+  public activeBuffet$!: Observable<Buffet>;
 
   cancel() {
     this.modal.dismiss(null, "cancel");
   }
 
   confirm(s: any) {
-    const idString = s.toString();
-    this.store.dispatch(new SetActive(BuffetState, idString));
+    // const idString = s.toString();
+    // this.store.dispatch(new SetActive(BuffetState, idString));
     this.modal.dismiss(this.name, "confirm");
     console.log(s);
   }
 
-  public retryLoading() {
-    this.store.dispatch(new RetryLoading());
-  }
+  // public retryLoading() {
+  //   this.store.dispatch(new RetryLoading());
+  // }
 
-  public handleRefresh(event: any) {
-    const refresherEvent = event as RefresherCustomEvent;
-    return this.store
-      .dispatch(new Reload())
-      .pipe(take(1))
-      .subscribe(() => refresherEvent.detail.complete());
-  }
+  // public handleRefresh(event: any) {
+  //   const refresherEvent = event as RefresherCustomEvent;
+  //   return this.store
+  //     .dispatch(new Reload())
+  //     .pipe(take(1))
+  //     .subscribe(() => refresherEvent.detail.complete());
+  // }
 
-  public onIonInfinite(event: any) {
-    this.store
-      .dispatch(new LoadMore())
-      .pipe(take(1))
-      .subscribe(() => (event as InfiniteScrollCustomEvent).target.complete());
-  }
+  // public onIonInfinite(event: any) {
+  //   this.store
+  //     .dispatch(new LoadMore())
+  //     .pipe(take(1))
+  //     .subscribe(() => (event as InfiniteScrollCustomEvent).target.complete());
+  // }
 
-  public buffetById(index: number, el: Buffet): number {
-    return el.id;
-  }
+  // public buffetById(index: number, el: Buffet): number {
+  //   return el.id;
+  // }
 
-  public select(id: number) {
-    const idString = id.toString();
-    this.store.dispatch(new SetActive(BuffetState, idString));
-  }
+  // public select(id: number) {
+  //   const idString = id.toString();
+  //   this.store.dispatch(new SetActive(BuffetState, idString));
+  // }
 
   constructor(private store: Store) {}
 
   ngOnInit() {
-    this.store.dispatch(new LoadPage());
+    // this.store.dispatch(new LoadPage());
   }
 }

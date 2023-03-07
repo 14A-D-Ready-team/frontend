@@ -8,6 +8,8 @@ import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
 import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ErrorMessagePipe } from "@shared/exceptions";
+import { NgxsModule } from "@ngxs/store";
+import { SignupState } from "./store";
 
 @NgModule({
   imports: [
@@ -15,6 +17,7 @@ import { ErrorMessagePipe } from "@shared/exceptions";
     FormsModule,
     IonicModule,
     ExternalAuthModule.forFeature(),
+    NgxsModule.forFeature([SignupState]),
     ExtendedFormPluginModule,
     ReactiveFormsModule,
     ValidationMessageModule,
@@ -22,6 +25,6 @@ import { ErrorMessagePipe } from "@shared/exceptions";
     ErrorMessagePipe,
   ],
   declarations: [SignupFormComponent],
-  exports: [SignupFormComponent]
+  exports: [SignupFormComponent],
 })
 export class SignupFormModule {}

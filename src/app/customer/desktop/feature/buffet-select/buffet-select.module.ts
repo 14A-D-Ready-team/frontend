@@ -9,6 +9,8 @@ import { BuffetSelectPageRoutingModule } from "./buffet-select-routing.module";
 import { BuffetSelectPage } from "./buffet-select.page";
 import { BuffetSelectComponent } from "@shared/inputs/feature/ionic";
 import { NavbarModule } from "../navbar";
+import { NgxsModule } from "@ngxs/store";
+import { BuffetSelectState } from "@shared/inputs/feature/ionic/buffet-select/store";
 
 @NgModule({
   imports: [
@@ -18,6 +20,7 @@ import { NavbarModule } from "../navbar";
     BuffetSelectPageRoutingModule,
     NavbarModule,
     BuffetSelectComponent,
+    NgxsModule.forFeature([BuffetSelectState]),
   ],
   declarations: [BuffetSelectPage],
 })

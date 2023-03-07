@@ -1,23 +1,23 @@
-import { finalize } from "rxjs";
-import { catchError } from "rxjs";
-import { switchMap } from "rxjs";
-import { Injectable } from "@angular/core";
-import { FormControlErrors } from "@app/shared/extended-form-plugin";
 import { Dictionary } from "@/types";
+import { Injectable } from "@angular/core";
+import { FormControlStatus } from "@angular/forms";
+import { FormControlErrors } from "@app/shared/extended-form-plugin";
+import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
+import { Action, State, StateContext, StateToken } from "@ngxs/store";
 import {
   AuthService,
   SetCurrentLogin,
   SignupDto,
 } from "@shared/authentication";
-import { Action, State, StateContext, StateToken } from "@ngxs/store";
-import { FormControlStatus } from "@angular/forms";
-import { Signup, SignupFailed, SignupSucceeded } from "./signup.actions";
-import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
+import { catchError, finalize, switchMap } from "rxjs";
+import { Signup, SignupSucceeded, SignupFailed } from "./signup.actions";
+
 export interface SignupStatus {
   loading: boolean;
   error?: any;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SignupStateModel {
   signupForm: {
     model: SignupDto;

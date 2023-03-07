@@ -34,9 +34,9 @@ $card-background: #f9fbfc;
 $disabled-grey: #e4e4e4;
 
 //font sizes
-$s-font: clamp(0.6rem, 3.4vw, 1.2rem);
-$m-font: clamp(1rem, 4.5vw, 1.6rem);
-$l-font: clamp(1.6rem, 6.9vw, 3rem);
+$s-font: clamp(0.6rem, 0.547rem + 0.281vw, 0.8rem);
+$m-font: clamp(0.8rem, 0.947rem + 0.281vw, 1.2rem);
+$l-font: clamp(1.8rem, 1.868rem + 0.702vw, 2.2rem);
 
 //flex container
 @mixin flex-center($direction, $justify) {
@@ -47,7 +47,7 @@ $l-font: clamp(1.6rem, 6.9vw, 3rem);
   flex-direction: $direction;
 }
 
-//google col
+//google kitöltés szín deaktiválva (kapta halt)
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

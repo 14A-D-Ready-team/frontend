@@ -149,8 +149,8 @@
         </ion-segment>
       </ion-header>
 
-      <app-login-form *ngIf="selectedSegment == 'login'"></app-login-form>
-      <app-signup-form *ngIf="selectedSegment == 'signup'"></app-signup-form>
+      <app-login-form *ngIf="selectedSegment === 'login'"></app-login-form>
+      <app-signup-form *ngIf="selectedSegment === 'signup'"></app-signup-form>
     </ng-template>
   </ion-modal>
 </div>

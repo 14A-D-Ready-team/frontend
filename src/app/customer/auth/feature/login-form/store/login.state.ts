@@ -6,7 +6,7 @@ import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, State, StateContext, StateToken } from "@ngxs/store";
 import { catchError, finalize, switchMap } from "rxjs";
 import { Login, LoginFailed, LoginSucceeded } from "./login.actions";
-import { ActivatedRoute, Router, UrlSegment } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService, LoginDto, SetCurrentLogin } from "@shared/authentication";
 import { IonRadioGroup } from "@ionic/angular";
 

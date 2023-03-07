@@ -1,59 +1,58 @@
 @import "/src/global.scss";
 
-*{
-    font-family: "Poppins";
+* {
+  font-family: "Poppins";
 }
 
-.container{
-    padding: 0.3rem;
-    width: calc(100vw);
-    min-height: calc(100vh - 5rem);
+.container {
+  padding: 0.3rem;
+  width: calc(100vw);
+  min-height: calc(100vh - 5rem);
 
-    display: grid;
+  display: grid;
 
-    grid-template-columns: calc(100%);
-    grid-row-gap: 0.5rem;
+  grid-template-columns: calc(100%);
+  grid-template-rows: calc(50%);
+  grid-row-gap: 0.5rem;
 }
 
-.buffet-select-container{
-    background-color: blue;
+.buffet-select-container {
+  background-color: blue;
 }
 
-.buffet-description-container{
-    background-color: cadetblue;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    img{
-        max-height: 500px;
-        border-radius: 0.3rem;
-    }
-    .buffet-name{
-        font-size: 1.4rem;
-
-    }
-    .buffet-description{
-        max-width: 30rem;
-    }
-    p{
-        text-align: justify;
-        margin: 1rem 0;
-    }
-    .ready-btn{
-        font-size: 1.2rem;
-    }
+.buffet-description-container {
+  background-color: cadetblue;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  img {
+    max-height: 500px;
+    border-radius: 0.3rem;
+  }
+  .buffet-name {
+    font-size: 1.4rem;
+  }
+  .buffet-description {
+    max-width: 30rem;
+  }
+  p {
+    text-align: justify;
+    margin: 1rem 0;
+  }
+  .ready-btn {
+    font-size: 1.2rem;
+  }
 }
 
 @media only screen and (min-width: 750px) {
-    .container {
-      align-content: center;
-      padding: 0.3rem;
-      padding-bottom: 0.1rem;
-      grid-template-columns: repeat(2, calc(50% - 0.2rem));
-      grid-template-rows: calc(100%);
-      gap: 0.3rem;
-
-    }
+  .container {
+    align-content: center;
+    padding: 0.3rem;
+    padding-bottom: 0.1rem;
+    grid-template-columns: repeat(2, calc(50% - 0.2rem));
+    grid-template-rows: calc(100%);
+    gap: 0.3rem;
   }
+}

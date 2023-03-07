@@ -43,21 +43,14 @@
               </ion-buttons>
               <ion-title slot="">Büfék</ion-title>
               <ion-buttons slot="end">
-                <ion-button (click)="confirm(radios.value)" [strong]="true"
+                <ion-button (click)="confirm()" [strong]="true"
                   >Választás</ion-button
                 >
               </ion-buttons>
             </ion-toolbar>
           </ion-header>
           <ion-content class="radio-buttons">
-            <ion-list>
-              <ion-radio-group #radios>
-                <ion-item *ngFor="let buffet of (buffets$ | async)">
-                  <ion-label>{{buffet.name}}</ion-label>
-                  <ion-radio slot="end" [value]="buffet.id"></ion-radio>
-                </ion-item>
-              </ion-radio-group>
-            </ion-list>
+            <app-buffet-select-component></app-buffet-select-component>
           </ion-content>
         </ng-template>
       </ion-modal>
