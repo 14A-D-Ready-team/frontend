@@ -7,7 +7,7 @@ import { ExternalAuthModule } from "@shared/external-auth";
 import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
 import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
-import { ErrorMessagePipe } from "@shared/exceptions";
+import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
 import { NgxsModule } from "@ngxs/store";
 import { SignupState } from "./store";
 
@@ -23,6 +23,10 @@ import { SignupState } from "./store";
     ValidationMessageModule,
     NgxsFormPluginModule,
     ErrorMessagePipe,
+    ExceptionsModule.forFeature({
+      InvalidDataException: "Hibás adatok kerületek megasádra!",
+      EmailDuplicateException: "Ezzel az email-el már regisztráltak!",
+    }),
   ],
   declarations: [SignupFormComponent],
   exports: [SignupFormComponent],

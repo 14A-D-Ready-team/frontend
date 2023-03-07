@@ -1,4 +1,4 @@
-import { ErrorMessagePipe } from "@shared/exceptions";
+import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
 import { NgxsModule } from "@ngxs/store";
 import { IonicModule } from "@ionic/angular";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -21,6 +21,13 @@ import { LoginFormComponent } from "./login-form.component";
     ValidationMessageModule,
     NgxsFormPluginModule,
     ErrorMessagePipe,
+    ExceptionsModule.forFeature({
+      InvalidLoginException: "Hibás email és jelszó páros!",
+      InvalidDataException: "Hibás adatok kerültek megasádsra!",
+      PasswordNotSetException:
+        "Google vagy Facebook bejelentkezés lehetséges csak!",
+      InactiveUserException: "Ez a profil inaktív!",
+    }),
   ],
   declarations: [LoginFormComponent],
   providers: [],

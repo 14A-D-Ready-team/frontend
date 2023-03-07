@@ -2,18 +2,17 @@
   <app-navbar></app-navbar>
   <div class="container">
     <div class="buffet-select-container">
+      <h1>Válasszon büfét!</h1>
       <app-buffet-select-component></app-buffet-select-component>
     </div>
     <div class="buffet-description-container">
-      <img src="/assets/images/buffet.png" alt="" />
-      <div class="buffet-description" *ngIf="activeBuffet$ | async as active">
+      <div class="buffet-details" *ngIf="activeBuffet$ | async as active">
+        <img src="/assets/images/buffet.png" class="buffet-image" alt="" />
         <p class="buffet-name">{{active.name}}</p>
-        <div>
-          <p class="buffet-location">{{active.address}}</p>
-          <p class="buffet-description">{{active.description}}</p>
-          <p class="open-hours">{{active.hours}}</p>
-          <button class="ready-btn">Kiválasztás</button>
-        </div>
+        <p class="buffet-location">{{active.address}}</p>
+        <p class="buffet-description">{{active.description}}</p>
+        <p class="open-hours">{{active.hours}}</p>
+        <button class="ready-btn">Kiválasztás</button>
       </div>
     </div>
   </div>

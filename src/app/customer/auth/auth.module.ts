@@ -5,17 +5,7 @@ import { ExceptionsModule } from "@app/shared/exceptions";
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    ExceptionsModule.forFeature({
-      InvalidLoginException: "Hibás email és jelszó páros!",
-      InvalidDataException: "Hibás adatok kerültek megasádsra!",
-      PasswordNotSetException:
-        "Google vagy Facebook bejelentkezés lehetséges csak!",
-      InactiveUserException: "Ez a profil inaktív!",
-    }),
-  ],
+  imports: [CommonModule, AuthRoutingModule],
   providers: [],
 })
 export class AuthModule {}
