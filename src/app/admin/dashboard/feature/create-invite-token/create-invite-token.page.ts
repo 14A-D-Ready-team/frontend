@@ -7,7 +7,6 @@ import { Observable, Subscription } from "rxjs";
   selector: "app-create-invite-token",
   templateUrl: "./create-invite-token.page.html",
   styleUrls: ["./create-invite-token.page.scss"],
-  
 })
 export class CreateInviteTokenPage implements OnInit, OnDestroy {
 
