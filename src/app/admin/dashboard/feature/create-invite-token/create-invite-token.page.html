@@ -9,8 +9,9 @@
     <div class="content">
       <div class="text">
         <h1 class="title">Dolgozó meghívása</h1>
-        <ion-label>Kattintson a gombra, majd adja oda a generált kódot alkalmazottjának, hogy ő használhassa a fiókját!</ion-label><br>
-        <ion-button class="ready-btn" (click)="generate()">Meghívó létrehozása</ion-button><br>
+        <ion-label>Válasszon ki egy büfét a Büfék oldalon, majd kattintson a gombra, <br> majd adja oda a generált kódot alkalmazottjának, hogy ő használhassa a fiókját!</ion-label><br>
+        <ion-label><b>Aktív büfé: {{ (activeBuffet$ | async)?.name }}</b></ion-label><br>
+        <ion-button class="ready-btn" (click)="generate()" [disabled]="(activeBuffet$ | async)?.id === null">Meghívó létrehozása</ion-button><br>
         <ion-label>Kód: {{ code }}</ion-label>
       </div> 
     </div>

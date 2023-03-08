@@ -52,3 +52,7 @@ ion-row {
   color: black;
   font-size: $m-font;
 }
+
+.label {
+  --max-width: 400px;
+}

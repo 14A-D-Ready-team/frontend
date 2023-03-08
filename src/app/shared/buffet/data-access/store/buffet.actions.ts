@@ -1,6 +1,6 @@
 
 import { EntityActions } from "@shared/extended-entity-state";
-import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
+import { CreateBuffetDto, CreateInviteTokenDto, UpdateBuffetDto } from "../dto";
 import { Buffet } from "../entity";
 import { SearchBuffetsQuery } from "../query";
 
@@ -21,6 +21,10 @@ export class LoadingSucceeded extends EntityActions.LoadingSucceeded<
 
 export class Create extends EntityActions.Create<CreateBuffetDto> {
   public static readonly type = `[Buffet] Create`;
+}
+
+export class CreateInvite extends EntityActions.Create<CreateInviteTokenDto> {
+  public static readonly type = `[BuffetInviteToken] Create`;
 }
 
 export class CreateFailed extends EntityActions.CreateFailed {
