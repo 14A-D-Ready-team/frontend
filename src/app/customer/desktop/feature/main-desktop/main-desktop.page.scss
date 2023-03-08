@@ -81,7 +81,7 @@
   box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.5);
 }
 
-ion-modal {
+.login-modal {
   --width: 50%;
   --min-width: 320px;
   --border-radius: 0.8rem;
@@ -115,20 +115,19 @@ app-signup-form {
 }
 
 .after-login {
-  height: fit-content;
+  height: 100%;
   width: 100vw;
   display: flex;
   justify-content: center;
-  align-items: center;
 
   .greeting-container {
+    height: fit-content;
     margin-top: 0.5rem;
     padding: 1rem;
     background-color: $card-background;
     border-radius: 0.2rem;
     box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.5);
     width: calc(100% - 0.5rem);
-    height: fit-content;
   }
   .menu-container {
     .category-product-container {
@@ -150,6 +149,8 @@ app-signup-form {
 
         min-width: 18rem;
         max-width: 18rem;
+
+        height: max-content;
 
         .product-img {
           object-fit: cover;
@@ -221,7 +222,6 @@ app-signup-form {
     overflow-x: hidden;
     display: grid !important;
     grid-template-columns: repeat(4, 25%) !important;
-    min-height: calc(100vh - 5rem) !important;
   }
 }
 
@@ -234,5 +234,171 @@ app-signup-form {
 @media only screen and (min-width: 1800px) {
   .product-container {
     grid-template-columns: repeat(6, 16.6%) !important;
+  }
+}
+
+.product-modal {
+  --width: 50%;
+  --min-width: 320px;
+  --border-radius: 0.8rem;
+  --max-width: 500px;
+  --max-height: 600px;
+  .card {
+    border-radius: 1rem 1rem 0px 0px;
+    padding: 0.8rem 3rem;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    p {
+      margin: 0.5rem 0rem;
+    }
+    .product-name,
+    .price {
+      font-size: $l-font;
+      font-weight: 600;
+    }
+    .extra-info-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      justify-self: center;
+      .prep-time {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        margin: 0.5rem 0;
+        svg {
+          margin: 0 0.3rem;
+        }
+        span {
+          font-size: $s-font;
+        }
+      }
+      .star-rating {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0.5rem 0;
+        span {
+          font-size: $s-font;
+          margin: 0 0.3rem;
+        }
+      }
+    }
+    .extras-container {
+      p {
+        font-weight: 500;
+      }
+      .possibilities {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 0rem 1rem;
+
+        ion-item {
+          --background: transparent;
+          --ripple-color: transparent;
+          --background-hover: transparent;
+          --background-activated: transparent;
+          --padding-start: 0px;
+          --inner-padding-end: 0px;
+          ion-checkbox {
+            width: 1.4rem;
+            height: 1.4rem;
+            --background-checked: #c30b00;
+            --checkmark-width: 0.15rem;
+            margin: 0 0.3rem;
+          }
+          ion-radio {
+            width: 1.4rem;
+            height: 1.4rem;
+            margin: 0 0.3rem;
+          }
+
+          ion-label {
+            font-size: $s-font;
+          }
+
+          ion-checkbox::part(container) {
+            border-radius: 0.4rem;
+            border: 2px solid $ready-red;
+          }
+
+          ion-radio::part(container) {
+            border-radius: 100%;
+            border: 2px solid $ready-red;
+          }
+        }
+      }
+    }
+  }
+  .price-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+    .add-amount-container {
+      height: 2rem;
+      width: 30%;
+      min-width: 8rem;
+      min-height: 3.5rem;
+      background-color: $ready-red;
+      border-radius: 5rem;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      button {
+        background-color: transparent;
+        color: $card-background;
+        font-size: $l-font;
+      }
+    }
+  }
+
+  .description-container {
+    .cap {
+      font-weight: 500;
+    }
+    .description-text {
+      font-size: $s-font;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.amount-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  aspect-ratio: 1/1;
+  min-height: 2.2rem;
+  background-color: $card-background;
+  border-radius: 100%;
+  span {
+    font-weight: 500;
+  }
+}
+
+.order-btn {
+  background-color: $ready-red;
+  color: white;
+  position: static;
+  z-index: 20010;
+  width: 95%;
+  max-width: 25rem;
+  height: 3.5rem;
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  justify-items: center;
+  align-items: center;
+  border-radius: 5rem;
+  margin: 0 auto;
+  svg {
+    width: $l-font;
   }
 }

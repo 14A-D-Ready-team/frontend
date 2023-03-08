@@ -8,6 +8,17 @@
   color: black;
 }
 
+::-webkit-scrollbar {
+  height: 0.5rem;
+  width: 0.3rem;
+  background: $card-background;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 1rem;
+}
+
 .container {
   padding: 0.3rem;
   width: calc(100vw);
@@ -49,13 +60,14 @@
     flex-direction: column;
     .buffet-image {
       display: none;
-      max-height: 300px;
+      max-height: 400px;
       width: auto;
       border-radius: 0.3rem;
       align-self: center;
     }
     .buffet-name {
       font-size: 1.4rem;
+      font-weight: 500;
       margin: 1rem 0;
     }
     .buffet-description {
@@ -87,10 +99,6 @@
   }
 
   .buffet-select-contianer {
-  }
-
-  .buffet-details {
-    margin-top: auto;
   }
 
   .buffet-image {

@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import {
-  InfiniteScrollCustomEvent,
-  IonLabel,
+  // InfiniteScrollCustomEvent,
+  // IonLabel,
   IonModal,
-  RefresherCustomEvent,
+  // RefresherCustomEvent,
 } from "@ionic/angular";
 import { SetActive } from "@ngxs-labs/entity-state";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { BuffetSelectState } from "@shared/inputs/feature/ionic/buffet-select/store";
-import { Observable, take } from "rxjs";
+import { Observable } from "rxjs";
 // import {
 //   BuffetSelectState,
 //   LoadMore,
@@ -41,11 +41,11 @@ export class BuffetSelectPage implements OnInit {
     this.modal.dismiss(null, "cancel");
   }
 
-  confirm(s: any) {
+  confirm() {
     // const idString = s.toString();
     // this.store.dispatch(new SetActive(BuffetState, idString));
     this.modal.dismiss(this.name, "confirm");
-    console.log(s);
+    console.log();
   }
 
   // public retryLoading() {

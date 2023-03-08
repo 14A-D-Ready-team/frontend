@@ -6,6 +6,7 @@ import { MainDesktopPage } from './main-desktop.page';
 describe('MainDesktopPage', () => {
   let component: MainDesktopPage;
   let fixture: ComponentFixture<MainDesktopPage>;
+  
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
