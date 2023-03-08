@@ -19,46 +19,58 @@
   grid-template-columns: calc(100%);
   grid-template-rows: calc(30% - 0.2rem) calc(70% - 0.2rem);
   grid-row-gap: 0.5rem;
+  div {
+    border-radius: 0.2rem;
+  }
 }
 
 .buffet-select-container {
-  // box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.5);
+  max-height: calc(100vh - 5rem);
+  overflow-y: scroll;
   h1 {
     text-align: center;
   }
 }
 
 .buffet-description-container {
-  background-color: cadetblue;
+  background-color: $ready-red;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  padding: 1rem;
   .buffet-details {
     display: flex;
+    justify-content: center;
     flex-direction: column;
+    // margin-top: auto;
     align-items: center;
+    flex-direction: column;
     .buffet-image {
       display: none;
-      max-height: 400px;
+      max-height: 300px;
       width: auto;
       border-radius: 0.3rem;
       align-self: center;
     }
     .buffet-name {
       font-size: 1.4rem;
+      margin: 1rem 0;
     }
     .buffet-description {
       max-width: 30rem;
     }
     p {
       text-align: justify;
-      margin: 1rem 0;
+      margin: 0.5rem 0;
       max-width: 500px;
+      color: white;
     }
     .ready-btn {
       font-size: 1.2rem;
+      background-color: white;
+      color: black;
     }
   }
 }
@@ -75,6 +87,10 @@
   }
 
   .buffet-select-contianer {
+  }
+
+  .buffet-details {
+    margin-top: auto;
   }
 
   .buffet-image {
