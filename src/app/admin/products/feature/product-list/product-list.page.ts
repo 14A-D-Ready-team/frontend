@@ -1,6 +1,6 @@
 import { Dictionary } from "@/types";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Category, CategoryState, loadAllCategories } from "@shared/category";
+import { Category, CategoryState, loadCategories } from "@shared/category";
 import { Product, ProductState } from "@app/shared/product";
 import {
   InfiniteScrollCustomEvent,
@@ -8,7 +8,16 @@ import {
   RefresherCustomEvent,
 } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
-import { combineLatest, map, Observable, startWith, take } from "rxjs";
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  startWith,
+  Subscription,
+  switchMap,
+  take,
+} from "rxjs";
 import {
   LoadMore,
   LoadPage,
@@ -20,6 +29,7 @@ import {
 import { KeyValue } from "@angular/common";
 import { ProductFilterState } from "../product-filter";
 import { ActivatedRoute, Router } from "@angular/router";
+import { NoBuffetSelectedException } from "@shared/buffet/utils";
 
 @Component({
   selector: "app-product-list",
@@ -45,6 +55,9 @@ export class ProductListPage implements OnInit, OnDestroy {
   @Select(ProductFilterState.typing)
   public typing$!: Observable<boolean>;
 
+  @Select(CategoryState.error)
+  public categoryError$!: Observable<any>;
+
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
     map(() => this.platform.width() >= 992),
@@ -58,6 +71,7 @@ export class ProductListPage implements OnInit, OnDestroy {
     this.error$,
     this.typing$,
     this.isDesktop$,
+    this.categoryError$,
   ]).pipe(
     map(
       ([
@@ -68,6 +82,7 @@ export class ProductListPage implements OnInit, OnDestroy {
         error,
         typing,
         isDesktop,
+        categoryError,
       ]) => ({
         products,
         categories,
@@ -76,9 +91,13 @@ export class ProductListPage implements OnInit, OnDestroy {
         error,
         typing,
         isDesktop,
+        categoryError,
+        noBuffetSelected: categoryError instanceof NoBuffetSelectedException,
       }),
     ),
   );
+
+  private sub: Subscription;
 
   constructor(
     private store: Store,
@@ -86,7 +105,15 @@ export class ProductListPage implements OnInit, OnDestroy {
     private platform: Platform,
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) {
+    this.sub = route.url
+      .pipe(
+        map(() => route.component),
+        filter(c => c === ProductListPage),
+        switchMap(() => this.store.dispatch(new LoadPage())),
+      )
+      .subscribe();
+  }
 
   public ngOnInit(): void {
     this.store.dispatch(new LoadPage());
@@ -95,6 +122,7 @@ export class ProductListPage implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.effects.terminate();
+    this.sub.unsubscribe();
   }
 
   public retryLoading() {
@@ -117,7 +145,7 @@ export class ProductListPage implements OnInit, OnDestroy {
   }
 
   public refreshCategories() {
-    loadAllCategories(this.store, true).pipe(take(1)).subscribe();
+    loadCategories(this.store, true).pipe(take(1)).subscribe();
   }
 
   public productById(index: number, el: Product): number {

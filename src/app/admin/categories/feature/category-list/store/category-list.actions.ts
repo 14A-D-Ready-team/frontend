@@ -38,7 +38,3 @@ export class Delete {
 export class Reload {
   public static readonly type = "[CategoryListPage] Reload";
 }
-
-export class Reset {
-  public static readonly type = "[CategoryListPage] Reset";
-}

@@ -20,7 +20,14 @@
     <ion-list>
       <ion-item routerLink="/admin/buffets" lines="full">
         <ion-icon name="restaurant-outline" slot="start"></ion-icon>
-        <ion-label>Büfék</ion-label>
+        <div class="buffet-label-container">
+          <ion-label>Büfék</ion-label>
+          <ion-label
+            class="chosen-buffet-label"
+            *ngIf="activeBuffet$ | async as buffet"
+            >Kiválasztva: {{ buffet.name }}</ion-label
+          >
+        </div>
       </ion-item>
       <ion-item routerLink="/admin/categories" lines="full">
         <ion-icon name="albums-outline" slot="start"></ion-icon>

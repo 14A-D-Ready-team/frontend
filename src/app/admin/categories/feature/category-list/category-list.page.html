@@ -21,13 +21,25 @@
               <app-admin-category-display-skeleton></app-admin-category-display-skeleton>
             </div>
 
-            <app-error-card
-              *ngIf="vm.error"
-              [error]="vm.error"
-              header="A kategóriák betöltése sikertelen"
-              (retry)="retryLoading()"
-            >
-            </app-error-card>
+            <div class="error-container" *ngIf="!vm.loading && vm.error">
+              <app-error-card
+                *ngIf="!vm.noBuffetSelected"
+                [error]="vm.error"
+                header="A kategóriák betöltése sikertelen"
+                (retry)="retryLoading()"
+              >
+              </app-error-card>
+              <app-error-card
+                *ngIf="vm.noBuffetSelected"
+                header=""
+                icon="alert-outline"
+                color="warning"
+                [error]="vm.error"
+                [showRetryButton]="false"
+                (retry)="retryLoading()"
+              >
+              </app-error-card>
+            </div>
 
             <form [formGroup]="editorForm" [ngxsForm]="editorFormPath">
               <ng-container *ngIf="!vm.loading && !vm.error">
@@ -69,7 +81,7 @@
     </ion-grid>
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
       <ion-fab-button
-        [disabled]="vm.editedId != undefined || vm.creatingNew"
+        [disabled]="vm.editedId != undefined || vm.creatingNew || vm.noBuffetSelected"
         (click)="create()"
       >
         <ion-icon name="add"></ion-icon>

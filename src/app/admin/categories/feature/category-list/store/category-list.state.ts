@@ -4,7 +4,7 @@ import {
   CategoryActions,
   CategoryState,
   EditCategoryDto,
-  loadAllCategories,
+  loadCategories,
 } from "@shared/category";
 import { Remove, SetError } from "@ngxs-labs/entity-state";
 import {
@@ -37,6 +37,9 @@ import { Platform, ToastController } from "@ionic/angular";
 import { ErrorCode, ExceptionService } from "@app/shared/exceptions";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import { FilterCategoriesQuery } from "@shared/category/data-access/query";
+import { BuffetState, BuffetStatus } from "@shared/buffet";
+import { NoBuffetSelectedException } from "@shared/buffet/utils";
+import { Dictionary } from "lodash";
 
 export interface CategoryListStateModel {
   editorForm: NgxsFormStateModel<Partial<Category>>;
@@ -73,12 +76,21 @@ export class CategoryListState {
     private platform: Platform,
   ) {}
 
-  @Selector([CategoryState.entities])
+  @Selector([
+    CategoryState.entitiesMap,
+    CategoryState.categoriesOfBuffets,
+    BuffetState.activeId,
+  ])
   public static categories(
     state: CategoryListStateModel,
     categories: Category[],
+    categoriesOfBuffets: Dictionary<string[]>,
+    buffetId?: string,
   ) {
-    return categories;
+    if (!buffetId) {
+      return [];
+    }
+    return categoriesOfBuffets[+buffetId].map(id => categories[+id]);
   }
 
   @Selector()
@@ -93,14 +105,14 @@ export class CategoryListState {
 
   @Action(LoadPage)
   public loadPage(ctx: StateContext<CategoryListStateModel>) {
-    return loadAllCategories(this.store);
+    return loadCategories(this.store);
   }
 
   @Action(Reload)
   public reload(ctx: StateContext<CategoryListStateModel>) {
     return concat(
       ctx.dispatch(new SetError(CategoryState, undefined)),
-      ctx.dispatch(new CategoryActions.Load(new FilterCategoriesQuery())),
+      loadCategories(this.store, true),
     );
   }
 
