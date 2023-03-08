@@ -1,3 +1,12 @@
 ion-item ion-icon {
   margin-inline-end: 12px;
 }
+
+.buffet-label-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chosen-buffet-label {
+  font-size: 12px;
+}

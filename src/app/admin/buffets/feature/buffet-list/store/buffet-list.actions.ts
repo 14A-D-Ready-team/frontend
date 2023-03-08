@@ -23,3 +23,9 @@ export class Delete {
     this.id = inputId;
   }
 }
+
+export class SelectBuffet {
+  public static readonly type = "[BuffetListPage] Select Buffet";
+
+  constructor(public id: number) {}
+}

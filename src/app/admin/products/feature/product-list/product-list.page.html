@@ -105,12 +105,24 @@
                 <app-admin-product-preview-skeleton></app-admin-product-preview-skeleton>
               </ion-col>
             </ng-container>
-            <app-error-card
-              *ngIf="vm.error"
-              header="A termékek betöltése sikertelen"
-              [error]="vm.error"
-              (retry)="retryLoading()"
-            ></app-error-card>
+            <div *ngIf="!vm.loading ">
+              <app-error-card
+                *ngIf="vm.error && !vm.noBuffetSelected"
+                header="A termékek betöltése sikertelen"
+                [error]="vm.error"
+                (retry)="retryLoading()"
+              ></app-error-card>
+
+              <app-error-card
+                *ngIf=" vm.noBuffetSelected"
+                header=""
+                color="warning"
+                icon="alert-outline"
+                [showRetryButton]="false"
+                [error]="vm.categoryError"
+                (retry)="retryLoading()"
+              ></app-error-card>
+            </div>
           </ion-row>
           <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
             <ion-infinite-scroll-content></ion-infinite-scroll-content>

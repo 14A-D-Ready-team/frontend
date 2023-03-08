@@ -15,13 +15,17 @@ import { ErrorMessagePipe } from "../../../utils";
   standalone: true,
   imports: [CommonModule, IonicModule, ErrorMessagePipe],
   template: `
-    <ion-card color="danger">
+    <ion-card [color]="color">
       <ion-card-header *ngIf="header">
         <ion-card-title class="ion-text-center">{{ header }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p>{{ error | errorMessage }}</p>
+        <ion-item lines="none">
+          <ion-icon *ngIf="icon" slot="start" [name]="icon"></ion-icon>
+          <ion-label>{{ error | errorMessage }}</ion-label>
+        </ion-item>
         <ion-button
+          *ngIf="showRetryButton"
           class="ion-margin-top"
           color="secondary"
           (click)="retry.emit()"
@@ -38,6 +42,11 @@ import { ErrorMessagePipe } from "../../../utils";
         flex-direction: column;
         align-items: center;
       }
+
+      ion-item {
+        background-color: transparent;
+        --background: transparent;
+      }
     `,
   ],
 })
@@ -47,6 +56,15 @@ export class ErrorCardComponent {
 
   @Input()
   public header?: string;
+
+  @Input()
+  public color = "danger";
+
+  @Input()
+  public showRetryButton = true;
+
+  @Input()
+  public icon?: string;
 
   @Output()
   public retry: EventEmitter<void> = new EventEmitter();

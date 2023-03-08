@@ -17,6 +17,7 @@ import {
   Reload,
   LoadMore,
   Delete,
+  SelectBuffet,
 } from "./store/buffet-list.actions";
 import { BuffetListState } from "./store/buffet-list.state";
 
@@ -116,8 +117,7 @@ export class BuffetListPage implements OnInit, OnDestroy {
   }
 
   public select(id: number) {
-    const idString = id.toString();
-    this.store.dispatch(new SetActive(BuffetState, idString));
+    this.store.dispatch(new SelectBuffet(id));
   }
 
   public delete(id: number) {

@@ -8,12 +8,12 @@ export const environment = {
     clientId:
       "101784584402-d88n8hpcomqdhd10iolmcoh9nrco9mkl.apps.googleusercontent.com",
   },
-  api: {
-    url: "https://ready-backend-z88i.onrender.com",
-  },
   /* api: {
-    url: "http://localhost:3000",
+    url: " http://ec2-18-192-127-39.eu-central-1.compute.amazonaws.com",
   }, */
+  api: {
+    url: "http://localhost:3000",
+  },
 };
 
 /*

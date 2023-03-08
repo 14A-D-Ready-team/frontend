@@ -20,16 +20,20 @@ import {
   ApiRequestStatus,
   ExtendedEntityStateModel,
 } from "@shared/extended-entity-state/utils";
-import { concat } from "rxjs";
+import { concat, filter, of, switchMap } from "rxjs";
 import { CategoryService } from "../category.service";
 import { EditCategoryDto } from "../dto";
 import { Category } from "../entity";
 import { FilterCategoriesQuery } from "../query";
 import * as Actions from "./category.actions";
-import { SetAllLoaded, LoadingSucceeded, Load } from "./category.actions";
+import {
+  SetCategoriesOfBuffet,
+  LoadingSucceeded,
+  Load,
+} from "./category.actions";
 
 export type CategoryStateModel = EntityStateModel<Category> & {
-  isAllLoaded: boolean;
+  categoriesOfBuffets: Dictionary<number[]>;
   updateStatus?: TargetedRequestStatus;
   createStatus?: ApiRequestStatus;
   deleteStatus?: TargetedRequestStatus;
@@ -41,7 +45,7 @@ export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
 
 @State<CategoryStateModel>({
   name: CATEGORY_STATE_TOKEN,
-  defaults: { ...defaultEntityState(), isAllLoaded: false },
+  defaults: { ...defaultEntityState(), categoriesOfBuffets: {} },
 })
 @Injectable()
 export class CategoryState extends ExtendedEntityState<
@@ -52,8 +56,15 @@ export class CategoryState extends ExtendedEntityState<
   EditCategoryDto
 > {
   @Selector()
-  public static isAllLoaded(state: CategoryStateModel) {
-    return state.isAllLoaded;
+  public static categoriesOfBuffets(state: CategoryStateModel) {
+    return state.categoriesOfBuffets;
+  }
+
+  public static isAllLoaded(buffetId: number) {
+    return createSelector(
+      [CategoryState],
+      (state: CategoryStateModel) => !!state.categoriesOfBuffets[buffetId],
+    );
   }
 
   public static entityById(id: number) {
@@ -83,15 +94,25 @@ export class CategoryState extends ExtendedEntityState<
       ctx.dispatch(
         new LoadingSucceeded(action.query, response, response.length),
       ),
-      ctx.dispatch(new SetAllLoaded(true)),
+      of(action.query.buffetId).pipe(
+        filter(buffetId => buffetId !== undefined),
+        switchMap(buffetId =>
+          ctx.dispatch(new SetCategoriesOfBuffet(buffetId!, response)),
+        ),
+      ),
     );
   }
 
-  @Action(SetAllLoaded)
-  public setAllLoaded(
+  @Action(SetCategoriesOfBuffet)
+  public setCategoriesOfBuffet(
     ctx: StateContext<CategoryStateModel>,
-    action: SetAllLoaded,
+    action: SetCategoriesOfBuffet,
   ) {
-    ctx.patchState({ isAllLoaded: action.isAllLoaded });
+    ctx.patchState({
+      categoriesOfBuffets: {
+        ...ctx.getState().categoriesOfBuffets,
+        [action.buffetId]: action.categories.map(c => c.id),
+      },
+    });
   }
 }
