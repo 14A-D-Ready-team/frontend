@@ -7,10 +7,11 @@ import { Observable, Subscription } from "rxjs";
   selector: "app-create-invite-token",
   templateUrl: "./create-invite-token.page.html",
   styleUrls: ["./create-invite-token.page.scss"],
+  
 })
 export class CreateInviteTokenPage implements OnInit, OnDestroy {
 
-  public code!: any;
+  public code!: string;
 
   private subscription!: Subscription
 
@@ -30,9 +31,8 @@ export class CreateInviteTokenPage implements OnInit, OnDestroy {
     dto.buffetId = this.activeId;
     this.subscription = this.buffetService.createInvite(dto).subscribe({
       next: (result) => {
-        //console.log(result);
         this.code = result.id;
-        console.log(this.code);
+        console.log(result.id);
       },
     })
   }
