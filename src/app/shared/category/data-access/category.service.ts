@@ -2,7 +2,11 @@ import { environment } from "@/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiService } from "@shared/api";
-import { processArrayResponse, processResponse, serializeQueryParams } from "@shared/serialization";
+import {
+  processArrayResponse,
+  processResponse,
+  serializeQueryParams,
+} from "@shared/serialization";
 import { instanceToPlain } from "class-transformer";
 import { EditCategoryDto } from "./dto";
 import { Category } from "./entity";
