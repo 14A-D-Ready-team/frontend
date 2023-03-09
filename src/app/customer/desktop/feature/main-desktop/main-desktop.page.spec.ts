@@ -1,17 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { MainDesktopPage } from './main-desktop.page';
+import { MainDesktopPage } from "./main-desktop.page";
 
-describe('MainDesktopPage', () => {
+describe("MainDesktopPage", () => {
   let component: MainDesktopPage;
   let fixture: ComponentFixture<MainDesktopPage>;
-  
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ MainDesktopPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [MainDesktopPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MainDesktopPage);
@@ -19,7 +18,7 @@ describe('MainDesktopPage', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

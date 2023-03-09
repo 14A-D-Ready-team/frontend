@@ -26,8 +26,7 @@ export class LoginPage implements OnInit {
   // @Select((state: { login: LoginStateModel }) => state.login.status)
   // public loginStatus!: Observable<LoginStatus>;
 
-  constructor() // private fb: FormBuilder, // private store: Store,
-  // private authService: AuthService,
+  constructor() // private authService: AuthService, // private fb: FormBuilder, // private store: Store,
   // private loadingCtrl: LoadingController,
   // private route: ActivatedRoute,
   {
