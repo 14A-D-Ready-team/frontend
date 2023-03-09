@@ -8,8 +8,10 @@ import { BuffetSelectPageRoutingModule } from "./buffet-select-routing.module";
 
 import { BuffetSelectPage } from "./buffet-select.page";
 import { NgxsModule } from "@ngxs/store";
-import { BuffetSelectState } from "@shared/inputs/feature/ionic/buffet-select/store";
-import { BuffetSelectComponent } from "@shared/inputs/feature/ionic";
+import {
+  BuffetSelectComponent,
+  BuffetSelectState,
+} from "@app/customer/feature";
 // import { BuffetSelectState } from "./store";
 
 @NgModule({

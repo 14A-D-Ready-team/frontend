@@ -1,1 +1,1 @@
-export const platform = "desktop";
+export const platform: "mobile" | "desktop" = "mobile";
