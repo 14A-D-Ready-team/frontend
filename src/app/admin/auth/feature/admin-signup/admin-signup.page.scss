@@ -9,7 +9,7 @@
 
 .container {
   display: grid;
-  grid-template-rows: 28vh 72vh;
+  grid-template-rows: 35vh 65vh;
   background-color: black;
 }
 
@@ -27,7 +27,7 @@
 
 //card that contains the input options
 .card {
-  @include flex-center(column, center);
+  @include flex-center(column, flex-start);
   background-color: $card-background;
   border-radius: 1rem 1rem 0em 0em;
   min-height: fit-content;
@@ -86,19 +86,12 @@ h1 {
   }
   .pswd-container {
     @include flex-center(column, center);
-    .forgot-pswd-link {
-      align-self: flex-end;
-      margin: 0 12%;
-      font-size: 0.8rem;
-      color: #92928e;
-    }
+    margin-bottom: 1vh;
   }
 }
 
 //link for sign up
 .sign-up-container {
-  margin-top: 1rem;
-  margin-bottom: 2rem;
   .sign-up-text {
     display: inline-block;
     margin: 0em;
@@ -130,6 +123,9 @@ ion-spinner {
   ion-list {
     --ion-background-color: transparent;
     --border-radius: 2rem;
+  }
+  p {
+    margin: 0 0.5rem;
   }
 }
 

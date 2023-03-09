@@ -207,7 +207,7 @@
 
         <app-admin-validation-message
           [errorMessage]="(signupStatus | async)?.error | errorMessage"
-          [visible]="(signupStatus | async)?.error"
+          *ngIf="(signupStatus | async)?.error"
         ></app-admin-validation-message>
         <ion-spinner *ngIf="(signupStatus | async)?.loading"></ion-spinner>
 
