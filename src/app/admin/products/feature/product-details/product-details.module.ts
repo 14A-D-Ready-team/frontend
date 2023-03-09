@@ -12,6 +12,7 @@ import {
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
 import { ProductDetailsPageRoutingModule } from "./product-details-routing.module";
+import { ProductEditorFormComponent } from "../../ui/product-editor-form";
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ProductDetailsPageRoutingModule } from "./product-details-routing.modul
     ProductDetailsPageRoutingModule,
     SelectorInputComponent,
     ErrorListComponent,
+    ProductEditorFormComponent,
   ],
   declarations: [ProductDetailsPage],
 })

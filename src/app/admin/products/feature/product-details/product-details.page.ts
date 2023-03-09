@@ -10,18 +10,12 @@ import { formPath } from "./store";
   styleUrls: ["./product-details.page.scss"],
 })
 export class ProductDetailsPage implements OnInit {
-  save() {
-    throw new Error("Method not implemented.");
-  }
   @Select(CategoryState.entities)
   public categories$!: Observable<Category[]>;
 
-
   public formPath = formPath;
 
-  constructor() {
-    
-  }
+  constructor() {}
 
   ngOnInit() {}
 }
