@@ -27,7 +27,7 @@
 
 //card that contains the input options
 .card {
-  @include flex-center(column, flex-start);
+  @include flex-center(column, center);
   background-color: $card-background;
   border-radius: 1rem 1rem 0em 0em;
   min-height: fit-content;
@@ -47,7 +47,7 @@ h1 {
 
   .input-container {
     @include flex-center(row, center);
-    margin: 0.5rem 0rem;
+    margin: 0.75rem 0rem;
     border-radius: 2rem;
 
     width: 85%;
@@ -86,7 +86,6 @@ h1 {
   }
   .pswd-container {
     @include flex-center(column, center);
-    margin-bottom: 1vh;
   }
 }
 
@@ -122,10 +121,13 @@ ion-spinner {
   ion-item,
   ion-list {
     --ion-background-color: transparent;
-    --border-radius: 2rem;
+  }
+  ion-item {
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 2rem;
   }
   p {
-    margin: 0 0.5rem;
+    margin: 1rem 0.5rem;
   }
 }
 
