@@ -26,8 +26,7 @@ export class LoginPage implements OnInit {
   // @Select((state: { login: LoginStateModel }) => state.login.status)
   // public loginStatus!: Observable<LoginStatus>;
 
-  constructor() // private route: ActivatedRoute, // private loadingCtrl: LoadingController, // private authService: AuthService, // private fb: FormBuilder, // private store: Store,
-  {
+  constructor() { // private route: ActivatedRoute, // private loadingCtrl: LoadingController, // private authService: AuthService, // private fb: FormBuilder, // private store: Store,
     // this.loginForm = new ClassValidatorFormGroup<LoginForm>(LoginDto, {
     //   email: new ClassValidatorFormControl<string>(""),
     //   password: new ClassValidatorFormControl<string>(""),
