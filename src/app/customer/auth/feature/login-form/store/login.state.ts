@@ -8,7 +8,7 @@ import { catchError, finalize, switchMap } from "rxjs";
 import { Login, LoginFailed, LoginSucceeded } from "./login.actions";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService, LoginDto, SetCurrentLogin } from "@shared/authentication";
-import { IonRadioGroup } from "@ionic/angular";
+// import { IonRadioGroup } from "@ionic/angular";
 
 export interface LoginStatus {
   loading: boolean;
@@ -128,5 +128,7 @@ export class LoginState {
     // this.ngZone.run(() =>
     //   this.router.navigate([url.pathname], { queryParams }),
     // );
+
+    this.ngZone.run(() => this.router.navigate(["/buffet-select-desktop"]));
   }
 }

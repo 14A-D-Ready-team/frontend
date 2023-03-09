@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { IonModal } from "@ionic/angular";
 import { Select } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
@@ -11,10 +12,15 @@ import { Observable } from "rxjs";
   templateUrl: "./main-desktop.page.html",
   styleUrls: ["./main-desktop.page.scss"],
 })
-export class MainDesktopPage implements OnInit {
+export class MainDesktopPage implements OnInit, OnDestroy {
   constructor() {}
+  @ViewChild("loginModal") modal!: IonModal;
 
   selectedSegment = "login";
+
+  cancel() {
+    this.modal.dismiss(null, "cancel");
+  }
 
   @Select(AuthState.user)
   public activeUser$!: Observable<User>;
@@ -29,5 +35,10 @@ export class MainDesktopPage implements OnInit {
 
   ngOnInit() {
     this.selectedSegment = "login";
+  }
+
+  ngOnDestroy() {
+    this.modal.dismiss();
+    console.log("asd");
   }
 }
