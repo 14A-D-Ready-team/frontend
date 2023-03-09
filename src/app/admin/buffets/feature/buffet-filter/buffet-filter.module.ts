@@ -7,9 +7,9 @@ import { IonicModule } from "@ionic/angular";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { NgxsModule } from "@ngxs/store";
 import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
-import { StringFilterInputComponent } from "@shared/inputs/feature/ionic/string-filter-input/string-filter-input.component";
-import { SelectorInputComponent } from "@shared/inputs/feature/ionic";
-import { OrderItemsInputComponent } from "@shared/inputs/feature/ionic/order-items-input/order-items-input.component";
+import { StringFilterInputComponent } from "@shared/inputs/ui/ionic/string-filter-input/string-filter-input.component";
+import { OrderItemsInputComponent } from "@shared/inputs/ui/ionic/order-items-input/order-items-input.component";
+import { SelectorInputComponent } from "@shared/inputs/ui/ionic";
 
 @NgModule({
   declarations: [BuffetFilterComponent],

@@ -11,9 +11,6 @@ import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ErrorMessagePipe } from "@app/shared/exceptions/utils/pipes";
 import { LoginFormModule } from "@app/customer/auth/feature/login-form";
-import { NgxsModule } from "@ngxs/store";
-import { LoginState } from "../login-form/store";
-import { ExceptionsModule } from "@shared/exceptions";
 
 @NgModule({
   imports: [

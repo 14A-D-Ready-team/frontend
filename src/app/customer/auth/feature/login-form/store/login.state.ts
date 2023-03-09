@@ -116,19 +116,16 @@ export class LoginState {
 
     ctx.dispatch(new SetCurrentLogin(action.user));
 
-    // const nextUrl =
-    //   this.route.snapshot.queryParams.nextUrl || "/admin/products";
+    const nextUrl = this.route.snapshot.queryParams.nextUrl || "/";
 
-    // const url = new URL(nextUrl, window.location.origin);
-    // const queryParams: Dictionary<any> = {};
-    // for (const [key, value] of url.searchParams.entries()) {
-    //   queryParams[key] = value;
-    // }
+    const url = new URL(nextUrl, window.location.origin);
+    const queryParams: Dictionary<any> = {};
+    for (const [key, value] of url.searchParams.entries()) {
+      queryParams[key] = value;
+    }
 
-    // this.ngZone.run(() =>
-    //   this.router.navigate([url.pathname], { queryParams }),
-    // );
-
-    this.ngZone.run(() => this.router.navigate(["/buffet-select-desktop"]));
+    this.ngZone.run(() =>
+      this.router.navigate([url.pathname], { queryParams }),
+    );
   }
 }
