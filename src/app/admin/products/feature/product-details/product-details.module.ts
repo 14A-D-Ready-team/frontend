@@ -4,15 +4,14 @@ import { ReactiveFormsModule } from "@angular/forms";
 
 import { IonicModule } from "@ionic/angular";
 
-import { ProductEditorPageRoutingModule } from "./product-editor-routing.module";
-
-import { ProductEditorPage } from "./product-editor.page";
+import { ProductDetailsPage } from "./product-details.page";
 import {
   ErrorListComponent,
   SelectorInputComponent,
 } from "@shared/inputs/feature/ionic";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
+import { ProductDetailsPageRoutingModule } from "./product-details-routing.module";
 
 @NgModule({
   imports: [
@@ -21,10 +20,10 @@ import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
     IonicModule,
     NgxsFormPluginModule,
     ExtendedFormPluginModule,
-    ProductEditorPageRoutingModule,
+    ProductDetailsPageRoutingModule,
     SelectorInputComponent,
     ErrorListComponent,
   ],
-  declarations: [ProductEditorPage],
+  declarations: [ProductDetailsPage],
 })
-export class ProductEditorPageModule {}
+export class ProductDetailsPageModule {}
