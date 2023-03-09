@@ -14,6 +14,7 @@ import {
   StateContext,
   StateToken,
 } from "@ngxs/store";
+import { BuffetState } from "@shared/buffet";
 import { ExtendedEntityState } from "@shared/extended-entity-state";
 import {
   TargetedRequestStatus,
@@ -58,6 +59,23 @@ export class CategoryState extends ExtendedEntityState<
   @Selector()
   public static categoriesOfBuffets(state: CategoryStateModel) {
     return state.categoriesOfBuffets;
+  }
+
+  @Selector([
+    CategoryState.entitiesMap,
+    CategoryState.categoriesOfBuffets,
+    BuffetState.activeId,
+  ])
+  public static categoriesOfActiveBuffet(
+    state: CategoryState,
+    categories: Dictionary<Category>,
+    categoriesOfBuffets: Dictionary<string[]>,
+    buffetId?: string,
+  ) {
+    if (!buffetId) {
+      return [];
+    }
+    return categoriesOfBuffets[+buffetId].map(id => categories[+id]);
   }
 
   public static isAllLoaded(buffetId: number) {

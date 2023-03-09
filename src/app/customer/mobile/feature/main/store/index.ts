@@ -1,2 +1,2 @@
-export * from "./main.state";
+export * from "./main-page.state";
 // export * from "./main.actions";

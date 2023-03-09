@@ -127,6 +127,7 @@
       <button
         [disabled]="(activeBuffet$ | async) === undefined"
         routerLink="/"
+        [queryParams]="{ buffetId: (activeBuffet$ | async)?.id }"
         class="ready-btn"
       >
         Kiválasztás

@@ -9,6 +9,7 @@ import { MainPageRoutingModule } from "./main-routing.module";
 import { MainPage } from "./main.page";
 import { NgxsModule } from "@ngxs/store";
 import { CategoryState } from "@shared/category";
+import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
 
 @NgModule({
   imports: [
@@ -17,6 +18,8 @@ import { CategoryState } from "@shared/category";
     IonicModule,
     MainPageRoutingModule,
     NgxsModule.forFeature([CategoryState]),
+    ErrorMessagePipe,
+    ExceptionsModule.forFeature({}),
   ],
   declarations: [MainPage],
 })

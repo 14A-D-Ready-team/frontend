@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="vm$ | async as vm">
   <!-- az oldal felső résue: profil, büfáválasutás, értesítések -->
   <div class="top-container">
     <a class="profile">VA</a>
@@ -19,7 +19,9 @@
           fill="#292D32"
         />
       </svg>
-      <span>{{(activeBuffet$ | async)?.name}}</span>
+      <span
+        >{{vm.activeBuffet ? vm.activeBuffet.name: "Válasszon büfét!"}}</span
+      >
     </a>
     <svg
       width="24"
@@ -47,18 +49,18 @@
   <div class="text-container">
     <h1>
       Üdvözöljük
-      <span class="user-name">{{ (activeUser$ | async)?.name }}</span>!
+      <span class="user-name">{{ vm.activeUser?.name }}</span>!
     </h1>
     <p>Válogass a büfékínálatból!</p>
   </div>
   <!-- a büfé aktuális menü ajánlata a kategóriákkal -->
   <div class="menu-container">
+    <ion-label color="warning" *ngIf="vm.resolverError"
+      >{{vm.resolverError | errorMessage}}</ion-label
+    >
     <div class="category-container">
       <ion-radio-group></ion-radio-group>
-      <label
-        class="category-item"
-        *ngFor="let category of (categories$ | async)"
-      >
+      <label class="category-item" *ngFor="let category of vm.categories">
         <input
           type="radio"
           checked="true"
