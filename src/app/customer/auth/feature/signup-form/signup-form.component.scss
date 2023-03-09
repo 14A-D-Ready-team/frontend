@@ -105,17 +105,27 @@ h1 {
 
 //link for sign up
 .sign-up-container {
-  margin-bottom: 1vh;
-  .sign-up-text {
+  .item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1vh;
+  }
+  .sign-up-text,
+  .sign-up-admin-text {
     display: inline-block;
     font-size: 1rem;
     margin: 0em;
     color: black !important;
+    text-align: center;
   }
-  .sign-up-link {
+  .sign-up-link,
+  .sign-up-admin-link {
+    display: inline;
     font-size: 1rem;
     margin-left: 0.3em;
     color: $ready-red;
+    text-align: center;
   }
 }
 

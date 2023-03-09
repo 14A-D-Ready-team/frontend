@@ -2,7 +2,7 @@
   <app-navbar></app-navbar>
   <div
     class="before-login"
-    *ngIf="(activeUser$ | async)?.id === null || (activeBuffet$ | async)?.id === null"
+    *ngIf="(activeUser$ | async) === undefined|| (activeBuffet$ | async) === undefined"
   >
     <div class="login-container">
       <img src="/assets/icon/Logo.png" alt="" />
@@ -71,7 +71,7 @@
 
   <div
     class="after-login"
-    *ngIf="(activeBuffet$ | async)?.id && (activeUser$ | async)?.id"
+    *ngIf="(activeBuffet$ | async) !== undefined && (activeUser$ | async) !== undefined"
   >
     <div class="greeting-container">
       <h1>Üdvözöljük <span>{{ (activeUser$ | async)?.name }}</span>!</h1>
@@ -93,58 +93,6 @@
                 <button id="open-product-modal" class="add-btn">+</button>
               </div>
             </div>
-            <div class="product-card">
-              <img
-                src="/assets/images/product.png"
-                class="product-img"
-                alt=""
-              />
-              <div class="product-description">
-                <p class="product-category">Melegszendvics</p>
-                <p class="product-name">Sonkás</p>
-                <p class="product-price">500Ft</p>
-                <button class="add-btn">+</button>
-              </div>
-            </div>
-            <div class="product-card">
-              <img
-                src="/assets/images/product.png"
-                class="product-img"
-                alt=""
-              />
-              <div class="product-description">
-                <p class="product-category">Melegszendvics</p>
-                <p class="product-name">Sonkás</p>
-                <p class="product-price">500Ft</p>
-                <button class="add-btn">+</button>
-              </div>
-            </div>
-            <div class="product-card">
-              <img
-                src="/assets/images/product.png"
-                class="product-img"
-                alt=""
-              />
-              <div class="product-description">
-                <p class="product-category">Melegszendvics</p>
-                <p class="product-name">Sonkás</p>
-                <p class="product-price">500Ft</p>
-                <button class="add-btn">+</button>
-              </div>
-            </div>
-            <div class="product-card">
-              <img
-                src="/assets/images/product.png"
-                class="product-img"
-                alt=""
-              />
-              <div class="product-description">
-                <p class="product-category">Melegszendvics</p>
-                <p class="product-name">Sonkás</p>
-                <p class="product-price">500Ft</p>
-                <button class="add-btn">+</button>
-              </div>
-            </div>
           </div>
         </div>
         <div class="category-product-container">
@@ -161,58 +109,6 @@
                 <p class="product-name">Sonkás</p>
                 <p class="product-price">500Ft</p>
                 <button id="open-product-modal" class="add-btn">+</button>
-              </div>
-            </div>
-            <div class="product-card">
-              <img
-                src="/assets/images/product.png"
-                class="product-img"
-                alt=""
-              />
-              <div class="product-description">
-                <p class="product-category">Melegszendvics</p>
-                <p class="product-name">Sonkás</p>
-                <p class="product-price">500Ft</p>
-                <button class="add-btn">+</button>
-              </div>
-            </div>
-            <div class="product-card">
-              <img
-                src="/assets/images/product.png"
-                class="product-img"
-                alt=""
-              />
-              <div class="product-description">
-                <p class="product-category">Melegszendvics</p>
-                <p class="product-name">Sonkás</p>
-                <p class="product-price">500Ft</p>
-                <button class="add-btn">+</button>
-              </div>
-            </div>
-            <div class="product-card">
-              <img
-                src="/assets/images/product.png"
-                class="product-img"
-                alt=""
-              />
-              <div class="product-description">
-                <p class="product-category">Melegszendvics</p>
-                <p class="product-name">Sonkás</p>
-                <p class="product-price">500Ft</p>
-                <button class="add-btn">+</button>
-              </div>
-            </div>
-            <div class="product-card">
-              <img
-                src="/assets/images/product.png"
-                class="product-img"
-                alt=""
-              />
-              <div class="product-description">
-                <p class="product-category">Melegszendvics</p>
-                <p class="product-name">Sonkás</p>
-                <p class="product-price">500Ft</p>
-                <button class="add-btn">+</button>
               </div>
             </div>
           </div>
