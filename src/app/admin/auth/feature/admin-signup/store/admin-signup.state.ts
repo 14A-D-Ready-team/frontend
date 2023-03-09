@@ -36,7 +36,7 @@ const signupFormPath = "adminSignup.signupForm";
   name: SIGNUP_STATE_TOKEN,
   defaults: {
     signupForm: {
-      model: new SignupDto("", "", "", 1),
+      model: new SignupDto("", "", "", 1, ""),
       dirty: false,
       status: "VALID",
       errors: {},
@@ -58,7 +58,11 @@ export class AdminSignupState {
     }
 
     const model = state.signupForm.model;
-    const payload = new SignupDto(model.name, model.email, model.password, model.type);
+    const payload = new SignupDto(model.name, model.email, model.password, model.type, model.inviteToken!);
+
+    if (payload.type !== 1 && payload.inviteToken !== "") {
+      payload.inviteToken = "";
+    }
 
     ctx.dispatch(new SetFormDisabled(signupFormPath));
 

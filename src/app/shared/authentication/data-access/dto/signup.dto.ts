@@ -8,9 +8,12 @@ import {
 import { User, UserType } from "@app/shared/user";
 import { Expose } from "class-transformer";
 import {
+  IsAlpha,
   IsEmail,
   IsEnum,
   IsString,
+  IsUUID,
+  isUUID,
   Matches,
   MaxLength,
   MinLength,
@@ -51,10 +54,16 @@ export class SignupDto {
   @IsEnum(UserType)
   public type!: UserType;
 
-  constructor(name: string, email: string, password: string, type: UserType) {
+  @Expose()
+  @IsString()
+  @IsUUID()
+  public inviteToken?: string;
+
+  constructor(name: string, email: string, password: string, type: UserType, invite: string) {
     this.name = name;
     this.email = email;
     this.password = password;
     this.type = type;
+    this.inviteToken = invite;
   }
 }

@@ -11,6 +11,7 @@ interface AdminSignupForm {
   email: FormControl<string>;
   password: FormControl<string>;
   type: FormControl<number>;
+  inviteToken: FormControl<string>;
 }
 @Component({
   selector: 'app-admin-signup',
@@ -29,6 +30,7 @@ export class AdminSignupPage implements OnInit {
       email: new ClassValidatorFormControl<string>(""),
       password: new ClassValidatorFormControl<string>(""),
       type: new ClassValidatorFormControl<number>(null),
+      inviteToken: new ClassValidatorFormControl<string>(""),
     });
   }
 

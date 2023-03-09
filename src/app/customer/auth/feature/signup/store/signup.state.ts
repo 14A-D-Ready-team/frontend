@@ -38,7 +38,7 @@ const signupFormPath = "signup.signupForm";
   name: SIGNUP_STATE_TOKEN,
   defaults: {
     signupForm: {
-      model: new SignupDto("", "", "", 0),
+      model: new SignupDto("", "", "", 0, ""),
       dirty: false,
       status: "VALID",
       errors: {},
@@ -61,7 +61,7 @@ export class SignupState {
 
     //visszaad balfasz login dto normálissá konvertálni
     const model = state.signupForm.model;
-    const payload = new SignupDto(model.name, model.email, model.password, 0);
+    const payload = new SignupDto(model.name, model.email, model.password, 0, "");
 
     //form disable
     //ctx.dispatch

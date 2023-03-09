@@ -155,6 +155,7 @@
 
         <div
           class="input-container"
+          *ngIf="adminSignupForm.get('type')?.value === 1"
         >
           <svg
             class="input-icon"
@@ -181,7 +182,7 @@
             name="invite-code"
             id="invite-code"
             placeholder="Meghívó kód"
-            [disabled]="adminSignupForm.get('type')?.value !== 1"
+            formControlName="inviteToken"
           />
         </div>
 
