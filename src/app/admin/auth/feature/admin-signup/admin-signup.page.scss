@@ -2,7 +2,7 @@
 
 //setting default font color
 * {
-  font-size: $m-font;
+  font-size: 1rem;
   color: black;
   font-family: "Poppins";
 }
@@ -27,7 +27,7 @@
 
 //card that contains the input options
 .card {
-  @include flex-center(column, space-evenly);
+  @include flex-center(column, center);
   background-color: $card-background;
   border-radius: 1rem 1rem 0em 0em;
   min-height: fit-content;
@@ -35,7 +35,8 @@
 }
 
 h1 {
-  font-size: $l-font;
+  margin: 2rem 1rem;
+  font-size: 2rem;
   color: $ready-red;
   font-weight: 600;
 }
@@ -46,12 +47,12 @@ h1 {
 
   .input-container {
     @include flex-center(row, center);
-    margin: 0.5em 0em;
-    border-radius: 2em;
+    margin: 0.5rem 0rem;
+    border-radius: 2rem;
 
     width: 85%;
-    max-width: 500px;
-    height: 4.8vh;
+    max-width: 400px;
+    height: 2.5rem;
 
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
 
@@ -60,17 +61,17 @@ h1 {
     input {
       all: unset;
       width: 90%;
-      font-size: $m-font;
     }
     .input-icon {
       height: auto;
-      width: 8.5%;
+      width: 7%;
       margin: 0em 0.6rem;
       object-fit: contain;
     }
     .error-container {
       display: none;
       position: absolute;
+      z-index: 9999;
       top: 100%;
       width: 100%;
       box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
@@ -80,7 +81,6 @@ h1 {
       p {
         padding: 0px 20px;
         color: $ready-red;
-        font-size: $m-font;
       }
     }
   }
@@ -89,10 +89,60 @@ h1 {
     .forgot-pswd-link {
       align-self: flex-end;
       margin: 0 12%;
-      font-size: $s-font;
+      font-size: 0.8rem;
       color: #92928e;
     }
   }
+}
+
+//link for sign up
+.sign-up-container {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  .sign-up-text {
+    display: inline-block;
+    margin: 0em;
+    color: black !important;
+  }
+  .sign-up-link {
+    margin-left: 0.3em;
+    color: $ready-red;
+  }
+}
+
+ion-spinner {
+  transform: scale(4);
+  position: absolute;
+  top: 50%;
+  color: $ready-red;
+}
+
+.input-disabled-container {
+  background-color: $disabled-grey;
+}
+
+.user-type {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  ion-item,
+  ion-list {
+    --ion-background-color: transparent;
+    --border-radius: 2rem;
+  }
+}
+
+.invite-show {
+  display: block;
+}
+
+.invite-hide {
+  display: none !important;
+}
+
+.ready-btn {
+  height: 2.5rem;
 }
 
 #name:focus ~ .error-container {
@@ -121,86 +171,4 @@ h1 {
 
 .input-regular-outline {
   outline: 0.5px solid rgba(0, 0, 0, 0.15);
-}
-
-//link for sign up
-.sign-up-container {
-  margin-bottom: 1vh;
-  .sign-up-text {
-    display: inline-block;
-    font-size: $m-font;
-    margin: 0em;
-    color: black !important;
-  }
-  .sign-up-link {
-    font-size: $m-font;
-    margin-left: 0.3em;
-    color: $ready-red;
-  }
-}
-
-//decoration
-.decor-container {
-  @include flex-center(row, center);
-  margin-bottom: 1vh;
-  .line {
-    width: 30%;
-    max-width: 200px;
-    height: 0.18rem;
-    background-color: #92928e;
-    border-radius: 0.5rem;
-  }
-  .decor-text {
-    margin: 0em 0.5rem;
-    color: #92928e;
-    font-size: $m-font;
-  }
-}
-
-//facebook and google login button template
-@mixin other-button {
-  height: clamp(1.2rem, 5.8vh, 4.5rem);
-  width: 85%;
-  max-width: 500px;
-  font-size: $m-font;
-  border-radius: 2rem;
-  margin-bottom: 1rem;
-}
-
-.other-container {
-  @include flex-center(column, center);
-  button {
-    @include other-button();
-  }
-  .facebook-btn {
-    color: #fcfcfa;
-    background: linear-gradient(264.57deg, #2660da -4.06%, #3c68a0 96.41%);
-    border: 0.5px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15),
-      inset 0px 4px 16px rgba(59, 89, 152, 0.25);
-  }
-  .google-btn {
-    color: #25251c;
-    background: #fcfcfa;
-    border: 0.5px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 0px 2px 2px rgba(37, 37, 28, 0.15),
-      inset 0px 4px 16px rgba(59, 89, 152, 0.25);
-  }
-}
-
-ion-spinner {
-  transform: scale(4);
-  position: absolute;
-  top: 50%;
-  color: $ready-red;
-}
-
-.input-disabled-container {
-  background-color: $disabled-grey;
-}
-
-.user-type {
-  ion-radio-group{
-    --ion-background-color: #fcfcfa;
-  }
 }
