@@ -16,12 +16,9 @@ export class ProductDetailsPage implements OnInit {
   @Select(CategoryState.entities)
   public categories$!: Observable<Category[]>;
 
-
   public formPath = formPath;
 
-  constructor() {
-    
-  }
+  constructor() {}
 
   ngOnInit() {}
 }
