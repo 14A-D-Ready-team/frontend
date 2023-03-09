@@ -1,4 +1,3 @@
-
 import { EntityActions } from "@shared/extended-entity-state";
 import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
 import { Buffet } from "../entity";

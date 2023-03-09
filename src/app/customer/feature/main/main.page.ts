@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Select, Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
-import { Category, loadAllCategories } from "@shared/category";
 import { User } from "@shared/user";
+import { Category, loadCategories } from "@shared/category";
 import { Observable } from "rxjs";
 import { MainState } from "./store";
 
@@ -25,6 +25,6 @@ export class MainPage implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit() {
-    loadAllCategories(this.store).subscribe();
+    loadCategories(this.store).subscribe();
   }
 }

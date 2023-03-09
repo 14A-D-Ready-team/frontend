@@ -24,7 +24,6 @@ export const formPath = "newBuffet.form";
     },
   },
 })
-
 @Injectable()
 export class NewBuffetState {
   constructor() {}
@@ -35,7 +34,6 @@ export class NewBuffetState {
     if (state.form.status === "INVALID") {
       return;
     }
-    console.log("asdasdasd");
 
     const dto = CreateBuffetDto.clone(state.form.model);
 

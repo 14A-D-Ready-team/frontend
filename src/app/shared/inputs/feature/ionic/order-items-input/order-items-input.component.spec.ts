@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { OrderItemsInputComponent } from './order-items-input.component';
+import { OrderItemsInputComponent } from "./order-items-input.component";
 
-describe('OrderItemsInputComponent', () => {
+describe("OrderItemsInputComponent", () => {
   let component: OrderItemsInputComponent;
   let fixture: ComponentFixture<OrderItemsInputComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrderItemsInputComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [OrderItemsInputComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OrderItemsInputComponent);
@@ -18,7 +18,7 @@ describe('OrderItemsInputComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

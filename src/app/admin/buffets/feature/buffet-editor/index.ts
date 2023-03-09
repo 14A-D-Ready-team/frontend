@@ -1,1 +1,1 @@
-export * from './buffet-editor.module';
+export * from "./buffet-editor.module";

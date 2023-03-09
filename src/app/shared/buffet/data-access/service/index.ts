@@ -1,1 +1,1 @@
-export * from './buffet.service';
+export * from "./buffet.service";

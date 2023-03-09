@@ -1,8 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  defaultEntityState,
-  IdStrategy,
-} from "@ngxs-labs/entity-state";
+import { defaultEntityState, IdStrategy } from "@ngxs-labs/entity-state";
 import { State } from "@ngxs/store";
 import { PaginatedResponse } from "@shared/api";
 import {
@@ -13,7 +10,7 @@ import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
 import { Buffet } from "../entity";
 import { SearchBuffetsQuery } from "../query";
 import { BuffetService } from "../service";
-import * as Actions from './buffet.actions';
+import * as Actions from "./buffet.actions";
 
 export type BuffetStateModel = ExtendedEntityStateModel<Buffet>;
 

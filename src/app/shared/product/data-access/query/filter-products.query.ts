@@ -34,6 +34,9 @@ export class FilterProductsQuery extends PaginationQuery {
   public categoryId?: number;
 
   @Expose()
+  public buffetId?: number;
+
+  @Expose()
   @Type(() => NumberFilterQuery)
   @IsOptional()
   @IsInstance(NumberFilterQuery)

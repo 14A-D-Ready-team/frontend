@@ -1,8 +1,21 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
 import { Category, CategoryState, EditCategoryDto } from "@shared/category";
-import { combineLatest, map, Observable, take } from "rxjs";
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  Subscription,
+  switchMap,
+  take,
+} from "rxjs";
 import { CategoryEditorFormModel } from "../../utils";
 import {
   StopEdit,
@@ -32,6 +45,8 @@ import {
   TargetedRequestStatus,
   ApiRequestStatus,
 } from "@shared/extended-entity-state/utils";
+import { NoBuffetSelectedException } from "@shared/buffet/utils";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-admin-category-list",
@@ -39,7 +54,7 @@ import {
   styleUrls: ["./category-list.page.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoryListPage implements OnInit {
+export class CategoryListPage implements OnDestroy {
   @Select(CategoryListState.categories)
   public categories$!: Observable<Category[]>;
 
@@ -93,11 +108,14 @@ export class CategoryListPage implements OnInit {
         createPending: createStatus?.loading === true,
         loading,
         error,
+        noBuffetSelected: error instanceof NoBuffetSelectedException,
       }),
     ),
   );
 
   public editorForm: FormGroup<CategoryEditorFormModel>;
+
+  private sub: Subscription;
 
   public get editorFormPath() {
     return editorFormPath;
@@ -108,6 +126,7 @@ export class CategoryListPage implements OnInit {
     private actionSheetController: ActionSheetController,
     private modalController: ModalController,
     private platform: Platform,
+    private route: ActivatedRoute,
   ) {
     this.editorForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
       EditCategoryDto,
@@ -115,10 +134,18 @@ export class CategoryListPage implements OnInit {
         name: new ClassValidatorFormControl(""),
       },
     );
+
+    this.sub = route.url
+      .pipe(
+        map(() => route.component),
+        filter(c => c === CategoryListPage),
+        switchMap(() => this.store.dispatch(new LoadPage())),
+      )
+      .subscribe();
   }
 
-  public ngOnInit() {
-    this.store.dispatch(new LoadPage());
+  public ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   public retryLoading() {

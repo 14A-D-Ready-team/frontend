@@ -26,6 +26,10 @@ export class ExceptionService {
       );
     }
 
+    if (error?.customError) {
+      return error.errorMessage;
+    }
+
     return this.mergedErrorMessages.UnknownException!;
   }
 }

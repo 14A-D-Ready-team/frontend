@@ -1,2 +1,2 @@
-export * as BuffetActions from './buffet.actions';
-export * from './buffet.state';
+export * as BuffetActions from "./buffet.actions";
+export * from "./buffet.state";

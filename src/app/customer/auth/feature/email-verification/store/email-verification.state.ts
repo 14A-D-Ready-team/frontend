@@ -65,7 +65,6 @@ export class EmailVerificationState {
 
     const model = state.emailVerificationForm.model;
     const payload = model;
-    console.log(payload);
 
     ctx.dispatch(new SetFormDisabled(emialVerificationFormPath));
     ctx.patchState({ status: { loading: true } });

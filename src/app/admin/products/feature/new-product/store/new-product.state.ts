@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, State, StateContext, Store } from "@ngxs/store";
-import { loadAllCategories } from "@shared/category";
+import { BuffetState } from "@shared/buffet";
+import { loadCategories } from "@shared/category";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import { CreateProductDto, ProductActions } from "@shared/product";
 import {
@@ -36,7 +37,7 @@ export class NewProductState {
 
   @Action(LoadPage)
   public async loadPage() {
-    return loadAllCategories(this.store);
+    return loadCategories(this.store);
   }
 
   @Action(Save)

@@ -1,7 +1,9 @@
 <div [formGroup]="bindedFormGroup" class="container">
   <ion-item class="highlight-primary">
     <ion-label
-      [position]="bindedFormGroup.controls.searchString === null ? 'stacked' : 'floating'"
+      [position]="
+        bindedFormGroup.controls.searchString === null ? 'stacked' : 'floating'
+      "
     >
       {{ title }}
     </ion-label>

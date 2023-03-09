@@ -58,7 +58,9 @@ export class CreateProductDto {
     const { customizations, ...rest } = existing || {};
     Object.assign(this, rest);
     if (customizations) {
-      this.customizations = customizations.map((c) => new EditCustomizationDto(c));
+      this.customizations = customizations.map(
+        c => new EditCustomizationDto(c),
+      );
     }
   }
 }

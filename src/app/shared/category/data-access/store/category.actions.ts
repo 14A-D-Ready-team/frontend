@@ -7,7 +7,7 @@ export class Load extends EntityActions.Load<FilterCategoriesQuery> {
   public static readonly type = `[Category] Load`;
 }
 
-export class Load2  {
+export class Load2 {
   public static readonly type = `[Category] Load2`;
 }
 
@@ -57,8 +57,8 @@ export class DeleteFailed extends EntityActions.DeleteFailed {
 export class DeleteSucceeded extends EntityActions.DeleteSucceeded {
   public static readonly type = `[Category API] Delete Succeeded`;
 }
-export class SetAllLoaded {
-  public static readonly type = "[Category] Set All Loaded";
+export class SetCategoriesOfBuffet {
+  public static readonly type = "[Category] Set Categories Of Buffet ";
 
-  constructor(public isAllLoaded: boolean) {}
+  constructor(public buffetId: number, public categories: Category[]) {}
 }

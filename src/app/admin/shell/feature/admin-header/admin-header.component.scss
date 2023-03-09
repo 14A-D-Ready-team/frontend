@@ -32,3 +32,12 @@ ion-item {
     padding: 6px;
   }
 }
+
+.buffet-label-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.chosen-buffet-label {
+  font-size: 12px;
+}
