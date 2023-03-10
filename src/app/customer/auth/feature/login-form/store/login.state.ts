@@ -89,20 +89,6 @@ export class LoginState {
   @Action(LoginFailed)
   public loginFailed(ctx: StateContext<LoginStateModel>, action: LoginFailed) {
     ctx.patchState({ status: { loading: false, error: action.error } });
-    // if (action.error instanceof ApiException) {
-    //   if (action.error.errorCode === ErrorCode.EmailNotFoundException) {
-    //     ctx.dispatch(
-    //       new UpdateFormControlErrors({
-    //         path: loginFormPath,
-    //         controlName: "email",
-    //         errors: {
-    //           minLength: "Túl rövid az email",
-    //         },
-    //       }),
-    //     );
-    //   }
-    // } else {
-    // }
   }
 
   @Action(LoginSucceeded)
