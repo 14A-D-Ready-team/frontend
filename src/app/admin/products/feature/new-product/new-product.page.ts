@@ -12,7 +12,11 @@ import {
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
 import { map, Observable, startWith } from "rxjs";
-import { CustomizationFormModel, ProductEditorFormModel } from "../../utils";
+import {
+  createProductEditorForm,
+  CustomizationFormModel,
+  ProductEditorFormModel,
+} from "../../utils";
 import {
   formPath,
   LoadPage,
@@ -27,44 +31,19 @@ import {
   styleUrls: ["./new-product.page.scss"],
 })
 export class NewProductPage implements OnInit {
-  @Select(CategoryState.entities)
-  public categories$!: Observable<Category[]>;
-
   @Select(ProductState.createStatus)
   public status$!: Observable<ApiRequestStatus | undefined>;
-
-  @Select(CategoryState.loading)
-  public categoriesLoading$!: Observable<boolean>;
 
   public form: FormGroup<ProductEditorFormModel>;
 
   public formPath = formPath;
-
-  public isDesktop$ = this.platform.resize.pipe(
-    startWith(undefined),
-    map(() => this.platform.width() >= 1200),
-  );
 
   constructor(
     private store: Store,
     private router: Router,
     private platform: Platform,
   ) {
-    this.form = new ClassValidatorFormGroup<ProductEditorFormModel>(
-      CreateProductDto,
-      {
-        categoryId: new ClassValidatorFormControl<number | null>(null),
-        name: new ClassValidatorFormControl<string | null>(null),
-        image: new FormControl<File | null>(null),
-        description: new ClassValidatorFormControl<string | null>(null),
-        discountedPrice: new ClassValidatorFormControl<number | null>(null),
-        fullPrice: new ClassValidatorFormControl<number | null>(null),
-        stock: new ClassValidatorFormControl<number | null>(null),
-        customizations: new ClassValidatorFormArray([]) as FormArray<
-          FormGroup<CustomizationFormModel>
-        >,
-      },
-    );
+    this.form = createProductEditorForm();
   }
 
   public ngOnInit(): void {

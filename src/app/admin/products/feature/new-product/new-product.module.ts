@@ -19,7 +19,7 @@ import { NewProductState } from "./store";
 import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
 import { ClearInputButtonComponent } from "@shared/inputs/ui/ionic";
 import { CustomizationEditorComponent } from "../customization-editor";
-import { ProductEditorFormComponent } from "../../ui/product-editor-form";
+import { ProductEditorComponent } from "../product-editor";
 
 @NgModule({
   imports: [
@@ -37,7 +37,7 @@ import { ProductEditorFormComponent } from "../../ui/product-editor-form";
     ErrorMessagePipe,
     ClearInputButtonComponent,
     CustomizationEditorComponent,
-    ProductEditorFormComponent,
+    ProductEditorComponent,
   ],
   declarations: [NewProductPage],
 })

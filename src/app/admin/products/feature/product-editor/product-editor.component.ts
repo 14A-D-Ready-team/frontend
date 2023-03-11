@@ -8,9 +8,9 @@ import {
   Output,
 } from "@angular/core";
 import { FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { IonicModule } from "@ionic/angular";
+import { IonicModule, Platform } from "@ionic/angular";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
-import { Category } from "@shared/category";
+import { Category, CategoryState } from "@shared/category";
 import { ErrorMessagePipe } from "@shared/exceptions";
 import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
 import { ApiRequestStatus } from "@shared/extended-entity-state";
@@ -20,9 +20,10 @@ import {
   ImageSelectorComponent,
   SelectorInputComponent,
 } from "@shared/inputs/ui/ionic";
-import { Observable } from "rxjs";
-import { CustomizationEditorComponent } from "../../feature/customization-editor";
+import { map, Observable, startWith } from "rxjs";
+import { CustomizationEditorComponent } from "../customization-editor";
 import { ProductEditorFormModel } from "../../utils";
+import { Select } from "@ngxs/store";
 
 @Component({
   imports: [
@@ -39,23 +40,14 @@ import { ProductEditorFormModel } from "../../utils";
     CustomizationEditorComponent,
   ],
   standalone: true,
-  selector: "app-admin-product-editor-form",
-  templateUrl: "./product-editor-form.component.html",
-  styleUrls: ["./product-editor-form.component.scss"],
+  selector: "app-admin-product-editor",
+  templateUrl: "./product-editor.component.html",
+  styleUrls: ["./product-editor.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductEditorFormComponent implements OnInit {
-  @Input()
-  public isDesktop$!: Observable<boolean>;
-
-  @Input()
-  public categories$!: Observable<Category[]>;
-
+export class ProductEditorComponent implements OnInit {
   @Input()
   public status$!: Observable<ApiRequestStatus | undefined>;
-
-  @Input()
-  public categoriesLoading$!: Observable<boolean>;
 
   @Input()
   public bindedFormGroup!: FormGroup<ProductEditorFormModel>;
@@ -63,10 +55,18 @@ export class ProductEditorFormComponent implements OnInit {
   @Input()
   public formPath!: string;
 
-  @Output()
-  public categoriesReloaded = new EventEmitter<void>();
+  @Select(CategoryState.entities)
+  public categories$!: Observable<Category[]>;
 
-  constructor() {}
+  @Select(CategoryState.loading)
+  public categoriesLoading$!: Observable<boolean>;
+
+  public isDesktop$ = this.platform.resize.pipe(
+    startWith(undefined),
+    map(() => this.platform.width() >= 1200),
+  );
+
+  constructor(private platform: Platform) {}
 
   ngOnInit(): void {}
 }
