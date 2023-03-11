@@ -7,14 +7,11 @@
   <ion-content class="ion-padding">
     <ion-card>
       <ion-card-content>
-        <app-admin-product-editor-form
+        <app-admin-product-editor
           [bindedFormGroup]="form"
           [formPath]="formPath"
-          [categories$]="categories$"
-          [categoriesLoading$]="categoriesLoading$"
-          [isDesktop$]="isDesktop$"
-          (categoriesReloaded)="reloadCategories()"
-        ></app-admin-product-editor-form>
+          [status$]="status$"
+        ></app-admin-product-editor>
       </ion-card-content>
     </ion-card>
   </ion-content>
