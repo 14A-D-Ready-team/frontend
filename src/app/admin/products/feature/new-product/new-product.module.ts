@@ -20,7 +20,7 @@ import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
 import { ClearInputButtonComponent } from "@shared/inputs/ui/ionic";
 import { CustomizationEditorComponent } from "../customization-editor";
 import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
-
+console.log(NewProductState.prototype);
 @NgModule({
   imports: [
     CommonModule,
