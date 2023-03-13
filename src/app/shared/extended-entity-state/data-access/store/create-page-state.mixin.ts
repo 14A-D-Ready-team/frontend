@@ -6,7 +6,7 @@ import { decorateAction } from "@shared/extended-entity-state/utils";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 
 interface CreatePageStateModel<D> {
-  form: NgxsFormStateModel<D>;
+  editorForm: NgxsFormStateModel<D>;
 }
 
 type Actions = {
@@ -27,11 +27,11 @@ export class CreatePageState<
 
   public save(ctx: StateContext<StateModel>) {
     const state = ctx.getState();
-    if (state.form.status === "INVALID") {
+    if (state.editorForm.status === "INVALID") {
       return;
     }
 
-    const dto = new this.DtoClass(state.form.model);
+    const dto = new this.DtoClass(state.editorForm.model);
 
     ctx.dispatch(new SetFormDisabled(this.formPath));
 

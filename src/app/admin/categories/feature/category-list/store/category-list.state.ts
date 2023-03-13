@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import { Injectable } from "@angular/core";
 import {
   Category,
@@ -40,9 +41,10 @@ import { FilterCategoriesQuery } from "@shared/category/data-access/query";
 import { BuffetState, BuffetStatus } from "@shared/buffet";
 import { NoBuffetSelectedException } from "@shared/buffet/utils";
 import { Dictionary } from "lodash";
+import { UpdatePageState } from "@shared/extended-entity-state";
 
 export interface CategoryListStateModel {
-  editorForm: NgxsFormStateModel<Partial<Category>>;
+  editorForm: NgxsFormStateModel<EditCategoryDto>;
   editedId?: number;
   creatingNew: boolean;
 }
@@ -52,6 +54,9 @@ export const CATEGORY_LIST_STATE_TOKEN = new StateToken<CategoryListStateModel>(
 );
 
 export const editorFormPath = "adminCategoryList.editorForm";
+
+export interface CategoryListState
+  extends UpdatePageState<CategoryListStateModel, EditCategoryDto, Category> {}
 
 @State<CategoryListStateModel>({
   name: CATEGORY_LIST_STATE_TOKEN,

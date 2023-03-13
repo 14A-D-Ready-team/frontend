@@ -1,66 +1,99 @@
 import { Type } from "@angular/core";
 import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, StateContext } from "@ngxs/store";
+import { UpdateDto } from "@shared/api";
 import { decorateAction } from "@shared/extended-entity-state/utils";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 
-interface CreatePageStateModel<D> {
-  form: NgxsFormStateModel<D>;
+interface UpdatePageStateModel<D> {
+  editedId?: number;
+  editorForm: NgxsFormStateModel<D>;
 }
 
-type Actions<Dto> = {
-  Create: new (dto: Dto) => any;
+type Actions = {
   Save: Type<any>;
-  CreateSucceeded: Type<any>;
-  CreateFailed: Type<any>;
+  UpdateSucceeded: Type<any>;
+  UpdateFailed: Type<{ error: any }>;
 };
 
-export abstract class CreatePageState<
-  StateModel extends CreatePageStateModel<Dto>,
-  Dto,
+export abstract class UpdatePageState<
+  StateModel extends UpdatePageStateModel<Dto>,
+  Dto extends UpdateDto<T>,
+  T,
 > {
-  protected abstract DtoClass: new (existing: Partial<Dto>) => Dto;
+  protected DtoClass!: new (existing: Partial<Dto>) => Dto;
 
-  protected abstract formPath: string;
+  protected formPath!: string;
 
-  protected abstract Actions: Actions<Dto>;
+  protected UpdateAction!: new (id: number, dto: Dto) => any;
 
-  public save(ctx: StateContext<StateModel>) {
+  protected getOriginal!: (id: number) => T;
+
+  public async save(ctx: StateContext<StateModel>) {
     const state = ctx.getState();
-    if (state.form.status === "INVALID") {
+
+    if (state.editorForm.status === "INVALID") {
       return;
     }
 
-    const dto = new this.DtoClass(state.form.model);
+    const model = state.editorForm.model;
+    const payload = new this.DtoClass(model);
+
+    const original = this.getOriginal(state.editedId!);
+    payload.omitUnchangedProperties(original);
+
+    if (!payload.hasChanges()) {
+      return this.onUnchanged(ctx);
+    }
 
     ctx.dispatch(new SetFormDisabled(this.formPath));
 
-    return ctx.dispatch(new this.Actions.Create(dto));
+    return ctx.dispatch(new this.UpdateAction(state.editedId!, payload));
   }
 
-  public createSucceeded(ctx: StateContext<StateModel>) {
+  public async updateSucceeded(ctx: StateContext<StateModel>) {}
+
+  public async updateFailed(
+    ctx: StateContext<StateModel>,
+    action: { error: any },
+  ) {
     ctx.dispatch(new SetFormEnabled(this.formPath));
   }
 
-  public createFailed(ctx: StateContext<StateModel>) {
-    ctx.dispatch(new SetFormEnabled(this.formPath));
-  }
+  protected initUpdateState({
+    Actions,
+    UpdateAction,
+    DtoClass,
+    formPath,
+    getOriginal,
+  }: {
+    Actions: Actions;
+    UpdateAction: new (id: number, dto: Dto) => any;
+    DtoClass: new (existing: Partial<Dto>) => Dto;
+    formPath: string;
+    getOriginal: (id: number) => T;
+  }) {
+    this.UpdateAction = UpdateAction;
+    this.DtoClass = DtoClass;
+    this.formPath = formPath;
+    this.getOriginal = getOriginal;
 
-  protected init() {
     decorateAction({
       state: this,
-      action: this.Actions.Save,
+      action: Actions.Save,
       methodName: "save",
     });
     decorateAction({
       state: this,
-      action: this.Actions.CreateSucceeded,
-      methodName: "createSucceeded",
+      action: Actions.UpdateSucceeded,
+      methodName: "updateSucceeded",
     });
     decorateAction({
       state: this,
-      action: this.Actions.Save,
-      methodName: "createFailed",
+      action: Actions.Save,
+      methodName: "updateFailed",
     });
   }
+
+  protected onUnchanged(ctx: StateContext<StateModel>) {}
 }

@@ -10,7 +10,7 @@ import { mix } from "ts-mixer";
 import { LoadPage, Save } from "./new-product.actions";
 
 export interface NewProductStateModel {
-  form: NgxsFormStateModel<CreateProductDto>;
+  editorForm: NgxsFormStateModel<CreateProductDto>;
 }
 
 export const formPath = "newProduct.form";
@@ -21,7 +21,7 @@ export interface NewProductState
 @State<NewProductStateModel>({
   name: "newProduct",
   defaults: {
-    form: {
+    editorForm: {
       model: new CreateProductDto(),
       errors: {},
       dirty: false,
