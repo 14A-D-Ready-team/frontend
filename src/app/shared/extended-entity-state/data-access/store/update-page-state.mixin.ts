@@ -1,7 +1,7 @@
 import { Type } from "@angular/core";
 import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, StateContext } from "@ngxs/store";
-import { UpdateDto } from "@shared/api";
+import { UpdateDtoStatic } from "@shared/api";
 import { decorateAction } from "@shared/extended-entity-state/utils";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 
@@ -16,12 +16,16 @@ type Actions = {
   UpdateFailed: Type<{ error: any }>;
 };
 
+interface DtoType<Dto, T> extends UpdateDtoStatic<Dto, T> {
+  new (existing: Partial<Dto>): Dto;
+}
+
 export abstract class UpdatePageState<
   StateModel extends UpdatePageStateModel<Dto>,
-  Dto extends UpdateDto<T>,
+  Dto,
   T,
 > {
-  protected DtoClass!: new (existing: Partial<Dto>) => Dto;
+  protected DtoClass!: DtoType<Dto, T>;
 
   protected formPath!: string;
 
@@ -40,7 +44,7 @@ export abstract class UpdatePageState<
     const payload = new this.DtoClass(model);
 
     const original = this.getOriginal(state.editedId!);
-    payload.omitUnchangedProperties(original);
+    this.DtoClass.omitUnchangedProperties(original);
 
     if (!payload.hasChanges()) {
       return this.onUnchanged(ctx);
@@ -69,7 +73,7 @@ export abstract class UpdatePageState<
   }: {
     Actions: Actions;
     UpdateAction: new (id: number, dto: Dto) => any;
-    DtoClass: new (existing: Partial<Dto>) => Dto;
+    DtoClass: DtoType<Dto, T>;
     formPath: string;
     getOriginal: (id: number) => T;
   }) {

@@ -15,18 +15,22 @@ export class EditCategoryDto {
     this.name = category?.name || "";
   }
 
-  public omitUnchangedProperties(original: Category) {
-    for (const key in this) {
-      if (Object.prototype.hasOwnProperty.call(this, key)) {
-        const value = this[key] as any;
+  public static omitUnchangedProperties(
+    dto: EditCategoryDto,
+    original: Category,
+  ) {
+    const object: any = dto;
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key)) {
+        const value = object[key] as any;
         if (key !== "id" && value === original[key as keyof typeof original]) {
-          delete this[key];
+          delete object[key];
         }
       }
     }
   }
 
-  public hasChanges() {
-    return Object.keys(this).filter(k => k !== "id").length > 0;
+  public static hasChanges(dto: EditCategoryDto) {
+    return Object.keys(dto).filter(k => k !== "id").length > 0;
   }
 }

@@ -10,6 +10,7 @@ import {
 import { Remove, SetError } from "@ngxs-labs/entity-state";
 import {
   Action,
+  NgxsOnInit,
   Selector,
   State,
   StateContext,
@@ -62,7 +63,7 @@ export interface CategoryListState
   name: CATEGORY_LIST_STATE_TOKEN,
   defaults: {
     editorForm: {
-      model: {},
+      model: { name: "" },
       dirty: false,
       status: "VALID",
       errors: {},
@@ -73,7 +74,7 @@ export interface CategoryListState
   },
 })
 @Injectable()
-export class CategoryListState {
+export class CategoryListState implements NgxsOnInit {
   constructor(
     private store: Store,
     private toastController: ToastController,
@@ -106,6 +107,23 @@ export class CategoryListState {
   @Selector()
   public static editedId(state: CategoryListStateModel) {
     return state.editedId;
+  }
+
+  public ngxsOnInit(ctx: StateContext<CategoryListStateModel>) {
+    this.initUpdateState({
+      Actions: {
+        Save: SaveEdit,
+        UpdateFailed: CategoryActions.UpdateFailed,
+        UpdateSucceeded: CategoryActions.UpdateSucceeded,
+      },
+      UpdateAction: CategoryActions.Update,
+      DtoClass: EditCategoryDto,
+      formPath: editorFormPath,
+      getOriginal: (id: number) =>
+        this.store.selectSnapshot(
+          CategoryState.entityById(ctx.getState().editedId!),
+        ),
+    });
   }
 
   @Action(LoadPage)
@@ -202,7 +220,7 @@ export class CategoryListState {
     return this.resetEditorForm(ctx);
   }
 
-  @Action(SaveEdit)
+  /* @Action(SaveEdit)
   public saveEdit(ctx: StateContext<CategoryListStateModel>) {
     const state = ctx.getState();
 
@@ -248,7 +266,7 @@ export class CategoryListState {
       ctx.dispatch(new StopEdit());
       return ctx.dispatch(new Remove(CategoryState, e => e.id === editedId));
     }
-  }
+  } */
 
   @Action(Delete)
   public delete(ctx: StateContext<CategoryListStateModel>, action: Delete) {
