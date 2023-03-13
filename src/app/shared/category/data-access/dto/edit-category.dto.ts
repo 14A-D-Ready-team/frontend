@@ -11,8 +11,8 @@ export class EditCategoryDto {
   })
   public name: string;
 
-  constructor(category?: Category) {
-    this.name = category?.name || "";
+  constructor(existing: Partial<EditCategoryDto> = {}) {
+    this.name = existing?.name || "";
   }
 
   public static omitUnchangedProperties(
@@ -24,6 +24,7 @@ export class EditCategoryDto {
       if (Object.prototype.hasOwnProperty.call(object, key)) {
         const value = object[key] as any;
         if (key !== "id" && value === original[key as keyof typeof original]) {
+          console.log(object);
           delete object[key];
         }
       }

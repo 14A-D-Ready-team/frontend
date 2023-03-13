@@ -38,11 +38,10 @@ import {
 import { Platform, ToastController } from "@ionic/angular";
 import { ErrorCode, ExceptionService } from "@app/shared/exceptions";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
-import { FilterCategoriesQuery } from "@shared/category/data-access/query";
-import { BuffetState, BuffetStatus } from "@shared/buffet";
-import { NoBuffetSelectedException } from "@shared/buffet/utils";
+import { BuffetState } from "@shared/buffet";
 import { Dictionary } from "lodash";
-import { UpdatePageState } from "@shared/extended-entity-state";
+import { UpdatePageState as UPS } from "@shared/extended-entity-state";
+import { Mixin } from "ts-mixer";
 
 export interface CategoryListStateModel {
   editorForm: NgxsFormStateModel<EditCategoryDto>;
@@ -56,9 +55,11 @@ export const CATEGORY_LIST_STATE_TOKEN = new StateToken<CategoryListStateModel>(
 
 export const editorFormPath = "adminCategoryList.editorForm";
 
-export interface CategoryListState
-  extends UpdatePageState<CategoryListStateModel, EditCategoryDto, Category> {}
-
+const UpdatePageState = UPS as typeof UPS<
+  CategoryListStateModel,
+  EditCategoryDto,
+  Category
+>;
 @State<CategoryListStateModel>({
   name: CATEGORY_LIST_STATE_TOKEN,
   defaults: {
@@ -74,13 +75,18 @@ export interface CategoryListState
   },
 })
 @Injectable()
-export class CategoryListState implements NgxsOnInit {
+export class CategoryListState
+  extends Mixin(UpdatePageState)
+  implements NgxsOnInit
+{
   constructor(
     private store: Store,
     private toastController: ToastController,
     private exceptionService: ExceptionService,
     private platform: Platform,
-  ) {}
+  ) {
+    super();
+  }
 
   @Selector([
     CategoryState.entitiesMap,
@@ -120,9 +126,7 @@ export class CategoryListState implements NgxsOnInit {
       DtoClass: EditCategoryDto,
       formPath: editorFormPath,
       getOriginal: (id: number) =>
-        this.store.selectSnapshot(
-          CategoryState.entityById(ctx.getState().editedId!),
-        ),
+        this.store.selectSnapshot(CategoryState.entityById(id)),
     });
   }
 
@@ -210,7 +214,7 @@ export class CategoryListState implements NgxsOnInit {
     return ctx.dispatch(
       new UpdateFormValue({
         path: editorFormPath,
-        value: action.category,
+        value: new EditCategoryDto(action.category),
       }),
     );
   }
@@ -220,45 +224,14 @@ export class CategoryListState implements NgxsOnInit {
     return this.resetEditorForm(ctx);
   }
 
-  /* @Action(SaveEdit)
-  public saveEdit(ctx: StateContext<CategoryListStateModel>) {
-    const state = ctx.getState();
-
-    if (state.editorForm.status === "INVALID") {
-      return;
-    }
-
-    const model = state.editorForm.model;
-    const payload = new EditCategoryDto({
-      ...model,
-    } as Category);
-
-    const original = this.store.selectSnapshot(
-      CategoryState.entityById(state.editedId!),
-    );
-    payload.omitUnchangedProperties(original);
-
-    if (!payload.hasChanges()) {
-      return ctx.dispatch(new StopEdit());
-    }
-
-    ctx.dispatch(new SetFormDisabled(editorFormPath));
-
-    return ctx.dispatch(new CategoryActions.Update(state.editedId!, payload));
-  }
-
-  @Action(CategoryActions.UpdateSucceeded)
   public updateSucceeded(ctx: StateContext<CategoryListStateModel>) {
     return ctx.dispatch(new StopEdit());
   }
 
-  @Action(CategoryActions.UpdateFailed)
   public async updateFailed(
     ctx: StateContext<CategoryListStateModel>,
     action: CategoryActions.UpdateFailed,
   ) {
-    ctx.dispatch(new SetFormEnabled(editorFormPath));
-
     await this.showErrorToast(action.error);
 
     if (action.error?.errorCode === ErrorCode.NotFoundException) {
@@ -266,7 +239,7 @@ export class CategoryListState implements NgxsOnInit {
       ctx.dispatch(new StopEdit());
       return ctx.dispatch(new Remove(CategoryState, e => e.id === editedId));
     }
-  } */
+  }
 
   @Action(Delete)
   public delete(ctx: StateContext<CategoryListStateModel>, action: Delete) {
@@ -286,6 +259,10 @@ export class CategoryListState implements NgxsOnInit {
       ),
       switchMap(() => ctx.dispatch(new SetFormEnabled(editorFormPath))),
     );
+  }
+
+  protected onUnchanged(ctx: StateContext<CategoryListStateModel>) {
+    return ctx.dispatch(new StopEdit());
   }
 
   private async showErrorToast(error: any) {

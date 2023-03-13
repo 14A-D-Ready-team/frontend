@@ -4,6 +4,7 @@ import { Action, StateContext } from "@ngxs/store";
 import { UpdateDtoStatic } from "@shared/api";
 import { decorateAction } from "@shared/extended-entity-state/utils";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
+import { Observable } from "rxjs";
 
 interface UpdatePageStateModel<D> {
   editedId?: number;
@@ -17,10 +18,11 @@ type Actions = {
 };
 
 interface DtoType<Dto, T> extends UpdateDtoStatic<Dto, T> {
+  // eslint-disable-next-line @typescript-eslint/prefer-function-type
   new (existing: Partial<Dto>): Dto;
 }
 
-export abstract class UpdatePageState<
+export class UpdatePageState<
   StateModel extends UpdatePageStateModel<Dto>,
   Dto,
   T,
@@ -33,6 +35,8 @@ export abstract class UpdatePageState<
 
   protected getOriginal!: (id: number) => T;
 
+  constructor() {}
+
   public async save(ctx: StateContext<StateModel>) {
     const state = ctx.getState();
 
@@ -44,9 +48,9 @@ export abstract class UpdatePageState<
     const payload = new this.DtoClass(model);
 
     const original = this.getOriginal(state.editedId!);
-    this.DtoClass.omitUnchangedProperties(original);
+    this.DtoClass.omitUnchangedProperties(payload, original);
 
-    if (!payload.hasChanges()) {
+    if (!this.DtoClass.hasChanges(payload)) {
       return this.onUnchanged(ctx);
     }
 
@@ -55,12 +59,14 @@ export abstract class UpdatePageState<
     return ctx.dispatch(new this.UpdateAction(state.editedId!, payload));
   }
 
-  public async updateSucceeded(ctx: StateContext<StateModel>) {}
+  public updateSucceeded(
+    ctx: StateContext<StateModel>,
+  ): Promise<any> | Observable<any> | any {}
 
-  public async updateFailed(
+  public updateFailed(
     ctx: StateContext<StateModel>,
     action: { error: any },
-  ) {
+  ): Promise<any> | Observable<any> | any {
     ctx.dispatch(new SetFormEnabled(this.formPath));
   }
 
