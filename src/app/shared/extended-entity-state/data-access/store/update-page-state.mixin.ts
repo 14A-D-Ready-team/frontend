@@ -7,6 +7,7 @@ import { ExceptionService } from "@shared/exceptions";
 import { decorateAction } from "@shared/extended-entity-state/utils";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import { Observable } from "rxjs";
+import { ErrorToastState } from "./error-toast-state.mixin";
 
 interface UpdatePageStateModel<D> {
   editedId?: number;
@@ -37,15 +38,9 @@ export abstract class UpdatePageState<
 
   protected getOriginal!: (id: number) => T;
 
-  protected abstract toastController: ToastController;
+  protected showToastOnUpdateError = false;
 
-  protected abstract exceptionService: ExceptionService;
-
-  protected abstract platform: Platform;
-
-  protected showToastOnError = false;
-
-  public async save(ctx: StateContext<StateModel>) {
+  public async saveUpdated(ctx: StateContext<StateModel>) {
     const state = ctx.getState();
 
     if (state.editorForm.status === "INVALID") {
@@ -76,7 +71,13 @@ export abstract class UpdatePageState<
     action: { error: any },
   ): Promise<any> | Observable<any> | any {
     ctx.dispatch(new SetFormEnabled(this.formPath));
-    this.showErrorToast(action.error);
+
+    if (this.showToastOnUpdateError) {
+      if (typeof (this as any).showErrorToast !== "function") {
+        throw new Error("Add ErrorToastState mixin to your state");
+      }
+      (this as any).showErrorToast(action.error);
+    }
   }
 
   protected initUpdateState({
@@ -85,25 +86,25 @@ export abstract class UpdatePageState<
     DtoClass,
     formPath,
     getOriginal,
-    showToastOnError = false,
+    showToastOnUpdateError = false,
   }: {
     Actions: Actions;
     UpdateAction: new (id: number, dto: Dto) => any;
     DtoClass: DtoType<Dto, T>;
     formPath: string;
     getOriginal: (id: number) => T;
-    showToastOnError?: boolean;
+    showToastOnUpdateError: boolean;
   }) {
     this.UpdateAction = UpdateAction;
     this.DtoClass = DtoClass;
     this.formPath = formPath;
     this.getOriginal = getOriginal;
-    this.showToastOnError = showToastOnError;
+    this.showToastOnUpdateError = showToastOnUpdateError;
 
     decorateAction({
       state: this,
       action: Actions.Save,
-      methodName: "save",
+      methodName: "saveUpdated",
     });
     decorateAction({
       state: this,
@@ -118,15 +119,4 @@ export abstract class UpdatePageState<
   }
 
   protected onUnchanged(ctx: StateContext<StateModel>) {}
-
-  protected async showErrorToast(error: any) {
-    const toast = await this.toastController.create({
-      duration: 2000,
-      message: this.exceptionService.getErrorMessage(error),
-      header: "Sikertelen mentés",
-      color: "danger",
-      position: this.platform.width() > 600 ? "top" : "bottom",
-    });
-    toast.present();
-  }
 }

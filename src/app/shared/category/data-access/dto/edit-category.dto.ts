@@ -11,8 +11,12 @@ export class EditCategoryDto {
   })
   public name: string;
 
+  @Expose()
+  public buffetId: number;
+
   constructor(existing: Partial<EditCategoryDto> = {}) {
     this.name = existing?.name || "";
+    this.buffetId = existing?.buffetId || 0;
   }
 
   public static omitUnchangedProperties(

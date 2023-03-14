@@ -1,5 +1,3 @@
-/* eslint-disable prefer-rest-params */
-/* eslint-disable @typescript-eslint/no-empty-interface */
 import { Injectable } from "@angular/core";
 import { Action, NgxsOnInit, State, Store } from "@ngxs/store";
 import { loadCategories } from "@shared/category";
