@@ -24,7 +24,6 @@ export class EditCategoryDto {
       if (Object.prototype.hasOwnProperty.call(object, key)) {
         const value = object[key] as any;
         if (key !== "id" && value === original[key as keyof typeof original]) {
-          console.log(object);
           delete object[key];
         }
       }

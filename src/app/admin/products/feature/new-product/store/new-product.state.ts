@@ -3,10 +3,10 @@
 import { Injectable } from "@angular/core";
 import { Action, NgxsOnInit, State, Store } from "@ngxs/store";
 import { loadCategories } from "@shared/category";
-import { CreatePageState } from "@shared/extended-entity-state";
+import { CreatePageState as CPS } from "@shared/extended-entity-state";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import { CreateProductDto, ProductActions } from "@shared/product";
-import { mix } from "ts-mixer";
+import { Mixin } from "ts-mixer";
 import { LoadPage, Save } from "./new-product.actions";
 
 export interface NewProductStateModel {
@@ -15,8 +15,10 @@ export interface NewProductStateModel {
 
 export const formPath = "newProduct.form";
 
-export interface NewProductState
-  extends CreatePageState<NewProductStateModel, CreateProductDto> {}
+const CreatePageState = CPS as typeof CPS<
+  NewProductStateModel,
+  CreateProductDto
+>;
 
 @State<NewProductStateModel>({
   name: "newProduct",
@@ -31,10 +33,14 @@ export interface NewProductState
     },
   },
 })
-@mix(CreatePageState)
 @Injectable()
-export class NewProductState implements NgxsOnInit {
-  constructor(private store: Store) {}
+export class NewProductState
+  extends Mixin(CreatePageState)
+  implements NgxsOnInit
+{
+  constructor(private store: Store) {
+    super();
+  }
 
   @Action(LoadPage)
   public async loadPage() {

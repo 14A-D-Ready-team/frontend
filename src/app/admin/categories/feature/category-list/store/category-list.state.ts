@@ -81,9 +81,9 @@ export class CategoryListState
 {
   constructor(
     private store: Store,
-    private toastController: ToastController,
-    private exceptionService: ExceptionService,
-    private platform: Platform,
+    protected toastController: ToastController,
+    protected exceptionService: ExceptionService,
+    protected platform: Platform,
   ) {
     super();
   }
@@ -125,6 +125,7 @@ export class CategoryListState
       UpdateAction: CategoryActions.Update,
       DtoClass: EditCategoryDto,
       formPath: editorFormPath,
+      showToastOnError: true,
       getOriginal: (id: number) =>
         this.store.selectSnapshot(CategoryState.entityById(id)),
     });
@@ -169,7 +170,7 @@ export class CategoryListState
     return this.resetEditorForm(ctx);
   }
 
-  @Action(SaveNew)
+  /* @Action(SaveNew)
   public saveNew(ctx: StateContext<CategoryListStateModel>) {
     const state = ctx.getState();
 
@@ -200,7 +201,7 @@ export class CategoryListState
     ctx.dispatch(new SetFormEnabled(editorFormPath));
 
     await this.showErrorToast(action.error);
-  }
+  } */
 
   @Action(Edit)
   public edit(ctx: StateContext<CategoryListStateModel>, action: Edit) {
@@ -225,6 +226,7 @@ export class CategoryListState
   }
 
   public updateSucceeded(ctx: StateContext<CategoryListStateModel>) {
+    super.updateSucceeded(ctx);
     return ctx.dispatch(new StopEdit());
   }
 
@@ -232,7 +234,7 @@ export class CategoryListState
     ctx: StateContext<CategoryListStateModel>,
     action: CategoryActions.UpdateFailed,
   ) {
-    await this.showErrorToast(action.error);
+    super.updateFailed(ctx, action);
 
     if (action.error?.errorCode === ErrorCode.NotFoundException) {
       const editedId = ctx.getState().editedId;
@@ -263,16 +265,5 @@ export class CategoryListState
 
   protected onUnchanged(ctx: StateContext<CategoryListStateModel>) {
     return ctx.dispatch(new StopEdit());
-  }
-
-  private async showErrorToast(error: any) {
-    const toast = await this.toastController.create({
-      duration: 2000,
-      message: this.exceptionService.getErrorMessage(error),
-      header: "Sikertelen mentés",
-      color: "danger",
-      position: this.platform.width() > 600 ? "top" : "bottom",
-    });
-    toast.present();
   }
 }
