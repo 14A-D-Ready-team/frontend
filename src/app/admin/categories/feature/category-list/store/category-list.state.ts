@@ -172,7 +172,13 @@ export class CategoryListState
     return of(undefined).pipe(
       switchMap(() =>
         ctx.dispatch(
-          new ResetForm({ path: editorFormPath, value: { name: "", buffetId:  } }),
+          new ResetForm({
+            path: editorFormPath,
+            value: {
+              name: "",
+              buffetId: this.store.selectSnapshot(BuffetState.activeId),
+            },
+          }),
         ),
       ),
     );

@@ -21,7 +21,6 @@ type Actions = {
 };
 
 interface DtoType<Dto, T> extends UpdateDtoStatic<Dto, T> {
-  // eslint-disable-next-line @typescript-eslint/prefer-function-type
   new (existing: Partial<Dto>): Dto;
 }
 

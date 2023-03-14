@@ -23,6 +23,11 @@ export class EditCategoryDto {
     dto: EditCategoryDto,
     original: Category,
   ) {
+    console.log("dto");
+    console.log(dto);
+    console.log("original");
+    console.log(original);
+
     const object: any = dto;
     for (const key in object) {
       if (Object.prototype.hasOwnProperty.call(object, key)) {
