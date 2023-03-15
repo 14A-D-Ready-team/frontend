@@ -47,7 +47,7 @@ export abstract class UpdatePageState<
     }
 
     const model = state.editorForm.model;
-    const payload = new this.DtoClass(model);
+    const payload = this.prepareDto(model);
 
     const original = this.getOriginal(state.editedId!);
     this.DtoClass.omitUnchangedProperties(payload, original);
@@ -118,4 +118,8 @@ export abstract class UpdatePageState<
   }
 
   protected onUnchanged(ctx: StateContext<StateModel>) {}
+
+  protected prepareDto(formValue: Partial<Dto>) {
+    return new this.DtoClass(formValue);
+  }
 }

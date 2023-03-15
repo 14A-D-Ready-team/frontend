@@ -9,7 +9,7 @@ export const environment = {
       "101784584402-d88n8hpcomqdhd10iolmcoh9nrco9mkl.apps.googleusercontent.com",
   },
   api: {
-    url: "http://ec2-3-72-0-161.eu-central-1.compute.amazonaws.com",
+    url: "https://www.ready-app.hu",
   },
   /* api: {
     url: "http://localhost:3000",

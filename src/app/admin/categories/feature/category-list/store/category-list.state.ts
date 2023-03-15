@@ -258,4 +258,11 @@ export class CategoryListState
   protected onUnchanged(ctx: StateContext<CategoryListStateModel>) {
     return ctx.dispatch(new StopEdit());
   }
+
+  protected prepareDto(formValue: Partial<EditCategoryDto>) {
+    return new EditCategoryDto({
+      ...formValue,
+      buffetId: +this.store.selectSnapshot(BuffetState.activeId),
+    });
+  }
 }

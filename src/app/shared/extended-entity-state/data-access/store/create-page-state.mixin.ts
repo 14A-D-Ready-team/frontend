@@ -33,7 +33,7 @@ export abstract class CreatePageState<
       return;
     }
 
-    const dto = new this.DtoClass(state.editorForm.model);
+    const dto = this.prepareDto(state.editorForm.model);
 
     ctx.dispatch(new SetFormDisabled(this.formPath));
 
@@ -88,5 +88,9 @@ export abstract class CreatePageState<
       action: Actions.Save,
       methodName: "createFailed",
     });
+  }
+
+  protected prepareDto(formValue: Partial<Dto>) {
+    return new this.DtoClass(formValue);
   }
 }
