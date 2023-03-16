@@ -3,11 +3,11 @@ import { Select, Store } from "@ngxs/store";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { Login, LoginStateModel, LoginStatus } from "./store";
+import { LoginDto } from "@shared/authentication";
 import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
-import { LoginDto } from "@shared/authentication";
 
 interface LoginForm {
   email: FormControl<string>;

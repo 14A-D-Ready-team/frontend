@@ -1,10 +1,15 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { BuffetSelectGuard } from "../utils";
 
 const routes: Routes = [
   {
     path: "",
     loadChildren: () => import("./feature/main").then(m => m.MainPageModule),
+    canActivateChild: [BuffetSelectGuard],
+    resolve: {
+      buffet: BuffetSelectGuard,
+    },
   },
   {
     path: "",
@@ -20,24 +25,10 @@ const routes: Routes = [
     loadChildren: () =>
       import("./feature/product").then(m => m.ProductPageModule),
   },
-  {
-    path: "main-desktop",
-    loadChildren: () =>
-      import("./desktop/feature/main-desktop").then(
-        m => m.MainDesktopPageModule,
-      ),
-  },
-  {
-    path: "buffet-select-desktop",
-    loadChildren: () =>
-      import("./desktop/feature/buffet-select").then(
-        m => m.BuffetSelectPageModule,
-      ),
-  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CustomerRoutingModule {}
+export class CustomerMobileRoutingModule {}

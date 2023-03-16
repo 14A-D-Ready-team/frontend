@@ -89,20 +89,6 @@ export class LoginState {
   @Action(LoginFailed)
   public loginFailed(ctx: StateContext<LoginStateModel>, action: LoginFailed) {
     ctx.patchState({ status: { loading: false, error: action.error } });
-    // if (action.error instanceof ApiException) {
-    //   if (action.error.errorCode === ErrorCode.EmailNotFoundException) {
-    //     ctx.dispatch(
-    //       new UpdateFormControlErrors({
-    //         path: loginFormPath,
-    //         controlName: "email",
-    //         errors: {
-    //           minLength: "Túl rövid az email",
-    //         },
-    //       }),
-    //     );
-    //   }
-    // } else {
-    // }
   }
 
   @Action(LoginSucceeded)
@@ -116,19 +102,16 @@ export class LoginState {
 
     ctx.dispatch(new SetCurrentLogin(action.user));
 
-    // const nextUrl =
-    //   this.route.snapshot.queryParams.nextUrl || "/admin/products";
+    const nextUrl = this.route.snapshot.queryParams.nextUrl || "/";
 
-    // const url = new URL(nextUrl, window.location.origin);
-    // const queryParams: Dictionary<any> = {};
-    // for (const [key, value] of url.searchParams.entries()) {
-    //   queryParams[key] = value;
-    // }
+    const url = new URL(nextUrl, window.location.origin);
+    const queryParams: Dictionary<any> = {};
+    for (const [key, value] of url.searchParams.entries()) {
+      queryParams[key] = value;
+    }
 
-    // this.ngZone.run(() =>
-    //   this.router.navigate([url.pathname], { queryParams }),
-    // );
-
-    this.ngZone.run(() => this.router.navigate(["/buffet-select-desktop"]));
+    this.ngZone.run(() =>
+      this.router.navigate([url.pathname], { queryParams }),
+    );
   }
 }

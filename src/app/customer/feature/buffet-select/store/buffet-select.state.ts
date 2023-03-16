@@ -43,7 +43,6 @@ export class BuffetSelectState {
     const query = new SearchBuffetsQuery({
       ...state.query,
       skip: 0,
-      take: buffetsLoadPerScroll,
     });
 
     return ctx.dispatch(new BuffetActions.Load(query));

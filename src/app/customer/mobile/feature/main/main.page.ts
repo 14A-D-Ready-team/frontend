@@ -4,8 +4,17 @@ import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { User } from "@shared/user";
 import { Category, loadCategories } from "@shared/category";
-import { Observable } from "rxjs";
-import { MainState } from "./store";
+import {
+  catchError,
+  combineLatest,
+  ignoreElements,
+  map,
+  Observable,
+  of,
+  startWith,
+} from "rxjs";
+import { MainPageState } from "./store";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-main",
@@ -19,10 +28,52 @@ export class MainPage implements OnInit {
   @Select(AuthState.user)
   public activeUser$!: Observable<User>;
 
-  @Select(MainState.shownCategories)
+  @Select(MainPageState.shownCategories)
   public categories$!: Observable<Category[]>;
 
-  constructor(private store: Store) {}
+  public vm$: Observable<{
+    activeBuffet: Buffet | undefined;
+    activeUser: User;
+    categories: Category[];
+    buffetLoading: boolean;
+    resolverError: any;
+  }>;
+
+  constructor(private store: Store, private route: ActivatedRoute) {
+    const buffetLoading$ = route.data.pipe(
+      map(() => false),
+      startWith(true),
+    );
+    const resolverError$ = route.data.pipe(
+      ignoreElements(),
+      startWith(undefined),
+      catchError(err => of(err)),
+    );
+
+    this.vm$ = combineLatest([
+      this.activeBuffet$,
+      this.activeUser$,
+      this.categories$,
+      buffetLoading$,
+      resolverError$,
+    ]).pipe(
+      map(
+        ([
+          activeBuffet,
+          activeUser,
+          categories,
+          buffetLoading,
+          resolverError,
+        ]) => ({
+          activeBuffet,
+          activeUser,
+          categories,
+          buffetLoading,
+          resolverError,
+        }),
+      ),
+    );
+  }
 
   ngOnInit() {
     loadCategories(this.store).subscribe();

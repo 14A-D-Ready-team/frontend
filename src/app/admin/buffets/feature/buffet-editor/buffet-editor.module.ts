@@ -6,10 +6,10 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { IonicModule } from "@ionic/angular";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
-import { ErrorListComponent } from "@shared/inputs/feature/ionic";
 import { BuffetEditorPage } from "./buffet-editor.page";
 import {
   ClearInputButtonComponent,
+  ErrorListComponent,
   ImageSelectorComponent,
 } from "@shared/inputs/ui/ionic";
 import { NgxsModule } from "@ngxs/store";

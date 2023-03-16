@@ -1,2 +1,2 @@
 export * from "./auth.module";
-export * from "./feature/session-signin";
+export * from "../../../auth/feature/session-signin";
