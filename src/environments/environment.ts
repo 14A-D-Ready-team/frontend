@@ -10,10 +10,10 @@ export const environment = {
   },
   /* api: {
     url: "http://localhost:3000",
-  },*
+  },*/
   api: {
     url: "https://www.ready-app.hu/api",
-  }
+  },
 };
 
 /*
