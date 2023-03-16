@@ -91,7 +91,6 @@
                 [categoryLoading]="
                   !vm.categories[product.categoryId] && vm.categoriesLoading
                 "
-                (cardClick)="editProduct(product)"
               ></app-admin-product-preview>
             </ion-col>
             <ng-container *ngIf="vm.loading">
