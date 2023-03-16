@@ -16,7 +16,11 @@ const routes: Routes = [
     path: "buffet-select",
     loadChildren: () =>
       import("./feature/buffet-select").then(m => m.BuffetSelectPageModule),
+  },  {
+    path: 'welcome',
+    loadChildren: () => import('./feature/welcome/welcome.module').then( m => m.WelcomePageModule)
   },
+
 ];
 
 @NgModule({
