@@ -4,7 +4,6 @@ import { RouteReuseStrategy } from "@angular/router";
 import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
 import { NgxsModule } from "@ngxs/store";
 import { AppComponent } from "./app.component";
-import { AppRoutingModule } from "./app-routing.module";
 import { environment } from "@/environments/environment";
 import { ExternalAuthModule } from "./shared/external-auth";
 import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
@@ -17,8 +16,8 @@ import { BuffetModule } from "@shared/buffet";
 import { ProductModule } from "@shared/product";
 import { AuthenticationModule } from "@shared/authentication";
 import { APP_ABILITY_FACTORY, PolicyModule } from "@shared/policy";
-import { AppAbility, AppAbilityFactory } from "./app-ability.factory";
-import { AbilityModule, AbilityService } from "@casl/angular";
+import { AppAbilityFactory } from "./app-ability.factory";
+import { AppRoutingModule } from "./app-routing.module";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,

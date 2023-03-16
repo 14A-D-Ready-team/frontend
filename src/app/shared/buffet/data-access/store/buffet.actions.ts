@@ -3,6 +3,12 @@ import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
 import { Buffet } from "../entity";
 import { SearchBuffetsQuery } from "../query";
 
+export class LoadById {
+  public static readonly type = `[Buffet] Load By Id`;
+
+  constructor(public readonly id: number) {}
+}
+
 export class Load extends EntityActions.Load<SearchBuffetsQuery> {
   public static readonly type = `[Buffet] Load`;
 }

@@ -10,4 +10,5 @@ export enum ErrorCode {
   InvalidLoginException = "InvalidLoginException",
   PasswordNotSetException = "PasswordNotSetException",
   InactiveUserException = "InactiveUserException",
+  EmailDuplicateException = "EmailDuplicateException",
 }
