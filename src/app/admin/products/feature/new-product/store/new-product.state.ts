@@ -1,27 +1,27 @@
 import { Injectable } from "@angular/core";
-import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
-import { Action, State, StateContext, Store } from "@ngxs/store";
-import { BuffetState } from "@shared/buffet";
+import { Action, NgxsOnInit, State, Store } from "@ngxs/store";
 import { loadCategories } from "@shared/category";
+import { CreatePageState as CPS } from "@shared/extended-entity-state";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import { CreateProductDto, ProductActions } from "@shared/product";
-import {
-  classTransformerConfig,
-  serializeFormData,
-} from "@shared/serialization";
-import { instanceToPlain } from "class-transformer";
+import { Mixin } from "ts-mixer";
 import { LoadPage, Save } from "./new-product.actions";
 
 export interface NewProductStateModel {
-  form: NgxsFormStateModel<CreateProductDto>;
+  editorForm: NgxsFormStateModel<CreateProductDto>;
 }
 
 export const formPath = "newProduct.form";
 
+const CreatePageState = CPS as typeof CPS<
+  NewProductStateModel,
+  CreateProductDto
+>;
+
 @State<NewProductStateModel>({
   name: "newProduct",
   defaults: {
-    form: {
+    editorForm: {
       model: new CreateProductDto(),
       errors: {},
       dirty: false,
@@ -32,35 +32,29 @@ export const formPath = "newProduct.form";
   },
 })
 @Injectable()
-export class NewProductState {
-  constructor(private store: Store) {}
+export class NewProductState
+  extends Mixin(CreatePageState)
+  implements NgxsOnInit
+{
+  constructor(private store: Store) {
+    super();
+  }
 
   @Action(LoadPage)
   public async loadPage() {
     return loadCategories(this.store);
   }
 
-  @Action(Save)
-  public save(ctx: StateContext<NewProductStateModel>) {
-    const state = ctx.getState();
-    if (state.form.status === "INVALID") {
-      return;
-    }
-
-    const dto = CreateProductDto.clone(state.form.model);
-
-    ctx.dispatch(new SetFormDisabled(formPath));
-
-    return ctx.dispatch(new ProductActions.Create(dto));
-  }
-
-  @Action(ProductActions.CreateSucceeded)
-  public createSucceeded(ctx: StateContext<NewProductStateModel>) {
-    ctx.dispatch(new SetFormEnabled(formPath));
-  }
-
-  @Action(ProductActions.CreateFailed)
-  public async createFailed(ctx: StateContext<NewProductStateModel>) {
-    ctx.dispatch(new SetFormEnabled(formPath));
+  public ngxsOnInit() {
+    this.initCreateState({
+      Actions: {
+        Save,
+        CreateSucceeded: ProductActions.CreateSucceeded,
+        CreateFailed: ProductActions.CreateFailed,
+      },
+      CreateAction: ProductActions.Create,
+      DtoClass: CreateProductDto,
+      formPath,
+    });
   }
 }
