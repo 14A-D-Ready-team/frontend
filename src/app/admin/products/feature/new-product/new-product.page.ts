@@ -57,22 +57,6 @@ export class NewProductPage implements OnInit {
     this.noBuffetSelected$ = this.categoryError$.pipe(
       map(error => error instanceof NoBuffetSelectedException),
     );
-
-    this.form = new ClassValidatorFormGroup<ProductEditorFormModel>(
-      CreateProductDto,
-      {
-        categoryId: new ClassValidatorFormControl<number | null>(null),
-        name: new ClassValidatorFormControl<string | null>(null),
-        image: new FormControl<File | null>(null),
-        description: new ClassValidatorFormControl<string | null>(null),
-        discountedPrice: new ClassValidatorFormControl<number | null>(null),
-        fullPrice: new ClassValidatorFormControl<number | null>(null),
-        stock: new ClassValidatorFormControl<number | null>(null),
-        customizations: new ClassValidatorFormArray([]) as FormArray<
-          FormGroup<CustomizationFormModel>
-        >,
-      },
-    );
   }
 
   public ngOnInit(): void {

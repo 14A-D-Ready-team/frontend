@@ -92,7 +92,7 @@ export abstract class UpdatePageState<
     DtoClass: DtoType<Dto, T>;
     formPath: string;
     getOriginal: (id: number) => T;
-    showToastOnUpdateError: boolean;
+    showToastOnUpdateError?: boolean;
   }) {
     this.UpdateAction = UpdateAction;
     this.DtoClass = DtoClass;

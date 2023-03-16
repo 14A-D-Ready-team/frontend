@@ -1,6 +1,6 @@
 import { defaultEntityState, IdStrategy } from "@ngxs-labs/entity-state";
 import { Product } from "../entity";
-import { State } from "@ngxs/store";
+import { createSelector, State } from "@ngxs/store";
 import { Injectable } from "@angular/core";
 import { ProductService } from "../service";
 import * as Actions from "./product.actions";
@@ -9,6 +9,7 @@ import { ExtendedEntityState } from "@shared/extended-entity-state";
 import { CreateProductDto, UpdateProductDto } from "../dto";
 import { ExtendedEntityStateModel } from "@shared/extended-entity-state";
 import { PaginatedResponse } from "@shared/api/utils/paginated.response";
+import { Dictionary } from "@/types";
 
 export type ProductStateModel = ExtendedEntityStateModel<Product>;
 
@@ -24,6 +25,13 @@ export class ProductState extends ExtendedEntityState<
   CreateProductDto,
   UpdateProductDto
 > {
+  public static entityById(id: number) {
+    return createSelector(
+      [ProductState.entitiesMap],
+      (entities: Dictionary<Product>) => entities[id],
+    );
+  }
+
   constructor(private productService: ProductService) {
     super({
       storeClass: ProductState,

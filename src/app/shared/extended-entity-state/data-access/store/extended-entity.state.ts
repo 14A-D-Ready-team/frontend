@@ -1,3 +1,4 @@
+import { Dictionary } from "@/types";
 import { Type } from "@angular/core";
 import {
   EntityState,

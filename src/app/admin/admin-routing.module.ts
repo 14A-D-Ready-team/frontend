@@ -7,7 +7,7 @@ import { Action } from "@shared/policy";
 const routes: Routes = [
   {
     path: "products",
-    loadChildren: () => import("./products").then(m => m.ProductsModule),
+    loadChildren: () => import("./products").then(m => m.ProductModule),
   },
   {
     path: "categories",
