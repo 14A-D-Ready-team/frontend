@@ -1,12 +1,12 @@
 import { Select, Store } from "@ngxs/store";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
 import { SignupDto } from "@shared/authentication";
-import { Signup, SignupStateModel, SignupStatus } from "./store";
+import { Signup, SignupState, SignupStateModel, SignupStatus } from "./store";
 import { Observable } from "rxjs";
 
 interface SignupForm {

@@ -4,9 +4,7 @@
   </div>
 
   <div class="nav-item">
-    <a
-      [ngClass]="currentPage === '/main-desktop' ? 'active' : ''"
-      [routerLink]="['/main-desktop']"
+    <a [ngClass]="currentPage === '/' ? 'active' : ''" [routerLink]="['/']"
       >Menü</a
     >
   </div>
@@ -25,14 +23,10 @@
 
   <div class="nav-item">
     <a
-      [ngClass]="currentPage === '/buffet-select-desktop' ? 'active' : ''"
-      routerLink="/buffet-select-desktop"
+      [ngClass]="currentPage === '/buffet-select' ? 'active' : ''"
+      routerLink="/buffet-select"
       href=""
       >Helyzet</a
     >
-  </div>
-
-  <div class="nav-item login">
-    <button id="open-login-nav">Bejelentkezés</button>
   </div>
 </div>
