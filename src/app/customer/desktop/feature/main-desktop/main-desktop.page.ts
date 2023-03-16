@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { IonModal } from "@ionic/angular";
 import { Select } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
@@ -13,10 +13,11 @@ import { Observable } from "rxjs";
   styleUrls: ["./main-desktop.page.scss"],
 })
 export class MainDesktopPage implements OnInit, OnDestroy {
-  constructor() {}
   @ViewChild("loginModal") modal!: IonModal;
 
   selectedSegment = "login";
+
+  constructor(private route: ActivatedRoute) {}
 
   cancel() {
     this.modal.dismiss(null, "cancel");
@@ -29,7 +30,6 @@ export class MainDesktopPage implements OnInit, OnDestroy {
   public activeBuffet$!: Observable<Buffet>;
 
   segmentChanged(event: any) {
-    console.log(event.target.value);
     this.selectedSegment = event.target.value;
   }
 
@@ -39,6 +39,5 @@ export class MainDesktopPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.modal.dismiss();
-    console.log("asd");
   }
 }
