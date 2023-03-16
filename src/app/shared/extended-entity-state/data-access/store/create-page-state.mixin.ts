@@ -46,7 +46,6 @@ export abstract class CreatePageState<
 
   public createFailed(ctx: StateContext<StateModel>, action: { error: any }) {
     ctx.dispatch(new SetFormEnabled(this.formPath));
-
     if (this.showToastOnCreateError) {
       if (typeof (this as any).showErrorToast !== "function") {
         throw new Error("Add ErrorToastState mixin to your state");
@@ -85,7 +84,7 @@ export abstract class CreatePageState<
     });
     decorateAction({
       state: this,
-      action: Actions.Save,
+      action: Actions.CreateFailed,
       methodName: "createFailed",
     });
   }
