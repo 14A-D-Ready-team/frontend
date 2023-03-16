@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule } from "@ionic/angular";
 
-import { WelcomePageRoutingModule } from './welcome-routing.module';
+import { WelcomePageRoutingModule } from "./welcome-routing.module";
 
-import { WelcomePage } from './welcome.page';
-import { NavbarModule } from '../navbar';
-import { LoginFormModule, SignupFormModule } from '@app/customer/auth';
+import { WelcomePage } from "./welcome.page";
+import { NavbarModule } from "../navbar";
+import { LoginFormModule, SignupFormModule } from "@app/customer/auth";
 
 @NgModule({
   imports: [
@@ -20,6 +20,6 @@ import { LoginFormModule, SignupFormModule } from '@app/customer/auth';
     LoginFormModule,
     SignupFormModule,
   ],
-  declarations: [WelcomePage]
+  declarations: [WelcomePage],
 })
 export class WelcomePageModule {}

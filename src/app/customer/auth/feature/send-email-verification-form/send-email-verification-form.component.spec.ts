@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { SendEmailVerificationFormComponent } from './send-email-verification-form.component';
+import { SendEmailVerificationFormComponent } from "./send-email-verification-form.component";
 
-describe('SendEmailVerificationFormComponent', () => {
+describe("SendEmailVerificationFormComponent", () => {
   let component: SendEmailVerificationFormComponent;
   let fixture: ComponentFixture<SendEmailVerificationFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendEmailVerificationFormComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [SendEmailVerificationFormComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SendEmailVerificationFormComponent);
@@ -18,7 +18,7 @@ describe('SendEmailVerificationFormComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

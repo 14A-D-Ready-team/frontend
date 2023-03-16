@@ -1,9 +1,7 @@
 <div class="desktop-background">
   <app-navbar></app-navbar>
 
-  <div
-    class="after-login"
-  >
+  <div class="after-login">
     <div class="greeting-container">
       <h1>Üdvözöljük <span>{{ (activeUser$ | async)?.name }}</span>!</h1>
       <p>Válogass a(z) {{(activeBuffet$ | async)?.name}} kínálatából!</p>

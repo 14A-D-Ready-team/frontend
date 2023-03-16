@@ -12,7 +12,6 @@ import { Observable } from "rxjs";
   styleUrls: ["./main-desktop.page.scss"],
 })
 export class MainDesktopPage implements OnInit, OnDestroy {
-
   constructor(private route: ActivatedRoute) {}
 
   @Select(AuthState.user)
@@ -21,10 +20,7 @@ export class MainDesktopPage implements OnInit, OnDestroy {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
+  ngOnInit() {}
 
-  ngOnInit() {
-  }
-
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
 }

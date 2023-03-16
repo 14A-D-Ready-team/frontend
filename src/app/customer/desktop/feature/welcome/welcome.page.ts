@@ -1,23 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IonModal } from '@ionic/angular';
-import { Select } from '@ngxs/store';
-import { AuthState } from '@shared/authentication';
-import { Buffet, BuffetState } from '@shared/buffet';
-import { User } from '@shared/user';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { IonModal } from "@ionic/angular";
+import { Select } from "@ngxs/store";
+import { AuthState } from "@shared/authentication";
+import { Buffet, BuffetState } from "@shared/buffet";
+import { User } from "@shared/user";
+import { Observable } from "rxjs";
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.page.html',
-  styleUrls: ['./welcome.page.scss'],
+  selector: "app-welcome",
+  templateUrl: "./welcome.page.html",
+  styleUrls: ["./welcome.page.scss"],
 })
 export class WelcomePage implements OnInit {
   @ViewChild("loginModal") modal!: IonModal;
 
   selectedSegment = "login";
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   @Select(AuthState.user)
   public activeUser$!: Observable<User>;
@@ -36,5 +36,4 @@ export class WelcomePage implements OnInit {
   ngOnInit() {
     this.selectedSegment = "login";
   }
-
 }
