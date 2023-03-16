@@ -8,11 +8,11 @@ export class Category {
   public name!: string;
 
   @Expose()
-  public buffet_id!: number;
+  public buffetId!: number;
 
-  constructor(id: number, name: string, buffet_id: number) {
+  constructor(id: number, name: string, buffetId: number) {
     this.id = id;
     this.name = name;
-    this.buffet_id = buffet_id;
+    this.buffetId = buffetId;
   }
 }
