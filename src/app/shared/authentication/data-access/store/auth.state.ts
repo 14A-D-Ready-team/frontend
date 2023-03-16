@@ -10,6 +10,8 @@ import {
 } from "@ngxs/store";
 import {
   catchError,
+  combineLatest,
+  concat,
   delay,
   finalize,
   from,
@@ -31,8 +33,9 @@ import {
   SessionSigninCompleted,
 } from "./auth.actions";
 import { User, UserType } from "@app/shared/user";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
+import { redirectAfterLogin } from "@shared/authentication/utils";
 
 enum SocialAuthStatus {
   Idle,
@@ -82,15 +85,20 @@ export class AuthState {
     private authService: AuthService,
     private store: Store,
     private router: Router,
+    private route: ActivatedRoute,
     private ngZone: NgZone,
   ) {
-    externalAuthService.loginDisabled$ = of(false);
+    externalAuthService.loginDisabled$ = combineLatest([
+      this.store.select(AuthState.user),
+      this.route.url,
+    ]).pipe(
+      map(([user]) => {
+        return !!user || router.url.includes("admin");
+      }),
+    );
+
     externalAuthService.googleToken$
-      .pipe(
-        switchMap(idToken =>
-          store.dispatch(new VerifyGoogleAuth(idToken, UserType.Customer)),
-        ),
-      )
+      .pipe(switchMap(idToken => store.dispatch(new VerifyGoogleAuth(idToken))))
       .subscribe();
   }
 
@@ -101,11 +109,21 @@ export class AuthState {
   ) {
     ctx.patchState({ googleVerifyStatus: SocialAuthStatus.Pending });
 
-    return this.googleAuthService.verify(action.dto).pipe(
-      tap(res => {
-        console.log(res);
-      }),
-    );
+    return this.googleAuthService
+      .verify(action.dto)
+      .pipe(
+        switchMap(user =>
+          concat(
+            ctx.dispatch(new SetCurrentLogin(user)),
+            redirectAfterLogin(
+              this.route,
+              this.ngZone,
+              this.router,
+              this.store,
+            ),
+          ),
+        ),
+      );
   }
 
   @Action(SetCurrentLogin)

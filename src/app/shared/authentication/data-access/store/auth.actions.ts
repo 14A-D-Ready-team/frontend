@@ -6,10 +6,10 @@ export class VerifyGoogleAuth {
   public static readonly type = "[Auth] VerifyGoogleAuth";
 
   public get dto() {
-    return new VerifyGoogleAuthDto(this.idToken, this.userType);
+    return new VerifyGoogleAuthDto(this.idToken);
   }
 
-  constructor(private idToken: string, private userType: UserType) {}
+  constructor(private idToken: string) {}
 }
 
 export class SetCurrentLogin {

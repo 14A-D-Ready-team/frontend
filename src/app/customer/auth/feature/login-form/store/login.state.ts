@@ -3,11 +3,16 @@ import { Injectable, NgZone } from "@angular/core";
 import { FormControlStatus } from "@angular/forms";
 import { FormControlErrors } from "@app/shared/extended-form-plugin";
 import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
-import { Action, State, StateContext, StateToken } from "@ngxs/store";
+import { Action, State, StateContext, StateToken, Store } from "@ngxs/store";
 import { catchError, finalize, switchMap } from "rxjs";
 import { Login, LoginFailed, LoginSucceeded } from "./login.actions";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AuthService, LoginDto, SetCurrentLogin } from "@shared/authentication";
+import {
+  AuthService,
+  LoginDto,
+  redirectAfterLogin,
+  SetCurrentLogin,
+} from "@shared/authentication";
 // import { IonRadioGroup } from "@ionic/angular";
 
 export interface LoginStatus {
@@ -52,6 +57,7 @@ export class LoginState {
     private router: Router,
     private route: ActivatedRoute,
     private ngZone: NgZone,
+    private store: Store,
   ) {}
 
   @Action(Login)
@@ -102,16 +108,6 @@ export class LoginState {
 
     ctx.dispatch(new SetCurrentLogin(action.user));
 
-    const nextUrl = this.route.snapshot.queryParams.nextUrl || "/";
-
-    const url = new URL(nextUrl, window.location.origin);
-    const queryParams: Dictionary<any> = {};
-    for (const [key, value] of url.searchParams.entries()) {
-      queryParams[key] = value;
-    }
-
-    this.ngZone.run(() =>
-      this.router.navigate([url.pathname], { queryParams }),
-    );
+    return redirectAfterLogin(this.route, this.ngZone, this.router, this.store);
   }
 }
