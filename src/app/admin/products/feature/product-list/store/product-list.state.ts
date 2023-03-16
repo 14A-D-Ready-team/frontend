@@ -15,13 +15,14 @@ import {
 import {
   CategoryState,
   CategoryStateModel,
-  loadAllCategories,
+  loadCategories,
 } from "@shared/category";
 import { Injectable } from "@angular/core";
 import { take } from "rxjs";
-import { DeepReadonly } from "@ngxs-labs/entity-state";
+import { DeepReadonly, SetError } from "@ngxs-labs/entity-state";
 import { FilterChanged } from "../../product-filter";
 import { EntityActions } from "@shared/extended-entity-state";
+import { BuffetState } from "@shared/buffet";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProductListStateModel {
@@ -64,16 +65,9 @@ export class ProductListState {
 
   @Action(LoadPage)
   public loadPage(ctx: StateContext<ProductListStateModel>) {
-    loadAllCategories(this.store).pipe(take(1)).subscribe();
+    loadCategories(this.store).pipe(take(1)).subscribe();
 
-    const state = ctx.getState();
-    const query = new FilterProductsQuery({
-      ...state.query,
-      skip: 0,
-      take: productsLoadedPerScroll,
-    });
-
-    return ctx.dispatch(new ProductActions.Load(query));
+    return this.dispatchLoadAction(ctx, 0, productsLoadedPerScroll);
   }
 
   @Action(LoadMore)
@@ -83,11 +77,70 @@ export class ProductListState {
       return;
     }
 
-    const query = new FilterProductsQuery({
-      ...state.query,
-      skip: state.productIds.length,
-      take: productsLoadedPerScroll,
+    return this.dispatchLoadAction(
+      ctx,
+      state.productIds.length,
+      productsLoadedPerScroll,
+    );
+  }
+
+  @Action(RetryLoading)
+  public retryLoading(ctx: StateContext<ProductListStateModel>) {
+    loadCategories(this.store).pipe(take(1)).subscribe();
+    ctx.dispatch(new LoadMore());
+  }
+
+  @Action(Reload)
+  public reload(ctx: StateContext<ProductListStateModel>) {
+    loadCategories(this.store, true).pipe(take(1)).subscribe();
+
+    const state = ctx.getState();
+    const numberOfProducts = state.productIds.length;
+    const numberOfProductsToLoad =
+      Math.max(1, Math.ceil(numberOfProducts / productsLoadedPerScroll)) *
+      productsLoadedPerScroll;
+
+    ctx.patchState({
+      productIds: [],
+      remainingItems: undefined,
     });
+
+    return this.dispatchLoadAction(ctx, 0, numberOfProductsToLoad);
+  }
+
+  @Action(FilterChanged, { cancelUncompleted: true })
+  public filter(
+    ctx: StateContext<ProductListStateModel>,
+    action: FilterChanged,
+  ) {
+    ctx.patchState({
+      query: action.filter,
+      productIds: [],
+      remainingItems: undefined,
+    });
+
+    return this.dispatchLoadAction(ctx, 0, productsLoadedPerScroll);
+  }
+
+  public dispatchLoadAction(
+    ctx: StateContext<ProductListStateModel>,
+    skip: number,
+    takeProducts: number,
+  ) {
+    const buffetId = this.store.selectSnapshot(BuffetState.activeId);
+
+    if (!buffetId) {
+      ctx.dispatch(new SetError(ProductState, undefined));
+      return;
+    }
+
+    const query = new FilterProductsQuery({
+      ...ctx.getState().query,
+      skip,
+      take: takeProducts,
+      buffetId: +buffetId,
+    });
+
     return ctx.dispatch(new ProductActions.Load(query));
   }
 
@@ -112,55 +165,5 @@ export class ProductListState {
       productIds: newIds,
       remainingItems: remaining,
     });
-  }
-
-  @Action(RetryLoading)
-  public retryLoading(ctx: StateContext<ProductListStateModel>) {
-    loadAllCategories(this.store).pipe(take(1)).subscribe();
-    ctx.dispatch(new LoadMore());
-  }
-
-  @Action(Reload)
-  public reload(ctx: StateContext<ProductListStateModel>) {
-    loadAllCategories(this.store, true).pipe(take(1)).subscribe();
-
-    const state = ctx.getState();
-    const numberOfProducts = state.productIds.length;
-    const numberOfProductsToLoad =
-      Math.max(1, Math.ceil(numberOfProducts / productsLoadedPerScroll)) *
-      productsLoadedPerScroll;
-
-    ctx.patchState({
-      productIds: [],
-      remainingItems: undefined,
-    });
-
-    const query = new FilterProductsQuery({
-      ...state.query,
-      skip: 0,
-      take: numberOfProductsToLoad,
-    });
-
-    return ctx.dispatch(new ProductActions.Load(query));
-  }
-
-  @Action(FilterChanged, { cancelUncompleted: true })
-  public filter(
-    ctx: StateContext<ProductListStateModel>,
-    action: FilterChanged,
-  ) {
-    ctx.patchState({
-      query: action.filter,
-      productIds: [],
-      remainingItems: undefined,
-    });
-
-    const query = new FilterProductsQuery({
-      ...action.filter,
-      skip: 0,
-      take: productsLoadedPerScroll,
-    });
-
-    return ctx.dispatch(new ProductActions.Load(query));
   }
 }

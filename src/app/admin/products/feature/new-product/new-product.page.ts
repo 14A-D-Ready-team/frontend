@@ -3,7 +3,9 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Platform } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
-import { Category, CategoryState, loadAllCategories } from "@shared/category";
+import { BuffetState } from "@shared/buffet";
+import { NoBuffetSelectedException } from "@shared/buffet/utils";
+import { Category, CategoryState, loadCategories } from "@shared/category";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
 import { CreateProductDto, ProductState } from "@shared/product";
 import {
@@ -34,6 +36,14 @@ export class NewProductPage implements OnInit {
   @Select(ProductState.createStatus)
   public status$!: Observable<ApiRequestStatus | undefined>;
 
+  @Select(CategoryState.loading)
+  public categoriesLoading$!: Observable<boolean>;
+
+  @Select(CategoryState.error)
+  public categoryError$!: Observable<any>;
+
+  public noBuffetSelected$: Observable<boolean>;
+
   public form: FormGroup<ProductEditorFormModel>;
 
   public formPath = formPath;
@@ -44,6 +54,25 @@ export class NewProductPage implements OnInit {
     private platform: Platform,
   ) {
     this.form = createProductEditorForm();
+    this.noBuffetSelected$ = this.categoryError$.pipe(
+      map(error => error instanceof NoBuffetSelectedException),
+    );
+
+    this.form = new ClassValidatorFormGroup<ProductEditorFormModel>(
+      CreateProductDto,
+      {
+        categoryId: new ClassValidatorFormControl<number | null>(null),
+        name: new ClassValidatorFormControl<string | null>(null),
+        image: new FormControl<File | null>(null),
+        description: new ClassValidatorFormControl<string | null>(null),
+        discountedPrice: new ClassValidatorFormControl<number | null>(null),
+        fullPrice: new ClassValidatorFormControl<number | null>(null),
+        stock: new ClassValidatorFormControl<number | null>(null),
+        customizations: new ClassValidatorFormArray([]) as FormArray<
+          FormGroup<CustomizationFormModel>
+        >,
+      },
+    );
   }
 
   public ngOnInit(): void {
@@ -53,7 +82,7 @@ export class NewProductPage implements OnInit {
   }
 
   public reloadCategories() {
-    loadAllCategories(this.store, true).subscribe();
+    loadCategories(this.store, true).subscribe();
   }
 
   public save() {

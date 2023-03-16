@@ -11,7 +11,6 @@ import { map } from "rxjs";
 export class AppComponent {
   public isOnAdminPage$ = this.route.data.pipe(
     map(data => {
-      console.log(data);
       return true;
     }),
   );

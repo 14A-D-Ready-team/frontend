@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, ofAction, ofActionSuccessful, Store } from "@ngxs/store";
-import { loadAllCategories } from "@shared/category";
+import { loadCategories } from "@shared/category";
 import { Effect, EffectsBase } from "@shared/effects";
 import { ProductActions } from "@shared/product";
 import { concatMap, filter, switchMap, tap } from "rxjs";
@@ -22,7 +22,7 @@ export class ProductListEffects extends EffectsBase {
       this.store.selectOnce(ProductListState.hasUnknownCategories),
     ),
     filter(hasUnknownCategories => hasUnknownCategories),
-    concatMap(() => loadAllCategories(this.store, true)),
+    concatMap(() => loadCategories(this.store, true)),
   );
 
   @Effect()

@@ -4,11 +4,12 @@ import {
   CategoryActions,
   CategoryState,
   EditCategoryDto,
-  loadAllCategories,
+  loadCategories,
 } from "@shared/category";
 import { Remove, SetError } from "@ngxs-labs/entity-state";
 import {
   Action,
+  NgxsOnInit,
   Selector,
   State,
   StateContext,
@@ -27,19 +28,21 @@ import {
   SaveNew,
   Delete,
 } from "./category-list.actions";
-import {
-  ResetForm,
-  SetFormDisabled,
-  SetFormEnabled,
-  UpdateFormValue,
-} from "@ngxs/form-plugin";
+import { ResetForm, SetFormEnabled, UpdateFormValue } from "@ngxs/form-plugin";
 import { Platform, ToastController } from "@ionic/angular";
 import { ErrorCode, ExceptionService } from "@app/shared/exceptions";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
-import { FilterCategoriesQuery } from "@shared/category/data-access/query";
+import { BuffetState } from "@shared/buffet";
+import { Dictionary } from "lodash";
+import {
+  UpdatePageState as UPS,
+  CreatePageState as CPS,
+} from "@shared/extended-entity-state";
+import { Mixin } from "ts-mixer";
+import { ErrorToastState } from "@shared/extended-entity-state/data-access/store/error-toast-state.mixin";
 
 export interface CategoryListStateModel {
-  editorForm: NgxsFormStateModel<Partial<Category>>;
+  editorForm: NgxsFormStateModel<EditCategoryDto>;
   editedId?: number;
   creatingNew: boolean;
 }
@@ -50,11 +53,21 @@ export const CATEGORY_LIST_STATE_TOKEN = new StateToken<CategoryListStateModel>(
 
 export const editorFormPath = "adminCategoryList.editorForm";
 
+const UpdatePageState = UPS as typeof UPS<
+  CategoryListStateModel,
+  EditCategoryDto,
+  Category
+>;
+
+const CreatePageState = CPS as typeof CPS<
+  CategoryListStateModel,
+  EditCategoryDto
+>;
 @State<CategoryListStateModel>({
   name: CATEGORY_LIST_STATE_TOKEN,
   defaults: {
     editorForm: {
-      model: {},
+      model: { name: "", buffetId: 0 },
       dirty: false,
       status: "VALID",
       errors: {},
@@ -65,20 +78,34 @@ export const editorFormPath = "adminCategoryList.editorForm";
   },
 })
 @Injectable()
-export class CategoryListState {
+export class CategoryListState
+  extends Mixin(UpdatePageState, CreatePageState, ErrorToastState)
+  implements NgxsOnInit
+{
   constructor(
     private store: Store,
-    private toastController: ToastController,
-    private exceptionService: ExceptionService,
-    private platform: Platform,
-  ) {}
+    protected toastController: ToastController,
+    protected exceptionService: ExceptionService,
+    protected platform: Platform,
+  ) {
+    super();
+  }
 
-  @Selector([CategoryState.entities])
+  @Selector([
+    CategoryState.entitiesMap,
+    CategoryState.categoriesOfBuffets,
+    BuffetState.activeId,
+  ])
   public static categories(
     state: CategoryListStateModel,
     categories: Category[],
+    categoriesOfBuffets: Dictionary<string[]>,
+    buffetId?: string,
   ) {
-    return categories;
+    if (!buffetId) {
+      return [];
+    }
+    return categoriesOfBuffets[+buffetId].map(id => categories[+id]);
   }
 
   @Selector()
@@ -91,16 +118,44 @@ export class CategoryListState {
     return state.editedId;
   }
 
+  public ngxsOnInit(ctx: StateContext<CategoryListStateModel>) {
+    this.initUpdateState({
+      Actions: {
+        Save: SaveEdit,
+        UpdateFailed: CategoryActions.UpdateFailed,
+        UpdateSucceeded: CategoryActions.UpdateSucceeded,
+      },
+      UpdateAction: CategoryActions.Update,
+      DtoClass: EditCategoryDto,
+      formPath: editorFormPath,
+      showToastOnUpdateError: true,
+      getOriginal: (id: number) =>
+        this.store.selectSnapshot(CategoryState.entityById(id)),
+    });
+
+    this.initCreateState({
+      Actions: {
+        Save: SaveNew,
+        CreateFailed: CategoryActions.CreateFailed,
+        CreateSucceeded: CategoryActions.CreateSucceeded,
+      },
+      CreateAction: CategoryActions.Create,
+      DtoClass: EditCategoryDto,
+      formPath: editorFormPath,
+      showToastOnCreateError: true,
+    });
+  }
+
   @Action(LoadPage)
   public loadPage(ctx: StateContext<CategoryListStateModel>) {
-    return loadAllCategories(this.store);
+    return loadCategories(this.store);
   }
 
   @Action(Reload)
   public reload(ctx: StateContext<CategoryListStateModel>) {
     return concat(
       ctx.dispatch(new SetError(CategoryState, undefined)),
-      ctx.dispatch(new CategoryActions.Load(new FilterCategoriesQuery())),
+      loadCategories(this.store, true),
     );
   }
 
@@ -117,7 +172,13 @@ export class CategoryListState {
     return of(undefined).pipe(
       switchMap(() =>
         ctx.dispatch(
-          new ResetForm({ path: editorFormPath, value: { name: "" } }),
+          new ResetForm({
+            path: editorFormPath,
+            value: {
+              name: "",
+              buffetId: this.store.selectSnapshot(BuffetState.activeId),
+            },
+          }),
         ),
       ),
     );
@@ -130,37 +191,8 @@ export class CategoryListState {
     return this.resetEditorForm(ctx);
   }
 
-  @Action(SaveNew)
-  public saveNew(ctx: StateContext<CategoryListStateModel>) {
-    const state = ctx.getState();
-
-    if (state.editorForm.status === "INVALID") {
-      return;
-    }
-
-    const model = state.editorForm.model;
-    const payload = new EditCategoryDto({
-      ...model,
-    } as Category);
-
-    ctx.dispatch(new SetFormDisabled(editorFormPath));
-
-    return ctx.dispatch(new CategoryActions.Create(payload));
-  }
-
-  @Action(CategoryActions.CreateSucceeded)
   public createSucceeded(ctx: StateContext<CategoryListStateModel>) {
     return ctx.dispatch(new StopAddingNew());
-  }
-
-  @Action(CategoryActions.CreateFailed)
-  public async createFailed(
-    ctx: StateContext<CategoryListStateModel>,
-    action: CategoryActions.CreateFailed,
-  ) {
-    ctx.dispatch(new SetFormEnabled(editorFormPath));
-
-    await this.showErrorToast(action.error);
   }
 
   @Action(Edit)
@@ -175,7 +207,7 @@ export class CategoryListState {
     return ctx.dispatch(
       new UpdateFormValue({
         path: editorFormPath,
-        value: action.category,
+        value: new EditCategoryDto(action.category),
       }),
     );
   }
@@ -185,46 +217,16 @@ export class CategoryListState {
     return this.resetEditorForm(ctx);
   }
 
-  @Action(SaveEdit)
-  public saveEdit(ctx: StateContext<CategoryListStateModel>) {
-    const state = ctx.getState();
-
-    if (state.editorForm.status === "INVALID") {
-      return;
-    }
-
-    const model = state.editorForm.model;
-    const payload = new EditCategoryDto({
-      ...model,
-    } as Category);
-
-    const original = this.store.selectSnapshot(
-      CategoryState.entityById(state.editedId!),
-    );
-    payload.omitUnchangedProperties(original);
-
-    if (!payload.hasChanges()) {
-      return ctx.dispatch(new StopEdit());
-    }
-
-    ctx.dispatch(new SetFormDisabled(editorFormPath));
-
-    return ctx.dispatch(new CategoryActions.Update(state.editedId!, payload));
-  }
-
-  @Action(CategoryActions.UpdateSucceeded)
   public updateSucceeded(ctx: StateContext<CategoryListStateModel>) {
+    super.updateSucceeded(ctx);
     return ctx.dispatch(new StopEdit());
   }
 
-  @Action(CategoryActions.UpdateFailed)
   public async updateFailed(
     ctx: StateContext<CategoryListStateModel>,
     action: CategoryActions.UpdateFailed,
   ) {
-    ctx.dispatch(new SetFormEnabled(editorFormPath));
-
-    await this.showErrorToast(action.error);
+    super.updateFailed(ctx, action);
 
     if (action.error?.errorCode === ErrorCode.NotFoundException) {
       const editedId = ctx.getState().editedId;
@@ -253,14 +255,14 @@ export class CategoryListState {
     );
   }
 
-  private async showErrorToast(error: any) {
-    const toast = await this.toastController.create({
-      duration: 2000,
-      message: this.exceptionService.getErrorMessage(error),
-      header: "Sikertelen mentés",
-      color: "danger",
-      position: this.platform.width() > 600 ? "top" : "bottom",
+  protected onUnchanged(ctx: StateContext<CategoryListStateModel>) {
+    return ctx.dispatch(new StopEdit());
+  }
+
+  protected prepareDto(formValue: Partial<EditCategoryDto>) {
+    return new EditCategoryDto({
+      ...formValue,
+      buffetId: +this.store.selectSnapshot(BuffetState.activeId),
     });
-    toast.present();
   }
 }

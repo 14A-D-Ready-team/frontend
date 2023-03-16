@@ -6,3 +6,4 @@ export * from "./serialize-query-params.util";
 export * from "./delete-empty-properties-deep.util";
 export * from "./class-transformer.config";
 export * from "./serialize-form-data.util";
+export * from "./omit-unchaged-properties.util";

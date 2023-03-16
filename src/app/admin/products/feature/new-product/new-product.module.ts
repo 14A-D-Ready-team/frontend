@@ -21,6 +21,7 @@ import { ClearInputButtonComponent } from "@shared/inputs/ui/ionic";
 import { CustomizationEditorComponent } from "../customization-editor";
 import { ProductEditorComponent } from "../product-editor";
 
+import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
 @NgModule({
   imports: [
     CommonModule,
@@ -38,6 +39,7 @@ import { ProductEditorComponent } from "../product-editor";
     ClearInputButtonComponent,
     CustomizationEditorComponent,
     ProductEditorComponent,
+    ErrorCardComponent,
   ],
   declarations: [NewProductPage],
 })
