@@ -13,6 +13,9 @@ import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
 import { ProductDetailsPageRoutingModule } from "./product-details-routing.module";
 import { ProductEditorComponent } from "../product-editor";
+import { ProductDetailsEffects, ProductDetailsState } from "./store";
+import { NgxsModule } from "@ngxs/store";
+import { ButtonGroupComponent } from "../../ui";
 
 @NgModule({
   imports: [
@@ -20,12 +23,15 @@ import { ProductEditorComponent } from "../product-editor";
     ReactiveFormsModule,
     IonicModule,
     NgxsFormPluginModule,
+    NgxsModule.forFeature([ProductDetailsState]),
     ExtendedFormPluginModule,
     ProductDetailsPageRoutingModule,
     SelectorInputComponent,
     ErrorListComponent,
     ProductEditorComponent,
+    ButtonGroupComponent,
   ],
+  providers: [ProductDetailsEffects],
   declarations: [ProductDetailsPage],
 })
 export class ProductDetailsPageModule {}

@@ -1,18 +1,19 @@
 import { Component, OnInit } from "@angular/core";
-import { Select } from "@ngxs/store";
-import { Category, CategoryState } from "@shared/category";
+import { Select, Store } from "@ngxs/store";
+import { Category, CategoryState, loadCategories } from "@shared/category";
 import { TargetedRequestStatus } from "@shared/extended-entity-state";
 import { ProductState } from "@shared/product";
 import { Observable } from "rxjs";
 import { createProductEditorForm } from "../../utils";
-import { formPath } from "./store";
-
+import { formPath, LoadPage, ProductDetailsEffects, Save } from "./store";
+import { ViewDidEnter, ViewWillEnter, ViewWillLeave } from "@ionic/angular";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-admin-product-details",
   templateUrl: "./product-details.page.html",
   styleUrls: ["./product-details.page.scss"],
 })
-export class ProductDetailsPage implements OnInit {
+export class ProductDetailsPage implements ViewDidEnter, ViewWillLeave {
   @Select(CategoryState.entities)
   public categories$!: Observable<Category[]>;
 
@@ -23,7 +24,30 @@ export class ProductDetailsPage implements OnInit {
 
   public form = createProductEditorForm();
 
-  constructor() {}
+  constructor(
+    private store: Store,
+    private effects: ProductDetailsEffects,
+    private router: Router,
+  ) {}
 
-  ngOnInit() {}
+  public ionViewDidEnter() {
+    this.store.dispatch(new LoadPage());
+    this.effects.start();
+  }
+
+  public ionViewWillLeave() {
+    this.effects.terminate();
+  }
+
+  public reloadCategories() {
+    loadCategories(this.store, true).subscribe();
+  }
+
+  public save() {
+    this.store.dispatch(new Save());
+  }
+
+  public cancel() {
+    this.router.navigate(["/admin/products"]);
+  }
 }

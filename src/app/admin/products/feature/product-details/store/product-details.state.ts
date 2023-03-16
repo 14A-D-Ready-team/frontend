@@ -1,4 +1,8 @@
+import { Injectable } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { UpdateFormValue } from "@ngxs/form-plugin";
 import { Action, NgxsOnInit, State, StateContext, Store } from "@ngxs/store";
+import { loadCategories } from "@shared/category";
 import { UpdatePageState as UPS } from "@shared/extended-entity-state";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import {
@@ -9,13 +13,17 @@ import {
   UpdateProductDto,
 } from "@shared/product";
 import { Mixin } from "ts-mixer";
-import { LoadPage, Save } from "./product-details.actions";
+import {
+  LoadPage,
+  Save,
+  SetUpdatedProductData,
+} from "./product-details.actions";
 
 export interface ProductDetailsStateModel {
   editorForm: NgxsFormStateModel<UpdateProductDto>;
 }
 
-export const formPath = "productDetails.form";
+export const formPath = "adminProductDetails.form";
 
 const UpdatePageState = UPS as typeof UPS<
   ProductDetailsStateModel,
@@ -24,7 +32,7 @@ const UpdatePageState = UPS as typeof UPS<
 >;
 
 @State<ProductDetailsStateModel>({
-  name: "productDetails",
+  name: "adminProductDetails",
   defaults: {
     editorForm: {
       model: new UpdateProductDto(),
@@ -36,11 +44,12 @@ const UpdatePageState = UPS as typeof UPS<
     },
   },
 })
+@Injectable()
 export class ProductDetailsState
   extends Mixin(UpdatePageState)
   implements NgxsOnInit
 {
-  constructor(private store: Store) {
+  constructor(private store: Store, private route: ActivatedRoute) {
     super();
   }
 
@@ -59,5 +68,17 @@ export class ProductDetailsState
   }
 
   @Action(LoadPage)
-  public loadPage(ctx: StateContext<ProductDetailsStateModel>) {}
+  public loadPage(ctx: StateContext<ProductDetailsStateModel>) {
+    return loadCategories(this.store);
+  }
+
+  @Action(SetUpdatedProductData)
+  public setUpdatedProductData(
+    ctx: StateContext<ProductDetailsStateModel>,
+    action: SetUpdatedProductData,
+  ) {
+    return ctx.dispatch(
+      new UpdateFormValue({ path: formPath, value: action.product }),
+    );
+  }
 }

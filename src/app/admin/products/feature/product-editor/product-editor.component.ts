@@ -66,6 +66,9 @@ export class ProductEditorComponent implements OnInit {
     map(() => this.platform.width() >= 1200),
   );
 
+  @Output()
+  public categoriesReloaded = new EventEmitter<void>();
+
   constructor(private platform: Platform) {}
 
   ngOnInit(): void {}

@@ -41,7 +41,7 @@ export abstract class UpdatePageState<
 
   public async saveUpdated(ctx: StateContext<StateModel>) {
     const state = ctx.getState();
-
+    console.log(state.editorForm);
     if (state.editorForm.status === "INVALID") {
       return;
     }

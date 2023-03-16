@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
-import { Platform } from "@ionic/angular";
+import { Platform, ViewWillEnter } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
 import { BuffetState } from "@shared/buffet";
 import { NoBuffetSelectedException } from "@shared/buffet/utils";
@@ -32,7 +32,7 @@ import {
   templateUrl: "./new-product.page.html",
   styleUrls: ["./new-product.page.scss"],
 })
-export class NewProductPage implements OnInit {
+export class NewProductPage implements ViewWillEnter {
   @Select(ProductState.createStatus)
   public status$!: Observable<ApiRequestStatus | undefined>;
 
@@ -59,7 +59,7 @@ export class NewProductPage implements OnInit {
     );
   }
 
-  public ngOnInit(): void {
+  public ionViewWillEnter(): void {
     // If we only need to load the categories, we might not need a separate action
     // and we can just call the function here.
     this.store.dispatch(new LoadPage());

@@ -11,8 +11,17 @@
           [bindedFormGroup]="form"
           [formPath]="formPath"
           [status$]="status$"
+          (categoriesReloaded)="reloadCategories()"
         ></app-admin-product-editor>
       </ion-card-content>
+
+      <app-admin-button-group
+        [loading]="(status$ | async)?.loading === true"
+        [saveDisabled]="form.invalid || (status$ | async)?.loading === true"
+        (cancel)="cancel()"
+        (save)="save()"
+      >
+      </app-admin-button-group>
     </ion-card>
   </ion-content>
 </div>
