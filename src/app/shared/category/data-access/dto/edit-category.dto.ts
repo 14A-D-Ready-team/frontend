@@ -1,3 +1,4 @@
+import { omitUnchangedProperties } from "@shared/serialization";
 import { Exclude, Expose } from "class-transformer";
 import { IsString, MaxLength, MinLength } from "class-validator";
 import { Category } from "../entity";
@@ -23,23 +24,10 @@ export class EditCategoryDto {
     dto: EditCategoryDto,
     original: Category,
   ) {
-    console.log("dto");
-    console.log(dto);
-    console.log("original");
-    console.log(original);
-
-    const object: any = dto;
-    for (const key in object) {
-      if (Object.prototype.hasOwnProperty.call(object, key)) {
-        const value = object[key] as any;
-        if (key !== "id" && value === original[key as keyof typeof original]) {
-          delete object[key];
-        }
-      }
-    }
+    return omitUnchangedProperties(dto, original);
   }
 
   public static hasChanges(dto: EditCategoryDto) {
-    return Object.keys(dto).filter(k => k !== "id").length > 0;
+    return Object.keys(dto).length > 0;
   }
 }
