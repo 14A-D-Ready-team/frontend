@@ -22,7 +22,7 @@ export class AdminSignupPage implements OnInit {
   public adminSignupForm: FormGroup<AdminSignupForm>;
 
   @Select((state: { signup: AdminSignupStateModel }) => state.signup.status)
-  public signupStatus!: Observable<AdminSignupStatus>;
+  public adminSignupStatus!: Observable<AdminSignupStatus>;
 
   constructor(private store: Store) {
     this.adminSignupForm = new ClassValidatorFormGroup<AdminSignupForm>(SignupDto, {

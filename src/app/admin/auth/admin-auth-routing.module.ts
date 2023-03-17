@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./feature/admin-signup").then(m => m.AdminSignupModule),
   },
+  {
+    path: "signup",
+    loadChildren: () =>
+      import("../../customer/auth/feature/signup").then(m => m.SignupPageModule),
+  },
 ];
 
 @NgModule({

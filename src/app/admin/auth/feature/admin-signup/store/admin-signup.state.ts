@@ -1,6 +1,7 @@
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
 import { FormControlStatus } from "@angular/forms";
+import { Router } from "@angular/router";
 import { FormControlErrors } from "@app/shared/extended-form-plugin";
 import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
 import { Action, State, StateContext, StateToken } from "@ngxs/store";
@@ -10,7 +11,11 @@ import {
   SignupDto,
 } from "@shared/authentication";
 import { catchError, finalize, switchMap } from "rxjs";
-import { AdminSignup, AdminSignupFailed, AdminSignupSucceeded } from "./admin-signup.actions";
+import {
+  AdminSignup,
+  AdminSignupFailed,
+  AdminSignupSucceeded,
+} from "./admin-signup.actions";
 export interface AdminSignupStatus {
   loading: boolean;
   error?: any;
@@ -28,7 +33,9 @@ export interface AdminSignupStateModel {
   status?: AdminSignupStatus;
 }
 
-export const SIGNUP_STATE_TOKEN = new StateToken<AdminSignupStateModel>("adminSignup");
+export const SIGNUP_STATE_TOKEN = new StateToken<AdminSignupStateModel>(
+  "adminSignup",
+);
 
 const signupFormPath = "adminSignup.signupForm";
 
@@ -47,7 +54,7 @@ const signupFormPath = "adminSignup.signupForm";
 })
 @Injectable()
 export class AdminSignupState {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   @Action(AdminSignup)
   public startSignup(ctx: StateContext<AdminSignupStateModel>) {
@@ -58,7 +65,13 @@ export class AdminSignupState {
     }
 
     const model = state.signupForm.model;
-    const payload = new SignupDto(model.name, model.email, model.password, model.type, model.inviteToken!);
+    const payload = new SignupDto(
+      model.name,
+      model.email,
+      model.password,
+      model.type,
+      model.inviteToken!,
+    );
 
     if (payload.type !== 1 && payload.inviteToken !== "") {
       payload.inviteToken = "";
@@ -90,9 +103,10 @@ export class AdminSignupState {
     ctx: StateContext<AdminSignupStateModel>,
     action: AdminSignupSucceeded,
   ) {
-
     ctx.patchState({ status: { loading: false, error: undefined } });
 
     ctx.dispatch(new SetCurrentLogin(action.user));
+
+    // this.router.navigate(["signup"]);
   }
 }

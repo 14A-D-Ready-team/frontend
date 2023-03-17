@@ -8,7 +8,7 @@
 
       <form
         action=""
-        class="login-form"
+        class="register-form"
         [formGroup]="adminSignupForm"
         ngxsForm="adminSignup.signupForm"
         (ngSubmit)="signup()"
@@ -16,7 +16,7 @@
         <div
           class="input-container"
           [ngClass]="[adminSignupForm.get('name')?.errors && adminSignupForm.get('name')?.value ? 'input-error-outline' : 'input-regular-outline',
-          (signupStatus | async)?.loading ? 'input-disabled-container' : '']"
+          (adminSignupStatus | async)?.loading ? 'input-disabled-container' : '']"
         >
           <svg
             class="input-icon"
@@ -57,7 +57,7 @@
         <div
           class="input-container"
           [ngClass]="[adminSignupForm.get('email')?.errors && adminSignupForm.get('email')?.value ? 'input-error-outline' : 'input-regular-outline',
-          (signupStatus | async)?.loading ? 'input-disabled-container' : '']"
+          (adminSignupStatus | async)?.loading ? 'input-disabled-container' : '']"
         >
           <svg
             class="input-icon"
@@ -97,7 +97,7 @@
           <div
             class="input-container"
             [ngClass]="[adminSignupForm.get('password')?.errors && adminSignupForm.get('password')?.value ? 'input-error-outline' : 'input-regular-outline',
-            (signupStatus | async)?.loading ? 'input-disabled-container' : '']"
+            (adminSignupStatus | async)?.loading ? 'input-disabled-container' : '']"
           >
             <svg
               class="input-icon"
@@ -150,26 +150,12 @@
               >
                 <ion-select-option [value]="1">Büfé dolgozó</ion-select-option>
                 <ion-select-option [value]="2"
-                  >Büfá tulajdonos</ion-select-option
+                  >Büfé tulajdonos</ion-select-option
                 >
                 <ion-select-option [value]="3">Ready! Admin</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-list>
-          <!-- <ion-radio-group formControlName="type">
-            <ion-item lines="none">
-              <ion-radio slot="start" [value]="1"></ion-radio>
-              <ion-label>Büfé dolgozó</ion-label>
-            </ion-item>
-            <ion-item lines="none">
-              <ion-radio slot="start" [value]="2"></ion-radio>
-              <ion-label>Büfé tulajdonos</ion-label>
-            </ion-item>
-            <ion-item lines="none">
-              <ion-radio slot="start" [value]="3"></ion-radio>
-              <ion-label>Ready! Admin</ion-label>
-            </ion-item>
-          </ion-radio-group> -->
         </div>
 
         <div
@@ -206,15 +192,15 @@
         </div>
 
         <app-admin-validation-message
-          [errorMessage]="(signupStatus | async)?.error | errorMessage"
-          *ngIf="(signupStatus | async)?.error"
+          [errorMessage]="(adminSignupStatus | async)?.error | errorMessage"
+          *ngIf="(adminSignupStatus | async)?.error"
         ></app-admin-validation-message>
-        <ion-spinner *ngIf="(signupStatus | async)?.loading"></ion-spinner>
+        <ion-spinner *ngIf="(adminSignupStatus | async)?.loading"></ion-spinner>
 
         <button
           class="ready-btn"
           type="submit"
-          [disabled]="adminSignupForm.get('name')?.errors || adminSignupForm.get('password')?.errors || adminSignupForm.get('email')?.errors || adminSignupForm.get('type')?.errors"
+          [disabled]="adminSignupForm.get('name')?.errors || adminSignupForm.get('password')?.errors || adminSignupForm.get('email')?.errors"
         >
           Regisztráció
         </button>

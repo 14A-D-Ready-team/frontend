@@ -56,7 +56,6 @@ export class SignupDto {
 
   @Expose()
   @IsString()
-  @IsUUID()
   public inviteToken?: string;
 
   constructor(name: string, email: string, password: string, type: UserType, invite: string) {
