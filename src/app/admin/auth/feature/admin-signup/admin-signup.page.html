@@ -195,7 +195,7 @@
           [errorMessage]="(adminSignupStatus | async)?.error | errorMessage"
           *ngIf="(adminSignupStatus | async)?.error"
         ></app-admin-validation-message>
-        <ion-spinner *ngIf="(adminSignupStatus | async)?.loading"></ion-spinner>
+        <ion-spinner *ngIf="loading === true"></ion-spinner>
 
         <button
           class="ready-btn"

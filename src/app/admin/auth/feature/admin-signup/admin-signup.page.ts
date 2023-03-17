@@ -24,6 +24,8 @@ export class AdminSignupPage implements OnInit {
   @Select((state: { signup: AdminSignupStateModel }) => state.signup.status)
   public adminSignupStatus!: Observable<AdminSignupStatus>;
 
+  public loading = false;
+
   constructor(private store: Store) {
     this.adminSignupForm = new ClassValidatorFormGroup<AdminSignupForm>(SignupDto, {
       name: new ClassValidatorFormControl<string>(""),
@@ -36,6 +38,7 @@ export class AdminSignupPage implements OnInit {
 
   public signup() {
     //console.log(this.adminSignupForm);
+    this.loading = true;
     this.store.dispatch(new AdminSignup());
   }
 
