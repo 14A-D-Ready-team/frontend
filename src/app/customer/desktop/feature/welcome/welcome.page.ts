@@ -40,7 +40,7 @@ export class WelcomePage implements OnInit, OnDestroy {
     this.modal.dismiss(null, "cancel");
     console.log("bezárt");
   }
-  
+
   ionViewDidLeave() {
     this.modal.dismiss();
     console.log("bezárt");

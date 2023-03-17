@@ -8,7 +8,10 @@ import { EmailVerificationDesktopPageRoutingModule } from "./email-verification-
 
 import { EmailVerificationDesktopPage } from "./email-verification-desktop.page";
 import { SendEmailVerificationFormModule } from "@app/customer/auth";
-import { NavbarComponent, NavbarModule } from "@app/customer/desktop/feature/navbar";
+import {
+  NavbarComponent,
+  NavbarModule,
+} from "@app/customer/desktop/feature/navbar";
 
 @NgModule({
   imports: [
@@ -17,7 +20,7 @@ import { NavbarComponent, NavbarModule } from "@app/customer/desktop/feature/nav
     IonicModule,
     EmailVerificationDesktopPageRoutingModule,
     SendEmailVerificationFormModule,
-    NavbarModule
+    NavbarModule,
   ],
   declarations: [EmailVerificationDesktopPage],
 })
