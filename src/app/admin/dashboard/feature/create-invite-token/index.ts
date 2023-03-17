@@ -1,1 +1,1 @@
-export * from "./create-invite-token.module"
+export * from "./create-invite-token.module";

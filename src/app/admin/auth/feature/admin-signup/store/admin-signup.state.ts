@@ -54,7 +54,11 @@ const signupFormPath = "adminSignup.signupForm";
 })
 @Injectable()
 export class AdminSignupState {
-  constructor(private authService: AuthService, private router: Router, private ngZone: NgZone) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private ngZone: NgZone,
+  ) {}
 
   @Action(AdminSignup)
   public startSignup(ctx: StateContext<AdminSignupStateModel>) {
@@ -107,8 +111,6 @@ export class AdminSignupState {
 
     ctx.dispatch(new SetCurrentLogin(action.user));
 
-    this.ngZone.run(() =>
-      this.router.navigate(["signup"])
-    );
+    this.ngZone.run(() => this.router.navigate(["signup"]));
   }
 }

@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { AdminSignupComponent } from './admin-signup.page';
+import { AdminSignupComponent } from "./admin-signup.page";
 
-describe('AdminSignupComponent', () => {
+describe("AdminSignupComponent", () => {
   let component: AdminSignupComponent;
   let fixture: ComponentFixture<AdminSignupComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdminSignupComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [AdminSignupComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AdminSignupComponent);
@@ -18,7 +18,7 @@ describe('AdminSignupComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

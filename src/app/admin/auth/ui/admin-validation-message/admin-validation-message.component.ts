@@ -6,8 +6,8 @@ import {
 } from "@angular/core";
 
 @Component({
-  selector: 'app-admin-validation-message',
-  styleUrls: ['./admin-validation-message.component.scss'],
+  selector: "app-admin-validation-message",
+  styleUrls: ["./admin-validation-message.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -28,5 +28,4 @@ export class AdminValidationMessageComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
-
 }

@@ -58,7 +58,13 @@ export class SignupDto {
   @IsString()
   public inviteToken?: string;
 
-  constructor(name: string, email: string, password: string, type: UserType, invite: string) {
+  constructor(
+    name: string,
+    email: string,
+    password: string,
+    type: UserType,
+    invite: string,
+  ) {
     this.name = name;
     this.email = email;
     this.password = password;

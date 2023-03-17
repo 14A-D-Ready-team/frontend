@@ -61,7 +61,13 @@ export class SignupState {
 
     //visszaad balfasz login dto normálissá konvertálni
     const model = state.signupForm.model;
-    const payload = new SignupDto(model.name, model.email, model.password, 0, "");
+    const payload = new SignupDto(
+      model.name,
+      model.email,
+      model.password,
+      0,
+      "",
+    );
 
     //form disable
     //ctx.dispatch
