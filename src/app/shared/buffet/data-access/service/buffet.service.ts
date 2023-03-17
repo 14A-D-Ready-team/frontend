@@ -4,11 +4,12 @@ import { Injectable } from "@angular/core";
 import { ApiService, PaginatedResponse } from "@shared/api";
 import {
   processPaginatedResponse,
+  processResponse,
   serializeFormData,
   serializeQueryParams,
 } from "@shared/serialization";
-import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
-import { Buffet } from "../entity";
+import { CreateBuffetDto, CreateInviteTokenDto, UpdateBuffetDto } from "../dto";
+import { Buffet, BuffetInviteToken } from "../entity";
 import { SearchBuffetsQuery } from "../query";
 
 @Injectable({
@@ -31,6 +32,12 @@ export class BuffetService extends ApiService<
         params: serializeQueryParams(query),
       })
       .pipe(processPaginatedResponse(Buffet));
+  }
+
+  public createInvite(dto: CreateInviteTokenDto) {
+    return this.httpClient
+      .post<BuffetInviteToken>(environment.api.url + this.path + "invite", dto)
+      .pipe(processResponse(BuffetInviteToken));
   }
 
   protected serialize(payload: CreateBuffetDto | UpdateBuffetDto) {

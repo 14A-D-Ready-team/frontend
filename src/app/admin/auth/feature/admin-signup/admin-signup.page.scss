@@ -1,0 +1,172 @@
+@import "/src/global.scss";
+
+//setting default font color
+* {
+  font-size: 1rem;
+  color: black;
+  font-family: "Poppins";
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 35vh 65vh;
+  background-color: black;
+}
+
+.logo-container {
+  @include flex-center(column, center);
+  height: 100%;
+  .logo {
+    height: auto;
+    width: 70%;
+    max-width: 300px;
+    margin: 0.5rem;
+    object-fit: contain;
+  }
+}
+
+//card that contains the input options
+.card {
+  @include flex-center(column, center);
+  background-color: $card-background;
+  border-radius: 1rem 1rem 0em 0em;
+  min-height: fit-content;
+  overflow-y: auto;
+}
+
+h1 {
+  margin: 2rem 1rem;
+  font-size: 2rem;
+  color: $ready-red;
+  font-weight: 600;
+}
+
+//sign up form
+.register-form {
+  @include flex-center(column, center);
+
+  .input-container {
+    @include flex-center(row, center);
+    margin: 0.75rem 0rem;
+    border-radius: 2rem;
+
+    width: 85%;
+    max-width: 400px;
+    height: 2.5rem;
+
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+
+    position: relative;
+
+    input {
+      all: unset;
+      width: 90%;
+    }
+    .input-icon {
+      height: auto;
+      width: 7%;
+      margin: 0em 0.6rem;
+      object-fit: contain;
+    }
+    .error-container {
+      display: none;
+      position: absolute;
+      z-index: 9999;
+      top: 100%;
+      width: 100%;
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+      background-color: $card-background;
+      z-index: 1;
+
+      p {
+        padding: 0px 20px;
+        color: $ready-red;
+      }
+    }
+  }
+  .pswd-container {
+    @include flex-center(column, center);
+  }
+}
+
+//link for sign up
+.sign-up-container {
+  .sign-up-text {
+    display: inline-block;
+    margin: 0em;
+    color: black !important;
+  }
+  .sign-up-link {
+    margin-left: 0.3em;
+    color: $ready-red;
+  }
+}
+
+ion-spinner {
+  transform: scale(4);
+  position: absolute;
+  top: 50%;
+  color: $ready-red;
+}
+
+.input-disabled-container {
+  background-color: $disabled-grey;
+}
+
+.user-type {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  ion-item,
+  ion-list {
+    --ion-background-color: transparent;
+  }
+  ion-item {
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 2rem;
+  }
+  p {
+    margin: 1rem 0.5rem;
+  }
+}
+
+.invite-show {
+  display: block;
+}
+
+.invite-hide {
+  display: none !important;
+}
+
+.ready-btn {
+  height: 2.5rem;
+}
+
+#name:focus ~ .error-container {
+  visibility: visible;
+  display: block;
+}
+
+#pswd:focus ~ .error-container {
+  visibility: visible;
+  display: block;
+}
+
+#email:focus ~ .error-container {
+  visibility: visible;
+  display: block;
+}
+
+.input-container:has(.input-signup:focus) {
+  border-radius: 0em;
+  box-shadow: none;
+}
+
+.input-error-outline {
+  outline: 1px solid #c30a00;
+}
+
+.input-regular-outline {
+  outline: 0.5px solid rgba(0, 0, 0, 0.15);
+}

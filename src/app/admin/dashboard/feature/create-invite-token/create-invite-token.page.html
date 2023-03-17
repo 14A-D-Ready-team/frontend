@@ -1,0 +1,31 @@
+ <div class="ion-page">
+  <app-admin-header pageTitle="Dolgozó meghívása">
+    <ion-menu-button menu="end" end-buttons>
+      <ion-icon part="icon" name="funnel"></ion-icon>
+    </ion-menu-button>
+  </app-admin-header>
+
+  <ion-content>
+    <div class="content">
+      <div class="text">
+        <h1 class="title">Dolgozó meghívása</h1>
+        <ion-label
+          >Válasszon ki egy büfét a Büfék oldalon, majd kattintson a gombra,
+          <br />
+          ezután adja oda a generált kódot alkalmazottjának, hogy ő regisztrálhassa a
+          fiókját!</ion-label
+        ><br />
+        <ion-label
+          ><b>Aktív büfé: {{ (activeBuffet$ | async)?.name }}</b></ion-label
+        ><br />
+        <ion-button
+          class="ready-btn"
+          (click)="generate()"
+          [disabled]="(activeBuffet$ | async)?.id === null"
+          >Meghívó létrehozása</ion-button
+        ><br />
+        <ion-label>Kód: {{ code }}</ion-label>
+      </div>
+    </div>
+  </ion-content>
+</div>
