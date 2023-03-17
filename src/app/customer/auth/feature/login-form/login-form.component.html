@@ -69,7 +69,9 @@
         id="pswd"
         placeholder="Jelszó"
       />
-      <a class="forgot-pswd-link"> Elfelejtette jelszavát? </a>
+      <a class="forgot-pswd-link" routerLink="/send-password-reset">
+        Elfelejtette jelszavát?
+      </a>
     </div>
     <app-validation-message
       [errorMessage]="(loginStatus | async)?.error | errorMessage"
