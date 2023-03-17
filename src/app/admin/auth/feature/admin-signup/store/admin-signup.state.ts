@@ -107,6 +107,6 @@ export class AdminSignupState {
 
     ctx.dispatch(new SetCurrentLogin(action.user));
 
-    // this.router.navigate(["signup"]);
+    this.router.navigate(["signup"]);
   }
 }
