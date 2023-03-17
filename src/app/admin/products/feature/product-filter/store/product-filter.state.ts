@@ -10,7 +10,7 @@ export interface ProductFilterStateModel {
   typing: boolean;
 }
 
-const name = "buffetsProductFilter";
+const name = "adminProductFilter";
 
 export const formPath = name + ".form";
 

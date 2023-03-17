@@ -13,6 +13,7 @@ import { Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { PolicyHandler } from "@shared/policy";
 import { ToastController } from "@ionic/angular";
+import { User } from "@shared/user";
 
 @Injectable({
   providedIn: "root",
@@ -32,19 +33,7 @@ export class AdminGuard implements CanActivateChild {
       this.abilityService.ability$.pipe(take(1)),
       this.store.selectOnce(AuthState.user),
     ]).pipe(
-      map(([ability, user]) => {
-        if (!(user?.admin || user?.buffetOwner || user?.buffetWorker)) {
-          return false;
-        }
-
-        const policyHandler: PolicyHandler | undefined =
-          route.data?.policyHandler;
-        if (!policyHandler) {
-          return of(true);
-        }
-
-        return policyHandler(ability, route);
-      }),
+      map(([ability, user]) => this.hasAccess(ability, user, route)),
       switchMap(result => (typeof result === "boolean" ? of(result) : result)),
       tap(result => {
         if (!result) {
@@ -64,5 +53,22 @@ export class AdminGuard implements CanActivateChild {
       buttons: [{ icon: "close", role: "cancel" }],
     });
     toast.present();
+  }
+
+  private hasAccess(
+    ability: AppAbility,
+    user: User | undefined,
+    route: ActivatedRouteSnapshot,
+  ) {
+    if (!(user?.admin || user?.buffetOwner || user?.buffetWorker)) {
+      return false;
+    }
+
+    const policyHandler: PolicyHandler | undefined = route.data?.policyHandler;
+    if (!policyHandler) {
+      return of(true);
+    }
+
+    return policyHandler(ability, route);
   }
 }

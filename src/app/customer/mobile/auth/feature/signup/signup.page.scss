@@ -1,0 +1,28 @@
+@import "/src/global.scss";
+
+//setting default font color
+* {
+  font-size: $m-font;
+  color: black;
+  font-family: "Poppins";
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 35vh 65vh;
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+}
+
+.logo-container {
+  @include flex-center(column, center);
+  height: 35vh;
+  .logo {
+    height: auto;
+    width: 70%;
+    max-width: 300px;
+    margin: 0.5rem;
+    object-fit: contain;
+  }
+}

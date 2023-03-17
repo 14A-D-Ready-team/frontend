@@ -6,7 +6,7 @@ export class FilterChanged {
   public readonly filter: FilterProductsQuery;
 
   constructor(filter: FilterProductsQuery) {
-    this.filter = FilterProductsQuery.createOrCopy(filter);
+    this.filter = new FilterProductsQuery(filter);
   }
 }
 

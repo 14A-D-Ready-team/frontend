@@ -30,7 +30,7 @@ import {
 import { CustomizationInputComponent } from "../../ui";
 
 @Component({
-  selector: "app-customization-editor",
+  selector: "app-admin-customization-editor",
   standalone: true,
   imports: [
     CommonModule,

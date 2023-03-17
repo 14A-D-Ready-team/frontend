@@ -1,17 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { BuffetEditorRoutingModule } from './buffet-editor-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { NgxsFormPluginModule } from '@ngxs/form-plugin';
-import { ExtendedFormPluginModule } from '@shared/extended-form-plugin';
-import { ErrorListComponent } from '@shared/inputs/feature/ionic';
-import { BuffetEditorPage } from './buffet-editor.page';
-import { ClearInputButtonComponent, ImageSelectorComponent } from '@shared/inputs/ui/ionic';
-import { NgxsModule } from '@ngxs/store';
-import { BuffetEditorState } from './store';
-
+import { BuffetEditorRoutingModule } from "./buffet-editor-routing.module";
+import { ReactiveFormsModule } from "@angular/forms";
+import { IonicModule } from "@ionic/angular";
+import { NgxsFormPluginModule } from "@ngxs/form-plugin";
+import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
+import { BuffetEditorPage } from "./buffet-editor.page";
+import {
+  ClearInputButtonComponent,
+  ErrorListComponent,
+  ImageSelectorComponent,
+} from "@shared/inputs/ui/ionic";
+import { NgxsModule } from "@ngxs/store";
+import { BuffetEditorState } from "./store";
 
 @NgModule({
   imports: [
@@ -24,8 +26,8 @@ import { BuffetEditorState } from './store';
     ErrorListComponent,
     ImageSelectorComponent,
     ClearInputButtonComponent,
-    NgxsModule.forFeature([BuffetEditorState])
+    NgxsModule.forFeature([BuffetEditorState]),
   ],
-  declarations: [BuffetEditorPage]
+  declarations: [BuffetEditorPage],
 })
-export class BuffetEditorModule { }
+export class BuffetEditorModule {}

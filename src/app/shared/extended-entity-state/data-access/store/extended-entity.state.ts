@@ -1,3 +1,4 @@
+import { Dictionary } from "@/types";
 import { Type } from "@angular/core";
 import {
   EntityState,
@@ -16,6 +17,7 @@ import {
   ApiRequestStatus,
   createFailedStatus,
   createLoadingStatus,
+  decorateAction,
   ExtendedEntityStateModel,
 } from "../../utils";
 import * as BaseActions from "./extended-entity.actions";
@@ -42,6 +44,13 @@ export abstract class ExtendedEntityState<
   Create,
   Update,
 > extends EntityState<EntityType> {
+  public static byId(id: number): StateSelector<any | undefined> {
+    return createSelector(
+      [this.entitiesMap],
+      (entitiesMap: Dictionary<any>) => entitiesMap[id],
+    );
+  }
+
   public static get createStatus(): StateSelector<
     ApiRequestStatus | undefined
   > {
@@ -262,28 +271,65 @@ export abstract class ExtendedEntityState<
   }
 
   private decorateMethods() {
-    this.decorateMethod(this.actions.Load, "load");
-    this.decorateMethod(this.actions.LoadingFailed, "loadingFailed");
-    this.decorateMethod(this.actions.LoadingSucceeded, "loadingSucceeded");
-    this.decorateMethod(this.actions.Create, "createEntity");
-    this.decorateMethod(this.actions.CreateSucceeded, "createSucceeded");
-    this.decorateMethod(this.actions.CreateFailed, "createFailed");
-    this.decorateMethod(this.actions.Update, "updateEntity");
-    this.decorateMethod(this.actions.UpdateSucceeded, "updateSucceeded");
-    this.decorateMethod(this.actions.UpdateFailed, "updateFailed");
-    this.decorateMethod(this.actions.Delete, "deleteEntity");
-    this.decorateMethod(this.actions.DeleteSucceeded, "deleteSucceeded");
-    this.decorateMethod(this.actions.DeleteFailed, "deleteFailed");
-  }
-
-  private decorateMethod(action: Type<any>, methodName: string) {
-    Action(action as any)(
-      this,
-      methodName,
-      Object.getOwnPropertyDescriptor(
-        this,
-        methodName,
-      ) as TypedPropertyDescriptor<any>,
-    );
+    decorateAction({
+      action: this.actions.Load,
+      methodName: "load",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.LoadingFailed,
+      methodName: "loadingFailed",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.LoadingSucceeded,
+      methodName: "loadingSucceeded",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.Create,
+      methodName: "createEntity",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.CreateSucceeded,
+      methodName: "createSucceeded",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.CreateFailed,
+      methodName: "createFailed",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.Update,
+      methodName: "updateEntity",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.UpdateSucceeded,
+      methodName: "updateSucceeded",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.UpdateFailed,
+      methodName: "updateFailed",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.Delete,
+      methodName: "deleteEntity",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.DeleteSucceeded,
+      methodName: "deleteSucceeded",
+      state: this,
+    });
+    decorateAction({
+      action: this.actions.DeleteFailed,
+      methodName: "deleteFailed",
+      state: this,
+    });
   }
 }

@@ -2,7 +2,12 @@ import { environment } from "@/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiService, PaginatedResponse } from "@shared/api";
-import { processPaginatedResponse, processResponse, serializeFormData, serializeQueryParams } from "@shared/serialization";
+import {
+  processPaginatedResponse,
+  processResponse,
+  serializeFormData,
+  serializeQueryParams,
+} from "@shared/serialization";
 import { CreateBuffetDto, CreateInviteTokenDto, UpdateBuffetDto } from "../dto";
 import { Buffet, BuffetInviteToken } from "../entity";
 import { SearchBuffetsQuery } from "../query";
@@ -30,7 +35,9 @@ export class BuffetService extends ApiService<
   }
 
   public createInvite(dto: CreateInviteTokenDto) {
-    return this.httpClient.post<BuffetInviteToken>(environment.api.url + this.path + "invite", dto).pipe(processResponse(BuffetInviteToken));
+    return this.httpClient
+      .post<BuffetInviteToken>(environment.api.url + this.path + "invite", dto)
+      .pipe(processResponse(BuffetInviteToken));
   }
 
   protected serialize(payload: CreateBuffetDto | UpdateBuffetDto) {

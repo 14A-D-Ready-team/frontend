@@ -12,20 +12,11 @@
     "target": "es2015",
     "strict": true,
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": ["es2018", "dom"],
     "paths": {
-      "@shared/*": [
-        "src/app/shared/*"
-      ],
-      "@app/*": [
-        "src/app/*"
-      ],
-      "@/*": [
-        "src/*"
-      ]
+      "@shared/*": ["src/app/shared/*"],
+      "@app/*": ["src/app/*"],
+      "@/*": ["src/*"]
     },
     "skipLibCheck": true,
     "emitDecoratorMetadata": true

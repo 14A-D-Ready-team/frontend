@@ -1,1 +1,1 @@
-export * from './buffet-editor-form.model';
+export * from "./buffet-editor-form.model";

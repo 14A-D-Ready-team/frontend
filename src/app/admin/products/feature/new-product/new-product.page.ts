@@ -3,7 +3,9 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Platform } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
-import { Category, CategoryState, loadAllCategories } from "@shared/category";
+import { BuffetState } from "@shared/buffet";
+import { NoBuffetSelectedException } from "@shared/buffet/utils";
+import { Category, CategoryState, loadCategories } from "@shared/category";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
 import { CreateProductDto, ProductState } from "@shared/product";
 import {
@@ -22,7 +24,7 @@ import {
 } from "./store";
 
 @Component({
-  selector: "app-new-product",
+  selector: "app-admin-new-product",
   templateUrl: "./new-product.page.html",
   styleUrls: ["./new-product.page.scss"],
 })
@@ -35,6 +37,11 @@ export class NewProductPage implements OnInit {
 
   @Select(CategoryState.loading)
   public categoriesLoading$!: Observable<boolean>;
+
+  @Select(CategoryState.error)
+  public categoryError$!: Observable<any>;
+
+  public noBuffetSelected$: Observable<boolean>;
 
   public form: FormGroup<ProductEditorFormModel>;
 
@@ -50,6 +57,10 @@ export class NewProductPage implements OnInit {
     private router: Router,
     private platform: Platform,
   ) {
+    this.noBuffetSelected$ = this.categoryError$.pipe(
+      map(error => error instanceof NoBuffetSelectedException),
+    );
+
     this.form = new ClassValidatorFormGroup<ProductEditorFormModel>(
       CreateProductDto,
       {
@@ -74,7 +85,7 @@ export class NewProductPage implements OnInit {
   }
 
   public reloadCategories() {
-    loadAllCategories(this.store, true).subscribe();
+    loadCategories(this.store, true).subscribe();
   }
 
   public save() {

@@ -32,7 +32,6 @@ export class ProductFilterEffects extends EffectsBase {
       value: formValue,
       status: formStatus,
     })),
-    tap(console.log),
     filter(form => form.status === "VALID"),
     switchMap(form => this.store.dispatch(new FilterChanged(form.value))),
   );

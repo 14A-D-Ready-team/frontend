@@ -12,7 +12,7 @@
 
 <ion-content class="ion-padding">
   <ion-card>
-    <ion-card-content>
+    <ion-card-content *ngIf="(noBuffetSelected$ | async)===false">
       <form
         [formGroup]="form"
         [ngxsForm]="formPath"
@@ -134,16 +134,28 @@
                 ></app-error-list>
               </ion-item>
 
-              <app-customization-editor
+              <app-admin-customization-editor
                 [bindedFormArray]="form.controls.customizations"
-              ></app-customization-editor>
+              ></app-admin-customization-editor>
             </ion-col>
           </ion-row>
         </ion-grid>
       </form>
-      <ion-note color="danger" *ngIf="(status$ | async)?.error as error"
+      <ion-note color="danger" *ngIf="(status$ | async)?.error  as error"
         >{{error | errorMessage}}</ion-note
       >
+    </ion-card-content>
+
+    <ion-card-content
+      class="error-container"
+      *ngIf="(noBuffetSelected$ | async)===true"
+    >
+      <app-error-card
+        color="warning"
+        icon="alert-outline"
+        [error]="categoryError$ | async"
+        [showRetryButton]="false"
+      ></app-error-card>
     </ion-card-content>
 
     <div class="button-container">
@@ -153,7 +165,7 @@
       <ion-button
         fill="clear"
         color="success"
-        [disabled]="form.invalid || (status$ | async)?.loading === true"
+        [disabled]="form.invalid || (status$ | async)?.loading === true || (noBuffetSelected$ | async)===true"
         (click)="save()"
       >
         Mentés

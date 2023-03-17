@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 
 @Component({
-  selector: "app-buffets-category-display-skeleton",
+  selector: "app-admin-category-display-skeleton",
   imports: [CommonModule, IonicModule],
   styleUrls: ["./category-display-skeleton.component.scss"],
   template: `

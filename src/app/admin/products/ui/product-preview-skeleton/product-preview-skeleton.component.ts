@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 
 @Component({
-  selector: "app-product-preview-skeleton",
+  selector: "app-admin-product-preview-skeleton",
   template: `
     <ion-card>
       <ion-thumbnail>

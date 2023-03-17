@@ -15,7 +15,7 @@ import { BehaviorSubject, combineLatest, map, Observable } from "rxjs";
 import { FirstErrorMessagePipe } from "@shared/exceptions";
 
 @Component({
-  selector: "app-buffets-category-display",
+  selector: "app-admin-category-display",
   styleUrls: ["./category-display.component.scss"],
   templateUrl: "./category-display.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -5,16 +5,20 @@ import {
   LoadPage,
   Reload,
   RetryLoading,
+  SelectBuffet,
 } from "./buffet-list.actions";
 import { Injectable } from "@angular/core";
 import { BuffetActions, BuffetState, BuffetStateModel } from "@shared/buffet";
 import { SearchBuffetsQuery } from "@shared/buffet/data-access/query";
-import { DeepReadonly } from "@ngxs-labs/entity-state";
+import { DeepReadonly, SetActive, SetError } from "@ngxs-labs/entity-state";
 import { FilterChanged } from "../../buffet-filter/store";
 import { ClassValidatorFormGroup } from "ngx-reactive-form-class-validator";
+import { concat } from "rxjs";
+import { CategoryState } from "@shared/category";
+import { NoBuffetSelectedException } from "@shared/buffet/utils";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface BuffetsListStateModel {
+export interface BuffetListStateModel {
   buffetIds: number[];
   remainingItems?: number;
   query: DeepReadonly<SearchBuffetsQuery>;
@@ -22,55 +26,55 @@ export interface BuffetsListStateModel {
 
 export const buffetsLoadedPerScroll = 12;
 
-@State<BuffetsListStateModel>({
-  name: "buffetsList",
+@State<BuffetListStateModel>({
+  name: "adminBuffetsList",
   defaults: {
     buffetIds: [],
     query: new SearchBuffetsQuery(),
   },
 })
 @Injectable()
-export class BuffetsListState {
+export class BuffetListState {
   constructor(private store: Store) {}
 
   @Selector([BuffetState])
   public static shownBuffets(
-    state: BuffetsListStateModel,
+    state: BuffetListStateModel,
     buffetState: BuffetStateModel,
   ) {
     return state.buffetIds.map(id => buffetState.entities[id]).filter(b => b);
   }
 
   @Action(LoadPage)
-  public loadPage(ctx: StateContext<BuffetsListStateModel>) {
+  public loadPage(ctx: StateContext<BuffetListStateModel>) {
     const state = ctx.getState();
-    const query = SearchBuffetsQuery.clone({
+    const query = new SearchBuffetsQuery({
       ...state.query,
       skip: 0,
       take: buffetsLoadedPerScroll,
     });
-    
+
     return ctx.dispatch(new BuffetActions.Load(query));
   }
 
   @Action(LoadMore)
-  public loadMore(ctx: StateContext<BuffetsListStateModel>) {
+  public loadMore(ctx: StateContext<BuffetListStateModel>) {
     const state = ctx.getState();
     if (state.remainingItems === 0) {
       return;
     }
 
-      const query = SearchBuffetsQuery.clone({
-        ...state.query,
-        skip: state.buffetIds.length,
-        take: buffetsLoadedPerScroll,
-      });
+    const query = new SearchBuffetsQuery({
+      ...state.query,
+      skip: state.buffetIds.length,
+      take: buffetsLoadedPerScroll,
+    });
     return ctx.dispatch(new BuffetActions.Load(query));
   }
 
   @Action(BuffetActions.LoadingSucceeded)
   public loadingSucceeded(
-    ctx: StateContext<BuffetsListStateModel>,
+    ctx: StateContext<BuffetListStateModel>,
     action: BuffetActions.LoadingSucceeded,
   ) {
     const state = ctx.getState();
@@ -83,9 +87,10 @@ export class BuffetsListState {
       ...action.entities.map(b => b.id),
     );
 
-   // const remaining = action.count - action.buffets.length;
+    // const remaining = action.count - action.buffets.length;
 
-    const remaining = action.count - (action.query.skip || 0) - action.entities.length;
+    const remaining =
+      action.count - (action.query.skip || 0) - action.entities.length;
 
     ctx.patchState({
       buffetIds: newIds,
@@ -94,12 +99,12 @@ export class BuffetsListState {
   }
 
   @Action(RetryLoading)
-  public retryLoading(ctx: StateContext<BuffetsListStateModel>) {
+  public retryLoading(ctx: StateContext<BuffetListStateModel>) {
     ctx.dispatch(new LoadMore());
   }
 
   @Action(Reload)
-  public reload(ctx: StateContext<BuffetsListStateModel>) {
+  public reload(ctx: StateContext<BuffetListStateModel>) {
     const state = ctx.getState();
     const numberOfBuffets = state.buffetIds.length;
     const numberOfBuffetsToLoad =
@@ -111,7 +116,7 @@ export class BuffetsListState {
       remainingItems: undefined,
     });
 
-    const query = SearchBuffetsQuery.clone({
+    const query = new SearchBuffetsQuery({
       ...state.query,
       skip: 0,
       take: numberOfBuffetsToLoad,
@@ -122,7 +127,7 @@ export class BuffetsListState {
 
   @Action(FilterChanged, { cancelUncompleted: true })
   public filter(
-    ctx: StateContext<BuffetsListStateModel>,
+    ctx: StateContext<BuffetListStateModel>,
     action: FilterChanged,
   ) {
     ctx.patchState({
@@ -131,7 +136,7 @@ export class BuffetsListState {
       remainingItems: undefined,
     });
 
-    const query = SearchBuffetsQuery.clone({
+    const query = new SearchBuffetsQuery({
       ...action.filter,
       skip: 0,
       take: buffetsLoadedPerScroll,
@@ -141,9 +146,19 @@ export class BuffetsListState {
   }
 
   @Action(Delete)
-  public delete(ctx: StateContext<BuffetsListStateModel>, action: Delete) {
-
+  public delete(ctx: StateContext<BuffetListStateModel>, action: Delete) {
     return ctx.dispatch(new BuffetActions.Delete(+action.id));
   }
 
+  @Action(SelectBuffet)
+  public select(ctx: StateContext<BuffetListStateModel>, action: SelectBuffet) {
+    if (
+      this.store.selectSnapshot(CategoryState.error) instanceof
+      NoBuffetSelectedException
+    ) {
+      this.store.dispatch(new SetError(CategoryState, undefined));
+    }
+
+    return ctx.dispatch(new SetActive(BuffetState, "" + action.id));
+  }
 }

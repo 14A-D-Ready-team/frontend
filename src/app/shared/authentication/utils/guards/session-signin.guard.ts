@@ -8,7 +8,6 @@ import {
   RouterStateSnapshot,
   UrlSegment,
 } from "@angular/router";
-import { SessionSigninPage } from "@app/customer/auth";
 import { Store } from "@ngxs/store";
 import { omit } from "lodash";
 import { AuthState, SessionSignin } from "../../data-access";
@@ -17,7 +16,7 @@ import { AuthState, SessionSignin } from "../../data-access";
   providedIn: "root",
 })
 export class SessionSigninGuard
-  implements CanActivateChild, CanActivate, CanDeactivate<SessionSigninPage>
+  implements CanActivateChild, CanActivate, CanDeactivate<any>
 {
   constructor(private store: Store, private router: Router) {}
 

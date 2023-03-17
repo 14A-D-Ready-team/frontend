@@ -12,6 +12,7 @@ import { Select, Store } from "@ngxs/store";
 import { RouterModule } from "@angular/router";
 import { ExceptionService } from "@shared/exceptions";
 import { AuthState, Logout } from "@shared/authentication";
+import { Buffet, BuffetState } from "@shared/buffet";
 
 @Component({
   selector: "app-admin-side-menu",
@@ -27,6 +28,9 @@ export class AdminSideMenuComponent {
 
   @Select(AuthState.user)
   public user$!: Observable<User | undefined>;
+
+  @Select(BuffetState.active)
+  public activeBuffet$!: Observable<Buffet | undefined>;
 
   constructor(
     private store: Store,

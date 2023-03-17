@@ -1,21 +1,16 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
   {
-    path: "admin/signup",
+    path: "",
     loadChildren: () =>
       import("./feature/admin-signup").then(m => m.AdminSignupModule),
-  },
-  {
-    path: "signup",
-    loadChildren: () =>
-      import("../../customer/auth/feature/signup").then(m => m.SignupPageModule),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminAuthRoutingModule { }
+export class AdminAuthRoutingModule {}

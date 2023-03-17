@@ -1,0 +1,32 @@
+<div class="navbar">
+  <div class="nav-item logo">
+    <img src="/assets/icon/Logo-nolabel.png" alt="" />
+  </div>
+
+  <div class="nav-item">
+    <a [ngClass]="currentPage === '/' ? 'active' : ''" [routerLink]="['/']"
+      >Menü</a
+    >
+  </div>
+
+  <div class="nav-item">
+    <a [ngClass]="currentPage === '/cart-desktop' ? 'active' : ''" href=""
+      >Kosár</a
+    >
+  </div>
+
+  <div class="nav-item">
+    <a [ngClass]="currentPage === '/order-desktop' ? 'active' : ''" href=""
+      >Rendelésem</a
+    >
+  </div>
+
+  <div class="nav-item">
+    <a
+      [ngClass]="currentPage === '/buffet-select' ? 'active' : ''"
+      routerLink="/buffet-select"
+      href=""
+      >Helyzet</a
+    >
+  </div>
+</div>

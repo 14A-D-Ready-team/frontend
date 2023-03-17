@@ -32,7 +32,7 @@ import {
 } from "rxjs";
 
 @Component({
-  selector: "app-customization-input",
+  selector: "app-admin-customization-input",
   standalone: true,
   imports: [
     CommonModule,

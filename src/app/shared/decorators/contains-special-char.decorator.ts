@@ -1,7 +1,7 @@
 import { registerDecorator } from "class-validator";
 
 export function ContainsSpecialChar() {
-  return function (object: Object, propertyName: string) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       name: "containsSpecialChar",
       target: object.constructor,

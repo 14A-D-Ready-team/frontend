@@ -6,6 +6,8 @@ import { Observable } from "rxjs";
 import { User } from "@shared/user";
 import { Select, Store } from "@ngxs/store";
 import { AuthState, Logout } from "@shared/authentication";
+import { Category, CategoryState } from "@shared/category";
+import { Buffet, BuffetState } from "@shared/buffet";
 
 @Component({
   selector: "app-admin-header",
@@ -18,7 +20,14 @@ import { AuthState, Logout } from "@shared/authentication";
           <ion-title class="font-bold">{{ pageTitle }}</ion-title>
           <ion-item lines="none" routerLink="/admin/buffets">
             <ion-icon name="restaurant-outline" slot="start"></ion-icon>
-            <ion-label>Büfék</ion-label>
+            <div class="buffet-label-container">
+              <ion-label>Büfék</ion-label>
+              <ion-label
+                class="chosen-buffet-label"
+                *ngIf="activeBuffet$ | async as buffet"
+                >Kiválasztva: {{ buffet.name }}</ion-label
+              >
+            </div>
           </ion-item>
           <ion-item lines="none" routerLink="/admin/categories">
             <ion-icon name="albums-outline" slot="start"></ion-icon>
@@ -62,6 +71,9 @@ export class AdminHeaderComponent {
 
   @Select(AuthState.user)
   public user$!: Observable<User>;
+
+  @Select(BuffetState.active)
+  public activeBuffet$!: Observable<Buffet | undefined>;
 
   constructor(private store: Store) {}
 

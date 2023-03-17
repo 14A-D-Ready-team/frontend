@@ -1,9 +1,9 @@
 import { State } from "@ngxs/store";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
-import { CreateProductDto } from "@shared/product";
+import { UpdateProductDto } from "@shared/product";
 
 export interface ProductEditorStateModel {
-  form: NgxsFormStateModel<CreateProductDto>;
+  form: NgxsFormStateModel<UpdateProductDto>;
 }
 
 export const formPath = "productEditor.form";
@@ -12,7 +12,7 @@ export const formPath = "productEditor.form";
   name: "productEditor",
   defaults: {
     form: {
-      model: new CreateProductDto(),
+      model: new UpdateProductDto(),
       errors: {},
       dirty: false,
       status: "VALID",

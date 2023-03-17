@@ -1,1 +1,2 @@
-export * from "./buffet-select.module";
+export * from "./buffet-select.component";
+export * from "./store";

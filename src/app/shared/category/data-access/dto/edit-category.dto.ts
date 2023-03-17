@@ -1,3 +1,4 @@
+import { omitUnchangedProperties } from "@shared/serialization";
 import { Exclude, Expose } from "class-transformer";
 import { IsString, MaxLength, MinLength } from "class-validator";
 import { Category } from "../entity";
@@ -11,22 +12,22 @@ export class EditCategoryDto {
   })
   public name: string;
 
-  constructor(category?: Category) {
-    this.name = category?.name || "";
+  @Expose()
+  public buffetId: number;
+
+  constructor(existing: Partial<EditCategoryDto> = {}) {
+    this.name = existing?.name || "";
+    this.buffetId = existing?.buffetId || 0;
   }
 
-  public omitUnchangedProperties(original: Category) {
-    for (const key in this) {
-      if (Object.prototype.hasOwnProperty.call(this, key)) {
-        const value = this[key] as any;
-        if (key !== "id" && value === original[key as keyof typeof original]) {
-          delete this[key];
-        }
-      }
-    }
+  public static omitUnchangedProperties(
+    dto: EditCategoryDto,
+    original: Category,
+  ) {
+    return omitUnchangedProperties(dto, original);
   }
 
-  public hasChanges() {
-    return Object.keys(this).filter(k => k !== "id").length > 0;
+  public static hasChanges(dto: EditCategoryDto) {
+    return Object.keys(dto).length > 0;
   }
 }

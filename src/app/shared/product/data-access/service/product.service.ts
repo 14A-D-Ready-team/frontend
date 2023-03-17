@@ -11,6 +11,7 @@ import {
   serializeQueryParams,
 } from "@shared/serialization";
 import { instanceToPlain } from "class-transformer";
+import { tap } from "rxjs";
 import { CreateProductDto, UpdateProductDto } from "../dto";
 import { Product } from "../entity";
 import { FilterProductsQuery } from "../query";
@@ -20,7 +21,7 @@ import { FilterProductsQuery } from "../query";
 })
 export class ProductService extends ApiService<
   Product,
-  FilterCategoriesQuery,
+  FilterProductsQuery,
   PaginatedResponse<Product>,
   CreateProductDto,
   UpdateProductDto

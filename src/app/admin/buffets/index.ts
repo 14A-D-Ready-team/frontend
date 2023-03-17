@@ -1,2 +1,2 @@
-export * from './buffets.module';
-export * from './buffets-routing.module';
+export * from "./buffets.module";
+export * from "./buffets-routing.module";
