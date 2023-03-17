@@ -8,7 +8,11 @@ import { WelcomePageRoutingModule } from "./welcome-routing.module";
 
 import { WelcomePage } from "./welcome.page";
 import { NavbarModule } from "../navbar";
-import { LoginFormModule, SignupFormModule } from "@app/customer/auth";
+import {
+  LoginFormModule,
+  SendPasswordResetFormModule,
+  SignupFormModule,
+} from "@app/customer/auth";
 
 @NgModule({
   imports: [
@@ -19,6 +23,7 @@ import { LoginFormModule, SignupFormModule } from "@app/customer/auth";
     NavbarModule,
     LoginFormModule,
     SignupFormModule,
+    SendPasswordResetFormModule,
   ],
   declarations: [WelcomePage],
 })

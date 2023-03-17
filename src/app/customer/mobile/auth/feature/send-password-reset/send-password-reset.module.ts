@@ -12,6 +12,7 @@ import { SendPasswordResetPageRoutingModule } from "./send-password-reset-routin
 import { SendPasswordResetPage } from "./send-password-reset.page";
 import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 import { ErrorMessagePipe } from "@shared/exceptions";
+import { SendPasswordResetFormModule } from "@app/customer/auth";
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { ErrorMessagePipe } from "@shared/exceptions";
     ValidationMessageModule,
     NgxsFormPluginModule,
     ErrorMessagePipe,
+    SendPasswordResetFormModule,
   ],
   declarations: [SendPasswordResetPage],
 })

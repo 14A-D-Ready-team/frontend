@@ -15,7 +15,7 @@ import { Observable } from "rxjs";
 export class WelcomePage implements OnInit {
   @ViewChild("loginModal") modal!: IonModal;
 
-  selectedSegment = "login";
+  selectedSegmentLogin = "login";
 
   constructor(private route: ActivatedRoute) {}
 
@@ -26,7 +26,7 @@ export class WelcomePage implements OnInit {
   public activeBuffet$!: Observable<Buffet>;
 
   segmentChanged(event: any) {
-    this.selectedSegment = event.target.value;
+    this.selectedSegmentLogin = event.target.value;
   }
 
   cancel() {
@@ -34,6 +34,6 @@ export class WelcomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedSegment = "login";
+    this.selectedSegmentLogin = "login";
   }
 }
