@@ -8,6 +8,7 @@ import { EmailVerificationState } from "./store";
 import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ErrorMessagePipe } from "@shared/exceptions";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [SendEmailVerificationFormComponent],
@@ -20,6 +21,7 @@ import { ErrorMessagePipe } from "@shared/exceptions";
     ValidationMessageModule,
     NgxsFormPluginModule,
     ErrorMessagePipe,
+    RouterModule
   ],
   exports: [SendEmailVerificationFormComponent],
 })

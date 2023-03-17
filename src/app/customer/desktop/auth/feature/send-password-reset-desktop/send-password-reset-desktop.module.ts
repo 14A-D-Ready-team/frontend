@@ -7,6 +7,8 @@ import { IonicModule } from "@ionic/angular";
 import { SendPasswordResetDesktopPageRoutingModule } from "./send-password-reset-desktop-routing.module";
 
 import { SendPasswordResetDesktopPage } from "./send-password-reset-desktop.page";
+import { NavbarModule } from "@app/customer/desktop/feature/navbar";
+import { SendPasswordResetFormModule } from "@app/customer/auth";
 
 @NgModule({
   imports: [
@@ -14,6 +16,8 @@ import { SendPasswordResetDesktopPage } from "./send-password-reset-desktop.page
     FormsModule,
     IonicModule,
     SendPasswordResetDesktopPageRoutingModule,
+    NavbarModule,
+    SendPasswordResetFormModule,
   ],
   declarations: [SendPasswordResetDesktopPage],
 })

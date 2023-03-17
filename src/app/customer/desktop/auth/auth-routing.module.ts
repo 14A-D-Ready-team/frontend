@@ -9,6 +9,11 @@ const routes: Routes = [
         m => m.EmailVerificationDesktopPageModule,
       ),
   },
+  {
+    path: "send-password-reset",
+    loadChildren: () =>
+      import("./feature/send-password-reset-desktop").then(m => m.SendPasswordResetDesktopPageModule),
+  },
 ];
 
 @NgModule({

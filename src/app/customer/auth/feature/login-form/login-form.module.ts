@@ -9,6 +9,7 @@ import { ExternalAuthModule } from "@shared/external-auth";
 import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { LoginFormComponent } from "./login-form.component";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { LoginFormComponent } from "./login-form.component";
     ValidationMessageModule,
     NgxsFormPluginModule,
     ErrorMessagePipe,
+    RouterModule,
     ExceptionsModule.forFeature({
       InvalidLoginException: "Hibás email és jelszó páros!",
       InvalidDataException: "Hibás adatok kerültek megasádsra!",
