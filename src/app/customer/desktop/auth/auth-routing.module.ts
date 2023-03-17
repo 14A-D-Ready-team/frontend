@@ -12,7 +12,9 @@ const routes: Routes = [
   {
     path: "send-password-reset",
     loadChildren: () =>
-      import("./feature/send-password-reset-desktop").then(m => m.SendPasswordResetDesktopPageModule),
+      import("./feature/send-password-reset-desktop").then(
+        m => m.SendPasswordResetDesktopPageModule,
+      ),
   },
 ];
 

@@ -21,7 +21,7 @@ import { RouterModule } from "@angular/router";
     ValidationMessageModule,
     NgxsFormPluginModule,
     ErrorMessagePipe,
-    RouterModule
+    RouterModule,
   ],
   exports: [SendEmailVerificationFormComponent],
 })
