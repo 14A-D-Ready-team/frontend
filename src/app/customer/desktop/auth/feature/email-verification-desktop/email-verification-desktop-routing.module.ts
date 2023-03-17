@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-import { EmailVerificationDesktopPage } from './email-verification-desktop.page';
+import { EmailVerificationDesktopPage } from "./email-verification-desktop.page";
 
 const routes: Routes = [
   {
-    path: '',
-    component: EmailVerificationDesktopPage
-  }
+    path: "",
+    component: EmailVerificationDesktopPage,
+  },
 ];
 
 @NgModule({

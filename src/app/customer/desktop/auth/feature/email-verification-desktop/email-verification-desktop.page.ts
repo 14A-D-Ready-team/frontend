@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-email-verification-desktop',
-  templateUrl: './email-verification-desktop.page.html',
-  styleUrls: ['./email-verification-desktop.page.scss'],
+  selector: "app-email-verification-desktop",
+  templateUrl: "./email-verification-desktop.page.html",
+  styleUrls: ["./email-verification-desktop.page.scss"],
 })
 export class EmailVerificationDesktopPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

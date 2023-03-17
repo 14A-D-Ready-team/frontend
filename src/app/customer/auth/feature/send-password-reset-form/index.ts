@@ -1,1 +1,1 @@
-export * from "./send-password-reset-form.module"
+export * from "./send-password-reset-form.module";

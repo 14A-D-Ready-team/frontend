@@ -1,1 +1,1 @@
-export * from "./send-email-verification-form.module"
+export * from "./send-email-verification-form.module";
