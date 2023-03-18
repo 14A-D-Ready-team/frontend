@@ -10,12 +10,14 @@ import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
 import { NgxsModule } from "@ngxs/store";
 import { SignupState } from "./store";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    RouterModule,
     ExternalAuthModule.forFeature(),
     NgxsModule.forFeature([SignupState]),
     ExtendedFormPluginModule,

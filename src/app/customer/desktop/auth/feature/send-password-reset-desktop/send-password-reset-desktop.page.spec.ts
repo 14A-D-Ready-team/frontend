@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { IonicModule } from "@ionic/angular";
 
-import { SendPasswordResetPage } from "./send-password-reset.page";
+import { SendPasswordResetDesktopPage } from "./send-password-reset-desktop.page";
 
-describe("SendPasswordResetPage", () => {
-  let component: SendPasswordResetPage;
-  let fixture: ComponentFixture<SendPasswordResetPage>;
+describe("SendPasswordResetDesktopPage", () => {
+  let component: SendPasswordResetDesktopPage;
+  let fixture: ComponentFixture<SendPasswordResetDesktopPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SendPasswordResetPage],
+      declarations: [SendPasswordResetDesktopPage],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SendPasswordResetPage);
+    fixture = TestBed.createComponent(SendPasswordResetDesktopPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

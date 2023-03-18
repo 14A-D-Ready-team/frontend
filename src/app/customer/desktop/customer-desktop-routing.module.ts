@@ -5,12 +5,21 @@ const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
+      import("./feature/welcome/welcome.module").then(m => m.WelcomePageModule),
+  },
+  {
+    path: "main",
+    loadChildren: () =>
       import("./feature/main-desktop").then(m => m.MainDesktopPageModule),
+  },
+  {
+    path: "",
+    loadChildren: () => import("./auth").then(m => m.DesktopAuthModule),
   },
   {
     path: "login",
     loadChildren: () =>
-      import("./feature/main-desktop").then(m => m.MainDesktopPageModule),
+      import("./feature/welcome/welcome.module").then(m => m.WelcomePageModule),
   },
   {
     path: "buffet-select",
