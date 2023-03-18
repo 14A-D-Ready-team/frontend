@@ -55,3 +55,7 @@ export class SessionSigninCompleted {
 
   constructor(public nextUrl: any[], public queryParams?: Params) {}
 }
+
+export class ClearNextUrl {
+  public static readonly type = "[Auth] Clear Next Url";
+}

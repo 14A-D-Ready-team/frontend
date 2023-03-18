@@ -31,6 +31,7 @@ import {
   SessionSigninSucceeded,
   SessionSigninFailed,
   SessionSigninCompleted,
+  ClearNextUrl,
 } from "./auth.actions";
 import { User, UserType } from "@app/shared/user";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -47,6 +48,7 @@ enum SocialAuthStatus {
 type SessionSigninStatus = {
   loading: boolean;
   completed: boolean;
+  nextUrl?: any[];
 };
 
 export interface AuthStateModel {
@@ -90,10 +92,11 @@ export class AuthState {
   ) {
     externalAuthService.loginDisabled$ = combineLatest([
       this.store.select(AuthState.user),
+      this.store.select(AuthState.sessionSigninStatus),
       this.route.url,
     ]).pipe(
-      map(([user]) => {
-        return !!user || router.url.includes("admin");
+      map(([user, status]) => {
+        return !!user || !status.completed || router.url.includes("admin");
       }),
     );
 
@@ -157,6 +160,7 @@ export class AuthState {
       sessionSigninStatus: {
         loading: true,
         completed: false,
+        nextUrl: action.nextUrl,
       },
     });
 
@@ -181,10 +185,26 @@ export class AuthState {
 
   @Action(SessionSigninCompleted)
   public sessionSigninCompleted(ctx: StateContext<AuthStateModel>) {
-    {
-      ctx.patchState({
-        sessionSigninStatus: { loading: false, completed: true },
-      });
-    }
+    const status = ctx.getState().sessionSigninStatus;
+    ctx.patchState({
+      sessionSigninStatus: {
+        loading: false,
+        completed: true,
+        nextUrl: status.nextUrl,
+      },
+    });
+  }
+
+  @Action(ClearNextUrl)
+  public clearNextUrl(ctx: StateContext<AuthStateModel>) {
+    const status = ctx.getState().sessionSigninStatus;
+
+    ctx.patchState({
+      sessionSigninStatus: {
+        nextUrl: undefined,
+        completed: status.completed,
+        loading: status.loading,
+      },
+    });
   }
 }

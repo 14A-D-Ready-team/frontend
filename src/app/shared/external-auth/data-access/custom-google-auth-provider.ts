@@ -45,7 +45,6 @@ export class CustomGoogleAuthProvider extends GoogleLoginProvider {
               combineLatest([socialuser$, this.socialLoginDisabled$]).subscribe(
                 ([socialUser, socialLoginDisabled]) => {
                   if (socialUser === null && !socialLoginDisabled) {
-                    console.log(google);
                     google.accounts.id.prompt(console.debug);
                   } else {
                     google.accounts.id.cancel();

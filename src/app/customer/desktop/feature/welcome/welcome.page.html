@@ -13,6 +13,7 @@
         </button>
         <button id="open-login" class="ready-btn">Jelentkezz be</button>
       </div>
+      <p *ngIf="activeUser$|async as user">Bejelentkezve mint: {{user.name}}</p>
     </div>
 
     <div class="team-container">
