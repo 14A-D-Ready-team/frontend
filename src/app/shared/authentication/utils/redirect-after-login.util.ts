@@ -10,6 +10,7 @@ export function redirectAfterLogin(
   ngZone: NgZone,
   router: Router,
   store: Store,
+  toAdmin = false,
 ) {
   return store
     .select(state => state.auth.user)
@@ -18,7 +19,8 @@ export function redirectAfterLogin(
       takeWhile(user => !user, true),
       filter(user => !!user),
       tap(() => {
-        const nextUrl = route.snapshot.queryParams.nextUrl || "/";
+        const nextUrl =
+          route.snapshot.queryParams.nextUrl || toAdmin ? "/admin" : "/";
 
         const url = new URL(nextUrl, window.location.origin);
         const queryParams: Dictionary<any> = {};

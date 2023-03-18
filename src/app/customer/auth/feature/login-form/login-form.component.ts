@@ -12,6 +12,7 @@ import {
 interface LoginForm {
   email: FormControl<string>;
   password: FormControl<string>;
+  admin: FormControl<boolean>;
 }
 
 @Component({
@@ -29,6 +30,7 @@ export class LoginFormComponent implements OnInit {
     this.loginForm = new ClassValidatorFormGroup<LoginForm>(LoginDto, {
       email: new ClassValidatorFormControl<string>(""),
       password: new ClassValidatorFormControl<string>(""),
+      admin: new ClassValidatorFormControl<boolean>(false),
     });
   }
 

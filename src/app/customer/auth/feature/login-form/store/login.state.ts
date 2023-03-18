@@ -23,7 +23,7 @@ export interface LoginStatus {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LoginStateModel {
   loginForm: {
-    model: LoginDto;
+    model: LoginDto & { admin?: boolean };
     dirty: boolean;
     status: FormControlStatus;
     errors: Dictionary<any>;
@@ -108,6 +108,12 @@ export class LoginState {
 
     ctx.dispatch(new SetCurrentLogin(action.user));
 
-    return redirectAfterLogin(this.route, this.ngZone, this.router, this.store);
+    return redirectAfterLogin(
+      this.route,
+      this.ngZone,
+      this.router,
+      this.store,
+      ctx.getState().loginForm.model.admin,
+    );
   }
 }
