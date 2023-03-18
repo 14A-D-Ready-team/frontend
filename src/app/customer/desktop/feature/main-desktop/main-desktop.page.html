@@ -1,72 +1,7 @@
 <div class="desktop-background">
   <app-navbar></app-navbar>
-  <div
-    class="before-login"
-    *ngIf="(activeUser$ | async) === undefined|| (activeBuffet$ | async) === undefined"
-  >
-    <div class="login-container">
-      <img src="/assets/icon/Logo.png" alt="" />
-      <p class="title">A büfé alkalmazás</p>
-      <div class="buttons-container">
-        <button id="open-select" class="ready-btn" routerLink="/buffet-select">
-          Keress büfét
-        </button>
-        <button id="open-login" class="ready-btn">Jelentkezz be</button>
-      </div>
-    </div>
 
-    <div class="team-container">
-      <h1>A csapatról</h1>
-      <p>
-        Célunk, hogy reformáljuk és modernizáljuk a büfében történő
-        vásárlásokat. Jelenleg a csapat minden tagja a Győri SZC Jedlik Ányos
-        Gépipari és Informatikai Technikum és Kollégium tanulója.
-      </p>
-    </div>
-
-    <div class="news-container">
-      <h1>Mi az a Ready!?</h1>
-      <p>
-        Biztosan előfordult már önökkel, hogy egy büfében szerettek volna
-        vásárolni de hosszú volt a sor. Iskolában ez nem csak kellemetlenséget
-        okoz, hanem még a vásárlást is korlátozhatja, hiszen nem biztos, hogy a
-        vásárlók sorra kerülnek a szünetben. Ready! nevű alkalmazásunk erre ad
-        megoldást, alkalmazásunkkal a vásárlók előre megrendelhetik a kívánt
-        ételüket, ezzel megkönnyítik a dolgozók munkáját, gyorsítják a
-        vásárlást.
-      </p>
-    </div>
-    <ion-modal
-      class="login-modal"
-      #loginModal
-      id="login-modal"
-      trigger="open-login"
-    >
-      <ng-template>
-        <ion-header>
-          <ion-segment
-            [value]="selectedSegment"
-            (ionChange)="segmentChanged($event)"
-          >
-            <ion-segment-button value="login">
-              <ion-label>Bejelentkezés</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="signup">
-              <ion-label>Regisztráció</ion-label>
-            </ion-segment-button>
-          </ion-segment>
-        </ion-header>
-
-        <app-login-form *ngIf="selectedSegment === 'login'"></app-login-form>
-        <app-signup-form *ngIf="selectedSegment === 'signup'"></app-signup-form>
-      </ng-template>
-    </ion-modal>
-  </div>
-
-  <div
-    class="after-login"
-    *ngIf="(activeBuffet$ | async) !== undefined && (activeUser$ | async) !== undefined"
-  >
+  <div class="after-login">
     <div class="greeting-container">
       <h1>Üdvözöljük <span>{{ (activeUser$ | async)?.name }}</span>!</h1>
       <p>Válogass a(z) {{(activeBuffet$ | async)?.name}} kínálatából!</p>

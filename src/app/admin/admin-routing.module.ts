@@ -26,6 +26,10 @@ const routes: Routes = [
     path: "buffets",
     loadChildren: () => import("./buffets").then(m => m.BuffetsModule),
   },
+  {
+    path: "",
+    loadChildren: () => import("./dashboard").then(m => m.DashboardModule),
+  },
 ];
 
 @NgModule({

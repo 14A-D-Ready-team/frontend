@@ -1,0 +1,57 @@
+@use "/src/theme/variables" as v;
+@import "/src/global.scss";
+
+ion-row {
+  justify-content: center;
+}
+
+@media screen and (min-width: v.$breakpoint-xxl) {
+  ion-col {
+    --ion-grid-columns: 15;
+  }
+}
+
+@media screen and (min-width: v.$breakpoint-3xl) {
+  ion-col {
+    --ion-grid-columns: 18;
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  ion-grid {
+    padding: 0 4rem;
+  }
+
+  ion-fab {
+    margin-bottom: 10px;
+    margin-right: 20px;
+  }
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.ion-page {
+  background-color: white;
+}
+
+.title {
+  font-weight: bold;
+  color: $ready-red;
+}
+
+.text {
+  text-align: center;
+  display: block;
+  font-family: "Poppins";
+  color: black;
+  font-size: $m-font;
+}
+
+.label {
+  --max-width: 400px;
+}

@@ -13,6 +13,7 @@ import { EmailVerificationPageRoutingModule } from "./email-verification-routing
 
 import { EmailVerificationPage } from "./email-verification.page";
 import { ValidationMessageModule } from "@app/customer/ui/validation-message";
+import { SendEmailVerificationFormModule } from "@app/customer/auth";
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { ValidationMessageModule } from "@app/customer/ui/validation-message";
     ValidationMessageModule,
     NgxsFormPluginModule,
     ErrorMessagePipe,
+    SendEmailVerificationFormModule,
   ],
   declarations: [EmailVerificationPage],
 })
