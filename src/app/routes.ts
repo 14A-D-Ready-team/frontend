@@ -13,6 +13,11 @@ const adminRoutes: Routes = [
     component: AdminShellComponent,
     canActivateChild: [AuthGuard, AdminGuard],
   },
+  {
+    path: "admin-signup",
+    loadChildren: () =>
+      import("./admin/auth/admin-auth.module").then(m => m.AdminAuthModule),
+  },
 ];
 
 function wrapRoutes(routes: Routes): Routes {
