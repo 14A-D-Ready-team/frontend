@@ -73,6 +73,10 @@
         Elfelejtette jelszavát?
       </a>
     </div>
+    <ion-item class="dest-rb" lines="none">
+      <ion-label>Tovább az admin felületre</ion-label>
+      <ion-checkbox slot="end" formControlName="admin"></ion-checkbox>
+    </ion-item>
     <app-validation-message
       [errorMessage]="(loginStatus | async)?.error | errorMessage"
       [visible]="(loginStatus | async)?.error"
@@ -106,7 +110,5 @@
     <div class="line"></div>
   </div>
 
-  <div class="other-container">
-    <button class="google-btn">Bejelentkezés Google fiókkal</button>
-  </div>
+  <google-login-button></google-login-button>
 </div>

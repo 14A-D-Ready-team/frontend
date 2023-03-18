@@ -111,6 +111,6 @@ export class AdminSignupState {
 
     ctx.dispatch(new SetCurrentLogin(action.user));
 
-    this.ngZone.run(() => this.router.navigate(["signup"]));
+    this.ngZone.run(() => this.router.navigate(["login"]));
   }
 }

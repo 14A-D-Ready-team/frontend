@@ -9,7 +9,7 @@ import {
   UrlSegment,
 } from "@angular/router";
 import { Store } from "@ngxs/store";
-import { omit } from "lodash";
+import { join, omit } from "lodash";
 import { AuthState, SessionSignin } from "../../data-access";
 
 @Injectable({
@@ -44,11 +44,14 @@ export class SessionSigninGuard
 
   // used by: /session-signin
   public canActivate() {
-    const { completed, loading } = this.store.selectSnapshot(
+    const { completed, loading, nextUrl } = this.store.selectSnapshot(
       AuthState.sessionSigninStatus,
     );
 
     if (completed) {
+      if (nextUrl) {
+        return this.router.parseUrl(join(nextUrl));
+      }
       return false;
     }
     if (!loading) {

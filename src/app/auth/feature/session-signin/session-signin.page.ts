@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { Actions, ofActionDispatched, Store } from "@ngxs/store";
-import { SessionSigninCompleted } from "@shared/authentication";
+import { ClearNextUrl, SessionSigninCompleted } from "@shared/authentication";
 import { Subscription, take } from "rxjs";
 
 @Component({
@@ -46,6 +46,7 @@ export class SessionSigninPage implements OnInit, OnDestroy {
 
   constructor(
     private actions: Actions,
+    private store: Store,
     private router: Router,
     private ngZone: NgZone,
   ) {}
@@ -55,11 +56,13 @@ export class SessionSigninPage implements OnInit, OnDestroy {
       .pipe(ofActionDispatched(SessionSigninCompleted), take(1))
       .subscribe({
         next: (action: SessionSigninCompleted) => {
-          this.ngZone.run(() =>
-            this.router.navigate(action.nextUrl, {
-              replaceUrl: true,
-              queryParams: action.queryParams,
-            }),
+          this.ngZone.run(
+            async () =>
+              await this.router.navigate(action.nextUrl, {
+                replaceUrl: true,
+                queryParams: action.queryParams,
+              }),
+            this.store.dispatch(new ClearNextUrl()),
           );
         },
       });

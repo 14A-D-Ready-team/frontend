@@ -46,22 +46,24 @@
                 <ng-container
                   *ngFor="let category of vm.categories; trackBy: categoryById"
                 >
-                  <app-admin-category-display
-                    *ngIf="{
-                      isEditing: vm.editedId === category.id,
+                  <ng-container *ngIf="category">
+                    <app-admin-category-display
+                      *ngIf="{
+                      isEditing: vm.editedId === category?.id,
                       updating: vm.updateStatus | actionInProgress: category,
                       deleting: vm.deleteStatus | actionInProgress: category
                     } as categoryVm"
-                    [category]="category"
-                    [editorForm]="categoryVm.isEditing ? editorForm : undefined"
-                    [isEditing]="categoryVm.isEditing"
-                    [editDisabled]="vm.editedId != undefined"
-                    [isLoading]="categoryVm.updating || categoryVm.deleting"
-                    (editing)="onEditing(category)"
-                    (editingDone)="onEditingDone($event)"
-                    (delete)="onDelete(category)"
-                  >
-                  </app-admin-category-display>
+                      [category]="category"
+                      [editorForm]="categoryVm.isEditing ? editorForm : undefined"
+                      [isEditing]="categoryVm.isEditing"
+                      [editDisabled]="vm.editedId != undefined"
+                      [isLoading]="categoryVm.updating || categoryVm.deleting"
+                      (editing)="onEditing(category)"
+                      (editingDone)="onEditingDone($event)"
+                      (delete)="onDelete(category)"
+                    >
+                    </app-admin-category-display>
+                  </ng-container>
                 </ng-container>
               </ng-container>
 

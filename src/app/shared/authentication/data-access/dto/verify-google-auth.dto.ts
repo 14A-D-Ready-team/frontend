@@ -8,12 +8,7 @@ export class VerifyGoogleAuthDto {
   @IsJWT()
   public token: string;
 
-  @Expose()
-  @IsEnum(UserType)
-  public userType: UserType;
-
-  constructor(token: string, userType: UserType) {
+  constructor(token: string) {
     this.token = token;
-    this.userType = userType;
   }
 }

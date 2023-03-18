@@ -11,7 +11,7 @@ import { ProductSubjects } from "@shared/product";
 import { User, UserSubjects } from "@shared/user";
 import { AbilityFactory, ABILITY_FACTORY, Action } from "@shared/policy";
 import { map } from "p-iteration";
-import { CategorySubjects } from "./admin/categories";
+import { CategorySubjects } from "@shared/category/utils";
 
 type AppSubjects = "all" | UserSubjects | ProductSubjects | CategorySubjects;
 
