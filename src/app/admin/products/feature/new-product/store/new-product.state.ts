@@ -11,7 +11,7 @@ export interface NewProductStateModel {
   editorForm: NgxsFormStateModel<CreateProductDto>;
 }
 
-export const formPath = "newProduct.form";
+export const formPath = "newProduct.editorForm";
 
 const CreatePageState = CPS as typeof CPS<
   NewProductStateModel,

@@ -5,6 +5,11 @@ const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
+      import("./feature/welcome/welcome.module").then(m => m.WelcomePageModule),
+  },
+  {
+    path: "main",
+    loadChildren: () =>
       import("./feature/main-desktop").then(m => m.MainDesktopPageModule),
   },
   {
@@ -14,17 +19,12 @@ const routes: Routes = [
   {
     path: "login",
     loadChildren: () =>
-      import("./feature/main-desktop").then(m => m.MainDesktopPageModule),
+      import("./feature/welcome/welcome.module").then(m => m.WelcomePageModule),
   },
   {
     path: "buffet-select",
     loadChildren: () =>
       import("./feature/buffet-select").then(m => m.BuffetSelectPageModule),
-  },
-  {
-    path: "welcome",
-    loadChildren: () =>
-      import("./feature/welcome/welcome.module").then(m => m.WelcomePageModule),
   },
 ];
 
