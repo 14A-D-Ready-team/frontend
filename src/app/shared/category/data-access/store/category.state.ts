@@ -108,7 +108,12 @@ export class CategoryState extends ExtendedEntityState<
     action: Load,
   ) {
     return concat(
-      ctx.dispatch(new RemoveAll(CategoryState)),
+      //!!!!
+      action.query.buffetId
+        ? ctx.dispatch(
+            new Actions.RemoveAllCategoriesOfBuffet(action.query.buffetId),
+          )
+        : of(null),
       ctx.dispatch(
         new LoadingSucceeded(action.query, response, response.length),
       ),
@@ -130,6 +135,19 @@ export class CategoryState extends ExtendedEntityState<
       categoriesOfBuffets: {
         ...ctx.getState().categoriesOfBuffets,
         [action.buffetId]: action.categories.map(c => c.id),
+      },
+    });
+  }
+
+  @Action(Actions.RemoveAllCategoriesOfBuffet)
+  public removeAllCategoriesOfBuffet(
+    ctx: StateContext<CategoryStateModel>,
+    action: Actions.RemoveAllCategoriesOfBuffet,
+  ) {
+    ctx.patchState({
+      categoriesOfBuffets: {
+        ...ctx.getState().categoriesOfBuffets,
+        [action.buffetId]: [],
       },
     });
   }
