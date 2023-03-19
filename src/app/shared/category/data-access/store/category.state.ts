@@ -21,7 +21,7 @@ import {
   ApiRequestStatus,
   ExtendedEntityStateModel,
 } from "@shared/extended-entity-state/utils";
-import { concat, filter, of, switchMap } from "rxjs";
+import { concat, filter, of, switchMap, tap } from "rxjs";
 import { CategoryService } from "../category.service";
 import { EditCategoryDto } from "../dto";
 import { Category } from "../entity";
@@ -33,11 +33,8 @@ import {
   Load,
 } from "./category.actions";
 
-export type CategoryStateModel = EntityStateModel<Category> & {
+export type CategoryStateModel = ExtendedEntityStateModel<Category> & {
   categoriesOfBuffets: Dictionary<number[]>;
-  updateStatus?: TargetedRequestStatus;
-  createStatus?: ApiRequestStatus;
-  deleteStatus?: TargetedRequestStatus;
 };
 
 export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
@@ -150,5 +147,29 @@ export class CategoryState extends ExtendedEntityState<
         [action.buffetId]: [],
       },
     });
+  }
+
+  public createSucceeded(
+    ctx: StateContext<EntityStateModel<Category>>,
+    action: Actions.CreateSucceeded,
+  ) {
+    const castCtx = ctx as StateContext<CategoryStateModel>;
+
+    return super.createSucceeded(ctx, action).pipe(
+      tap(() => {
+        const categoriesOfBuffets = castCtx.getState().categoriesOfBuffets;
+        const buffetId = action.entity.buffetId;
+
+        castCtx.patchState({
+          categoriesOfBuffets: {
+            ...categoriesOfBuffets,
+            [buffetId]: [
+              ...(categoriesOfBuffets[buffetId] || []),
+              action.entity.id,
+            ],
+          },
+        });
+      }),
+    );
   }
 }
