@@ -28,7 +28,9 @@ export class CategoryService extends ApiService<
 
   public find(query: FilterCategoriesQuery) {
     return this.httpClient
-      .get(environment.api.url + "/category", serializeQueryParams(query))
+      .get(environment.api.url + "/category", {
+        params: serializeQueryParams(query),
+      })
       .pipe(processArrayResponse(Category));
   }
 }
