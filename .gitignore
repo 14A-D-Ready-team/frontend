@@ -35,3 +35,4 @@ npm-debug.log*
 package-lock.json
 android/app/src/main/assets
 android/app/src/build
+src/environments/environment.ts
