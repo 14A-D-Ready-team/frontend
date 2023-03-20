@@ -6,8 +6,10 @@
       <h1>Üdvözöljük <span>{{ vm.activeUser.name }}</span>!</h1>
       <p>Válogass a(z) {{(activeBuffet$ | async)?.name}} kínálatából!</p>
       <div class="menu-container">
-
-        <div class="category-product-container" *ngFor="let category of vm.categories">
+        <div
+          class="category-product-container"
+          *ngFor="let category of vm.categories"
+        >
           <h1>{{ category.name }}</h1>
           <div class="product-container">
             <div class="product-card">
@@ -36,7 +38,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <ion-modal #productModal class="product-modal" trigger="open-product-modal">

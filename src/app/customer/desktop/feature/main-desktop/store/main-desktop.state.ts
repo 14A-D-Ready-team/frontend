@@ -41,7 +41,9 @@ export class MainDesktopState {
     state: MainDesktopStateModel,
     productState: ProductStateModel,
   ) {
-    return state.paginationState.productIds.productIds.map(id => productState.entities[id]).filter(p => p);
+    return state.paginationState.productIds.productIds
+      .map(id => productState.entities[id])
+      .filter(p => p);
   }
 
   // Set selected category
