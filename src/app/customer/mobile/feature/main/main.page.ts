@@ -3,7 +3,7 @@ import { Select, Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { User } from "@shared/user";
-import { Category, loadCategories } from "@shared/category";
+import { Category, CategoryState, loadCategories } from "@shared/category";
 import {
   catchError,
   combineLatest,
@@ -15,7 +15,7 @@ import {
 } from "rxjs";
 import { MainPageState } from "./store";
 import { ActivatedRoute } from "@angular/router";
-
+import { SetActive } from "@ngxs-labs/entity-state";
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
@@ -25,11 +25,19 @@ export class MainPage implements OnInit {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
+  @Select(CategoryState.active)
+  public activeCategory$!: Observable<Category>;
+
   @Select(AuthState.user)
   public activeUser$!: Observable<User>;
 
   @Select(MainPageState.shownCategories)
   public categories$!: Observable<Category[]>;
+
+  public select(id: number) {
+    const idString = id.toString();
+    this.store.dispatch(new SetActive(CategoryState, idString));
+  }
 
   public vm$: Observable<{
     activeBuffet: Buffet | undefined;

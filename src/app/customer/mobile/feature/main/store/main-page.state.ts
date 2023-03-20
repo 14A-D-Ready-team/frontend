@@ -10,6 +10,7 @@ import {
   CategoryStateModel,
   FilterCategoriesQuery,
 } from "@shared/category";
+import { Product, ProductState } from "@shared/product";
 
 const productsLoadedPerScroll = 6;
 
@@ -33,8 +34,7 @@ export interface MainPageStateModel {
 export class MainPageState {
   constructor(private store: Store) {}
 
-  @Selector()
-  public static products(state: MainPageStateModel) {}
+  public static products(state: MainPageStateModel, products: Product[]) {}
 
   @Selector([CategoryState.categoriesOfActiveBuffet])
   public static shownCategories(
