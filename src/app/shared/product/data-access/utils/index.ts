@@ -1,2 +1,2 @@
 export * from "./load-products.operator";
-export * from "./wait-for-product-loading.operator"
+export * from "./wait-for-product-loading.operator";

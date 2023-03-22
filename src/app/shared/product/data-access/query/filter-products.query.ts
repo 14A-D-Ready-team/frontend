@@ -32,7 +32,7 @@ export class FilterProductsQuery extends PaginationQuery {
   @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
   @Min(1)
   public categoryId?: number;
-  
+
   @Expose()
   @IsOptional()
   @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })

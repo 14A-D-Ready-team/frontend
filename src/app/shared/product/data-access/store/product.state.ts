@@ -15,9 +15,7 @@ export type ProductStateModel = ExtendedEntityStateModel<Product> & {
   productsOfBuffets: Dictionary<number[]>;
 };
 
-export const PRODUCT_STATE_TOKEN = new StateToken<ProductStateModel>(
-  "product",
-);
+export const PRODUCT_STATE_TOKEN = new StateToken<ProductStateModel>("product");
 @State<ProductStateModel>({
   name: PRODUCT_STATE_TOKEN,
   defaults: { ...defaultEntityState(), productsOfBuffets: {} },
@@ -30,7 +28,6 @@ export class ProductState extends ExtendedEntityState<
   CreateProductDto,
   UpdateProductDto
 > {
-
   public static productsOfBuffets(state: ProductStateModel) {
     return state.productsOfBuffets;
   }
