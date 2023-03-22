@@ -24,5 +24,5 @@ export class Product {
   public customizations!: Customization[];
 
   @Expose()
-  public categoryId!: string;
+  public categoryId!: number;
 }
