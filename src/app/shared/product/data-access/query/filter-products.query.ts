@@ -32,8 +32,11 @@ export class FilterProductsQuery extends PaginationQuery {
   @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
   @Min(1)
   public categoryId?: number;
-
+  
   @Expose()
+  @IsOptional()
+  @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 0 })
+  @Min(1)
   public buffetId?: number;
 
   @Expose()
@@ -59,7 +62,7 @@ export class FilterProductsQuery extends PaginationQuery {
 
   constructor(existing: Partial<FilterProductsQuery> = {}) {
     super();
-    const { fullPrice, discountedPrice, stock, ...rest } = existing;
+    const { fullPrice, discountedPrice, stock, buffetId, ...rest } = existing;
     Object.assign(this, rest);
     if (fullPrice) {
       this.fullPrice = new NumberFilterQuery(fullPrice);
@@ -69,6 +72,9 @@ export class FilterProductsQuery extends PaginationQuery {
     }
     if (stock) {
       this.stock = new NumberFilterQuery(stock);
+    }
+    if (buffetId) {
+      this.buffetId = buffetId;
     }
   }
 }

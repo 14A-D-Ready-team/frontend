@@ -5,6 +5,7 @@ import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Category, loadCategories } from "@shared/category";
 import { Product } from "@shared/product";
+import { loadProducts } from "@shared/product/data-access/utils";
 import { User } from "@shared/user";
 import {
   catchError,
@@ -39,6 +40,7 @@ export class MainDesktopPage implements OnInit {
     activeBuffet: Buffet | undefined;
     activeUser: User;
     categories: Category[];
+    products: Product[];
     buffetLoading: boolean;
     resolverError: any;
   }>;
@@ -58,6 +60,7 @@ export class MainDesktopPage implements OnInit {
       this.activeBuffet$,
       this.activeUser$,
       this.categories$,
+      this.products$,
       buffetLoading$,
       resolverError$,
     ]).pipe(
@@ -66,12 +69,14 @@ export class MainDesktopPage implements OnInit {
           activeBuffet,
           activeUser,
           categories,
+          products,
           buffetLoading,
           resolverError,
         ]) => ({
           activeBuffet,
           activeUser,
           categories,
+          products,
           buffetLoading,
           resolverError,
         }),
@@ -81,5 +86,6 @@ export class MainDesktopPage implements OnInit {
 
   ngOnInit() {
     loadCategories(this.store).subscribe();
+    loadProducts(this.store).subscribe();
   }
 }

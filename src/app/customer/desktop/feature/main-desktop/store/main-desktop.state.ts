@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { State, Store, Selector } from "@ngxs/store";
 import { CategoryState, Category } from "@shared/category";
-import { ProductState, ProductStateModel } from "@shared/product";
+import { Product, ProductState, ProductStateModel } from "@shared/product";
 import { Dictionary } from "lodash";
 
 const productsLoadedPerScroll = 6;
@@ -25,9 +25,6 @@ export interface MainDesktopStateModel {
 export class MainDesktopState {
   constructor(private store: Store) {}
 
-  @Selector()
-  public static products() {}
-
   @Selector([CategoryState.categoriesOfActiveBuffet])
   public static shownCategories(
     state: MainDesktopStateModel,
@@ -36,14 +33,12 @@ export class MainDesktopState {
     return categories;
   }
 
-  @Selector([ProductState])
+  @Selector([ProductState.productsOfActiveBuffet])
   public static shownProducts(
     state: MainDesktopStateModel,
-    productState: ProductStateModel,
+    products: Product[],
   ) {
-    return state.paginationState.productIds.productIds
-      .map(id => productState.entities[id])
-      .filter(p => p);
+    return products;
   }
 
   // Set selected category
