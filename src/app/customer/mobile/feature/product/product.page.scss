@@ -38,6 +38,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: hidden;
 
   p {
     margin: 0.5rem 0rem;

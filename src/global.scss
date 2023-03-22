@@ -148,3 +148,14 @@ ion-label.input-like {
   font-size: 16px;
   margin-bottom: 12px;
 }
+
+::-webkit-scrollbar {
+  height: 0.2rem;
+  width: 0.3rem;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 1rem;
+}
