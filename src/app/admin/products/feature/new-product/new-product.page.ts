@@ -29,7 +29,7 @@ import {
   styleUrls: ["./new-product.page.scss"],
 })
 export class NewProductPage implements OnInit {
-  @Select(CategoryState.entities)
+  @Select(CategoryState.categoriesOfActiveBuffet)
   public categories$!: Observable<Category[]>;
 
   @Select(ProductState.createStatus)

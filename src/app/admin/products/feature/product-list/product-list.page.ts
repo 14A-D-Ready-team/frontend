@@ -87,7 +87,7 @@ export class ProductListPage implements OnInit, OnDestroy {
       ]) => ({
         products,
         categories,
-        categoriesMap: groupBy(categories, "id"),
+        categoriesMap: categories && groupBy(categories, "id"),
         loading,
         categoriesLoading,
         error,
