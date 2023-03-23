@@ -41,10 +41,7 @@ export class MainDesktopState {
     return products;
   }
 
-  // Set selected category
-  // * initialize paginationState for the category
-
-  // load more products
+  // load more products - kell categória idje
   // * load more products of a category
   // * productIds's length: that many products are loaded (skip)
   // * remainingItems: the number of products left to load, server returns this with each response (PaginatedResponse)
