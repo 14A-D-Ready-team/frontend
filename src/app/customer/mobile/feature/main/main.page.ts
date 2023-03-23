@@ -25,9 +25,6 @@ export class MainPage implements OnInit {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
-  @Select(CategoryState.active)
-  public activeCategory$!: Observable<Category>;
-
   @Select(AuthState.user)
   public activeUser$!: Observable<User>;
 
