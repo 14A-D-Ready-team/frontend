@@ -8,16 +8,15 @@ import {
   RouterStateSnapshot,
   UrlSegment,
 } from "@angular/router";
-import { SessionSigninPage } from "@app/customer/auth";
 import { Store } from "@ngxs/store";
-import { omit } from "lodash";
+import { join, omit } from "lodash";
 import { AuthState, SessionSignin } from "../../data-access";
 
 @Injectable({
   providedIn: "root",
 })
 export class SessionSigninGuard
-  implements CanActivateChild, CanActivate, CanDeactivate<SessionSigninPage>
+  implements CanActivateChild, CanActivate, CanDeactivate<any>
 {
   constructor(private store: Store, private router: Router) {}
 
@@ -45,11 +44,14 @@ export class SessionSigninGuard
 
   // used by: /session-signin
   public canActivate() {
-    const { completed, loading } = this.store.selectSnapshot(
+    const { completed, loading, nextUrl } = this.store.selectSnapshot(
       AuthState.sessionSigninStatus,
     );
 
     if (completed) {
+      if (nextUrl) {
+        return this.router.parseUrl(join(nextUrl));
+      }
       return false;
     }
     if (!loading) {

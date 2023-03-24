@@ -8,11 +8,6 @@ import { NoBuffetSelectedException } from "@shared/buffet/utils";
 import { Category, CategoryState, loadCategories } from "@shared/category";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
 import { CreateProductDto, ProductState } from "@shared/product";
-import {
-  ClassValidatorFormArray,
-  ClassValidatorFormControl,
-  ClassValidatorFormGroup,
-} from "ngx-reactive-form-class-validator";
 import { map, Observable, startWith } from "rxjs";
 import {
   createProductEditorForm,
@@ -33,6 +28,9 @@ import {
   styleUrls: ["./new-product.page.scss"],
 })
 export class NewProductPage implements ViewWillEnter {
+  @Select(CategoryState.categoriesOfActiveBuffet)
+  public categories$!: Observable<Category[]>;
+
   @Select(ProductState.createStatus)
   public status$!: Observable<ApiRequestStatus | undefined>;
 

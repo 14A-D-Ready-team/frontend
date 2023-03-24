@@ -58,3 +58,9 @@ export class SetCategoriesOfBuffet {
 
   constructor(public buffetId: number, public categories: Category[]) {}
 }
+
+export class RemoveAllCategoriesOfBuffet {
+  public static readonly type = "[Category] Remove All Categories Of Buffet ";
+
+  constructor(public buffetId: number) {}
+}

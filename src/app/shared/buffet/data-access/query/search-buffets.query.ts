@@ -28,6 +28,9 @@ export class SearchBuffetsQuery extends PaginationQuery {
   public orderByField? = "name";
   //public orderByField?: string;
 
+  @Expose()
+  public own?: boolean;
+
   constructor(model: Partial<SearchBuffetsQuery> = {}) {
     super();
     const { search: searchString, ...rest } = model || {};

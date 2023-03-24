@@ -1,0 +1,18 @@
+<div class="desktop-background">
+  <app-navbar></app-navbar>
+  <div class="container">
+    <div class="buffet-select-container">
+      <h1>Válasszon büfét!</h1>
+      <app-buffet-select-component></app-buffet-select-component>
+    </div>
+    <div class="buffet-description-container">
+      <div class="buffet-details" *ngIf="activeBuffet$ | async as active">
+        <img src="/assets/images/buffet.png" class="buffet-image" alt="" />
+        <p class="buffet-name">{{active.name}}</p>
+        <p class="buffet-location">{{active.address}}</p>
+        <p class="buffet-description">{{active.description}}</p>
+        <button class="ready-btn" routerLink="/main">Kiválasztás</button>
+      </div>
+    </div>
+  </div>
+</div>

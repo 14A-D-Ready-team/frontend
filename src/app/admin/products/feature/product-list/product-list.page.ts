@@ -30,6 +30,7 @@ import { KeyValue } from "@angular/common";
 import { ProductFilterState } from "../product-filter";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NoBuffetSelectedException } from "@shared/buffet/utils";
+import { groupBy } from "@shared/utils";
 
 @Component({
   selector: "app-product-list",
@@ -40,8 +41,8 @@ export class ProductListPage implements OnInit, OnDestroy {
   @Select(ProductListState.shownProducts)
   public products$!: Observable<Product[]>;
 
-  @Select(CategoryState.entitiesMap)
-  public categories$!: Observable<Dictionary<Category>>;
+  @Select(CategoryState.categoriesOfActiveBuffet)
+  public categories$!: Observable<Category[]>;
 
   @Select(ProductState.loading)
   public loading$!: Observable<boolean>;
@@ -86,6 +87,7 @@ export class ProductListPage implements OnInit, OnDestroy {
       ]) => ({
         products,
         categories,
+        categoriesMap: categories && groupBy(categories, "id"),
         loading,
         categoriesLoading,
         error,
@@ -150,10 +152,6 @@ export class ProductListPage implements OnInit, OnDestroy {
 
   public productById(index: number, el: Product): number {
     return el.id;
-  }
-
-  public extractValue(keyValuePair: KeyValue<string, Category>) {
-    return keyValuePair.value;
   }
 
   public create() {

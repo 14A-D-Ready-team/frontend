@@ -1,0 +1,107 @@
+@import "/src/global.scss";
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins";
+
+  color: black;
+}
+
+::-webkit-scrollbar {
+  height: 0.5rem;
+  width: 0.3rem;
+  background: $card-background;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 1rem;
+}
+
+.container {
+  padding: 0.3rem;
+  width: calc(100vw);
+  min-height: calc(100vh - 4rem);
+
+  display: grid;
+  justify-content: center;
+
+  grid-template-columns: calc(100%);
+  grid-template-rows: calc(30% - 0.2rem) calc(70% - 0.2rem);
+  grid-row-gap: 0.5rem;
+  div {
+    border-radius: 0.2rem;
+  }
+}
+
+.buffet-select-container {
+  box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.5);
+  max-height: calc(100vh - 5rem);
+  overflow-y: scroll;
+  h1 {
+    text-align: center;
+  }
+}
+
+.buffet-description-container {
+  background-color: $ready-red;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  .buffet-details {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    // margin-top: auto;
+    align-items: center;
+    flex-direction: column;
+    .buffet-image {
+      display: none;
+      max-height: 400px;
+      width: auto;
+      border-radius: 0.3rem;
+      align-self: center;
+    }
+    .buffet-name {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin: 1rem 0;
+    }
+    .buffet-description {
+      max-width: 30rem;
+    }
+    p {
+      text-align: justify;
+      margin: 0.5rem 0;
+      max-width: 500px;
+      color: white;
+    }
+    .ready-btn {
+      font-size: 1.2rem;
+      background-color: white;
+      color: black;
+    }
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  .container {
+    align-content: center;
+    padding: 0.3rem;
+    padding-bottom: 0.1rem;
+    grid-template-columns: repeat(2, calc(50% - 0.2rem));
+    grid-template-rows: calc(100%);
+    gap: 0.3rem;
+    min-height: calc(100vh - 5rem);
+  }
+
+  .buffet-select-contianer {
+  }
+
+  .buffet-image {
+    display: block !important;
+  }
+}

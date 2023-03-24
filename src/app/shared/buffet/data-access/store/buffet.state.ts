@@ -1,11 +1,16 @@
 import { Injectable } from "@angular/core";
-import { defaultEntityState, IdStrategy } from "@ngxs-labs/entity-state";
-import { State } from "@ngxs/store";
+import {
+  CreateOrReplace,
+  defaultEntityState,
+  IdStrategy,
+} from "@ngxs-labs/entity-state";
+import { Action, State, StateContext } from "@ngxs/store";
 import { PaginatedResponse } from "@shared/api";
 import {
   ExtendedEntityState,
   ExtendedEntityStateModel,
 } from "@shared/extended-entity-state";
+import { map, switchMap } from "rxjs";
 import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
 import { Buffet } from "../entity";
 import { SearchBuffetsQuery } from "../query";
@@ -34,5 +39,16 @@ export class BuffetState extends ExtendedEntityState<
       service: buffetService,
       actions: Actions,
     });
+  }
+
+  @Action(Actions.LoadById)
+  public loadById(ctx: StateContext<BuffetState>, action: Actions.LoadById) {
+    return this.buffetService
+      .findOne(action.id)
+      .pipe(
+        switchMap(buffet =>
+          ctx.dispatch(new CreateOrReplace(BuffetState, buffet)),
+        ),
+      );
   }
 }

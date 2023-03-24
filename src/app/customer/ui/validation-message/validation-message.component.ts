@@ -20,7 +20,7 @@ import {
 })
 export class ValidationMessageComponent implements OnInit {
   @Input()
-  public errorMessage: string = "";
+  public errorMessage = "";
 
   @Input()
   public visible = false;

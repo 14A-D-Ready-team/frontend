@@ -185,7 +185,7 @@ export class CategoryListPage implements OnDestroy {
   }
 
   public categoryById(index: number, el: Category): number {
-    return el.id;
+    return el?.id;
   }
 
   private async confirmDelete(category: Category): Promise<boolean> {

@@ -1,9 +1,9 @@
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "io.ionic.starter",
+  appId: "com.ready.app",
   appName: "ready-app-frontend",
-  webDir: "dist/app/browser",
+  webDir: "dist/app/mobile",
   bundledWebRuntime: false,
 };
 

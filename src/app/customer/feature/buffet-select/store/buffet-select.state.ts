@@ -43,24 +43,8 @@ export class BuffetSelectState {
     const query = new SearchBuffetsQuery({
       ...state.query,
       skip: 0,
-      take: buffetsLoadPerScroll,
     });
 
-    return ctx.dispatch(new BuffetActions.Load(query));
-  }
-
-  @Action(LoadMore)
-  public loadMore(ctx: StateContext<BuffetSelectStateModel>) {
-    const state = ctx.getState();
-    if (state.remainingItems === 0) {
-      return;
-    }
-
-    const query = new SearchBuffetsQuery({
-      ...state.query,
-      skip: state.buffetIds.length,
-      take: buffetsLoadPerScroll,
-    });
     return ctx.dispatch(new BuffetActions.Load(query));
   }
 
@@ -88,32 +72,5 @@ export class BuffetSelectState {
       buffetIds: newIds,
       remainingItems: remaining,
     });
-  }
-
-  @Action(RetryLoading)
-  public retryLoading(ctx: StateContext<BuffetSelectStateModel>) {
-    ctx.dispatch(new LoadMore());
-  }
-
-  @Action(Reload)
-  public reload(ctx: StateContext<BuffetSelectStateModel>) {
-    const state = ctx.getState();
-    const numberOfBuffets = state.buffetIds.length;
-    const numberOfBuffetsToLoad =
-      Math.max(1, Math.ceil(numberOfBuffets / buffetsLoadPerScroll)) *
-      buffetsLoadPerScroll;
-
-    ctx.patchState({
-      buffetIds: [],
-      remainingItems: undefined,
-    });
-
-    const query = new SearchBuffetsQuery({
-      ...state.query,
-      skip: 0,
-      take: numberOfBuffetsToLoad,
-    });
-
-    return ctx.dispatch(new BuffetActions.Load(query));
   }
 }

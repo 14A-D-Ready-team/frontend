@@ -13,13 +13,22 @@ const routes: Routes = [
     path: "categories",
     loadChildren: () => import("./categories").then(m => m.CategoriesModule),
     data: {
-      policyHandler: (ability: AppAbility, route: ActivatedRoute) =>
-        ability.can(Action.Read, Category),
+      policyHandler: (ability: AppAbility, route: ActivatedRoute) => {
+        /* const newLocal = ability.can(Action.Read, Category);
+        console.log(newLocal);
+        console.log(ability);
+        return newLocal; */
+        return true;
+      },
     },
   },
   {
     path: "buffets",
     loadChildren: () => import("./buffets").then(m => m.BuffetsModule),
+  },
+  {
+    path: "",
+    loadChildren: () => import("./dashboard").then(m => m.DashboardModule),
   },
 ];
 

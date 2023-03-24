@@ -44,6 +44,13 @@ export abstract class ExtendedEntityState<
   Create,
   Update,
 > extends EntityState<EntityType> {
+  public static byId(id: number): StateSelector<any | undefined> {
+    return createSelector(
+      [this.entitiesMap],
+      (entitiesMap: Dictionary<any>) => entitiesMap[id],
+    );
+  }
+
   public static get createStatus(): StateSelector<
     ApiRequestStatus | undefined
   > {

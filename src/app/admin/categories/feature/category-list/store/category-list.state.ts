@@ -91,21 +91,12 @@ export class CategoryListState
     super();
   }
 
-  @Selector([
-    CategoryState.entitiesMap,
-    CategoryState.categoriesOfBuffets,
-    BuffetState.activeId,
-  ])
+  @Selector([CategoryState.categoriesOfActiveBuffet])
   public static categories(
     state: CategoryListStateModel,
     categories: Category[],
-    categoriesOfBuffets: Dictionary<string[]>,
-    buffetId?: string,
   ) {
-    if (!buffetId) {
-      return [];
-    }
-    return categoriesOfBuffets[+buffetId].map(id => categories[+id]);
+    return categories;
   }
 
   @Selector()

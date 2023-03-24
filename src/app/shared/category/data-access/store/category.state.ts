@@ -13,14 +13,16 @@ import {
   State,
   StateContext,
   StateToken,
+  Store,
 } from "@ngxs/store";
+import { BuffetState } from "@shared/buffet";
 import { ExtendedEntityState } from "@shared/extended-entity-state";
 import {
   TargetedRequestStatus,
   ApiRequestStatus,
   ExtendedEntityStateModel,
 } from "@shared/extended-entity-state/utils";
-import { concat, filter, of, switchMap } from "rxjs";
+import { concat, filter, of, switchMap, tap } from "rxjs";
 import { CategoryService } from "../category.service";
 import { EditCategoryDto } from "../dto";
 import { Category } from "../entity";
@@ -32,11 +34,8 @@ import {
   Load,
 } from "./category.actions";
 
-export type CategoryStateModel = EntityStateModel<Category> & {
+export type CategoryStateModel = ExtendedEntityStateModel<Category> & {
   categoriesOfBuffets: Dictionary<number[]>;
-  updateStatus?: TargetedRequestStatus;
-  createStatus?: ApiRequestStatus;
-  deleteStatus?: TargetedRequestStatus;
 };
 
 export const CATEGORY_STATE_TOKEN = new StateToken<CategoryStateModel>(
@@ -60,6 +59,24 @@ export class CategoryState extends ExtendedEntityState<
     return state.categoriesOfBuffets;
   }
 
+  @Selector([
+    CategoryState.entitiesMap,
+    CategoryState.categoriesOfBuffets,
+    BuffetState.activeId,
+  ])
+  public static categoriesOfActiveBuffet(
+    state: CategoryState,
+    categories: Dictionary<Category>,
+    categoriesOfBuffets: Dictionary<string[]>,
+    buffetId?: string,
+  ) {
+    if (!buffetId) {
+      return [];
+    }
+    const ids = categoriesOfBuffets[+buffetId] || [];
+    return ids.map(id => categories[+id]);
+  }
+
   public static isAllLoaded(buffetId: number) {
     return createSelector(
       [CategoryState],
@@ -74,7 +91,7 @@ export class CategoryState extends ExtendedEntityState<
     );
   }
 
-  constructor(private readonly categoryService: CategoryService) {
+  constructor(private readonly categoryService: CategoryService, store: Store) {
     super({
       storeClass: CategoryState,
       _idKey: "id",
@@ -90,7 +107,12 @@ export class CategoryState extends ExtendedEntityState<
     action: Load,
   ) {
     return concat(
-      ctx.dispatch(new RemoveAll(CategoryState)),
+      //!!!!
+      action.query.buffetId
+        ? ctx.dispatch(
+            new Actions.RemoveAllCategoriesOfBuffet(action.query.buffetId),
+          )
+        : of(null),
       ctx.dispatch(
         new LoadingSucceeded(action.query, response, response.length),
       ),
@@ -114,5 +136,42 @@ export class CategoryState extends ExtendedEntityState<
         [action.buffetId]: action.categories.map(c => c.id),
       },
     });
+  }
+
+  @Action(Actions.RemoveAllCategoriesOfBuffet)
+  public removeAllCategoriesOfBuffet(
+    ctx: StateContext<CategoryStateModel>,
+    action: Actions.RemoveAllCategoriesOfBuffet,
+  ) {
+    ctx.patchState({
+      categoriesOfBuffets: {
+        ...ctx.getState().categoriesOfBuffets,
+        [action.buffetId]: [],
+      },
+    });
+  }
+
+  public createSucceeded(
+    ctx: StateContext<EntityStateModel<Category>>,
+    action: Actions.CreateSucceeded,
+  ) {
+    const castCtx = ctx as StateContext<CategoryStateModel>;
+
+    return super.createSucceeded(ctx, action).pipe(
+      tap(() => {
+        const categoriesOfBuffets = castCtx.getState().categoriesOfBuffets;
+        const buffetId = action.entity.buffetId;
+
+        castCtx.patchState({
+          categoriesOfBuffets: {
+            ...categoriesOfBuffets,
+            [buffetId]: [
+              ...(categoriesOfBuffets[buffetId] || []),
+              action.entity.id,
+            ],
+          },
+        });
+      }),
+    );
   }
 }

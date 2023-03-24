@@ -6,10 +6,10 @@ export class VerifyGoogleAuth {
   public static readonly type = "[Auth] VerifyGoogleAuth";
 
   public get dto() {
-    return new VerifyGoogleAuthDto(this.idToken, this.userType);
+    return new VerifyGoogleAuthDto(this.idToken);
   }
 
-  constructor(private idToken: string, private userType: UserType) {}
+  constructor(private idToken: string) {}
 }
 
 export class SetCurrentLogin {
@@ -54,4 +54,8 @@ export class SessionSigninCompleted {
   public static readonly type = "[Auth] Session Signin Completed";
 
   constructor(public nextUrl: any[], public queryParams?: Params) {}
+}
+
+export class ClearNextUrl {
+  public static readonly type = "[Auth] Clear Next Url";
 }

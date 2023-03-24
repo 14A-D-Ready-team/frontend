@@ -2,8 +2,9 @@
   side="end"
   contentId="product-list-page-content"
   [disabled]="isDesktop$ | async"
+  *ngIf="vm$ | async as vm"
 >
-  <ng-container *ngIf="(isDesktop$ | async) === false">
+  <ng-container *ngIf="vm.isDesktop === false">
     <ion-header>
       <ion-toolbar>
         <ion-title>Termékek szűrése</ion-title>
@@ -21,8 +22,8 @@
     <ion-content class="ion-padding">
       <app-admin-product-filter
         #filterContent
-        [categories]="(categories$ | async)! | keyvalue | map : extractValue"
-        [categoriesLoading]="(categoriesLoading$ | async) || false"
+        [categories]="vm.categories"
+        [categoriesLoading]="vm.categoriesLoading || false"
         (refreshCategories)="refreshCategories()"
       ></app-admin-product-filter>
     </ion-content>
@@ -54,7 +55,7 @@
           <app-admin-product-filter
             #filterContent
             [categories]="
-              (categories$ | async)! | keyvalue | map : extractValue
+              vm.categories
             "
             [categoriesLoading]="(categoriesLoading$ | async) || false"
             (refreshCategories)="refreshCategories()"
@@ -90,9 +91,9 @@
                 [queryParams]="{ id: product.id}"
                 params
                 [product]="product"
-                [category]="vm.categories[product.categoryId]"
+                [category]="vm.categoriesMap[product.categoryId]"
                 [categoryLoading]="
-                  !vm.categories[product.categoryId] && vm.categoriesLoading
+                  !vm.categoriesMap[product.categoryId] && vm.categoriesLoading
                 "
               ></app-admin-product-preview>
             </ion-col>
