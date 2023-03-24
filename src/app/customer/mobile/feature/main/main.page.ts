@@ -28,17 +28,22 @@ export class MainPage implements OnInit {
   @Select(AuthState.user)
   public activeUser$!: Observable<User>;
 
+  @Select(CategoryState.active)
+  public activeCategory$!: Observable<Category>;
+
   @Select(MainPageState.shownCategories)
   public categories$!: Observable<Category[]>;
 
   public select(id: number) {
     const idString = id.toString();
     this.store.dispatch(new SetActive(CategoryState, idString));
+    console.log(idString);
   }
 
   public vm$: Observable<{
     activeBuffet: Buffet | undefined;
     activeUser: User;
+    activeCategory: Category;
     categories: Category[];
     buffetLoading: boolean;
     resolverError: any;
@@ -58,6 +63,7 @@ export class MainPage implements OnInit {
     this.vm$ = combineLatest([
       this.activeBuffet$,
       this.activeUser$,
+      this.activeCategory$,
       this.categories$,
       buffetLoading$,
       resolverError$,
@@ -66,12 +72,14 @@ export class MainPage implements OnInit {
         ([
           activeBuffet,
           activeUser,
+          activeCategory,
           categories,
           buffetLoading,
           resolverError,
         ]) => ({
           activeBuffet,
           activeUser,
+          activeCategory,
           categories,
           buffetLoading,
           resolverError,
