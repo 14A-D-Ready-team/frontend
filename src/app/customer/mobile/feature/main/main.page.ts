@@ -13,9 +13,10 @@ import {
   of,
   startWith,
 } from "rxjs";
-import { MainPageState } from "./store";
+import { LoadMoreProducts, MainPageState, SelectCategory } from "./store";
 import { ActivatedRoute } from "@angular/router";
-import { SetActive } from "@ngxs-labs/entity-state";
+import { IdStrategy, SetActive } from "@ngxs-labs/entity-state";
+import { Product, ProductService, ProductState } from "@shared/product";
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
@@ -34,10 +35,13 @@ export class MainPage implements OnInit {
   @Select(MainPageState.shownCategories)
   public categories$!: Observable<Category[]>;
 
+  @Select(MainPageState.shownProducts)
+  public products$!: Observable<Product[]>;
+
   public select(id: number) {
     const idString = id.toString();
-    this.store.dispatch(new SetActive(CategoryState, idString));
-    console.log(idString);
+    this.store.dispatch(new SelectCategory(idString));
+    this.store.dispatch(new LoadMoreProducts(idString));
   }
 
   public vm$: Observable<{
@@ -45,11 +49,16 @@ export class MainPage implements OnInit {
     activeUser: User;
     activeCategory: Category;
     categories: Category[];
+    products: Product[];
     buffetLoading: boolean;
     resolverError: any;
   }>;
 
-  constructor(private store: Store, private route: ActivatedRoute) {
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private productService: ProductService,
+  ) {
     const buffetLoading$ = route.data.pipe(
       map(() => false),
       startWith(true),
@@ -65,6 +74,7 @@ export class MainPage implements OnInit {
       this.activeUser$,
       this.activeCategory$,
       this.categories$,
+      this.products$,
       buffetLoading$,
       resolverError$,
     ]).pipe(
@@ -74,6 +84,7 @@ export class MainPage implements OnInit {
           activeUser,
           activeCategory,
           categories,
+          products,
           buffetLoading,
           resolverError,
         ]) => ({
@@ -81,6 +92,7 @@ export class MainPage implements OnInit {
           activeUser,
           activeCategory,
           categories,
+          products,
           buffetLoading,
           resolverError,
         }),

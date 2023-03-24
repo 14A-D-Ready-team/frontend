@@ -10,6 +10,7 @@ import { MainPage } from "./main.page";
 import { NgxsModule } from "@ngxs/store";
 import { CategoryState } from "@shared/category";
 import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
+import { MainPageState } from "./store";
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { ErrorMessagePipe, ExceptionsModule } from "@shared/exceptions";
     FormsModule,
     IonicModule,
     MainPageRoutingModule,
-    NgxsModule.forFeature([CategoryState]),
+    NgxsModule.forFeature([MainPageState]),
     ErrorMessagePipe,
     ExceptionsModule.forFeature({}),
   ],

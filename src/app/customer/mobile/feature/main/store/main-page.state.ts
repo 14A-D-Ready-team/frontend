@@ -10,7 +10,13 @@ import {
   CategoryStateModel,
   FilterCategoriesQuery,
 } from "@shared/category";
-import { Product, ProductState } from "@shared/product";
+import {
+  FilterProductsQuery,
+  Product,
+  ProductActions,
+  ProductState,
+} from "@shared/product";
+import { LoadMoreProducts, SelectCategory } from "./main-page.actions";
 
 const productsLoadedPerScroll = 6;
 
@@ -44,7 +50,40 @@ export class MainPageState {
     return categories;
   }
 
-  // Set selected category
+  @Selector([ProductState.entitiesMap])
+  public static shownProducts(
+    state: MainPageStateModel,
+    products: Dictionary<Product>,
+  ) {
+    return Object.values(products);
+  }
+  // Set selected category: done
+
+  @Action(SelectCategory)
+  public setActiveCategory(
+    ctx: StateContext<MainPageStateModel>,
+    action: SelectCategory,
+  ) {
+    ctx.patchState({ selectedCategoryId: action.id });
+    console.log(ctx.getState());
+  }
+
+  @Action(LoadMoreProducts)
+  public loadMoreProducts(
+    ctx: StateContext<MainPageStateModel>,
+    action: LoadMoreProducts,
+  ) {
+    const state = ctx.getState();
+    ctx
+      .dispatch(
+        new ProductActions.Load(
+          new FilterProductsQuery({ categoryId: action.id }),
+        ),
+      )
+      .subscribe();
+    console.log(state);
+  }
+
   // * initialize paginationState for the category
 
   // load more products
