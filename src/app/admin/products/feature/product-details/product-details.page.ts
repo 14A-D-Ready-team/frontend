@@ -14,7 +14,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./product-details.page.scss"],
 })
 export class ProductDetailsPage implements ViewDidEnter, ViewWillLeave {
-  @Select(CategoryState.entities)
+  @Select(CategoryState.categoriesOfActiveBuffet)
   public categories$!: Observable<Category[]>;
 
   @Select(ProductState.updateStatus)

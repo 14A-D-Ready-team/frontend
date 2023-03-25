@@ -12,7 +12,7 @@
 
 <ion-content class="ion-padding">
   <ion-card>
-    <ion-card-content>
+    <ion-card-content *ngIf="(noBuffetSelected$ | async)===false">
       <app-admin-product-editor
         [bindedFormGroup]="form"
         [formPath]="formPath"

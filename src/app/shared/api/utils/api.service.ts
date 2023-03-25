@@ -4,6 +4,7 @@ import { Type } from "@angular/core";
 import { processResponse } from "@shared/serialization";
 import { instanceToPlain } from "class-transformer";
 import { Observable } from "rxjs";
+import { httpOptions } from "./http-options.util";
 
 export abstract class ApiService<
   EntityType,
@@ -20,7 +21,11 @@ export abstract class ApiService<
 
   public create(payload: CreateDtoType) {
     return this.httpClient
-      .post(environment.api.url + this.path, this.serialize(payload))
+      .post(
+        environment.api.url + this.path,
+        this.serialize(payload),
+        httpOptions,
+      )
       .pipe(processResponse(this.entityClass));
   }
 
@@ -28,19 +33,23 @@ export abstract class ApiService<
 
   public findOne(id: number) {
     return this.httpClient
-      .get(environment.api.url + this.path + id)
+      .get(environment.api.url + this.path + id, httpOptions)
       .pipe(processResponse(this.entityClass));
   }
 
   public update(id: number, payload: UpdateDtoType) {
     return this.httpClient
-      .patch(environment.api.url + this.path + id, this.serialize(payload))
+      .patch(
+        environment.api.url + this.path + id,
+        this.serialize(payload),
+        httpOptions,
+      )
       .pipe(processResponse(this.entityClass));
   }
 
   public delete(id: number) {
     return this.httpClient
-      .delete(environment.api.url + this.path + id)
+      .delete(environment.api.url + this.path + id, httpOptions)
       .pipe(processResponse<void>());
   }
 
