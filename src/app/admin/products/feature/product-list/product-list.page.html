@@ -1,34 +1,36 @@
-<ion-menu
-  side="end"
-  contentId="product-list-page-content"
-  [disabled]="isDesktop$ | async"
-  *ngIf="vm$ | async as vm"
->
-  <ng-container *ngIf="vm.isDesktop === false">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Termékek szűrése</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="filterContent.reset()">
-            <ion-icon
-              slot="icon-only"
-              icon="backspace"
-              color="primary"
-            ></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <app-admin-product-filter
-        #filterContent
-        [categories]="vm.categories"
-        [categoriesLoading]="vm.categoriesLoading || false"
-        (refreshCategories)="refreshCategories()"
-      ></app-admin-product-filter>
-    </ion-content>
-  </ng-container>
-</ion-menu>
+<app-menu-wrapper>
+  <ion-menu
+    side="end"
+    contentId="product-list-page-content"
+    menuId="product-filter-menu"
+    *ngIf="vm$ | async as vm"
+  >
+    <ng-container *ngIf="vm.isDesktop === false">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Termékek szűrése</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="filterContent.reset()">
+              <ion-icon
+                slot="icon-only"
+                icon="backspace"
+                color="primary"
+              ></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <app-admin-product-filter
+          #filterContent
+          [categories]="vm.categories"
+          [categoriesLoading]="vm.categoriesLoading || false"
+          (refreshCategories)="refreshCategories()"
+        ></app-admin-product-filter>
+      </ion-content>
+    </ng-container>
+  </ion-menu>
+</app-menu-wrapper>
 
 <div class="ion-page" id="product-list-page-content">
   <app-admin-header pageTitle="Termékek">

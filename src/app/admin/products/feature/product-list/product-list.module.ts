@@ -16,6 +16,7 @@ import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
 import { ProductFilterModule } from "../product-filter";
 import { ProductFilterState } from "../product-filter";
 import { AdminHeaderComponent } from "@app/admin/shell";
+import { MenuWrapperComponent } from "@shared/menu";
 
 @NgModule({
   declarations: [ProductListPage],
@@ -31,6 +32,7 @@ import { AdminHeaderComponent } from "@app/admin/shell";
     ErrorCardComponent,
     TypingOverlayComponent,
     AdminHeaderComponent,
+    MenuWrapperComponent,
   ],
   providers: [ProductListEffects],
 })

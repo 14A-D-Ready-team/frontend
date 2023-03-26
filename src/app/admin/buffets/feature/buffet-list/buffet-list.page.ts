@@ -5,7 +5,6 @@ import {
   RefresherCustomEvent,
   InfiniteScrollCustomEvent,
 } from "@ionic/angular";
-import { SetActive } from "@ngxs-labs/entity-state";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Observable, startWith, map, combineLatest, take } from "rxjs";

@@ -1,28 +1,30 @@
-<ion-menu
-  side="end"
-  contentId="buffet-list-page-content"
-  [disabled]="isDesktop$ | async"
->
-  <ng-container *ngIf="(isDesktop$ | async) === false">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title class="title">Büfék szűrése</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="filterContent.reset()">
-            <ion-icon
-              slot="icon-only"
-              icon="backspace"
-              color="primary"
-            ></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <app-admin-buffet-filter #filterContent></app-admin-buffet-filter>
-    </ion-content>
-  </ng-container>
-</ion-menu>
+<app-menu-wrapper [disabled]="(isDesktop$ | async) || false">
+  <ion-menu
+    side="end"
+    contentId="buffet-list-page-content"
+    menuId="buffet-filter-menu"
+  >
+    <ng-container *ngIf="(isDesktop$ | async) === false">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title class="title">Büfék szűrése</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="filterContent.reset()">
+              <ion-icon
+                slot="icon-only"
+                icon="backspace"
+                color="primary"
+              ></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <app-admin-buffet-filter #filterContent></app-admin-buffet-filter>
+      </ion-content>
+    </ng-container>
+  </ion-menu>
+</app-menu-wrapper>
 
 <div class="ion-page" id="buffet-list-page-content">
   <app-admin-header pageTitle="Büfék">

@@ -15,23 +15,19 @@ import { RouterModule } from "@angular/router";
 import { ExceptionService } from "@shared/exceptions";
 import { AuthState, Logout } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
+import { MenuWrapperComponent } from "@shared/menu";
 
 @Component({
   selector: "app-admin-side-menu",
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule],
+  imports: [CommonModule, IonicModule, RouterModule, MenuWrapperComponent],
   templateUrl: "./admin-side-menu.component.html",
   styleUrls: ["./admin-side-menu.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminSideMenuComponent implements AfterViewInit {
+export class AdminSideMenuComponent {
   @Input()
-  public set disabled(value: boolean) {
-    this._disabled = value;
-    if (this.viewInitialized) {
-      this.menuCtrl.enable(!value, "admin-side-menu");
-    }
-  }
+  public disabled = false;
 
   @Select(AuthState.user)
   public user$!: Observable<User | undefined>;
@@ -39,23 +35,9 @@ export class AdminSideMenuComponent implements AfterViewInit {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet | undefined>;
 
-  private viewInitialized = false;
-
-  private _disabled = false;
-
-  constructor(
-    private store: Store,
-    private toastController: ToastController,
-    private exceptionService: ExceptionService,
-    private menuCtrl: MenuController,
-  ) {}
+  constructor(private store: Store) {}
 
   public logout() {
     this.store.dispatch(new Logout());
-  }
-
-  ngAfterViewInit() {
-    this.viewInitialized = true;
-    this.menuCtrl.enable(!this._disabled, "admin-side-menu");
   }
 }

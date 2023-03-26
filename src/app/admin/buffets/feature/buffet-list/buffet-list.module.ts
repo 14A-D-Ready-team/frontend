@@ -18,6 +18,7 @@ import { BuffetFilterModule } from "../buffet-filter/buffet-filter.module";
 import { BuffetListEffects } from "./store";
 import { BuffetFilterState } from "../buffet-filter/store";
 import { AdminHeaderComponent } from "@app/admin/shell";
+import { MenuWrapperComponent } from "@shared/menu";
 
 @NgModule({
   declarations: [BuffetListPage],
@@ -33,6 +34,7 @@ import { AdminHeaderComponent } from "@app/admin/shell";
     ErrorCardComponent,
     TypingOverlayComponent,
     AdminHeaderComponent,
+    MenuWrapperComponent,
   ],
   providers: [BuffetListEffects],
 })
