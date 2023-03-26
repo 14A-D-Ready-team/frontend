@@ -31,7 +31,6 @@ export class ProductDetailsPage implements ViewDidEnter, ViewWillLeave {
   ) {}
 
   public ionViewDidEnter() {
-    this.store.dispatch(new LoadPage());
     this.effects.start();
   }
 

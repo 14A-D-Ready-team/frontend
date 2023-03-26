@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { UpdateFormValue } from "@ngxs/form-plugin";
 import { Action, NgxsOnInit, State, StateContext, Store } from "@ngxs/store";
 import { loadCategories } from "@shared/category";
+import { ApiException, ErrorCode } from "@shared/exceptions";
 import { UpdatePageState as UPS } from "@shared/extended-entity-state";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import {
@@ -12,15 +13,18 @@ import {
   ProductState,
   UpdateProductDto,
 } from "@shared/product";
+import { switchMap, tap } from "rxjs";
 import { Mixin } from "ts-mixer";
 import {
   LoadPage,
   Save,
+  SetError,
   SetUpdatedProductData,
 } from "./product-details.actions";
 
 export interface ProductDetailsStateModel {
   editorForm: NgxsFormStateModel<UpdateProductDto>;
+  error?: any;
 }
 
 export const formPath = "adminProductDetails.form";
@@ -68,8 +72,27 @@ export class ProductDetailsState
   }
 
   @Action(LoadPage)
-  public loadPage(ctx: StateContext<ProductDetailsStateModel>) {
-    return loadCategories(this.store);
+  public loadPage(
+    ctx: StateContext<ProductDetailsStateModel>,
+    action: LoadPage,
+  ) {
+    return ctx.dispatch(new ProductActions.LoadById(action.targetId)).pipe(
+      switchMap(() =>
+        this.store.selectOnce(ProductState.entityById(action.targetId)),
+      ),
+      switchMap(product => {
+        if (!product) {
+          return ctx.dispatch(
+            new SetError(new ApiException(ErrorCode.NotFoundException)),
+          );
+        }
+      }),
+    );
+    // load product by id
+    // load buffet of the product, and set it as active
+    // if the user doesn't have access to the buffet, don't set it as active
+    // load categories of the buffet
+    //return loadCategories(this.store);
   }
 
   @Action(SetUpdatedProductData)
@@ -80,5 +103,13 @@ export class ProductDetailsState
     return ctx.dispatch(
       new UpdateFormValue({ path: formPath, value: action.product }),
     );
+  }
+
+  @Action(SetError)
+  public setError(
+    ctx: StateContext<ProductDetailsStateModel>,
+    action: SetError,
+  ) {
+    ctx.patchState({ error: action.error });
   }
 }

@@ -14,7 +14,7 @@ import { CreateProductDto, UpdateProductDto } from "../dto";
 import { ExtendedEntityStateModel } from "@shared/extended-entity-state";
 import { PaginatedResponse } from "@shared/api/utils/paginated.response";
 import { Dictionary } from "@/types";
-import { switchMap } from "rxjs";
+import { delay, switchMap } from "rxjs";
 
 export type ProductStateModel = ExtendedEntityStateModel<Product>;
 

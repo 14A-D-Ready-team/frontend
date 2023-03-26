@@ -25,4 +25,7 @@ export class Product {
 
   @Expose()
   public categoryId!: number;
+
+  @Expose()
+  public buffetId!: number;
 }

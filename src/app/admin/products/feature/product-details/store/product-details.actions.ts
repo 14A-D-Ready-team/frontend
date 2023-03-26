@@ -6,6 +6,14 @@ export class Save {
 
 export class LoadPage {
   public static readonly type = "[Product Details Page] LoadPage";
+
+  public constructor(public readonly targetId: number) {}
+}
+
+export class SetError {
+  public static readonly type = "[Product Details Page] SetError";
+
+  public constructor(public readonly error?: any) {}
 }
 
 export class SetUpdatedProductData {
