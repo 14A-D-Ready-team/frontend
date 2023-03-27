@@ -13,7 +13,7 @@ import {
   ProductState,
   UpdateProductDto,
 } from "@shared/product";
-import { switchMap, tap } from "rxjs";
+import { map, of, switchMap, tap } from "rxjs";
 import { Mixin } from "ts-mixer";
 import {
   LoadPage,
@@ -76,18 +76,15 @@ export class ProductDetailsState
     ctx: StateContext<ProductDetailsStateModel>,
     action: LoadPage,
   ) {
-    return ctx.dispatch(new ProductActions.LoadById(action.targetId)).pipe(
-      switchMap(() =>
-        this.store.selectOnce(ProductState.entityById(action.targetId)),
-      ),
+    return this.store.selectOnce(ProductState.entityById(action.targetId)).pipe(
       switchMap(product => {
-        if (!product) {
-          return ctx.dispatch(
-            new SetError(new ApiException(ErrorCode.NotFoundException)),
-          );
+        if (product) {
+          return of(product);
         }
+        return this.loadProductById(action.targetId);
       }),
     );
+
     // load product by id
     // load buffet of the product, and set it as active
     // if the user doesn't have access to the buffet, don't set it as active
@@ -111,5 +108,22 @@ export class ProductDetailsState
     action: SetError,
   ) {
     ctx.patchState({ error: action.error });
+  }
+
+  private loadProductById(id: number) {
+    return this.store.dispatch(new ProductActions.LoadById(id)).pipe(
+      switchMap(() => this.store.selectOnce(ProductState.entityById(id))),
+      switchMap(product => {
+        if (!product) {
+          return this.store
+            .dispatch(
+              new SetError(new ApiException(ErrorCode.NotFoundException)),
+            )
+            .pipe(map(() => product));
+        }
+
+        return of(product);
+      }),
+    );
   }
 }
