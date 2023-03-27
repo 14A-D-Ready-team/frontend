@@ -25,7 +25,7 @@ import {
   ProductState,
   UpdateProductDto,
 } from "@shared/product";
-import { catchError, map, of, switchMap, tap } from "rxjs";
+import { catchError, finalize, map, of, switchMap, tap } from "rxjs";
 import { Mixin } from "ts-mixer";
 import {
   LoadPage,
@@ -38,6 +38,7 @@ import {
 export interface ProductDetailsStateModel {
   editorForm: NgxsFormStateModel<UpdateProductDto>;
   error?: any;
+  loading: boolean;
 }
 
 export const formPath = "adminProductDetails.form";
@@ -59,6 +60,7 @@ const UpdatePageState = UPS as typeof UPS<
       disabled: false,
       formControlErrors: {},
     },
+    loading: false,
   },
 })
 @Injectable()
@@ -69,6 +71,11 @@ export class ProductDetailsState
   @Selector()
   public static error(state: ProductDetailsStateModel) {
     return state.error;
+  }
+
+  @Selector()
+  public static loading(state: ProductDetailsStateModel) {
+    return state.loading;
   }
 
   constructor(
@@ -99,6 +106,8 @@ export class ProductDetailsState
     ctx: StateContext<ProductDetailsStateModel>,
     action: LoadPage,
   ) {
+    ctx.patchState({ loading: true });
+
     return this.loadProductById(action.targetId).pipe(
       switchMap(product => {
         if (!product.buffetId) {
@@ -114,6 +123,7 @@ export class ProductDetailsState
       switchMap(data => loadCategories(this.store).pipe(map(() => data))),
       switchMap(data => ctx.dispatch(new SetUpdatedProductData(data.product))),
       catchError(error => ctx.dispatch(new SetError(error))),
+      finalize(() => ctx.patchState({ loading: false })),
     );
   }
 

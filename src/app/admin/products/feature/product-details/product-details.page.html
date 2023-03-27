@@ -1,6 +1,10 @@
 <div
   class="ion-page"
-  *ngIf="{ status: status$ | async, initError:initError$ | async } as vm"
+  *ngIf="{ 
+    status: status$ | async, 
+    initError:initError$ | async, 
+    editorLoading: editorLoading$ | async 
+  } as vm"
 >
   <ion-header>
     <ion-toolbar color="primary">
@@ -11,12 +15,16 @@
     <ion-card>
       <ion-card-content>
         <app-admin-product-editor
-          *ngIf="!vm.initError"
+          *ngIf="!vm.editorLoading &&!vm.initError"
           [bindedFormGroup]="form"
           [formPath]="formPath"
           [status]="vm.status || undefined"
           (categoriesReloaded)="reloadCategories()"
         ></app-admin-product-editor>
+
+        <div class="spinner-container" *ngIf="vm.editorLoading">
+          <ion-spinner color="primary"></ion-spinner>
+        </div>
 
         <app-error-card
           *ngIf="vm.initError"

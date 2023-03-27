@@ -37,6 +37,9 @@ export class ProductDetailsPage
   @Select(ProductDetailsState.error)
   public initError$!: Observable<any>;
 
+  @Select(ProductDetailsState.loading)
+  public editorLoading$!: Observable<boolean>;
+
   public formPath = formPath;
 
   public form = createProductEditorForm();
