@@ -27,7 +27,9 @@ import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
     NgxsFormPluginModule,
     NgxsModule.forFeature([ProductDetailsState]),
     ExceptionsModule.forFeature({
-      ProductNotFoundException: "A termék nem létezik.",
+      ProductNotFoundException: "A termék nem található.",
+      BuffetNotFoundException:
+        "A büfé, amihe za termék tartozik nem található.",
     }),
     ExtendedFormPluginModule,
     ProductDetailsPageRoutingModule,
