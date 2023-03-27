@@ -16,6 +16,8 @@ import {
   ErrorListComponent,
   SelectorInputComponent,
 } from "@shared/inputs/ui/ionic";
+import { ExceptionsModule } from "@shared/exceptions";
+import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
 
 @NgModule({
   imports: [
@@ -24,12 +26,16 @@ import {
     IonicModule,
     NgxsFormPluginModule,
     NgxsModule.forFeature([ProductDetailsState]),
+    ExceptionsModule.forFeature({
+      ProductNotFoundException: "A termék nem létezik.",
+    }),
     ExtendedFormPluginModule,
     ProductDetailsPageRoutingModule,
     SelectorInputComponent,
     ErrorListComponent,
     ProductEditorComponent,
     ButtonGroupComponent,
+    ErrorCardComponent,
   ],
   providers: [ProductDetailsEffects],
   declarations: [ProductDetailsPage],

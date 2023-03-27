@@ -47,7 +47,7 @@ import { Select } from "@ngxs/store";
 })
 export class ProductEditorComponent implements OnInit {
   @Input()
-  public status$!: Observable<ApiRequestStatus | undefined>;
+  public status!: ApiRequestStatus | undefined;
 
   @Input()
   public bindedFormGroup!: FormGroup<ProductEditorFormModel>;

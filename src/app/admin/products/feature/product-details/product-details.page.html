@@ -1,4 +1,7 @@
-<div class="ion-page">
+<div
+  class="ion-page"
+  *ngIf="{ status: status$ | async, initError:initError$ | async } as vm"
+>
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title class="font-bold">Termék szerkesztése</ion-title>
@@ -8,16 +11,27 @@
     <ion-card>
       <ion-card-content>
         <app-admin-product-editor
+          *ngIf="!vm.initError"
           [bindedFormGroup]="form"
           [formPath]="formPath"
-          [status$]="status$"
+          [status]="vm.status || undefined"
           (categoriesReloaded)="reloadCategories()"
         ></app-admin-product-editor>
+
+        <app-error-card
+          *ngIf="vm.initError"
+          header="Hiba történt"
+          icon="warning-outline"
+          contentColor="light"
+          [showRetryButton]="false"
+          [error]="vm.initError"
+        >
+        </app-error-card>
       </ion-card-content>
 
       <app-admin-button-group
         [loading]="(status$ | async)?.loading === true"
-        [saveDisabled]="form.invalid || (status$ | async)?.loading === true"
+        [saveDisabled]="form.invalid || (status$ | async)?.loading === true "
         (cancel)="cancel()"
         (save)="save()"
       >

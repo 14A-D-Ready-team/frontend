@@ -1,7 +1,19 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { AppAbility } from "@app/app-ability.factory";
+import { AbilityService } from "@casl/angular";
+import { SetActive } from "@ngxs-labs/entity-state";
 import { UpdateFormValue } from "@ngxs/form-plugin";
-import { Action, NgxsOnInit, State, StateContext, Store } from "@ngxs/store";
+import {
+  Action,
+  Actions,
+  NgxsOnInit,
+  Selector,
+  State,
+  StateContext,
+  Store,
+} from "@ngxs/store";
+import { Buffet, BuffetActions, BuffetState } from "@shared/buffet";
 import { loadCategories } from "@shared/category";
 import { ApiException, ErrorCode } from "@shared/exceptions";
 import { UpdatePageState as UPS } from "@shared/extended-entity-state";
@@ -13,10 +25,11 @@ import {
   ProductState,
   UpdateProductDto,
 } from "@shared/product";
-import { map, of, switchMap, tap } from "rxjs";
+import { catchError, map, of, switchMap, tap } from "rxjs";
 import { Mixin } from "ts-mixer";
 import {
   LoadPage,
+  Reset,
   Save,
   SetError,
   SetUpdatedProductData,
@@ -53,7 +66,17 @@ export class ProductDetailsState
   extends Mixin(UpdatePageState)
   implements NgxsOnInit
 {
-  constructor(private store: Store, private route: ActivatedRoute) {
+  @Selector()
+  public static error(state: ProductDetailsStateModel) {
+    return state.error;
+  }
+
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private actions$: Actions,
+    private abilityService: AbilityService<AppAbility>,
+  ) {
     super();
   }
 
@@ -76,20 +99,22 @@ export class ProductDetailsState
     ctx: StateContext<ProductDetailsStateModel>,
     action: LoadPage,
   ) {
-    return this.store.selectOnce(ProductState.entityById(action.targetId)).pipe(
+    return this.loadProductById(action.targetId).pipe(
       switchMap(product => {
-        if (product) {
-          return of(product);
+        if (!product.buffetId) {
+          throw new ApiException(ErrorCode.BuffetNotFoundException);
         }
-        return this.loadProductById(action.targetId);
+        return this.loadBuffetById(product.buffetId).pipe(
+          map(buffet => ({ product, buffet })),
+        );
       }),
+      switchMap(data =>
+        this.setActiveBuffet(data.buffet).pipe(map(() => data)),
+      ),
+      switchMap(data => loadCategories(this.store).pipe(map(() => data))),
+      switchMap(data => ctx.dispatch(new SetUpdatedProductData(data.product))),
+      catchError(error => ctx.dispatch(new SetError(error))),
     );
-
-    // load product by id
-    // load buffet of the product, and set it as active
-    // if the user doesn't have access to the buffet, don't set it as active
-    // load categories of the buffet
-    //return loadCategories(this.store);
   }
 
   @Action(SetUpdatedProductData)
@@ -110,20 +135,54 @@ export class ProductDetailsState
     ctx.patchState({ error: action.error });
   }
 
+  @Action(Reset)
+  reset(ctx: StateContext<ProductDetailsStateModel>) {
+    ctx.patchState({ error: undefined });
+  }
+
   private loadProductById(id: number) {
-    return this.store.dispatch(new ProductActions.LoadById(id)).pipe(
+    return this.store.selectOnce(ProductState.entityById(id)).pipe(
+      switchMap(product => {
+        if (product) {
+          return of(product);
+        }
+        return this.store.dispatch(new ProductActions.LoadById(id));
+      }),
       switchMap(() => this.store.selectOnce(ProductState.entityById(id))),
       switchMap(product => {
         if (!product) {
-          return this.store
-            .dispatch(
-              new SetError(new ApiException(ErrorCode.NotFoundException)),
-            )
-            .pipe(map(() => product));
+          throw new ApiException(ErrorCode.ProductNotFoundException);
         }
-
         return of(product);
       }),
+    );
+  }
+
+  private loadBuffetById(id: number) {
+    return this.store.selectOnce(BuffetState.entityById(id)).pipe(
+      switchMap(buffet => {
+        if (buffet) {
+          return of(buffet);
+        }
+        return this.store.dispatch(new BuffetActions.LoadById(id));
+      }),
+      switchMap(() => this.store.selectOnce(BuffetState.entityById(id))),
+      switchMap(buffet => {
+        if (!buffet) {
+          throw new ApiException(ErrorCode.BuffetNotFoundException);
+        }
+        return of(buffet);
+      }),
+    );
+  }
+
+  private setActiveBuffet(buffet: Buffet) {
+    if (false) {
+      throw new ApiException(ErrorCode.ForbiddenException);
+    }
+
+    return this.store.dispatch(
+      new SetActive(BuffetState, buffet.id.toString()),
     );
   }
 }

@@ -5,20 +5,37 @@ import { TargetedRequestStatus } from "@shared/extended-entity-state";
 import { ProductState } from "@shared/product";
 import { Observable } from "rxjs";
 import { createProductEditorForm } from "../../utils";
-import { formPath, LoadPage, ProductDetailsEffects, Save } from "./store";
-import { ViewDidEnter, ViewWillEnter, ViewWillLeave } from "@ionic/angular";
+import {
+  formPath,
+  LoadPage,
+  ProductDetailsEffects,
+  ProductDetailsState,
+  Reset,
+  Save,
+} from "./store";
+import {
+  ViewDidEnter,
+  ViewDidLeave,
+  ViewWillEnter,
+  ViewWillLeave,
+} from "@ionic/angular";
 import { Router } from "@angular/router";
 @Component({
   selector: "app-admin-product-details",
   templateUrl: "./product-details.page.html",
   styleUrls: ["./product-details.page.scss"],
 })
-export class ProductDetailsPage implements ViewDidEnter, ViewWillLeave {
+export class ProductDetailsPage
+  implements ViewDidEnter, ViewWillLeave, ViewDidLeave
+{
   @Select(CategoryState.categoriesOfActiveBuffet)
   public categories$!: Observable<Category[]>;
 
   @Select(ProductState.updateStatus)
   public status$!: Observable<TargetedRequestStatus | undefined>;
+
+  @Select(ProductDetailsState.error)
+  public initError$!: Observable<any>;
 
   public formPath = formPath;
 
@@ -36,6 +53,10 @@ export class ProductDetailsPage implements ViewDidEnter, ViewWillLeave {
 
   public ionViewWillLeave() {
     this.effects.terminate();
+  }
+
+  public ionViewDidLeave() {
+    this.store.dispatch(new Reset());
   }
 
   public reloadCategories() {

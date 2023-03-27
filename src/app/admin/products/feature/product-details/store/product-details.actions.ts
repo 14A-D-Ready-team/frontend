@@ -22,3 +22,7 @@ export class SetUpdatedProductData {
 
   constructor(public product: Product) {}
 }
+
+export class Reset {
+  static readonly type = "[ProductDetails] Reset";
+}

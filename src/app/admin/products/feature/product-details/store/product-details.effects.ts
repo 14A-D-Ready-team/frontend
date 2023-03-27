@@ -20,21 +20,10 @@ export class ProductDetailsEffects extends EffectsBase {
       const id = Number(params.get("id"));
       if (isNaN(id)) {
         return this.store.dispatch(
-          new SetError(new ApiException(ErrorCode.NotFoundException)),
+          new SetError(new ApiException(ErrorCode.ProductNotFoundException)),
         );
       }
       return this.store.dispatch(new LoadPage(id));
-      /*  return this.store.selectOnce(ProductState.entityById(id)).pipe(
-        switchMap(p => {
-          if (!p) {
-            return this.store.dispatch(new ProductActions.LoadById(id));
-          }
-          return of(null);
-        }),
-        switchMap(() => this.store.selectOnce(ProductState.entityById(id))),
-        filter(p => !!p),
-        switchMap(p => this.store.dispatch(new SetUpdatedProductData(p))),
-      ); */
     }),
   );
 

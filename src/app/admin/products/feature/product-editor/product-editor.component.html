@@ -114,7 +114,7 @@
     </ion-row>
   </ion-grid>
 </form>
-<ion-note color="danger" *ngIf="(status$ | async)?.error as error">{{
+<ion-note color="danger" *ngIf="status?.error as error">{{
   error | errorMessage
 }}</ion-note>
 
