@@ -25,7 +25,15 @@ import {
   ProductState,
   UpdateProductDto,
 } from "@shared/product";
-import { catchError, finalize, map, of, switchMap, tap } from "rxjs";
+import {
+  catchError,
+  defaultIfEmpty,
+  finalize,
+  map,
+  of,
+  switchMap,
+  tap,
+} from "rxjs";
 import { Mixin } from "ts-mixer";
 import {
   LoadPage,
@@ -41,7 +49,7 @@ export interface ProductDetailsStateModel {
   loading: boolean;
 }
 
-export const formPath = "adminProductDetails.form";
+export const formPath = "adminProductDetails.editorForm";
 
 const UpdatePageState = UPS as typeof UPS<
   ProductDetailsStateModel,
@@ -120,7 +128,12 @@ export class ProductDetailsState
       switchMap(data =>
         this.setActiveBuffet(data.buffet).pipe(map(() => data)),
       ),
-      switchMap(data => loadCategories(this.store).pipe(map(() => data))),
+      switchMap(data =>
+        loadCategories(this.store).pipe(
+          defaultIfEmpty(undefined),
+          map(() => data),
+        ),
+      ),
       switchMap(data => ctx.dispatch(new SetUpdatedProductData(data.product))),
       catchError(error => ctx.dispatch(new SetError(error))),
       finalize(() => ctx.patchState({ loading: false })),
@@ -152,18 +165,19 @@ export class ProductDetailsState
 
   private loadProductById(id: number) {
     return this.store.selectOnce(ProductState.entityById(id)).pipe(
-      switchMap(product => {
-        if (product) {
-          return of(product);
+      switchMap(cachedProduct => {
+        if (cachedProduct) {
+          return of(cachedProduct);
         }
-        return this.store.dispatch(new ProductActions.LoadById(id));
-      }),
-      switchMap(() => this.store.selectOnce(ProductState.entityById(id))),
-      switchMap(product => {
-        if (!product) {
-          throw new ApiException(ErrorCode.ProductNotFoundException);
-        }
-        return of(product);
+        return this.store.dispatch(new ProductActions.LoadById(id)).pipe(
+          switchMap(() => this.store.selectOnce(ProductState.entityById(id))),
+          switchMap(product => {
+            if (!product) {
+              throw new ApiException(ErrorCode.ProductNotFoundException);
+            }
+            return of(product);
+          }),
+        );
       }),
     );
   }

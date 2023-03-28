@@ -3,15 +3,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ApiService, httpOptions } from "@shared/api";
 import { PaginatedResponse } from "@shared/api";
-import { FilterCategoriesQuery } from "@shared/category";
 import {
-  classTransformerConfig,
   serializeFormData,
   processPaginatedResponse,
   serializeQueryParams,
 } from "@shared/serialization";
-import { instanceToPlain } from "class-transformer";
-import { tap } from "rxjs";
 import { CreateProductDto, UpdateProductDto } from "../dto";
 import { Product } from "../entity";
 import { FilterProductsQuery } from "../query";

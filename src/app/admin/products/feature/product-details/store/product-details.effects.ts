@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { UpdateFormValue } from "@ngxs/form-plugin";
 import { Store } from "@ngxs/store";
 import { Effect, EffectsBase } from "@shared/effects";
@@ -17,6 +17,9 @@ export class ProductDetailsEffects extends EffectsBase {
   @Effect()
   public onEditedIdChanged$ = this.route.queryParamMap.pipe(
     switchMap(params => {
+      if (!this.router.url.includes("products/details")) {
+        return of(null);
+      }
       const id = Number(params.get("id"));
       if (isNaN(id)) {
         return this.store.dispatch(
@@ -27,7 +30,11 @@ export class ProductDetailsEffects extends EffectsBase {
     }),
   );
 
-  constructor(private route: ActivatedRoute, private store: Store) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private store: Store,
+  ) {
     super();
   }
 }
