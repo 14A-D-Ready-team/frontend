@@ -24,6 +24,7 @@ import { map, Observable, startWith } from "rxjs";
 import { CustomizationEditorComponent } from "../customization-editor";
 import { ProductEditorFormModel } from "../../utils";
 import { Select } from "@ngxs/store";
+import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
 
 @Component({
   imports: [
@@ -31,6 +32,7 @@ import { Select } from "@ngxs/store";
     IonicModule,
     ReactiveFormsModule,
     NgxsFormPluginModule,
+    ExtendedFormPluginModule,
     ClearInputButtonComponent,
     ErrorCardComponent,
     ImageSelectorComponent,

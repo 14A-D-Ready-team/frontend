@@ -8,7 +8,7 @@ import {
   OnDestroy,
   OnInit,
 } from "@angular/core";
-import { FormGroup, FormGroupDirective } from "@angular/forms";
+import { FormArray, FormGroup, FormGroupDirective } from "@angular/forms";
 import { ResetForm } from "@ngxs/form-plugin";
 import { Actions, getValue, ofActionDispatched, Store } from "@ngxs/store";
 import {
@@ -19,6 +19,7 @@ import {
   Subject,
   takeUntil,
 } from "rxjs";
+import { traverseControls } from "../utils";
 import {
   FormControlErrors,
   ResetFormControlErrors,
@@ -77,6 +78,10 @@ export class ExtendedFormDirective implements OnInit, OnDestroy {
       .selectOnce(state => getValue(state, this.path))
       .subscribe(() => this.updateFormStateWithErrors());
 
+    this.store
+      .selectOnce(state => getValue(state, this.path + ".model"))
+      .subscribe(val => this.updateFormArrays(val));
+
     this.getStateStream(`${this.path}.formControlErrors`).subscribe(errors => {
       if (this.updating) {
         return;
@@ -94,6 +99,10 @@ export class ExtendedFormDirective implements OnInit, OnDestroy {
 
       this.cd.markForCheck();
     });
+
+    this.getStateStream(`${this.path}.model`).subscribe(val =>
+      this.updateFormArrays(val),
+    );
 
     this.formGroupDirective
       .valueChanges!.pipe(
@@ -140,6 +149,18 @@ export class ExtendedFormDirective implements OnInit, OnDestroy {
       error: () => (this.updating = false),
       complete: () => (this.updating = false),
     });
+  }
+
+  private updateFormArrays(model: any) {
+    traverseControls(this.form, "", (control, path) => {
+      if (control instanceof FormArray) {
+        console.log(control);
+        console.log(getValue(model, path));
+        console.log("....");
+      }
+    });
+
+    this.cd.markForCheck();
   }
 
   private debounceChange() {

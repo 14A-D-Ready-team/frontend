@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Select, Store } from "@ngxs/store";
+import { getValue, Select, Store } from "@ngxs/store";
 import { Category, CategoryState, loadCategories } from "@shared/category";
 import { TargetedRequestStatus } from "@shared/extended-entity-state";
 import { ProductState } from "@shared/product";
@@ -51,6 +51,7 @@ export class ProductDetailsPage
   ) {}
 
   public ionViewDidEnter() {
+    //this.form.valueChanges.subscribe(() => console.log(this.form));
     this.effects.start();
   }
 
