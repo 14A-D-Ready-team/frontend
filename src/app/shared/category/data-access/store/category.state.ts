@@ -155,7 +155,7 @@ export class CategoryState extends ExtendedEntityState<
     ctx: StateContext<EntityStateModel<Category>>,
     action: Actions.CreateSucceeded,
   ) {
-    const castCtx = ctx as StateContext<CategoryStateModel>;
+    const castCtx = ctx as unknown as StateContext<CategoryStateModel>;
 
     return super.createSucceeded(ctx, action).pipe(
       tap(() => {

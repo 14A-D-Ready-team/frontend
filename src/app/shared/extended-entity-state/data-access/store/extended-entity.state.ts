@@ -37,7 +37,7 @@ type Actions<EntityType extends object, Query, Create, Update> = {
   DeleteSucceeded: Type<BaseActions.DeleteSucceeded>;
 };
 
-export abstract class ExtendedEntityState<
+export class ExtendedEntityState<
   EntityType extends { id: number },
   Query,
   FindResultType extends EntityType[] | PaginatedResponse<EntityType>,
