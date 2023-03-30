@@ -88,7 +88,7 @@ export class MainPageState {
         ),
       )
       .subscribe();
-      console.log(state);
+    console.log(state);
   }
 
   // @Action(UnloadProducts)
