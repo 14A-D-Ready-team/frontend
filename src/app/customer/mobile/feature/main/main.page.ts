@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Select, Store } from "@ngxs/store";
+import { Select, Store, StateContext } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { User } from "@shared/user";
@@ -7,16 +7,26 @@ import { Category, CategoryState, loadCategories } from "@shared/category";
 import {
   catchError,
   combineLatest,
+  empty,
   ignoreElements,
   map,
   Observable,
   of,
   startWith,
 } from "rxjs";
-import { LoadMoreProducts, MainPageState, SelectCategory } from "./store";
+import {
+  LoadMoreProducts,
+  MainPageState,
+  MainPageStateModel,
+  SelectCategory,
+  UnloadProducts,
+} from "./store";
 import { ActivatedRoute } from "@angular/router";
 import { IdStrategy, SetActive } from "@ngxs-labs/entity-state";
 import { Product, ProductService, ProductState } from "@shared/product";
+import { LoadMore } from "@app/customer/feature";
+import { take } from "lodash";
+import { InfiniteScrollCustomEvent } from "@ionic/angular";
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
@@ -38,10 +48,13 @@ export class MainPage implements OnInit {
   @Select(MainPageState.shownProducts)
   public products$!: Observable<Product[]>;
 
+  activeCategoryId = "";
+
   public select(id: number) {
-    const idString = id.toString();
-    this.store.dispatch(new SelectCategory(idString));
-    this.store.dispatch(new LoadMoreProducts(idString));
+    //this.store.dispatch(new UnloadProducts());
+    this.activeCategoryId = id.toString();
+    this.store.dispatch(new SelectCategory(this.activeCategoryId));
+    this.store.dispatch(new LoadMoreProducts(this.activeCategoryId));
   }
 
   public vm$: Observable<{
@@ -100,7 +113,17 @@ export class MainPage implements OnInit {
     );
   }
 
+  onIonInfinite(event: any) {
+    if (
+      event.target.offsetWidth + event.target.scrollLeft >=
+      event.target.scrollWidth - 20
+    ) {
+      this.store.dispatch(new LoadMoreProducts(this.activeCategoryId));
+    }
+  }
+
   ngOnInit() {
     loadCategories(this.store).subscribe();
+    this.select(1);
   }
 }

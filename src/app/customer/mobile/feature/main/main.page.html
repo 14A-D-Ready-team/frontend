@@ -70,7 +70,8 @@
         <span>{{category.name}}</span>
       </label>
     </div>
-    <div class="product-container">
+
+    <div class="product-container" (scroll)="onIonInfinite($event)">
       <div class="product-card" *ngFor="let product of vm.products">
         <img src="/assets/images/product.png" class="product-img" alt="" />
         <div class="product-description">

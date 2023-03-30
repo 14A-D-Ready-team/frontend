@@ -127,7 +127,8 @@
       margin: 0rem 1rem;
       margin-bottom: 1.3rem;
 
-      width: 15rem;
+      min-width: 15rem !important;
+      height: max-content;
 
       .product-img {
         object-fit: cover;
@@ -137,6 +138,7 @@
       }
       .product-description {
         display: flex;
+        justify-content: c;
         flex-direction: column;
         padding: 0rem 0.8rem;
         padding-bottom: 1rem;
@@ -155,7 +157,7 @@
         .add-btn {
           position: absolute;
           right: 5%;
-          bottom: 15%;
+          bottom: 10%;
           width: 20%;
           max-width: 40px;
           aspect-ratio: 1/1;

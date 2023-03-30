@@ -16,10 +16,14 @@ import {
   ProductActions,
   ProductState,
 } from "@shared/product";
-import { LoadMoreProducts, SelectCategory } from "./main-page.actions";
+import { first, take } from "lodash";
+import {
+  LoadMoreProducts,
+  SelectCategory,
+  UnloadProducts,
+} from "./main-page.actions";
 
-const productsLoadedPerScroll = 6;
-
+const productsLoadedPerScroll = 2;
 export interface MainPageStateModel {
   selectedCategoryId?: number;
   // key: id of the category
@@ -77,12 +81,25 @@ export class MainPageState {
     ctx
       .dispatch(
         new ProductActions.Load(
-          new FilterProductsQuery({ categoryId: action.id }),
+          new FilterProductsQuery({
+            categoryId: action.id,
+            take: productsLoadedPerScroll,
+          }),
         ),
       )
       .subscribe();
-    console.log(state);
+      console.log(state);
   }
+
+  // @Action(UnloadProducts)
+  // public unloadProducts(
+  //   ctx: StateContext<MainPageStateModel>,
+  //   action: UnloadProducts,
+  // ) {
+  //   const state = ctx.getState();
+  //   ctx.patchState({paginationState: {}});
+  //   console.log(ctx.getState());
+  // }
 
   // * initialize paginationState for the category
 
