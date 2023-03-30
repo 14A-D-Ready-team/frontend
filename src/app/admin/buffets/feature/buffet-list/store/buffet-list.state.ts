@@ -52,6 +52,7 @@ export class BuffetListState {
       ...state.query,
       skip: 0,
       take: buffetsLoadedPerScroll,
+      own: true,
     });
 
     return ctx.dispatch(new BuffetActions.Load(query));
@@ -68,6 +69,7 @@ export class BuffetListState {
       ...state.query,
       skip: state.buffetIds.length,
       take: buffetsLoadedPerScroll,
+      own: true,
     });
     return ctx.dispatch(new BuffetActions.Load(query));
   }
@@ -120,6 +122,7 @@ export class BuffetListState {
       ...state.query,
       skip: 0,
       take: numberOfBuffetsToLoad,
+      own: true,
     });
 
     return ctx.dispatch(new BuffetActions.Load(query));
@@ -140,6 +143,7 @@ export class BuffetListState {
       ...action.filter,
       skip: 0,
       take: buffetsLoadedPerScroll,
+      own: true,
     });
 
     return ctx.dispatch(new BuffetActions.Load(query));
