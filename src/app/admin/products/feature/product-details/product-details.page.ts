@@ -40,6 +40,9 @@ export class ProductDetailsPage
   @Select(ProductDetailsState.loading)
   public editorLoading$!: Observable<boolean>;
 
+  @Select(ProductDetailsState.hasChanges)
+  public hasChanges$!: Observable<boolean>;
+
   public formPath = formPath;
 
   public form = createProductEditorForm();

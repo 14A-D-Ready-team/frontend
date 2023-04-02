@@ -1,4 +1,4 @@
 export interface UpdateDtoStatic<Dto, T> {
-  omitUnchangedProperties(dto: Dto, original: T): void;
+  omitUnchangedProperties(dto: Dto, original: T): any;
   hasChanges(dto: Dto): boolean;
 }

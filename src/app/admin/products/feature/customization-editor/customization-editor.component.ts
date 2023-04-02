@@ -1,10 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
   ViewChild,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -21,12 +19,6 @@ import {
   CustomizationFormModel,
   OptionFormModel,
 } from "../../utils";
-import {
-  ClassValidatorFormArray,
-  ClassValidatorFormControl,
-  ClassValidatorFormGroup,
-} from "ngx-reactive-form-class-validator";
-import { EditCustomizationDto, OptionCount } from "@shared/product";
 import {
   ClearInputButtonComponent,
   ErrorListComponent,

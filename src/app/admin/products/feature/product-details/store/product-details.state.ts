@@ -16,7 +16,10 @@ import {
 import { Buffet, BuffetActions, BuffetState } from "@shared/buffet";
 import { loadCategories } from "@shared/category";
 import { ApiException, ErrorCode } from "@shared/exceptions";
-import { UpdatePageState as UPS } from "@shared/extended-entity-state";
+import {
+  UpdatePageState as UPS,
+  UpdatePageStateModel,
+} from "@shared/extended-entity-state";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 import {
   CreateProductDto,
@@ -25,6 +28,7 @@ import {
   ProductState,
   UpdateProductDto,
 } from "@shared/product";
+import { Dictionary } from "lodash";
 import {
   catchError,
   defaultIfEmpty,
@@ -43,8 +47,8 @@ import {
   SetUpdatedProductData,
 } from "./product-details.actions";
 
-export interface ProductDetailsStateModel {
-  editorForm: NgxsFormStateModel<UpdateProductDto>;
+export interface ProductDetailsStateModel
+  extends UpdatePageStateModel<UpdateProductDto> {
   error?: any;
   loading: boolean;
 }
@@ -84,6 +88,25 @@ export class ProductDetailsState
   @Selector()
   public static loading(state: ProductDetailsStateModel) {
     return state.loading;
+  }
+
+  @Selector([ProductState.entitiesMap])
+  public static hasChanges(
+    state: ProductDetailsStateModel,
+    productMap: Dictionary<Product>,
+  ) {
+    // eslint-disable-next-line eqeqeq
+    if (state.editedId == undefined) {
+      return false;
+    }
+    const original = productMap[state.editedId];
+    if (!original) {
+      return false;
+    }
+    let dto: any = new UpdateProductDto(state.editorForm.model);
+    dto = UpdateProductDto.omitUnchangedProperties(dto, original);
+
+    return UpdateProductDto.hasChanges(dto);
   }
 
   constructor(
@@ -145,6 +168,9 @@ export class ProductDetailsState
     ctx: StateContext<ProductDetailsStateModel>,
     action: SetUpdatedProductData,
   ) {
+    ctx.patchState({
+      editedId: action.product.id,
+    });
     return ctx.dispatch(
       new UpdateFormValue({ path: formPath, value: action.product }),
     );

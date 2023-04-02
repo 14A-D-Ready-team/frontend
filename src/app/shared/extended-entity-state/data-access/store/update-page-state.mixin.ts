@@ -1,15 +1,16 @@
 import { Type } from "@angular/core";
 import { Platform, ToastController } from "@ionic/angular";
 import { SetFormDisabled, SetFormEnabled } from "@ngxs/form-plugin";
-import { Action, StateContext } from "@ngxs/store";
+import { Action, createSelector, Selector, StateContext } from "@ngxs/store";
 import { UpdateDtoStatic } from "@shared/api";
 import { ExceptionService } from "@shared/exceptions";
 import { decorateAction } from "@shared/extended-entity-state/utils";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
+import { ProductState } from "@shared/product";
 import { Observable } from "rxjs";
 import { ErrorToastState } from "./error-toast-state.mixin";
 
-interface UpdatePageStateModel<D> {
+export interface UpdatePageStateModel<D> {
   editedId?: number;
   editorForm: NgxsFormStateModel<D>;
 }
@@ -41,16 +42,15 @@ export abstract class UpdatePageState<
 
   public async saveUpdated(ctx: StateContext<StateModel>) {
     const state = ctx.getState();
-    console.log(state.editorForm);
     if (state.editorForm.status === "INVALID") {
       return;
     }
 
     const model = state.editorForm.model;
-    const payload = this.prepareDto(model);
+    let payload = this.prepareDto(model);
 
     const original = this.getOriginal(state.editedId!);
-    this.DtoClass.omitUnchangedProperties(payload, original);
+    payload = this.DtoClass.omitUnchangedProperties(payload, original);
 
     if (!this.DtoClass.hasChanges(payload)) {
       return this.onUnchanged(ctx);
