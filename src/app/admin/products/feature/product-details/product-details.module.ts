@@ -5,8 +5,11 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { IonicModule } from "@ionic/angular";
 
 import { ProductDetailsPage } from "./product-details.page";
-import { NgxsFormPluginModule } from "@ngxs/form-plugin";
-import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
+import { NgxsFormPluginModule, ɵFormDirective } from "@ngxs/form-plugin";
+import {
+  ExtendedFormDirective,
+  ExtendedFormPluginModule,
+} from "@shared/extended-form-plugin";
 import { ProductDetailsPageRoutingModule } from "./product-details-routing.module";
 import { ProductEditorComponent } from "../product-editor";
 import { ProductDetailsEffects, ProductDetailsState } from "./store";

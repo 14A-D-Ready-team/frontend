@@ -16,7 +16,11 @@ import {
 } from "@ionic/angular";
 import { OptionEditorModalComponent } from "../option-editor-modal";
 import { FormArray, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { CustomizationFormModel, OptionFormModel } from "../../utils";
+import {
+  createCustomizationEditorForm,
+  CustomizationFormModel,
+  OptionFormModel,
+} from "../../utils";
 import {
   ClassValidatorFormArray,
   ClassValidatorFormControl,
@@ -28,6 +32,7 @@ import {
   ErrorListComponent,
 } from "@shared/inputs/ui/ionic";
 import { CustomizationInputComponent } from "../../ui";
+import { FormChangesPipe } from "@shared/utils";
 
 @Component({
   selector: "app-admin-customization-editor",
@@ -39,6 +44,7 @@ import { CustomizationInputComponent } from "../../ui";
     ClearInputButtonComponent,
     ErrorListComponent,
     CustomizationInputComponent,
+    FormChangesPipe,
   ],
   templateUrl: "./customization-editor.component.html",
   styleUrls: ["./customization-editor.component.scss"],
@@ -80,18 +86,7 @@ export class CustomizationEditorComponent implements OnInit {
   }
 
   public addCustomization() {
-    this.bindedFormArray.push(
-      new ClassValidatorFormGroup<CustomizationFormModel>(
-        EditCustomizationDto,
-        {
-          description: new ClassValidatorFormControl<string | null>(null),
-          isMulti: new ClassValidatorFormControl<boolean>(false),
-          options: new ClassValidatorFormArray([]) as FormArray<
-            FormGroup<OptionFormModel>
-          >,
-        },
-      ),
-    );
+    this.bindedFormArray.push(createCustomizationEditorForm());
     this.accordionGroup.value = "" + (this.bindedFormArray.length - 1);
   }
 

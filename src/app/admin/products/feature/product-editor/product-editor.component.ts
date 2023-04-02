@@ -7,7 +7,11 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { FormGroup, ReactiveFormsModule } from "@angular/forms";
+import {
+  AbstractControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from "@angular/forms";
 import { IonicModule, Platform } from "@ionic/angular";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { Category, CategoryState } from "@shared/category";
@@ -22,7 +26,11 @@ import {
 } from "@shared/inputs/ui/ionic";
 import { map, Observable, startWith } from "rxjs";
 import { CustomizationEditorComponent } from "../customization-editor";
-import { ProductEditorFormModel } from "../../utils";
+import {
+  createCustomizationEditorForm,
+  createOptionEditorForm,
+  ProductEditorFormModel,
+} from "../../utils";
 import { Select } from "@ngxs/store";
 import { ExtendedFormPluginModule } from "@shared/extended-form-plugin";
 
@@ -74,4 +82,14 @@ export class ProductEditorComponent implements OnInit {
   constructor(private platform: Platform) {}
 
   ngOnInit(): void {}
+
+  public formControlFactory(path: string): AbstractControl | undefined {
+    if (path === "customizations") {
+      return createCustomizationEditorForm();
+    }
+    if (/customizations\..*\.options/.test(path)) {
+      return createOptionEditorForm();
+    }
+    return undefined;
+  }
 }

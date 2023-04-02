@@ -9,10 +9,11 @@ import {
   IonicModule,
   ModalController,
   ItemReorderCustomEvent,
+  IonBackButton,
 } from "@ionic/angular";
 import { BehaviorSubject, Observable } from "rxjs";
 import { FormArray, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { OptionFormModel } from "../../utils";
+import { createOptionEditorForm, OptionFormModel } from "../../utils";
 import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
@@ -23,6 +24,7 @@ import {
   ErrorListComponent,
 } from "@shared/inputs/ui/ionic";
 import { OptionInputComponent } from "../../ui";
+import { FormChangesPipe } from "@shared/utils";
 
 @Component({
   selector: "app-admin-option-editor-modal",
@@ -34,6 +36,7 @@ import { OptionInputComponent } from "../../ui";
     ClearInputButtonComponent,
     ErrorListComponent,
     OptionInputComponent,
+    FormChangesPipe,
   ],
   templateUrl: "./option-editor-modal.component.html",
   styleUrls: ["./option-editor-modal.component.scss"],
@@ -87,12 +90,7 @@ export class OptionEditorModalComponent implements OnInit {
   }
 
   public addOption() {
-    this.bindedFormArray.push(
-      new ClassValidatorFormGroup<OptionFormModel>(EditOptionDto, {
-        name: new ClassValidatorFormControl<string | null>(),
-        extraCost: new ClassValidatorFormControl<number | null>(),
-      }),
-    );
+    this.bindedFormArray.push(createOptionEditorForm());
   }
 
   public removeOption(index: number) {

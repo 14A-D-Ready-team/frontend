@@ -15,6 +15,7 @@
   <ion-reorder-group
     [disabled]="false"
     (ionItemReorder)="handleReorder($event)"
+    *ngIf="bindedFormArray | formChanges | async"
   >
     <app-admin-customization-input
       *ngFor="let customization of bindedFormArray.controls; let i = index"
