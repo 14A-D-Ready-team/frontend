@@ -1,6 +1,7 @@
 import { Expose } from "class-transformer";
 import { EditCustomizationDto, UpdateProductDto } from "../dto";
 import { Customization } from "./customization.entity";
+import { OptionCount } from "../option-count.enum";
 
 export class Product {
   @Expose()
@@ -30,9 +31,16 @@ export class Product {
   @Expose()
   public buffetId!: number;
 
-  public toDto(): UpdateProductDto {
-    const customizations = this.customizations.map(
-      c => new EditCustomizationDto({ description: c.description }),
+  public static toDto(product: Product): UpdateProductDto {
+    const customizations = product.customizations.map(
+      c =>
+        new EditCustomizationDto({
+          description: c.description,
+          isMulti: c.optionCount === OptionCount.MultipleChoice,
+          options: c.options,
+        }),
     );
+
+    return new UpdateProductDto({ ...product, customizations });
   }
 }

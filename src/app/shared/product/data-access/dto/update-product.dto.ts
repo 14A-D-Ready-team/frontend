@@ -1,8 +1,9 @@
 import { omitUnchangedProperties } from "@shared/serialization";
-import { omit } from "lodash";
+import { isEqualWith, omit } from "lodash";
 import { Product } from "../entity";
 import { CreateProductDto } from "./create-product.dto";
 import { isEqual } from "lodash";
+import { EditCustomizationDto } from "./edit-customization.dto";
 
 export class UpdateProductDto extends CreateProductDto {
   public static omitUnchangedProperties(
@@ -11,8 +12,18 @@ export class UpdateProductDto extends CreateProductDto {
   ) {
     const primitives = omit(dto, "customizations", "image");
     omitUnchangedProperties(primitives, original);
-    console.log(dto.customizations, original.customizations);
-    //const customizationsChanged = isEqual(dto.customizations, original.customizations);
+
+    const customizer = (objValue: any, othValue: any) => {
+      console.log(objValue);
+      console.log(othValue);
+      return undefined;
+    };
+    console.log("\n\n");
+    const customizationsChanged = isEqualWith(
+      dto.customizations,
+      original.customizations,
+      customizer,
+    );
 
     return primitives;
   }

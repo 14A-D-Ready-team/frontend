@@ -171,8 +171,12 @@ export class ProductDetailsState
     ctx.patchState({
       editedId: action.product.id,
     });
+
     return ctx.dispatch(
-      new UpdateFormValue({ path: formPath, value: action.product }),
+      new UpdateFormValue({
+        path: formPath,
+        value: Product.toDto(action.product),
+      }),
     );
   }
 
