@@ -1,4 +1,5 @@
 import { Expose } from "class-transformer";
+import { EditCustomizationDto, UpdateProductDto } from "../dto";
 import { Customization } from "./customization.entity";
 
 export class Product {
@@ -28,4 +29,10 @@ export class Product {
 
   @Expose()
   public buffetId!: number;
+
+  public toDto(): UpdateProductDto {
+    const customizations = this.customizations.map(
+      c => new EditCustomizationDto({ description: c.description }),
+    );
+  }
 }
