@@ -40,6 +40,7 @@ import {
 } from "rxjs";
 import { Mixin } from "ts-mixer";
 import {
+  DiscardChanges,
   LoadPage,
   Reset,
   Save,
@@ -189,8 +190,19 @@ export class ProductDetailsState
   }
 
   @Action(Reset)
-  reset(ctx: StateContext<ProductDetailsStateModel>) {
+  public reset(ctx: StateContext<ProductDetailsStateModel>) {
     ctx.patchState({ error: undefined });
+  }
+
+  @Action(DiscardChanges)
+  public discard(ctx: StateContext<ProductDetailsStateModel>) {
+    const id = ctx.getState().editedId;
+    if (id === undefined) {
+      return;
+    }
+
+    const product = this.store.selectSnapshot(ProductState.entityById(id));
+    ctx.dispatch(new SetUpdatedProductData(product));
   }
 
   private loadProductById(id: number) {

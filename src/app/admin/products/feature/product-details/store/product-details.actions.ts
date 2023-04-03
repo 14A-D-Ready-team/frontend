@@ -26,3 +26,7 @@ export class SetUpdatedProductData {
 export class Reset {
   static readonly type = "[ProductDetails] Reset";
 }
+
+export class DiscardChanges {
+  static readonly type = "[ProductDetails] Discard Changes";
+}

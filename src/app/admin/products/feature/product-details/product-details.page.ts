@@ -6,6 +6,7 @@ import { ProductState } from "@shared/product";
 import { Observable } from "rxjs";
 import { createProductEditorForm } from "../../utils";
 import {
+  DiscardChanges,
   formPath,
   LoadPage,
   ProductDetailsEffects,
@@ -75,6 +76,6 @@ export class ProductDetailsPage
   }
 
   public cancel() {
-    this.router.navigate(["/admin/products"]);
+    this.store.dispatch(new DiscardChanges());
   }
 }
