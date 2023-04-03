@@ -4,6 +4,8 @@ import { Product } from "../entity";
 import { CreateProductDto } from "./create-product.dto";
 import { isEqual } from "lodash";
 import { EditCustomizationDto } from "./edit-customization.dto";
+import { OptionCount } from "../option-count.enum";
+import { EditOptionDto } from "./edit-option.dto";
 
 export class UpdateProductDto extends CreateProductDto {
   public static omitUnchangedProperties(
@@ -13,19 +15,37 @@ export class UpdateProductDto extends CreateProductDto {
     const primitives = omit(dto, "customizations", "image");
     omitUnchangedProperties(primitives, original);
 
-    const customizer = (objValue: any, othValue: any) => {
-      console.log(objValue);
-      console.log(othValue);
+    const optionComparer = (dtoValue: any, originalValue: any) => {
+      if (dtoValue instanceof EditOptionDto) {
+        return (
+          dtoValue.extraCost === originalValue?.extraCost &&
+          dtoValue.name === originalValue?.name
+        );
+      }
+    };
+
+    const customizationComparer = (dtoValue: any, originalValue: any) => {
+      if (dtoValue instanceof EditCustomizationDto) {
+        return (
+          dtoValue.description === originalValue?.description &&
+          (dtoValue.isMulti
+            ? originalValue?.optionCount === OptionCount.MultipleChoice
+            : originalValue?.optionCount === OptionCount.SingleChoice) &&
+          isEqualWith(dtoValue.options, originalValue?.options, optionComparer)
+        );
+      }
       return undefined;
     };
-    console.log("\n\n");
-    const customizationsChanged = isEqualWith(
+    const customizationsEqual = isEqualWith(
       dto.customizations,
       original.customizations,
-      customizer,
+      customizationComparer,
     );
 
-    return primitives;
+    return {
+      ...primitives,
+      ...(customizationsEqual ? {} : { customizations: dto.customizations }),
+    };
   }
 
   public static hasChanges(dto: UpdateProductDto) {
