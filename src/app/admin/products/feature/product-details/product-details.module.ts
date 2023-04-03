@@ -21,6 +21,7 @@ import {
 } from "@shared/inputs/ui/ionic";
 import { ExceptionsModule } from "@shared/exceptions";
 import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
+import { NavigationModule } from "@shared/navigation";
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
     ProductEditorComponent,
     ButtonGroupComponent,
     ErrorCardComponent,
+    NavigationModule,
   ],
   providers: [ProductDetailsEffects],
   declarations: [ProductDetailsPage],

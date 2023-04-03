@@ -51,7 +51,7 @@ export class ProductDetailsPage
   constructor(
     private store: Store,
     private effects: ProductDetailsEffects,
-    private router: Router,
+    public router: Router,
   ) {}
 
   public ionViewDidEnter() {
