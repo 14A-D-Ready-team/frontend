@@ -2,6 +2,7 @@ import { Expose } from "class-transformer";
 import { EditCustomizationDto, UpdateProductDto } from "../dto";
 import { Customization } from "./customization.entity";
 import { OptionCount } from "../option-count.enum";
+import { environment } from "@/environments/environment";
 
 export class Product {
   @Expose()
@@ -41,6 +42,12 @@ export class Product {
         }),
     );
 
-    return new UpdateProductDto({ ...product, customizations });
+    return new UpdateProductDto({
+      ...product,
+      customizations,
+      initialImageUrl:
+        environment.api.url + "/product/" + product.id + "/image",
+      image: null as any,
+    });
   }
 }

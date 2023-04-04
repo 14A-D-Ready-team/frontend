@@ -21,6 +21,7 @@ import {
   ViewWillLeave,
 } from "@ionic/angular";
 import { Router } from "@angular/router";
+import { FormControl } from "@angular/forms";
 @Component({
   selector: "app-admin-product-details",
   templateUrl: "./product-details.page.html",
@@ -52,7 +53,9 @@ export class ProductDetailsPage
     private store: Store,
     private effects: ProductDetailsEffects,
     public router: Router,
-  ) {}
+  ) {
+    this.form.addControl("initialImageUrl", new FormControl(null));
+  }
 
   public ionViewDidEnter() {
     //this.form.valueChanges.subscribe(() => console.log(this.form));

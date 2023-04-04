@@ -10,6 +10,9 @@
         <app-image-selector
           label="Termék képe"
           [bindedFormControl]="bindedFormGroup.controls.image"
+          [initialImageUrl]="
+            bindedFormGroup.controls.initialImageUrl?.value || undefined
+          "
         ></app-image-selector>
         <ng-container
           *ngIf="(isDesktop$ | async) === false; else descriptionInput"

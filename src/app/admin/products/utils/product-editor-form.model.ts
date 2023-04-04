@@ -5,6 +5,7 @@ export interface ProductEditorFormModel {
   categoryId: FormControl<number | null>;
   name: FormControl<string | null>;
   image: FormControl<File | null>;
+  initialImageUrl?: FormControl<string | null>;
   description: FormControl<string | null>;
   discountedPrice: FormControl<number | null>;
   fullPrice: FormControl<number | null>;
