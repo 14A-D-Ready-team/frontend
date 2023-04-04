@@ -1,9 +1,8 @@
-<app-menu-wrapper>
+<app-menu-wrapper *ngIf="vm$ | async as vm" [disabled]="vm.isDesktop">
   <ion-menu
     side="end"
     contentId="product-list-page-content"
     menuId="product-filter-menu"
-    *ngIf="vm$ | async as vm"
   >
     <ng-container *ngIf="vm.isDesktop === false">
       <ion-header>
@@ -34,7 +33,7 @@
 
 <div class="ion-page" id="product-list-page-content">
   <app-admin-header pageTitle="Termékek">
-    <ion-menu-button menu="end" end-buttons>
+    <ion-menu-button menu="product-filter-menu" end-buttons>
       <ion-icon part="icon" name="funnel"></ion-icon>
     </ion-menu-button>
   </app-admin-header>
