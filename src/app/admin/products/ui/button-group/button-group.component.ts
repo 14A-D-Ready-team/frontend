@@ -8,7 +8,12 @@ import { IonicModule } from "@ionic/angular";
   imports: [CommonModule, IonicModule],
   template: `
     <div class="button-container">
-      <ion-button fill="clear" color="medium" (click)="cancel.emit()">
+      <ion-button
+        fill="clear"
+        color="medium"
+        [disabled]="cancelDisabled"
+        (click)="cancel.emit()"
+      >
         Mégse
       </ion-button>
       <ion-button
@@ -30,6 +35,9 @@ export class ButtonGroupComponent implements OnInit {
 
   @Input()
   public saveDisabled = false;
+
+  @Input()
+  public cancelDisabled = false;
 
   @Output()
   public save = new EventEmitter<void>();

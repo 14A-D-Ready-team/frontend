@@ -63,6 +63,7 @@ export abstract class UpdatePageState<
 
   public updateSucceeded(
     ctx: StateContext<StateModel>,
+    action: any,
   ): Promise<any> | Observable<any> | any {}
 
   public updateFailed(

@@ -45,9 +45,10 @@
       </ion-card-content>
 
       <app-admin-button-group
-        *ngIf="hasChanges$|async"
-        [loading]="(status$ | async)?.loading === true"
-        [saveDisabled]="form.invalid || (status$ | async)?.loading === true "
+        *ngIf="hasChanges$ | async"
+        [loading]="(vm.status)?.loading === true"
+        [saveDisabled]="form.invalid || (vm.status)?.loading === true "
+        [cancelDisabled]="(vm.status)?.loading === true "
         (cancel)="cancel()"
         (save)="save()"
       >

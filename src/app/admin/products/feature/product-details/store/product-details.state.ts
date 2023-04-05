@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { AppAbility } from "@app/app-ability.factory";
 import { AbilityService } from "@casl/angular";
 import { SetActive } from "@ngxs-labs/entity-state";
-import { UpdateFormValue } from "@ngxs/form-plugin";
+import { SetFormEnabled, UpdateFormValue } from "@ngxs/form-plugin";
 import {
   Action,
   Actions,
@@ -203,6 +203,14 @@ export class ProductDetailsState
 
     const product = this.store.selectSnapshot(ProductState.entityById(id));
     ctx.dispatch(new SetUpdatedProductData(product));
+  }
+
+  public updateSucceeded(
+    ctx: StateContext<ProductDetailsStateModel>,
+    action: ProductActions.UpdateSucceeded,
+  ) {
+    ctx.dispatch(new SetFormEnabled(formPath));
+    return ctx.dispatch(new SetUpdatedProductData(action.entity));
   }
 
   private loadProductById(id: number) {
