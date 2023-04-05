@@ -3,7 +3,7 @@ import { getValue, Select, Store } from "@ngxs/store";
 import { Category, CategoryState, loadCategories } from "@shared/category";
 import { TargetedRequestStatus } from "@shared/extended-entity-state";
 import { ProductState } from "@shared/product";
-import { Observable } from "rxjs";
+import { Observable, skip } from "rxjs";
 import { createProductEditorForm } from "../../utils";
 import {
   DiscardChanges,
@@ -43,8 +43,7 @@ export class ProductDetailsPage
   @Select(ProductDetailsState.loading)
   public editorLoading$!: Observable<boolean>;
 
-  @Select(ProductDetailsState.hasChanges)
-  public hasChanges$!: Observable<boolean>;
+  public hasChanges$: Observable<boolean>;
 
   public formPath = formPath;
 
@@ -57,6 +56,9 @@ export class ProductDetailsPage
     public router: Router,
   ) {
     this.form.addControl("initialImageUrl", new FormControl(null));
+    this.hasChanges$ = this.store
+      .select(ProductDetailsState.hasChanges)
+      .pipe(skip(1));
   }
 
   public ionViewDidEnter() {
