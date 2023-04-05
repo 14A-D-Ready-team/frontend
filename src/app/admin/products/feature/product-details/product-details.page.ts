@@ -22,6 +22,7 @@ import {
 } from "@ionic/angular";
 import { Router } from "@angular/router";
 import { FormControl } from "@angular/forms";
+import { NavigationService } from "@shared/navigation";
 @Component({
   selector: "app-admin-product-details",
   templateUrl: "./product-details.page.html",
@@ -52,6 +53,7 @@ export class ProductDetailsPage
   constructor(
     private store: Store,
     private effects: ProductDetailsEffects,
+    private navigation: NavigationService,
     public router: Router,
   ) {
     this.form.addControl("initialImageUrl", new FormControl(null));
@@ -80,5 +82,9 @@ export class ProductDetailsPage
 
   public cancel() {
     this.store.dispatch(new DiscardChanges());
+  }
+
+  public back() {
+    this.navigation.back("/admin/products");
   }
 }
