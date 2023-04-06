@@ -1,4 +1,4 @@
-<ion-card button (click)="cardClick.emit()">
+<ion-card button (click)="cardClick.emit()" [disabled]="deleting">
   <img
     alt="Product image"
     [src]="apiUrl + '/product/' + product.id + '/image'"
@@ -59,8 +59,9 @@
     </div>
   </ion-card-content>
 
-  <ion-button fill="clear" color="danger" (click)="delete($event)">
-    <ion-icon slot="start" name="trash"></ion-icon>
+  <ion-button fill="clear" color="danger" (click)="onDelete($event)">
+    <ion-icon slot="start" name="trash" *ngIf="!deleting"></ion-icon>
+    <ion-spinner slot="start" color="danger" *ngIf="deleting"></ion-spinner>
     Törlés
   </ion-button>
 </ion-card>

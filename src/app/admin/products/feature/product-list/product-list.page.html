@@ -88,14 +88,14 @@
               *ngFor="let product of vm.products; trackBy: productById"
             >
               <app-admin-product-preview
-                routerLink="details"
-                [queryParams]="{ id: product.id}"
-                params
                 [product]="product"
                 [category]="vm.categoriesMap[product.categoryId]"
                 [categoryLoading]="
                   !vm.categoriesMap[product.categoryId] && vm.categoriesLoading
                 "
+                [deleting]="vm.deleteStatus?.loading === true && vm.deleteStatus?.targetId === product.id"
+                (delete)="delete(product)"
+                (cardClick)="router.navigate(['details', {id: product.id}])"
               ></app-admin-product-preview>
             </ion-col>
             <ng-container *ngIf="vm.loading">
