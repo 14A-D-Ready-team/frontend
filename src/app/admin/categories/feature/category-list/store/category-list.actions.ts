@@ -29,12 +29,6 @@ export class StopEdit {
   public static readonly type = "[CategoryListPage] Stop Edit";
 }
 
-export class Delete {
-  public static readonly type = "[CategoryListPage] Delete";
-
-  constructor(public id: number) {}
-}
-
 export class Reload {
   public static readonly type = "[CategoryListPage] Reload";
 }

@@ -12,7 +12,6 @@ import { Product } from "@shared/product";
 import { Category } from "@shared/category";
 import { DomSanitizer } from "@angular/platform-browser";
 import { environment } from "@/environments/environment";
-import { defaultThrottleConfig } from "rxjs/internal/operators/throttle";
 
 @Component({
   selector: "app-admin-product-preview",
@@ -32,10 +31,16 @@ export class ProductPreviewComponent implements OnInit {
   @Input()
   public categoryLoading = false;
 
+  @Input()
+  public deleting = false;
+
   public apiUrl = environment.api.url;
 
   @Output()
   public cardClick = new EventEmitter<void>();
+
+  @Output()
+  public delete = new EventEmitter<void>();
 
   constructor(private sanitizer: DomSanitizer) {}
 
@@ -45,7 +50,8 @@ export class ProductPreviewComponent implements OnInit {
     }
   }
 
-  public delete(event: any) {
+  public onDelete(event: any) {
     event.stopPropagation();
+    this.delete.emit();
   }
 }

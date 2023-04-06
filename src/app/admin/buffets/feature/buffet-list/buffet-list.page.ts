@@ -4,10 +4,14 @@ import {
   Platform,
   RefresherCustomEvent,
   InfiniteScrollCustomEvent,
+  ActionSheetController,
+  ModalController,
 } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
+import { DeleteConfirmMixin } from "@shared/modals";
 import { Observable, startWith, map, combineLatest, take } from "rxjs";
+import { Mixin } from "ts-mixer";
 import { BuffetFilterState } from "../buffet-filter/store";
 import { BuffetListEffects } from "./store";
 import {
@@ -25,7 +29,10 @@ import { BuffetListState } from "./store/buffet-list.state";
   templateUrl: "./buffet-list.page.html",
   styleUrls: ["./buffet-list.page.scss"],
 })
-export class BuffetListPage implements OnInit, OnDestroy {
+export class BuffetListPage
+  extends Mixin(DeleteConfirmMixin)
+  implements OnInit, OnDestroy
+{
   @Select(BuffetListState.shownBuffets)
   public buffets$!: Observable<Buffet[]>;
 
@@ -65,10 +72,14 @@ export class BuffetListPage implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private effects: BuffetListEffects,
-    private platform: Platform,
+    protected platform: Platform,
+    protected actionSheetController: ActionSheetController,
+    protected modalController: ModalController,
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) {
+    super();
+  }
 
   public ngOnInit(): void {
     this.store.dispatch(new LoadPage());
@@ -119,8 +130,11 @@ export class BuffetListPage implements OnInit, OnDestroy {
     this.store.dispatch(new SelectBuffet(id));
   }
 
-  public delete(id: number) {
-    const idString = id.toString();
+  public async delete(buffet: Buffet) {
+    if (!(await this.confirmDelete(`${buffet.name} büfét?`))) {
+      return;
+    }
+    const idString = buffet.id.toString();
     this.store.dispatch(new Delete(idString));
   }
 }

@@ -1,9 +1,11 @@
 import { Dictionary } from "@/types";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Category, CategoryState, loadCategories } from "@shared/category";
-import { Product, ProductState } from "@app/shared/product";
+import { Product, ProductActions, ProductState } from "@app/shared/product";
 import {
+  ActionSheetController,
   InfiniteScrollCustomEvent,
+  ModalController,
   Platform,
   RefresherCustomEvent,
 } from "@ionic/angular";
@@ -31,13 +33,19 @@ import { ProductFilterState } from "../product-filter";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NoBuffetSelectedException } from "@shared/buffet/utils";
 import { groupBy } from "@shared/utils";
+import { Mixin } from "ts-mixer";
+import { DeleteConfirmMixin } from "@shared/modals";
+import { TargetedRequestStatus } from "@shared/extended-entity-state";
 
 @Component({
   selector: "app-product-list",
   templateUrl: "./product-list.page.html",
   styleUrls: ["./product-list.page.scss"],
 })
-export class ProductListPage implements OnInit, OnDestroy {
+export class ProductListPage
+  extends Mixin(DeleteConfirmMixin)
+  implements OnInit, OnDestroy
+{
   @Select(ProductListState.shownProducts)
   public products$!: Observable<Product[]>;
 
@@ -59,6 +67,9 @@ export class ProductListPage implements OnInit, OnDestroy {
   @Select(CategoryState.error)
   public categoryError$!: Observable<any>;
 
+  @Select(ProductState.deleteStatus)
+  public deleteStatus$!: Observable<TargetedRequestStatus | undefined>;
+
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
     map(() => this.platform.width() >= 992),
@@ -73,6 +84,7 @@ export class ProductListPage implements OnInit, OnDestroy {
     this.typing$,
     this.isDesktop$,
     this.categoryError$,
+    this.deleteStatus$,
   ]).pipe(
     map(
       ([
@@ -84,6 +96,7 @@ export class ProductListPage implements OnInit, OnDestroy {
         typing,
         isDesktop,
         categoryError,
+        deleteStatus,
       ]) => ({
         products,
         categories,
@@ -95,6 +108,7 @@ export class ProductListPage implements OnInit, OnDestroy {
         isDesktop,
         categoryError,
         noBuffetSelected: categoryError instanceof NoBuffetSelectedException,
+        deleteStatus,
       }),
     ),
   );
@@ -104,10 +118,13 @@ export class ProductListPage implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private effects: ProductListEffects,
-    private platform: Platform,
-    private router: Router,
+    protected platform: Platform,
+    protected actionSheetController: ActionSheetController,
+    protected modalController: ModalController,
+    public router: Router,
     private route: ActivatedRoute,
   ) {
+    super();
     this.sub = route.url
       .pipe(
         map(() => route.component),
@@ -158,5 +175,12 @@ export class ProductListPage implements OnInit, OnDestroy {
     this.router.navigate(["new"], {
       relativeTo: this.route,
     });
+  }
+
+  public async delete(product: Product) {
+    if (!(await this.confirmDelete(`${product.name} terméket?`))) {
+      return;
+    }
+    this.store.dispatch(new ProductActions.Delete(product.id));
   }
 }
