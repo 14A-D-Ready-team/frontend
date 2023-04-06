@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button
-        defaultHref="/admin/products/new"
+        class="show-back-button"
         (click)="close()"
       ></ion-back-button>
     </ion-buttons>
@@ -25,6 +25,7 @@
   <ion-reorder-group
     [disabled]="(sorting$ | async) === false"
     (ionItemReorder)="handleReorder($event)"
+    *ngIf="bindedFormArray | formChanges | async"
   >
     <ion-reorder *ngFor="let option of bindedFormArray.controls; let i = index">
       <app-admin-option-input

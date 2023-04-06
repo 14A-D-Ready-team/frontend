@@ -208,8 +208,11 @@ export class CategoryListState
     return this.resetEditorForm(ctx);
   }
 
-  public updateSucceeded(ctx: StateContext<CategoryListStateModel>) {
-    super.updateSucceeded(ctx);
+  public updateSucceeded(
+    ctx: StateContext<CategoryListStateModel>,
+    action: CategoryActions.UpdateSucceeded,
+  ) {
+    super.updateSucceeded(ctx, action);
     return ctx.dispatch(new StopEdit());
   }
 

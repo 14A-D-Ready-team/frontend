@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { IonModal } from "@ionic/angular";
+import { IonModal, ViewWillLeave } from "@ionic/angular";
 import { Select } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
@@ -12,7 +12,7 @@ import { Observable } from "rxjs";
   templateUrl: "./welcome.page.html",
   styleUrls: ["./welcome.page.scss"],
 })
-export class WelcomePage implements OnInit, OnDestroy {
+export class WelcomePage implements OnInit, OnDestroy, ViewWillLeave {
   @ViewChild("loginModal") modal!: IonModal;
 
   selectedSegmentLogin = "login";
@@ -41,7 +41,7 @@ export class WelcomePage implements OnInit, OnDestroy {
     console.log("bezárt");
   }
 
-  ionViewDidLeave() {
+  ionViewWillLeave(): void {
     this.modal.dismiss();
     console.log("bezárt");
   }

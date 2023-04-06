@@ -89,7 +89,7 @@ export class ProductListPage implements OnInit, OnDestroy {
         categories,
         categoriesMap: categories && groupBy(categories, "id"),
         loading,
-        categoriesLoading,
+        categoriesLoading: categoriesLoading || false,
         error,
         typing,
         isDesktop,

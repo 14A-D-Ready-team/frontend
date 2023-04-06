@@ -1,7 +1,7 @@
 import { environment } from "@/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ApiService, PaginatedResponse } from "@shared/api";
+import { ApiService, httpOptions, PaginatedResponse } from "@shared/api";
 import {
   processPaginatedResponse,
   processResponse,
@@ -30,13 +30,18 @@ export class BuffetService extends ApiService<
     return this.httpClient
       .get<Buffet[]>(environment.api.url + this.path, {
         params: serializeQueryParams(query),
+        ...httpOptions,
       })
       .pipe(processPaginatedResponse(Buffet));
   }
 
   public createInvite(dto: CreateInviteTokenDto) {
     return this.httpClient
-      .post<BuffetInviteToken>(environment.api.url + this.path + "invite", dto)
+      .post<BuffetInviteToken>(
+        environment.api.url + this.path + "invite",
+        dto,
+        httpOptions,
+      )
       .pipe(processResponse(BuffetInviteToken));
   }
 

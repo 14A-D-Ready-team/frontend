@@ -2,7 +2,7 @@ import { SetError } from "@ngxs-labs/entity-state";
 import { Store } from "@ngxs/store";
 import { BuffetState } from "@shared/buffet";
 import { NoBuffetSelectedException } from "@shared/buffet/utils";
-import { filter, switchMap, takeUntil } from "rxjs";
+import { filter, switchMap } from "rxjs";
 import { FilterCategoriesQuery } from "../query";
 import { CategoryActions, CategoryState } from "../store";
 import { waitForCategoryLoading } from "./wait-for-category-loading.operator";

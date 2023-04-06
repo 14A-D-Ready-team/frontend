@@ -21,8 +21,15 @@ import { ErrorMessagePipe } from "../../../utils";
       </ion-card-header>
       <ion-card-content>
         <ion-item lines="none">
-          <ion-icon *ngIf="icon" slot="start" [name]="icon"></ion-icon>
-          <ion-label>{{ error | errorMessage }}</ion-label>
+          <ion-icon
+            *ngIf="icon"
+            slot="start"
+            [name]="icon"
+            [color]="contentColor"
+          ></ion-icon>
+          <ion-label [color]="contentColor">{{
+            error | errorMessage
+          }}</ion-label>
         </ion-item>
         <ion-button
           *ngIf="showRetryButton"
@@ -65,6 +72,9 @@ export class ErrorCardComponent {
 
   @Input()
   public icon?: string;
+
+  @Input()
+  public contentColor?: string;
 
   @Output()
   public retry: EventEmitter<void> = new EventEmitter();

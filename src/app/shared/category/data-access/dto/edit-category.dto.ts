@@ -24,7 +24,8 @@ export class EditCategoryDto {
     dto: EditCategoryDto,
     original: Category,
   ) {
-    return omitUnchangedProperties(dto, original);
+    omitUnchangedProperties(dto, original);
+    return dto;
   }
 
   public static hasChanges(dto: EditCategoryDto) {

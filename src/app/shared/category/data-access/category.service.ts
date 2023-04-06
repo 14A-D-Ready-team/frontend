@@ -1,7 +1,7 @@
 import { environment } from "@/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ApiService } from "@shared/api";
+import { ApiService, httpOptions } from "@shared/api";
 import {
   processArrayResponse,
   processResponse,
@@ -30,6 +30,7 @@ export class CategoryService extends ApiService<
     return this.httpClient
       .get(environment.api.url + "/category", {
         params: serializeQueryParams(query),
+        ...httpOptions,
       })
       .pipe(processArrayResponse(Category));
   }
