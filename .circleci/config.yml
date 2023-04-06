@@ -67,7 +67,7 @@ workflows:
       - cypress/run:
           requires:
             - build-and-test
-          install-command: npm i --legacy-peer-deps
+          install-command: npm rebuild && npm i --legacy-peer-deps
           record: true
           store_artifacts: true
           attach-workspace: false
