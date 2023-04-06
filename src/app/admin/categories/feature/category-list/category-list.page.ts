@@ -40,13 +40,17 @@ import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
-import { DeleteConfirmModalComponent } from "@shared/modals";
+import {
+  DeleteConfirmMixin,
+  DeleteConfirmModalComponent,
+} from "@shared/modals";
 import {
   TargetedRequestStatus,
   ApiRequestStatus,
 } from "@shared/extended-entity-state/utils";
 import { NoBuffetSelectedException } from "@shared/buffet/utils";
 import { ActivatedRoute } from "@angular/router";
+import { Mixin } from "ts-mixer";
 
 @Component({
   selector: "app-admin-category-list",
@@ -54,7 +58,10 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./category-list.page.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoryListPage implements OnDestroy {
+export class CategoryListPage
+  extends Mixin(DeleteConfirmMixin)
+  implements OnDestroy
+{
   @Select(CategoryListState.categories)
   public categories$!: Observable<Category[]>;
 
@@ -123,11 +130,12 @@ export class CategoryListPage implements OnDestroy {
 
   constructor(
     private store: Store,
-    private actionSheetController: ActionSheetController,
-    private modalController: ModalController,
-    private platform: Platform,
+    protected actionSheetController: ActionSheetController,
+    protected modalController: ModalController,
+    protected platform: Platform,
     private route: ActivatedRoute,
   ) {
+    super();
     this.editorForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(
       EditCategoryDto,
       {
@@ -177,7 +185,7 @@ export class CategoryListPage implements OnDestroy {
   }
 
   public async onDelete(category: Category) {
-    if (!(await this.confirmDelete(category))) {
+    if (!(await this.confirmDelete(`${category.name} kategóriát?`))) {
       return;
     }
 
@@ -186,49 +194,5 @@ export class CategoryListPage implements OnDestroy {
 
   public categoryById(index: number, el: Category): number {
     return el?.id;
-  }
-
-  private async confirmDelete(category: Category): Promise<boolean> {
-    const message = `Biztosan törölni szeretné a(z) ${category.name} kategóriát?`;
-    if (this.platform.is("desktop")) {
-      return this.showDeleteModal(message);
-    } else {
-      return this.showDeleteActionSheet(message);
-    }
-  }
-
-  private async showDeleteModal(message: string): Promise<boolean> {
-    const modal = await this.modalController.create({
-      component: DeleteConfirmModalComponent,
-      componentProps: {
-        message,
-      },
-    });
-    modal.present();
-    return (await modal.onDidDismiss()).role === "confirm";
-  }
-
-  private async showDeleteActionSheet(header: string): Promise<boolean> {
-    const actionSheet = await this.actionSheetController.create({
-      header,
-      buttons: [
-        {
-          text: "Törlés",
-          role: "destructive",
-          data: {
-            action: "delete",
-          },
-        },
-        {
-          text: "Mégse",
-          role: "cancel",
-          data: {
-            action: "cancel",
-          },
-        },
-      ],
-    });
-    actionSheet.present();
-    return (await actionSheet.onDidDismiss())?.data?.action === "delete";
   }
 }
