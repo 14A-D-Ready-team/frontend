@@ -65,6 +65,8 @@ workflows:
           requires:
             - format-code
       - cypress/run:
+          requires:
+            - build-and-test
           install-command: npm cache clean --force && npm i --force --package-lock false
           record: true
           store_artifacts: true
