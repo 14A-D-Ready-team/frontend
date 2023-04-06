@@ -8,7 +8,7 @@ orbs:
 jobs:
   format-code:
     docker:
-      - image: cimg/node:16.10
+      - image: cimg/node:18.15
     steps:
       - add_ssh_keys:
           fingerprints:
