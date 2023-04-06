@@ -95,7 +95,7 @@
                 "
                 [deleting]="vm.deleteStatus?.loading === true && vm.deleteStatus?.targetId === product.id"
                 (delete)="delete(product)"
-                (cardClick)="router.navigate(['details', {id: product.id}])"
+                (cardClick)="router.navigate(['admin/products/details'], { queryParams: { id: product.id }})"
               ></app-admin-product-preview>
             </ion-col>
             <ng-container *ngIf="vm.loading">
