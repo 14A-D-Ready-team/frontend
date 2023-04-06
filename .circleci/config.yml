@@ -66,8 +66,8 @@ workflows:
             - format-code
       - cypress/run:
           requires:
-            - build-and-test
-          install-command: npm rebuild && npm i --legacy-peer-deps
+
+          install-command: npm cache clean && npm i --force --package-lock false
           record: true
           store_artifacts: true
           attach-workspace: false
