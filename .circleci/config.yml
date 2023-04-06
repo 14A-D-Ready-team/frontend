@@ -65,9 +65,7 @@ workflows:
           requires:
             - format-code
       - cypress/run:
-          requires:
-
-          install-command: npm cache clean && npm i --force --package-lock false
+          install-command: npm cache clean --force && npm i --force --package-lock false
           record: true
           store_artifacts: true
           attach-workspace: false
