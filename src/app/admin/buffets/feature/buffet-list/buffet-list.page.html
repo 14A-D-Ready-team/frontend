@@ -80,7 +80,7 @@
                 [buffet]="buffet"
                 (cardClick)="editBuffet(buffet)"
                 (selectBuffet)="select(buffet.id)"
-                (deleteBuffet)="delete(buffet.id)"
+                (deleteBuffet)="delete(buffet)"
               ></app-admin-buffet-preview>
             </ion-col>
             <ng-container *ngIf="vm.loading">

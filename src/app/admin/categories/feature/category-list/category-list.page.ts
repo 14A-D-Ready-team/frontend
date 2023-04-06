@@ -6,7 +6,12 @@ import {
 } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Select, Store } from "@ngxs/store";
-import { Category, CategoryState, EditCategoryDto } from "@shared/category";
+import {
+  Category,
+  CategoryActions,
+  CategoryState,
+  EditCategoryDto,
+} from "@shared/category";
 import {
   combineLatest,
   filter,
@@ -22,7 +27,6 @@ import {
   LoadPage,
   SaveEdit,
   Edit,
-  Delete,
   Reload,
   CategoryListState,
   AddNew,
@@ -189,7 +193,7 @@ export class CategoryListPage
       return;
     }
 
-    this.store.dispatch(new Delete(category.id));
+    this.store.dispatch(new CategoryActions.Delete(category.id));
   }
 
   public categoryById(index: number, el: Category): number {
