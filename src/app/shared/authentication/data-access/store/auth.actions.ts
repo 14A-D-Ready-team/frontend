@@ -59,3 +59,7 @@ export class SessionSigninCompleted {
 export class ClearNextUrl {
   public static readonly type = "[Auth] Clear Next Url";
 }
+
+export class PoliciesUpdated {
+  public static readonly type = "[Auth] Policies Updated";
+}

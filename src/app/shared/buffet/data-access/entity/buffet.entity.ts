@@ -33,27 +33,7 @@ export class Buffet {
   @Expose()
   public inviteTokens!: BuffetInviteToken[];
 
-  constructor(
-    id: number,
-    name: string,
-    coords: string,
-    address: string,
-    hours: string,
-    description: string,
-    status: BuffetStatus,
-    ownerId: number,
-    emloyees: number[],
-    inivteTokens: BuffetInviteToken[],
-  ) {
-    this.id = id;
-    this.name = name;
-    this.coords = coords;
-    this.address = address;
-    this.hours = hours;
-    this.description = description;
-    this.status = status;
-    this.buffetOwnerId = ownerId;
-    this.employees = emloyees;
-    this.inviteTokens = inivteTokens;
+  constructor(data: Partial<Buffet> = {}) {
+    Object.assign(this, data);
   }
 }
