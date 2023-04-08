@@ -24,6 +24,7 @@ import {
 } from "./main-page.actions";
 
 const productsLoadedPerScroll = 2;
+
 export interface MainPageStateModel {
   selectedCategoryId?: number;
   // key: id of the category
@@ -71,6 +72,9 @@ export class MainPageState {
     ctx.patchState({ selectedCategoryId: action.id });
     console.log(ctx.getState());
   }
+
+  //lehet így kell??? (a "dictionary" lehet msá nevű is)
+  //ctx.patchState({paginationState: {dictionary: {productIds: [3, 4], remainingItems: 10}}})
 
   @Action(LoadMoreProducts)
   public loadMoreProducts(

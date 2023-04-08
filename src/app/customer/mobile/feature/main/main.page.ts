@@ -113,7 +113,7 @@ export class MainPage implements OnInit {
     );
   }
 
-  onIonInfinite(event: any) {
+  onInfinite(event: any) {
     if (
       event.target.offsetWidth + event.target.scrollLeft >=
       event.target.scrollWidth - 20
