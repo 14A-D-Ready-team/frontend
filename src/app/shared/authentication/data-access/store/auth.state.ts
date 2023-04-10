@@ -2,6 +2,7 @@ import { Injectable, NgZone } from "@angular/core";
 import { ExternalAuthService } from "@shared/external-auth";
 import {
   Action,
+  NgxsOnInit,
   Selector,
   State,
   StateContext,
@@ -33,7 +34,6 @@ import {
   SessionSigninSucceeded,
   SessionSigninFailed,
   SessionSigninCompleted,
-  ClearNextUrl,
   PoliciesUpdated,
 } from "./auth.actions";
 import { User, UserType } from "@app/shared/user";
@@ -54,9 +54,7 @@ enum SocialAuthStatus {
 }
 
 type SessionSigninStatus = {
-  loading: boolean;
   completed: boolean;
-  nextUrl?: any[];
 };
 
 export interface AuthStateModel {
@@ -74,13 +72,12 @@ export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
     googleVerifyStatus: SocialAuthStatus.Idle,
     sessionSigninStatus: {
       completed: false,
-      loading: false,
     },
     policiesUptodate: false,
   },
 })
 @Injectable()
-export class AuthState {
+export class AuthState implements NgxsOnInit {
   @Selector()
   public static user(state: AuthStateModel) {
     return state.user;
@@ -119,6 +116,10 @@ export class AuthState {
     externalAuthService.googleToken$
       .pipe(switchMap(idToken => store.dispatch(new VerifyGoogleAuth(idToken))))
       .subscribe();
+  }
+
+  public ngxsOnInit(ctx: StateContext<AuthStateModel>): void {
+    ctx.dispatch(new SessionSignin());
   }
 
   @Action(VerifyGoogleAuth)
@@ -173,21 +174,13 @@ export class AuthState {
     action: SessionSignin,
   ) {
     ctx.patchState({
-      sessionSigninStatus: {
-        loading: true,
-        completed: false,
-        nextUrl: action.nextUrl,
-      },
+      sessionSigninStatus: { completed: false },
     });
 
     return this.authService.sessionSignin().pipe(
       switchMap(user => ctx.dispatch(new SessionSigninSucceeded(user))),
       catchError(error => ctx.dispatch(new SessionSigninFailed(error))),
-      finalize(() =>
-        ctx.dispatch(
-          new SessionSigninCompleted(action.nextUrl, action.queryParams),
-        ),
-      ),
+      finalize(() => ctx.dispatch(new SessionSigninCompleted())),
     );
   }
 
@@ -201,26 +194,8 @@ export class AuthState {
 
   @Action(SessionSigninCompleted)
   public sessionSigninCompleted(ctx: StateContext<AuthStateModel>) {
-    const status = ctx.getState().sessionSigninStatus;
     ctx.patchState({
-      sessionSigninStatus: {
-        loading: false,
-        completed: true,
-        nextUrl: status.nextUrl,
-      },
-    });
-  }
-
-  @Action(ClearNextUrl)
-  public clearNextUrl(ctx: StateContext<AuthStateModel>) {
-    const status = ctx.getState().sessionSigninStatus;
-
-    ctx.patchState({
-      sessionSigninStatus: {
-        nextUrl: undefined,
-        completed: status.completed,
-        loading: status.loading,
-      },
+      sessionSigninStatus: { completed: true },
     });
   }
 
