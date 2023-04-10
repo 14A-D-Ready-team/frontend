@@ -1,17 +1,8 @@
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from "@angular/router";
+import { Router, RouterStateSnapshot } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
-import { map, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
