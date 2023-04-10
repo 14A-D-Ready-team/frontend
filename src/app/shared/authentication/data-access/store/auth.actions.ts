@@ -59,7 +59,3 @@ export class SessionSigninCompleted {
 export class PoliciesUpdated {
   public static readonly type = "[Auth] Policies Updated";
 }
-
-export class PoliciesUpdated {
-  public static readonly type = "[Auth] Policies Updated";
-}
