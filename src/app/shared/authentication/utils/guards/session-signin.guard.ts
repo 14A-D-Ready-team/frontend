@@ -1,84 +1,34 @@
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  CanDeactivate,
-  Router,
-  RouterStateSnapshot,
-  UrlSegment,
-} from "@angular/router";
 import { Store } from "@ngxs/store";
-import { join, omit } from "lodash";
-import { AuthState, SessionSignin } from "../../data-access";
+import { AuthState } from "../../data-access";
+import {
+  catchError,
+  filter,
+  map,
+  of,
+  takeWhile,
+  throwError,
+  timeout,
+} from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class SessionSigninGuard
-  implements CanActivateChild, CanActivate, CanDeactivate<any>
-{
-  constructor(private store: Store, private router: Router) {}
+export class SessionSigninGuard {
+  constructor(private store: Store) {}
 
-  // used by /*, except /session-signin
-  public canActivateChild(
-    childRoute: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ) {
-    const { completed, loading } = this.store.selectSnapshot(
-      AuthState.sessionSigninStatus,
+  public guard() {
+    return this.store.select(AuthState.sessionSigninStatus).pipe(
+      map(status => status.completed),
+      takeWhile(completed => !completed, true),
+      filter(completed => completed),
+      timeout(4000),
+      catchError(err => {
+        if (err.name === "TimeoutError") {
+          return of(true);
+        }
+        return throwError(() => err);
+      }),
     );
-
-    if (completed) {
-      return true;
-    }
-
-    const nextUrl = ["/", ...collectPaths(childRoute)];
-
-    if (!loading) {
-      this.store.dispatch(new SessionSignin(nextUrl, childRoute.queryParams));
-    }
-
-    return this.router.parseUrl("/session-signin");
   }
-
-  // used by: /session-signin
-  public canActivate() {
-    const { completed, loading, nextUrl } = this.store.selectSnapshot(
-      AuthState.sessionSigninStatus,
-    );
-
-    if (completed) {
-      if (nextUrl) {
-        return this.router.parseUrl(join(nextUrl));
-      }
-      return false;
-    }
-    if (!loading) {
-      this.store.dispatch(new SessionSignin(["/"]));
-    }
-
-    return true;
-  }
-
-  // used by: /session-signin
-  public canDeactivate() {
-    const { completed } = this.store.selectSnapshot(
-      AuthState.sessionSigninStatus,
-    );
-
-    return completed;
-  }
-}
-
-function collectPaths(node: ActivatedRouteSnapshot): string[] {
-  const paths: string[] = [];
-  if (node.url && node.url.length > 0) {
-    paths.push(node.url[0].path);
-  }
-  if (node.children && node.children.length > 0) {
-    const childPaths = collectPaths(node.children[0]);
-    paths.push(...childPaths);
-  }
-  return paths;
 }

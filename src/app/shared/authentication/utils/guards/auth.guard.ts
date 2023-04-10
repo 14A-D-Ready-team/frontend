@@ -1,43 +1,20 @@
 import { Injectable } from "@angular/core";
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from "@angular/router";
+import { Router, RouterStateSnapshot } from "@angular/router";
 import { ToastController } from "@ionic/angular";
 import { Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
-import { map, tap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
-export class AuthGuard implements CanActivateChild, CanActivate {
+export class AuthGuard {
   constructor(
     private store: Store,
     private router: Router,
     private toastController: ToastController,
   ) {}
 
-  public canActivateChild(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ) {
-    return this.guard(state);
-  }
-
-  public canActivate(
-    childRoute: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ) {
-    return this.guard(state);
-  }
-
-  private guard(state: RouterStateSnapshot) {
+  public guard(state: RouterStateSnapshot) {
     const currentUrl = this.router.routerState.snapshot.url;
     const isCurrentlyOnAuth = !!currentUrl.match(/auth/);
     const isCurrentlyOnLogin = !!currentUrl.match(/^auth\/login\/.*$/);
@@ -56,7 +33,6 @@ export class AuthGuard implements CanActivateChild, CanActivate {
       }
       return false;
     }
-
     return this.router.parseUrl("/login?nextUrl=" + state.url);
   }
 
