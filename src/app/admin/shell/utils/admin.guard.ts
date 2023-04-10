@@ -3,6 +3,7 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   CanActivateChild,
+  Router,
   RouterStateSnapshot,
   UrlTree,
 } from "@angular/router";
@@ -33,16 +34,17 @@ import { User } from "@shared/user";
 @Injectable({
   providedIn: "root",
 })
-export class AdminGuard implements CanActivate {
+export class AdminGuard implements CanActivateChild {
   constructor(
     private abilityService: AbilityService<AppAbility>,
     private store: Store,
     private toastController: ToastController,
+    private router: Router,
     private sessionSigninGuard: SessionSigninGuard,
     private authGuard: AuthGuard,
   ) {}
 
-  public canActivate(
+  public canActivateChild(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ) {
@@ -70,6 +72,18 @@ export class AdminGuard implements CanActivate {
         if (!result) {
           this.showWarning();
         }
+      }),
+      map(result => {
+        const shouldRedirect = state.root.component === null;
+        if (result || !shouldRedirect) {
+          return result;
+        }
+
+        const isOnAdmin = !!state.url.match(/admin.*/);
+        if (isOnAdmin) {
+          return this.router.parseUrl("/admin");
+        }
+        return this.router.parseUrl("/");
       }),
     );
   }
