@@ -48,8 +48,7 @@
   <!-- üdvözlőszöveg -->
   <div class="text-container">
     <h1>
-      Üdvözöljük
-      <span class="user-name">{{ vm.activeUser?.name }}</span>!
+      Üdvözöljük<span *ngIf="vm.activeUser" class="user-name">{{ vm.activeUser?.name }}</span>!
     </h1>
     <p>Válogass a(z) {{vm.activeBuffet?.name}} kínálatából!</p>
   </div>
