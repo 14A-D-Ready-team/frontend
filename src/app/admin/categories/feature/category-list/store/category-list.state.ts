@@ -26,7 +26,6 @@ import {
   AddNew,
   StopAddingNew,
   SaveNew,
-  Delete,
 } from "./category-list.actions";
 import { ResetForm, SetFormEnabled, UpdateFormValue } from "@ngxs/form-plugin";
 import { Platform, ToastController } from "@ionic/angular";
@@ -208,8 +207,11 @@ export class CategoryListState
     return this.resetEditorForm(ctx);
   }
 
-  public updateSucceeded(ctx: StateContext<CategoryListStateModel>) {
-    super.updateSucceeded(ctx);
+  public updateSucceeded(
+    ctx: StateContext<CategoryListStateModel>,
+    action: CategoryActions.UpdateSucceeded,
+  ) {
+    super.updateSucceeded(ctx, action);
     return ctx.dispatch(new StopEdit());
   }
 
@@ -224,11 +226,6 @@ export class CategoryListState
       ctx.dispatch(new StopEdit());
       return ctx.dispatch(new Remove(CategoryState, e => e.id === editedId));
     }
-  }
-
-  @Action(Delete)
-  public delete(ctx: StateContext<CategoryListStateModel>, action: Delete) {
-    return ctx.dispatch(new CategoryActions.Delete(action.id));
   }
 
   private resetEditorForm(ctx: StateContext<CategoryListStateModel>) {

@@ -1,20 +1,26 @@
 <div class="header">
-  <ion-label class="input-like">Választási lehetőségek</ion-label>
+  <ion-label
+    class="input-like"
+    [style.opacity]="bindedFormArray.disabled ? '0.3' : '1'"
+    >Választási lehetőségek</ion-label
+  >
 
   <ion-button
     slot="end"
     shape="round"
     size="small"
+    [disabled]="bindedFormArray.disabled"
     (click)="addCustomization()"
   >
     <ion-icon name="add" slot="icon-only"></ion-icon>
   </ion-button>
 </div>
 
-<ion-accordion-group #accordionGroup>
+<ion-accordion-group #accordionGroup [disabled]="bindedFormArray.disabled">
   <ion-reorder-group
-    [disabled]="false"
+    [disabled]="bindedFormArray.disabled"
     (ionItemReorder)="handleReorder($event)"
+    *ngIf="bindedFormArray | formChanges | async"
   >
     <app-admin-customization-input
       *ngFor="let customization of bindedFormArray.controls; let i = index"

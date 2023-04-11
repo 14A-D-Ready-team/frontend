@@ -1,6 +1,10 @@
-import { defaultEntityState, IdStrategy } from "@ngxs-labs/entity-state";
+import {
+  CreateOrReplace,
+  defaultEntityState,
+  IdStrategy,
+} from "@ngxs-labs/entity-state";
 import { Product } from "../entity";
-import { State } from "@ngxs/store";
+import { Action, createSelector, State, StateContext } from "@ngxs/store";
 import { Injectable } from "@angular/core";
 import { ProductService } from "../service";
 import * as Actions from "./product.actions";
@@ -9,6 +13,8 @@ import { ExtendedEntityState } from "@shared/extended-entity-state";
 import { CreateProductDto, UpdateProductDto } from "../dto";
 import { ExtendedEntityStateModel } from "@shared/extended-entity-state";
 import { PaginatedResponse } from "@shared/api/utils/paginated.response";
+import { Dictionary } from "@/types";
+import { delay, switchMap } from "rxjs";
 
 export type ProductStateModel = ExtendedEntityStateModel<Product>;
 
@@ -24,6 +30,13 @@ export class ProductState extends ExtendedEntityState<
   CreateProductDto,
   UpdateProductDto
 > {
+  public static entityById(id: number) {
+    return createSelector(
+      [ProductState.entitiesMap],
+      (entities: Dictionary<Product>) => entities[id],
+    );
+  }
+
   constructor(private productService: ProductService) {
     super({
       storeClass: ProductState,
@@ -32,5 +45,19 @@ export class ProductState extends ExtendedEntityState<
       service: productService,
       actions: Actions,
     });
+  }
+
+  @Action(Actions.LoadById, { cancelUncompleted: true })
+  public loadById(
+    ctx: StateContext<ProductStateModel>,
+    action: Actions.LoadById,
+  ) {
+    return this.productService
+      .findOne(action.id)
+      .pipe(
+        switchMap(product =>
+          ctx.dispatch(new CreateOrReplace(ProductState, product)),
+        ),
+      );
   }
 }

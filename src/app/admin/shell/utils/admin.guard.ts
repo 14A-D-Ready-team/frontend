@@ -6,33 +6,64 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from "@angular/router";
-import { combineLatest, map, Observable, of, switchMap, take, tap } from "rxjs";
+import {
+  combineLatest,
+  filter,
+  from,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+  takeWhile,
+  tap,
+} from "rxjs";
 import { AbilityService } from "@casl/angular";
 import { AppAbility } from "@app/app-ability.factory";
 import { Store } from "@ngxs/store";
-import { AuthState } from "@shared/authentication";
-import { PolicyHandler } from "@shared/policy";
+import {
+  AuthGuard,
+  AuthState,
+  SessionSigninGuard,
+} from "@shared/authentication";
+import { Action, PolicyHandler } from "@shared/policy";
 import { ToastController } from "@ionic/angular";
 import { User } from "@shared/user";
 
 @Injectable({
   providedIn: "root",
 })
-export class AdminGuard implements CanActivateChild {
+export class AdminGuard implements CanActivate {
   constructor(
     private abilityService: AbilityService<AppAbility>,
     private store: Store,
     private toastController: ToastController,
+    private sessionSigninGuard: SessionSigninGuard,
+    private authGuard: AuthGuard,
   ) {}
 
-  public canActivateChild(
+  public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ) {
-    return combineLatest([
-      this.abilityService.ability$.pipe(take(1)),
-      this.store.selectOnce(AuthState.user),
-    ]).pipe(
+    return this.sessionSigninGuard.guard().pipe(
+      switchMap(() => of(this.authGuard.guard(state))),
+      switchMap(result =>
+        result === true ? from(this.guard(route, state)) : of(result),
+      ),
+    );
+  }
+
+  public guard(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const ability$ = this.store.select(AuthState.policiesUptodate).pipe(
+      takeWhile(uptodate => !uptodate, true),
+      filter(uptodate => uptodate),
+      switchMap(() => this.abilityService.ability$),
+      take(1),
+    );
+    const user$ = this.store.selectOnce(AuthState.user);
+
+    return combineLatest([ability$, user$]).pipe(
       map(([ability, user]) => this.hasAccess(ability, user, route)),
       switchMap(result => (typeof result === "boolean" ? of(result) : result)),
       tap(result => {

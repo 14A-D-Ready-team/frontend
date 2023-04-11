@@ -4,12 +4,13 @@ import {
   defaultEntityState,
   IdStrategy,
 } from "@ngxs-labs/entity-state";
-import { Action, State, StateContext } from "@ngxs/store";
+import { Action, createSelector, State, StateContext } from "@ngxs/store";
 import { PaginatedResponse } from "@shared/api";
 import {
   ExtendedEntityState,
   ExtendedEntityStateModel,
 } from "@shared/extended-entity-state";
+import { Dictionary } from "lodash";
 import { map, switchMap } from "rxjs";
 import { CreateBuffetDto, UpdateBuffetDto } from "../dto";
 import { Buffet } from "../entity";
@@ -31,6 +32,12 @@ export class BuffetState extends ExtendedEntityState<
   CreateBuffetDto,
   UpdateBuffetDto
 > {
+  public static entityById(id: number) {
+    return createSelector(
+      [BuffetState.entitiesMap],
+      (entities: Dictionary<Buffet>) => entities[id],
+    );
+  }
   constructor(private buffetService: BuffetService) {
     super({
       storeClass: BuffetState,

@@ -1,0 +1,57 @@
+<div
+  class="ion-page"
+  *ngIf="{ 
+    status: status$ | async, 
+    initError:initError$ | async, 
+    editorLoading: editorLoading$ | async 
+  } as vm"
+>
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button
+          class="show-back-button"
+          (click)="back()"
+        ></ion-back-button>
+      </ion-buttons>
+      <ion-title class="font-bold">Termék szerkesztése</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-card>
+      <ion-card-content>
+        <app-admin-product-editor
+          *ngIf="!vm.editorLoading &&!vm.initError"
+          [bindedFormGroup]="form"
+          [formPath]="formPath"
+          [status]="vm.status || undefined"
+          (categoriesReloaded)="reloadCategories()"
+        ></app-admin-product-editor>
+
+        <div class="spinner-container" *ngIf="vm.editorLoading">
+          <ion-spinner color="primary"></ion-spinner>
+        </div>
+
+        <app-error-card
+          *ngIf="vm.initError"
+          header="Hiba történt"
+          icon="warning-outline"
+          contentColor="light"
+          [showRetryButton]="false"
+          [error]="vm.initError"
+        >
+        </app-error-card>
+      </ion-card-content>
+
+      <app-admin-button-group
+        *ngIf="hasChanges$ | async"
+        [loading]="(vm.status)?.loading === true"
+        [saveDisabled]="form.invalid || (vm.status)?.loading === true "
+        [cancelDisabled]="(vm.status)?.loading === true "
+        (cancel)="cancel()"
+        (save)="save()"
+      >
+      </app-admin-button-group>
+    </ion-card>
+  </ion-content>
+</div>

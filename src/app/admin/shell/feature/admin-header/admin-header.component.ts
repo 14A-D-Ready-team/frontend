@@ -54,7 +54,7 @@ import { Buffet, BuffetState } from "@shared/buffet";
           </ion-item>
         </div>
         <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
+          <ion-menu-button menu="admin-side-menu"></ion-menu-button>
         </ion-buttons>
         <ion-buttons slot="end">
           <ng-content select="[end-buttons]"></ng-content>

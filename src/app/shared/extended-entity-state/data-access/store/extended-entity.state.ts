@@ -74,7 +74,7 @@ export class ExtendedEntityState<
   > {
     return createSelector(
       [this],
-      (state: ExtendedEntityStateModel<any>) => state.createStatus,
+      (state: ExtendedEntityStateModel<any>) => state.deleteStatus,
     );
   }
 

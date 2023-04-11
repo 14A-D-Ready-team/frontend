@@ -35,7 +35,7 @@ export class LogoutSucceeded {
 export class SessionSignin {
   public static readonly type = "[Auth] Session Signin";
 
-  constructor(public nextUrl: any[], public queryParams?: Params) {}
+  constructor() {}
 }
 
 export class SessionSigninFailed {
@@ -53,9 +53,9 @@ export class SessionSigninSucceeded {
 export class SessionSigninCompleted {
   public static readonly type = "[Auth] Session Signin Completed";
 
-  constructor(public nextUrl: any[], public queryParams?: Params) {}
+  constructor() {}
 }
 
-export class ClearNextUrl {
-  public static readonly type = "[Auth] Clear Next Url";
+export class PoliciesUpdated {
+  public static readonly type = "[Auth] Policies Updated";
 }

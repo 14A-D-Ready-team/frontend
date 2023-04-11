@@ -8,7 +8,7 @@ orbs:
 jobs:
   format-code:
     docker:
-      - image: cimg/node:16.10
+      - image: cimg/node:18.15
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -67,7 +67,7 @@ workflows:
       - cypress/run:
           requires:
             - build-and-test
-          install-command: npm i --legacy-peer-deps
+          install-command: npm cache clean --force && npm i --force --package-lock false
           record: true
           store_artifacts: true
           attach-workspace: false

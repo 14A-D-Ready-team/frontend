@@ -1,2 +1,2 @@
-export * from "./products-routing.module";
-export * from "./products.module";
+export * from "./product-routing.module";
+export * from "./product.module";

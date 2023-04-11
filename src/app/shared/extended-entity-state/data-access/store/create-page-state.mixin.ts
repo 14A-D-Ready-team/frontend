@@ -5,7 +5,7 @@ import { StateContext } from "@ngxs/store";
 import { decorateAction } from "@shared/extended-entity-state/utils";
 import { NgxsFormStateModel } from "@shared/extended-form-plugin";
 
-interface CreatePageStateModel<D> {
+export interface CreatePageStateModel<D> {
   editorForm: NgxsFormStateModel<D>;
 }
 

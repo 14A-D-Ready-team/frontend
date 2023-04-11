@@ -5,10 +5,13 @@ export enum ErrorCode {
   InvalidApiResponseException = "InvalidApiResponseException",
   InvalidIdException = "InvalidIdException",
   NotFoundException = "NotFoundException",
+  ProductNotFoundException = "ProductNotFoundException",
+  BuffetNotFoundException = "BuffetNotFoundException",
   InternalServerErrorException = "InternalServerErrorException",
   ServiceUnavailableException = "ServiceUnavailableException",
   InvalidLoginException = "InvalidLoginException",
   PasswordNotSetException = "PasswordNotSetException",
   InactiveUserException = "InactiveUserException",
   EmailDuplicateException = "EmailDuplicateException",
+  ForbiddenException = "ForbiddenException",
 }
