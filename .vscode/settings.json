@@ -5,7 +5,8 @@
     "editor.formatOnSave": true
   },
   "[typescript]": {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
   },
   "editor.minimap.enabled": false,
   "editor.codeActionsOnSave": {

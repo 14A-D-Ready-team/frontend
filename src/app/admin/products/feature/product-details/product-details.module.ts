@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { IonicModule } from "@ionic/angular";
 
 import { ProductDetailsPage } from "./product-details.page";
-import { NgxsFormPluginModule, ɵFormDirective } from "@ngxs/form-plugin";
+import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import {
   ExtendedFormDirective,
   ExtendedFormPluginModule,

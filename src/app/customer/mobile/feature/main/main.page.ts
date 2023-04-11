@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, Input, ElementRef } from "@angular/core";
 import { Select, Store, StateContext } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
@@ -27,6 +27,7 @@ import { Product, ProductService, ProductState } from "@shared/product";
 import { LoadMore } from "@app/customer/feature";
 import { take } from "lodash";
 import { InfiniteScrollCustomEvent } from "@ionic/angular";
+import { Dictionary } from "@/types";
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
@@ -45,8 +46,14 @@ export class MainPage implements OnInit {
   @Select(MainPageState.shownCategories)
   public categories$!: Observable<Category[]>;
 
+  @Select(MainPageState.shownCategoriesDict)
+  public categoriesDict$!: Observable<Dictionary<Category>>;
+
   @Select(MainPageState.shownProducts)
   public products$!: Observable<Product[]>;
+
+  @ViewChild("categoryInput")
+  categoryInput!: ElementRef<HTMLInputElement>;
 
   activeCategoryId = "";
 
@@ -54,7 +61,6 @@ export class MainPage implements OnInit {
     //this.store.dispatch(new UnloadProducts());
     this.activeCategoryId = id.toString();
     this.store.dispatch(new SelectCategory(this.activeCategoryId));
-    this.store.dispatch(new LoadMoreProducts(this.activeCategoryId));
   }
 
   public vm$: Observable<{
@@ -62,6 +68,7 @@ export class MainPage implements OnInit {
     activeUser: User;
     activeCategory: Category;
     categories: Category[];
+    categoriesDict: Dictionary<Category>;
     products: Product[];
     buffetLoading: boolean;
     resolverError: any;
@@ -87,6 +94,7 @@ export class MainPage implements OnInit {
       this.activeUser$,
       this.activeCategory$,
       this.categories$,
+      this.categoriesDict$,
       this.products$,
       buffetLoading$,
       resolverError$,
@@ -97,6 +105,7 @@ export class MainPage implements OnInit {
           activeUser,
           activeCategory,
           categories,
+          categoriesDict,
           products,
           buffetLoading,
           resolverError,
@@ -105,6 +114,7 @@ export class MainPage implements OnInit {
           activeUser,
           activeCategory,
           categories,
+          categoriesDict,
           products,
           buffetLoading,
           resolverError,
@@ -116,14 +126,16 @@ export class MainPage implements OnInit {
   onInfinite(event: any) {
     if (
       event.target.offsetWidth + event.target.scrollLeft >=
-      event.target.scrollWidth - 20
+      event.target.scrollWidth - 50
     ) {
       this.store.dispatch(new LoadMoreProducts(this.activeCategoryId));
     }
   }
 
   ngOnInit() {
-    loadCategories(this.store).subscribe();
-    this.select(1);
+    loadCategories(this.store).subscribe(() => {
+      this.categoryInput.nativeElement.checked = true;
+      this.select(1);
+    });
   }
 }

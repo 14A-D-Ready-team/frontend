@@ -58,11 +58,22 @@
     <ion-label color="warning" *ngIf="vm.resolverError"
       >{{vm.resolverError | errorMessage}}</ion-label
     >
-    <div class="category-container">
-      <label class="category-item" *ngFor="let category of vm.categories">
+    <div class="category-container" #container>
+      <label
+        class="category-item"
+        *ngFor="let category of vm.categories; let i = index"
+      >
         <input
+          *ngIf="i === 0"
           type="radio"
-          checked="true"
+          name="radios"
+          #categoryInput
+          (value)="category.id"
+          (click)="select(category.id)"
+        />
+        <input
+          *ngIf="i !== 0"
+          type="radio"
           name="radios"
           (value)="category.id"
           (click)="select(category.id)"
@@ -75,7 +86,7 @@
       <div class="product-card" *ngFor="let product of vm.products">
         <img src="/assets/images/product.png" class="product-img" alt="" />
         <div class="product-description">
-          <p class="product-category">Buzi</p>
+          <p class="product-category">{{vm.categoriesDict[product.categoryId].name}}</p>
           <p class="product-name">{{product.name}}</p>
           <p class="product-price">{{product.fullPrice}} Ft</p>
           <button class="add-btn" routerLink="/product">+</button>
