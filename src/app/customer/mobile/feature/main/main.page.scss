@@ -50,7 +50,7 @@
 
     svg {
       grid-column: 1;
-      width: 70%;
+      width: 65%;
       max-width: 30px;
       height: auto;
       object-fit: contain;
@@ -89,11 +89,10 @@
 
 .menu-container {
   .category-container {
-    -webkit-overflow-scrolling: touch;
-    overflow-x: scroll;
-    cursor: grabbing;
+    overflow-x: auto;
     display: flex;
-    padding-bottom: 1rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.2rem;
     .category-item {
       @include flex-center(column-reverse, center);
       margin: 0 1rem;
@@ -123,22 +122,23 @@
     .product-card {
       border-radius: 25px 0px 25px 25px;
       background-color: $card-background;
-      box-shadow: 0px 10px 20px -10px rgb(181, 181, 181);
+      box-shadow: 10px 10px 15px -10px rgb(181, 181, 181);
 
       margin: 0rem 1rem;
       margin-bottom: 1.3rem;
 
-      min-width: 15.5rem;
+      min-width: 15rem !important;
+      height: max-content;
 
       .product-img {
         object-fit: cover;
         border-radius: 25px 0px;
-        height: 55vw;
-        max-height: 20rem;
-        width: 100%;
+        height: 12.5rem;
+        width: 16.5rem;
       }
       .product-description {
         display: flex;
+        justify-content: c;
         flex-direction: column;
         padding: 0rem 0.8rem;
         padding-bottom: 1rem;
@@ -157,7 +157,7 @@
         .add-btn {
           position: absolute;
           right: 5%;
-          bottom: 15%;
+          bottom: 10%;
           width: 20%;
           max-width: 40px;
           aspect-ratio: 1/1;
@@ -184,12 +184,12 @@
     display: grid;
     grid-template-columns: 20% 70% 10%;
     align-items: center;
-    width: 95vw;
+    width: calc(100vw - 2rem);
     max-width: 38rem;
     background-color: $card-background;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0px 10px 20px -10px rgb(181, 181, 181);
+    box-shadow: 0px 10px 10px -10px rgb(181, 181, 181);
     margin-bottom: 5vh;
     img {
       grid-column: 1;

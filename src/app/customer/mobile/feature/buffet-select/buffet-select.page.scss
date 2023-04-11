@@ -26,7 +26,7 @@
   .card {
     @include flex-center(column, flex-start);
     background-color: $card-background;
-    border-radius: 1em 1em 0em 0em;
+    border-radius: 1rem 1rem 0rem 0rem;
     min-height: fit-content;
     overflow-y: auto;
 
@@ -40,30 +40,30 @@
 
 .login-form {
   @include flex-center(column, flex-start);
-  height: 100%;
-  overflow-y: auto;
 
   .select-button {
+    justify-content: center;
     outline: 0.5px solid rgba(0, 0, 0, 0.15);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
     border-radius: 3rem;
     margin: 1rem 0rem;
     width: 80%;
-    min-height: 2.7rem;
+    max-width: 400px;
+    // height: 2.7rem;
 
     ion-label {
       padding: 0;
       margin: 0;
     }
     .input-icon {
-      width: auto;
-      height: 3vh;
+      height: 2.2rem;
       object-fit: contain;
       margin-right: 0.4rem;
     }
   }
   .buffet-description {
     width: 90%;
+    max-width: 400px;
     .buffet-name {
       font-size: $l-font;
       margin: 0 1rem;
