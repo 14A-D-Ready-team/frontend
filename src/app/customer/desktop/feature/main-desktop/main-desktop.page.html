@@ -3,7 +3,7 @@
 
   <div class="after-login">
     <div class="greeting-container">
-      <h1>Üdvözöljük <span>{{ vm.activeUser.name }}</span>!</h1>
+      <h1>Üdvözöljük<span *ngIf="vm.activeUser"> {{ vm.activeUser.name }}</span>!</h1>
       <p>Válogass a(z) {{(activeBuffet$ | async)?.name}} kínálatából!</p>
       <div class="menu-container">
         <div
@@ -11,7 +11,7 @@
           *ngFor="let category of vm.categories"
         >
           <h1>{{ category.name }}</h1>
-          <div class="product-container">
+          <!-- <div class="product-container">
             <div class="product-card" *ngFor="let product of vm.products">
               <img
                 src="/assets/images/product.png"
@@ -21,7 +21,7 @@
 
               <div>
                 <!-- <div class="product-description" *ngIf="product.id"> -->
-                <div class="product-description">
+                <!-- <div class="product-description">
                   <p class="product-category">{{ product.categoryId }}</p>
                   <p class="product-name">{{ product.name }}</p>
                   <p class="product-price">{{ product.fullPrice }}</p>
@@ -34,9 +34,9 @@
                 <p class="product-name">Sonkás</p>
                 <p class="product-price">500Ft</p>
                 <button id="open-product-modal" class="add-btn">+</button>
-              </div> -->
+              </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

@@ -33,7 +33,7 @@ export class MainDesktopState {
     return categories;
   }
 
-  @Selector([ProductState.productsOfActiveBuffet])
+  @Selector([ProductState.entitiesMap])
   public static shownProducts(
     state: MainDesktopStateModel,
     products: Product[],
