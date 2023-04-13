@@ -32,7 +32,6 @@ export class ProductState extends ExtendedEntityState<
   CreateProductDto,
   UpdateProductDto
 > {
-
   public static entityById(id: number) {
     return createSelector(
       [ProductState.entitiesMap],
