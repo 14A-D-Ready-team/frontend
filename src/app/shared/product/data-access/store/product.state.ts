@@ -4,7 +4,7 @@ import {
   IdStrategy,
 } from "@ngxs-labs/entity-state";
 import { Product } from "../entity";
-import { Action, createSelector, State, StateContext } from "@ngxs/store";
+import { createSelector, Selector, State, StateToken } from "@ngxs/store";
 import { Injectable } from "@angular/core";
 import { ProductService } from "../service";
 import * as Actions from "./product.actions";
@@ -14,13 +14,15 @@ import { CreateProductDto, UpdateProductDto } from "../dto";
 import { ExtendedEntityStateModel } from "@shared/extended-entity-state";
 import { PaginatedResponse } from "@shared/api/utils/paginated.response";
 import { Dictionary } from "@/types";
-import { delay, switchMap } from "rxjs";
 
-export type ProductStateModel = ExtendedEntityStateModel<Product>;
+export type ProductStateModel = ExtendedEntityStateModel<Product> & {
+  productsOfBuffets: Dictionary<number[]>;
+};
 
+export const PRODUCT_STATE_TOKEN = new StateToken<ProductStateModel>("product");
 @State<ProductStateModel>({
-  name: "product",
-  defaults: { ...defaultEntityState() },
+  name: PRODUCT_STATE_TOKEN,
+  defaults: { ...defaultEntityState(), productsOfBuffets: {} },
 })
 @Injectable()
 export class ProductState extends ExtendedEntityState<

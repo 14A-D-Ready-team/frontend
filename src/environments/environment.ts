@@ -11,6 +11,7 @@ export const environment = {
   api: {
     url: "http://localhost:3000",
   },
+
   /* api: {
     url: "https://api.ready-app.hu",
   }, */
