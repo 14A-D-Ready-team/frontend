@@ -4,7 +4,14 @@ import {
   IdStrategy,
 } from "@ngxs-labs/entity-state";
 import { Product } from "../entity";
-import { Action, createSelector, Selector, State, StateContext, StateToken } from "@ngxs/store";
+import {
+  Action,
+  createSelector,
+  Selector,
+  State,
+  StateContext,
+  StateToken,
+} from "@ngxs/store";
 import { Injectable } from "@angular/core";
 import { ProductService } from "../service";
 import * as Actions from "./product.actions";
