@@ -11,7 +11,13 @@ import { RouterModule } from "@angular/router";
 import { AppRoutingModule } from "@app/app-routing.module";
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, ProductPageRoutingModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ProductPageRoutingModule,
+    RouterModule,
+  ],
   declarations: [ProductPage],
 })
 export class ProductPageModule {}
