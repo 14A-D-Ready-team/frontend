@@ -13,9 +13,7 @@ import {
   BuffetWorker,
 } from "@shared/user/data-access/entity";
 
-export type BuffetSubjects = InferSubjects<
-  typeof Buffet | BuffetOwner | BuffetWorker
->;
+export type BuffetSubjects = InferSubjects<typeof Buffet | "Buffet">;
 
 export type BuffetAbility = MongoAbility<[Action, BuffetSubjects]>;
 
@@ -27,6 +25,7 @@ export class BuffetAbilityFactory implements AbilityFactory {
     const { can } = builder;
 
     can(Action.Read, Buffet);
+    can(Action.Read, "Buffet");
 
     if (!user) {
       return builder.build();
@@ -35,10 +34,10 @@ export class BuffetAbilityFactory implements AbilityFactory {
 
     if (buffetOwner) {
       can(Action.Create, Buffet);
+      can(Action.Create, "Buffet");
+
       can(Action.Update, Buffet, {
-        id: {
-          $in: buffetOwner.buffetIds,
-        },
+        buffetOwnerId: user.id,
       });
       can(Action.Delete, Buffet, {
         id: {

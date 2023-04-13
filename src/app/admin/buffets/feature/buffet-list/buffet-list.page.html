@@ -77,6 +77,7 @@
               *ngFor="let buffet of vm.buffets; trackBy: buffetById"
             >
               <app-admin-buffet-preview
+                [disabled]="!('update' | able: buffet)"
                 [buffet]="buffet"
                 (cardClick)="editBuffet(buffet)"
                 (selectBuffet)="select(buffet.id)"
@@ -109,7 +110,10 @@
     </div>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button (click)="create()">
+      <ion-fab-button
+        (click)="create()"
+        [disabled]="!('create' | able: 'Category')"
+      >
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
