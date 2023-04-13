@@ -1,60 +1,45 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Select } from "@ngxs/store";
+import { Buffet, BuffetState } from "@shared/buffet";
+import { Category, CategoryState } from "@shared/category";
+import { Customization, Product, ProductState } from "@shared/product";
+import { Observable, take } from "rxjs";
+
+
 
 @Component({
   selector: "app-product",
   templateUrl: "./product.page.html",
   styleUrls: ["./product.page.scss"],
 })
-export class ProductPage implements OnInit {
-  constructor() {}
 
-  data = {
-    id: 1,
-    name: "Coca Cola",
-    description:
-      "Ab porro beatae dolores velit ex harum esse. Reprehenderit debitis totam ipsa iste. Unde inventore quam. Debitis itaque quaerat. Occaecati ducimus voluptatum impedit minima. Ut ducimus labore dolor nulla inventore.",
-    fullPrice: "95",
-    discountedPrice: "3820",
-    stock: 26,
-    categoryId: 1,
-    customizations: [
-      {
-        id: 1,
-        description: "Méret",
-        optionCount: 0,
-        options: [
-          {
-            id: 1,
-            name: "0,33l",
-            extraCost: "0",
-          },
-          {
-            id: 2,
-            name: "0,5l",
-            extraCost: "25",
-          },
-          {
-            id: 3,
-            name: "1,25l",
-            extraCost: "75",
-          },
-          {
-            id: 4,
-            name: "1,75l",
-            extraCost: "270",
-          },
-          {
-            id: 5,
-            name: "2,25l",
-            extraCost: "415",
-          },
-        ],
-      },
-    ],
-  };
+export class ProductPage implements OnInit {
+
+  @Select(BuffetState.active)
+  public activeBuffet$!: Observable<Buffet>;
+
+  @Select(ProductState.entities)
+  public products$!: Observable<Product[]>;
+
+  @Select(CategoryState.entities)
+  public categories$!: Observable<Category[]>;
+
+
+
+  constructor(private route: ActivatedRoute) {}
+
+
+  activeProduct!: Product;
+
+  activeCategory!: Category;
+  
+  customizations!: Customization[]
 
   amount = 1;
   max = 1;
+
+  idFromRoute!: string;
 
   changeAmount(add: boolean) {
     if (add) {
@@ -65,6 +50,31 @@ export class ProductPage implements OnInit {
   }
 
   ngOnInit() {
-    this.max = this.data.stock;
+    
+    this.idFromRoute = this.route.snapshot.queryParamMap.get('productId')!;
+
+    this.products$.pipe(take(1)).subscribe(products =>
+      products.forEach(product => {
+        if (this.idFromRoute === product.id.toString()) {
+          this.activeProduct = product
+        }
+      }),
+    );
+    
+    this.max = this.activeProduct.stock;
+    
+    this.categories$.pipe(take(1)).subscribe(categories =>
+      categories.forEach(category => {
+        if (this.activeProduct.categoryId === category.id) {
+          this.activeCategory = category;
+        }
+      }),
+    );
+
+    this.customizations = this.activeProduct.customizations;
+
+   
+
+
   }
 }

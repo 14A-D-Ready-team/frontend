@@ -80,13 +80,17 @@
     }
   }
   .extras-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     p {
       font-weight: 500;
     }
     .possibilities {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(3, 33%);
+      align-content: center;
+
       padding: 0rem 1rem;
 
       ion-item {
@@ -96,6 +100,7 @@
         --background-activated: transparent;
         --padding-start: 0px;
         --inner-padding-end: 0px;
+        margin: 0 10px;
         ion-checkbox {
           width: 1.4rem;
           height: 1.4rem;
@@ -104,6 +109,7 @@
           margin: 0 0.3rem;
         }
         ion-radio {
+          aspect-ratio: 1/1;
           width: 1.4rem;
           height: 1.4rem;
           margin: 0 0.3rem;
@@ -112,6 +118,7 @@
 
         ion-label {
           font-size: $s-font;
+          width: max-content;
         }
 
         ion-checkbox::part(container) {
