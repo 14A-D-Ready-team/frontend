@@ -3,7 +3,7 @@
   [value]="i.toString()"
   *ngIf="bindedFormGroup | formChanges | async"
 >
-  <ion-item slot="header">
+  <ion-item slot="header" [disabled]="bindedFormGroup.disabled">
     <ion-label>{{ description.value }}</ion-label>
     <ion-reorder slot="end"></ion-reorder>
   </ion-item>

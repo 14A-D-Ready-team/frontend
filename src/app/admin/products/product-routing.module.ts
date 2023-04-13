@@ -7,11 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./feature/product-list").then(m => m.ProductListModule),
   },
-  /* {
-    path: "edit",
+  {
+    path: "details",
     loadChildren: () =>
-      import("./feature/product-editor").then(m => m.ProductEditorPageModule),
-  }, */
+      import("./feature/product-details").then(m => m.ProductDetailsPageModule),
+  },
   {
     path: "new",
     loadChildren: () =>
@@ -23,4 +23,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ProductsRoutingModule {}
+export class ProductRoutingModule {}

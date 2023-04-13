@@ -33,16 +33,6 @@ ion-note {
   font-size: 120%;
 }
 
-.button-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  ion-spinner {
-    margin-left: 10px;
-  }
-}
-
 .error-container {
   display: flex;
   justify-content: center;

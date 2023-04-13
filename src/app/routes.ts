@@ -1,7 +1,5 @@
 import { Routes } from "@angular/router";
-import { AuthGuard, SessionSigninGuard } from "@shared/authentication";
 import { AdminGuard, AdminShellComponent } from "./admin/shell";
-import { SessionSigninPage } from "./auth";
 
 const adminRoutes: Routes = [
   {
@@ -11,7 +9,7 @@ const adminRoutes: Routes = [
       showAdminMenu: true,
     },
     component: AdminShellComponent,
-    canActivateChild: [AuthGuard, AdminGuard],
+    canActivate: [AdminGuard],
   },
   {
     path: "admin-signup",
@@ -20,36 +18,20 @@ const adminRoutes: Routes = [
   },
 ];
 
-function wrapRoutes(routes: Routes): Routes {
-  return [
-    {
-      path: "",
-      children: routes,
-      canActivateChild: [SessionSigninGuard],
-    },
-    {
-      path: "session-signin",
-      component: SessionSigninPage,
-      canActivate: [SessionSigninGuard],
-      canDeactivate: [SessionSigninGuard],
-    },
-  ];
-}
-
-export const desktopRoutes = wrapRoutes([
+export const desktopRoutes = [
   {
     path: "",
     loadChildren: () =>
       import("./customer/desktop").then(m => m.CustomerDesktopModule),
   },
   ...adminRoutes,
-]);
+];
 
-export const mobileRoutes = wrapRoutes([
+export const mobileRoutes = [
   {
     path: "",
     loadChildren: () =>
       import("./customer/mobile").then(m => m.CustomerMobileModule),
   },
   ...adminRoutes,
-]);
+];

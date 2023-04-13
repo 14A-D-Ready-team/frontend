@@ -13,6 +13,7 @@ import {
   State,
   StateContext,
   StateToken,
+  Store,
 } from "@ngxs/store";
 import { BuffetState } from "@shared/buffet";
 import { ExtendedEntityState } from "@shared/extended-entity-state";
@@ -72,7 +73,8 @@ export class CategoryState extends ExtendedEntityState<
     if (!buffetId) {
       return [];
     }
-    return categoriesOfBuffets[+buffetId].map(id => categories[+id]);
+    const ids = categoriesOfBuffets[+buffetId] || [];
+    return ids.map(id => categories[+id]);
   }
 
   public static isAllLoaded(buffetId: number) {
@@ -89,7 +91,7 @@ export class CategoryState extends ExtendedEntityState<
     );
   }
 
-  constructor(private readonly categoryService: CategoryService) {
+  constructor(private readonly categoryService: CategoryService, store: Store) {
     super({
       storeClass: CategoryState,
       _idKey: "id",
@@ -153,7 +155,7 @@ export class CategoryState extends ExtendedEntityState<
     ctx: StateContext<EntityStateModel<Category>>,
     action: Actions.CreateSucceeded,
   ) {
-    const castCtx = ctx as StateContext<CategoryStateModel>;
+    const castCtx = ctx as unknown as StateContext<CategoryStateModel>;
 
     return super.createSucceeded(ctx, action).pipe(
       tap(() => {

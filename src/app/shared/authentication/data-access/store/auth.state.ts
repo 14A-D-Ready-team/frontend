@@ -2,6 +2,7 @@ import { Injectable, NgZone } from "@angular/core";
 import { ExternalAuthService } from "@shared/external-auth";
 import {
   Action,
+  NgxsOnInit,
   Selector,
   State,
   StateContext,
@@ -13,11 +14,13 @@ import {
   combineLatest,
   concat,
   delay,
+  filter,
   finalize,
   from,
   map,
   of,
   switchMap,
+  takeWhile,
   tap,
 } from "rxjs";
 import { AuthService, GoogleAuthService } from "../service";
@@ -31,12 +34,17 @@ import {
   SessionSigninSucceeded,
   SessionSigninFailed,
   SessionSigninCompleted,
-  ClearNextUrl,
+  PoliciesUpdated,
 } from "./auth.actions";
 import { User, UserType } from "@app/shared/user";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
 import { redirectAfterLogin } from "@shared/authentication/utils";
+import { AbilityService } from "@casl/angular";
+import { AppAbility } from "@app/app-ability.factory";
+import { Action as PolicyAction } from "@shared/policy";
+import { Product } from "@shared/product/data-access/entity";
+import { Category } from "@shared/category/data-access/entity";
 
 enum SocialAuthStatus {
   Idle,
@@ -46,14 +54,13 @@ enum SocialAuthStatus {
 }
 
 type SessionSigninStatus = {
-  loading: boolean;
   completed: boolean;
-  nextUrl?: any[];
 };
 
 export interface AuthStateModel {
   googleVerifyStatus: SocialAuthStatus;
   user?: User;
+  policiesUptodate: boolean;
   sessionSigninStatus: SessionSigninStatus;
 }
 
@@ -65,15 +72,20 @@ export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>("auth");
     googleVerifyStatus: SocialAuthStatus.Idle,
     sessionSigninStatus: {
       completed: false,
-      loading: false,
     },
+    policiesUptodate: false,
   },
 })
 @Injectable()
-export class AuthState {
+export class AuthState implements NgxsOnInit {
   @Selector()
   public static user(state: AuthStateModel) {
     return state.user;
+  }
+
+  @Selector()
+  public static policiesUptodate(state: AuthStateModel) {
+    return state.policiesUptodate;
   }
 
   @Selector()
@@ -89,6 +101,7 @@ export class AuthState {
     private router: Router,
     private route: ActivatedRoute,
     private ngZone: NgZone,
+    private abilityService: AbilityService<AppAbility>,
   ) {
     externalAuthService.loginDisabled$ = combineLatest([
       this.store.select(AuthState.user),
@@ -103,6 +116,10 @@ export class AuthState {
     externalAuthService.googleToken$
       .pipe(switchMap(idToken => store.dispatch(new VerifyGoogleAuth(idToken))))
       .subscribe();
+  }
+
+  public ngxsOnInit(ctx: StateContext<AuthStateModel>): void {
+    ctx.dispatch(new SessionSignin());
   }
 
   @Action(VerifyGoogleAuth)
@@ -134,7 +151,7 @@ export class AuthState {
     ctx: StateContext<AuthStateModel>,
     action: SetCurrentLogin,
   ) {
-    ctx.patchState({ user: action.user });
+    ctx.patchState({ user: action.user, policiesUptodate: false });
   }
 
   @Action(Logout)
@@ -147,7 +164,7 @@ export class AuthState {
 
   @Action(LogoutSucceeded)
   public logoutSucceeded(ctx: StateContext<AuthStateModel>) {
-    ctx.patchState({ user: undefined });
+    ctx.patchState({ user: undefined, policiesUptodate: false });
     return from(this.ngZone.run(() => this.router.navigate(["/login"])));
   }
 
@@ -157,21 +174,13 @@ export class AuthState {
     action: SessionSignin,
   ) {
     ctx.patchState({
-      sessionSigninStatus: {
-        loading: true,
-        completed: false,
-        nextUrl: action.nextUrl,
-      },
+      sessionSigninStatus: { completed: false },
     });
 
     return this.authService.sessionSignin().pipe(
       switchMap(user => ctx.dispatch(new SessionSigninSucceeded(user))),
       catchError(error => ctx.dispatch(new SessionSigninFailed(error))),
-      finalize(() =>
-        ctx.dispatch(
-          new SessionSigninCompleted(action.nextUrl, action.queryParams),
-        ),
-      ),
+      finalize(() => ctx.dispatch(new SessionSigninCompleted())),
     );
   }
 
@@ -180,31 +189,18 @@ export class AuthState {
     ctx: StateContext<AuthStateModel>,
     action: SessionSigninSucceeded,
   ) {
-    ctx.dispatch(new SetCurrentLogin(action.user));
+    return ctx.dispatch(new SetCurrentLogin(action.user));
   }
 
   @Action(SessionSigninCompleted)
   public sessionSigninCompleted(ctx: StateContext<AuthStateModel>) {
-    const status = ctx.getState().sessionSigninStatus;
     ctx.patchState({
-      sessionSigninStatus: {
-        loading: false,
-        completed: true,
-        nextUrl: status.nextUrl,
-      },
+      sessionSigninStatus: { completed: true },
     });
   }
 
-  @Action(ClearNextUrl)
-  public clearNextUrl(ctx: StateContext<AuthStateModel>) {
-    const status = ctx.getState().sessionSigninStatus;
-
-    ctx.patchState({
-      sessionSigninStatus: {
-        nextUrl: undefined,
-        completed: status.completed,
-        loading: status.loading,
-      },
-    });
+  @Action(PoliciesUpdated)
+  public policiesUpdated(ctx: StateContext<AuthStateModel>) {
+    ctx.patchState({ policiesUptodate: true });
   }
 }

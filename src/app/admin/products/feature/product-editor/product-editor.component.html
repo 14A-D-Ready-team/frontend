@@ -1,0 +1,147 @@
+<form
+  [formGroup]="bindedFormGroup"
+  [ngxsFormPlus]="formPath"
+  [formControlFactory]="formControlFactory"
+  [ngxsFormClearOnDestroy]="true"
+>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="4" size="12">
+        <app-image-selector
+          label="Termék képe"
+          [bindedFormControl]="bindedFormGroup.controls.image"
+          [initialImageUrl]="
+            bindedFormGroup.controls.initialImageUrl?.value || undefined
+          "
+        ></app-image-selector>
+        <ng-container
+          *ngIf="(isDesktop$ | async) === false; else descriptionInput"
+        ></ng-container>
+      </ion-col>
+      <ion-col>
+        <ion-item class="highlight-primary no-end-padding" counter>
+          <ion-label position="floating">Név</ion-label>
+          <ion-input formControlName="name" [maxlength]="100"></ion-input>
+          <div class="end-button-container flex-vertical-center" slot="end">
+            <app-clear-input-button
+              [bindedFormControl]="bindedFormGroup.controls.name"
+            ></app-clear-input-button>
+          </div>
+          <app-error-list
+            slot="error"
+            *ngIf="!bindedFormGroup.controls.name.untouched"
+            [errors]="bindedFormGroup.controls.name.errors"
+          ></app-error-list>
+        </ion-item>
+
+        <app-selector-input
+          displayProperty="name"
+          valueProperty="id"
+          title="Kategória"
+          [bindedFormControl]="bindedFormGroup.controls.categoryId"
+          [loading]="(categoriesLoading$ | async) === true"
+          [items]="(categories$ | async)!"
+          (refresh)="categoriesReloaded.emit()"
+        ></app-selector-input>
+
+        <ng-container
+          *ngIf="(isDesktop$ | async) === true; else descriptionInput"
+        ></ng-container>
+
+        <ion-item class="highlight-primary no-end-padding">
+          <ion-label position="floating">Csökkentett ár</ion-label>
+          <ion-input
+            autoGrow
+            [formControl]="bindedFormGroup.controls.discountedPrice"
+            maxlength="800"
+            minlength="1"
+            type="number"
+          ></ion-input>
+          <div class="end-button-container flex-vertical-center" slot="end">
+            <app-clear-input-button
+              [bindedFormControl]="bindedFormGroup.controls.discountedPrice"
+            ></app-clear-input-button>
+          </div>
+          <app-error-list
+            slot="error"
+            *ngIf="!bindedFormGroup.controls.discountedPrice.untouched"
+            [errors]="bindedFormGroup.controls.discountedPrice.errors"
+          ></app-error-list>
+        </ion-item>
+
+        <ion-item class="highlight-primary no-end-padding">
+          <ion-label position="floating">Teljes ár</ion-label>
+          <ion-input
+            autoGrow
+            [formControl]="bindedFormGroup.controls.fullPrice"
+            maxlength="800"
+            minlength="1"
+            type="number"
+          ></ion-input>
+          <div class="end-button-container flex-vertical-center" slot="end">
+            <app-clear-input-button
+              [bindedFormControl]="bindedFormGroup.controls.fullPrice"
+            ></app-clear-input-button>
+          </div>
+          <app-error-list
+            slot="error"
+            *ngIf="!bindedFormGroup.controls.fullPrice.untouched"
+            [errors]="bindedFormGroup.controls.fullPrice.errors"
+          ></app-error-list>
+        </ion-item>
+
+        <ion-item class="highlight-primary no-end-padding">
+          <ion-label position="floating">Raktáron</ion-label>
+          <ion-input
+            autoGrow
+            [formControl]="bindedFormGroup.controls.stock"
+            maxlength="800"
+            minlength="1"
+            type="number"
+          ></ion-input>
+          <div class="end-button-container flex-vertical-center" slot="end">
+            <app-clear-input-button
+              [bindedFormControl]="bindedFormGroup.controls.stock"
+            ></app-clear-input-button>
+          </div>
+          <app-error-list
+            slot="error"
+            *ngIf="!bindedFormGroup.controls.stock.untouched"
+            [errors]="bindedFormGroup.controls.stock.errors"
+          ></app-error-list>
+        </ion-item>
+
+        <app-admin-customization-editor
+          [bindedFormArray]="bindedFormGroup.controls.customizations"
+        ></app-admin-customization-editor>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>
+<ion-note color="danger" *ngIf="status?.error as error">{{
+  error | errorMessage
+}}</ion-note>
+
+<ng-template #descriptionInput>
+  <ion-item class="highlight-primary no-end-padding" counter>
+    <ion-label position="floating">Leírás</ion-label>
+    <ion-textarea
+      autoGrow
+      [formControl]="bindedFormGroup.controls.description"
+      maxlength="800"
+      minlength="1"
+    ></ion-textarea>
+    <div class="end-button-container" slot="end">
+      <div class="top-margin">
+        <app-clear-input-button
+          [bindedFormControl]="bindedFormGroup.controls.description"
+        ></app-clear-input-button>
+      </div>
+    </div>
+    <app-error-list
+      slot="error"
+      *ngIf="!bindedFormGroup.controls.description.untouched"
+      [errors]="bindedFormGroup.controls.description.errors"
+    ></app-error-list>
+  </ion-item>
+</ng-template>

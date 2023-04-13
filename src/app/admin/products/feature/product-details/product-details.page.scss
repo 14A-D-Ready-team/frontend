@@ -14,3 +14,15 @@
 ion-button.top-margin {
   margin-top: 20px;
 }
+
+ion-spinner {
+  height: 6vh;
+  width: 6vh;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+}

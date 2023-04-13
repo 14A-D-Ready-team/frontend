@@ -1,1 +1,1 @@
-export * from "./product-editor.module";
+export * from "./product-editor.component";

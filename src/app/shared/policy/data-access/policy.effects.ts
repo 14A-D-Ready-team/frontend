@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@angular/core";
 import { Ability } from "@casl/ability";
 import { Store } from "@ngxs/store";
-import { AuthState } from "@shared/authentication";
+import { AuthState, PoliciesUpdated } from "@shared/authentication";
 import { EffectsBase, Effect } from "@shared/effects";
 import { switchMap, tap } from "rxjs";
 import { AbilityFactory, APP_ABILITY_FACTORY } from "../utils";
@@ -12,6 +12,7 @@ export class PolicyEffects extends EffectsBase {
   public onCurrentUserChanged$ = this.store.select(AuthState.user).pipe(
     switchMap(user => Promise.resolve(this.abilityFactory.createForUser(user))),
     tap(ability => this.ability.update(ability.rules)),
+    switchMap(() => this.store.dispatch(new PoliciesUpdated())),
   );
 
   constructor(

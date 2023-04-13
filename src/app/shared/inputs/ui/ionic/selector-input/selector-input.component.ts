@@ -43,7 +43,7 @@ export class SelectorInputComponent<
   public displayProperty?: keyof T;
 
   @Input()
-  public valueProperty?: ValueProperty;
+  public valueProperty?: ValueProperty & keyof T;
 
   @Input()
   public bindedFormControl!: FormControl<

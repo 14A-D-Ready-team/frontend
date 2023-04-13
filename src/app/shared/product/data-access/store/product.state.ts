@@ -1,4 +1,8 @@
-import { defaultEntityState, IdStrategy } from "@ngxs-labs/entity-state";
+import {
+  CreateOrReplace,
+  defaultEntityState,
+  IdStrategy,
+} from "@ngxs-labs/entity-state";
 import { Product } from "../entity";
 import { createSelector, Selector, State, StateToken } from "@ngxs/store";
 import { Injectable } from "@angular/core";
@@ -9,7 +13,7 @@ import { ExtendedEntityState } from "@shared/extended-entity-state";
 import { CreateProductDto, UpdateProductDto } from "../dto";
 import { ExtendedEntityStateModel } from "@shared/extended-entity-state";
 import { PaginatedResponse } from "@shared/api/utils/paginated.response";
-import { Dictionary } from "lodash";
+import { Dictionary } from "@/types";
 
 export type ProductStateModel = ExtendedEntityStateModel<Product> & {
   productsOfBuffets: Dictionary<number[]>;
@@ -28,31 +32,11 @@ export class ProductState extends ExtendedEntityState<
   CreateProductDto,
   UpdateProductDto
 > {
-  public static productsOfBuffets(state: ProductStateModel) {
-    return state.productsOfBuffets;
-  }
 
-  @Selector([
-    ProductState.entitiesMap,
-    ProductState.productsOfBuffets,
-    ProductState.activeId,
-  ])
-  public static productsOfActiveBuffet(
-    state: ProductState,
-    products: Dictionary<Product>,
-    productsOfBuffets: Dictionary<string[]>,
-    buffetId?: string,
-  ) {
-    if (!buffetId) {
-      return [];
-    }
-    return productsOfBuffets[+buffetId].map(id => products[+id]);
-  }
-
-  public static isAllLoaded(buffetId: number) {
+  public static entityById(id: number) {
     return createSelector(
-      [ProductState],
-      (state: ProductStateModel) => !!state.productsOfBuffets[buffetId],
+      [ProductState.entitiesMap],
+      (entities: Dictionary<Product>) => entities[id],
     );
   }
 
@@ -64,5 +48,19 @@ export class ProductState extends ExtendedEntityState<
       service: productService,
       actions: Actions,
     });
+  }
+
+  @Action(Actions.LoadById, { cancelUncompleted: true })
+  public loadById(
+    ctx: StateContext<ProductStateModel>,
+    action: Actions.LoadById,
+  ) {
+    return this.productService
+      .findOne(action.id)
+      .pipe(
+        switchMap(product =>
+          ctx.dispatch(new CreateOrReplace(ProductState, product)),
+        ),
+      );
   }
 }

@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-web": "ng run app:build-web",
+    "build-web": "ng run app:build-web:production",
     "test": "ng test --code-coverage",
     "lint": "ng lint",
     "format": "prettier --write \"./**/*.ts\" \"./**/*.css\" \"./**/*.html\" \"./**/*.scss\" \"./**/*.json\" \"./**/*.js\" ",

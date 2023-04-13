@@ -18,10 +18,6 @@ import { AuthenticationModule } from "@shared/authentication";
 import { APP_ABILITY_FACTORY, PolicyModule } from "@shared/policy";
 import { AppAbilityFactory } from "./app-ability.factory";
 import { AppRoutingModule } from "./app-routing.module";
-import { AdminAuthModule } from "./admin/auth/admin-auth.module";
-import { AdminSignupModule } from "./admin/auth/feature/admin-signup";
-import { DashboardModule } from "./admin/dashboard/dashboard.module";
-import { CreateInviteTokenModule } from "./admin/dashboard/feature/create-invite-token/create-invite-token.module";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
