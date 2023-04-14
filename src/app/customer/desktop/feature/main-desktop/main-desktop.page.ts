@@ -5,7 +5,6 @@ import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Category, loadCategories } from "@shared/category";
 import { Product } from "@shared/product";
-import { loadProducts } from "@shared/product/data-access/utils";
 import { User } from "@shared/user";
 import {
   catchError,
@@ -16,7 +15,7 @@ import {
   of,
   startWith,
 } from "rxjs";
-import { MainDesktopState } from "./store";
+import { LoadInitialProducts, LoadMoreProducts, MainDesktopState } from "./store";
 
 @Component({
   selector: "app-main-desktop",
@@ -83,9 +82,20 @@ export class MainDesktopPage implements OnInit {
       ),
     );
   }
+  
+  onInfinite(event: any) {
+    if (
+      event.target.offsetWidth + event.target.scrollLeft >=
+      event.target.scrollWidth - 50
+    ) {
+      //this.store.dispatch(new LoadMoreProducts(this.activeCategoryId));
+      this.store.dispatch(new LoadMoreProducts(1));
+    }
+  }
 
   ngOnInit() {
+    console.clear();
     loadCategories(this.store).subscribe();
-    //loadProducts(this.store).subscribe();
+    this.store.dispatch(new LoadInitialProducts(1));
   }
 }
