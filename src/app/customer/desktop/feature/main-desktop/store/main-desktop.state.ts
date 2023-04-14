@@ -1,7 +1,13 @@
 import { Injectable } from "@angular/core";
 import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
 import { CategoryState, Category } from "@shared/category";
-import { FilterProductsQuery, Product, ProductActions, ProductState, ProductStateModel } from "@shared/product";
+import {
+  FilterProductsQuery,
+  Product,
+  ProductActions,
+  ProductState,
+  ProductStateModel,
+} from "@shared/product";
 import { Dictionary } from "lodash";
 import { LoadInitialProducts, LoadMoreProducts } from "./main-desktop.actions";
 
@@ -26,7 +32,7 @@ export interface MainDesktopStateModel {
 export class MainDesktopState {
   constructor(private store: Store) {}
 
-   public static products(state: MainDesktopStateModel, products: Product[]) {}
+  public static products(state: MainDesktopStateModel, products: Product[]) {}
 
   @Selector([CategoryState.categoriesOfActiveBuffet])
   public static shownCategories(
@@ -79,7 +85,7 @@ export class MainDesktopState {
     if (loading) {
       return;
     }
-    
+
     const dict = ctx.getState().paginationState[action.id];
     const productsLeft = dict.remainingItems;
     if (productsLeft !== undefined && productsLeft <= 0) {
@@ -117,5 +123,4 @@ export class MainDesktopState {
       },
     });
   }
-  
 }
