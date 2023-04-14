@@ -5,7 +5,7 @@ import { FilterProductsQuery, Product, ProductActions, ProductState, ProductStat
 import { Dictionary } from "lodash";
 import { LoadInitialProducts, LoadMoreProducts } from "./main-desktop.actions";
 
-const productsLoadedPerScroll = 2;
+const productsLoadedPerScroll = 8;
 
 export interface MainDesktopStateModel {
   // key: id of the category
@@ -43,13 +43,13 @@ export class MainDesktopState {
   ) {
     //!!!!
     //az 1 est a kategória idjére csere!!
-    return state.paginationState[1].productIds
+    return state.paginationState[4].productIds
       .map(id => products[id])
       .filter(p => p);
   }
 
   @Action(LoadInitialProducts)
-  public setActiveCategory(
+  public loadInitialProducts(
     ctx: StateContext<MainDesktopStateModel>,
     action: LoadInitialProducts,
   ) {

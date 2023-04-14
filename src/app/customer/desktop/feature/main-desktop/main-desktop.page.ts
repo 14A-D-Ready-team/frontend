@@ -96,6 +96,6 @@ export class MainDesktopPage implements OnInit {
   ngOnInit() {
     console.clear();
     loadCategories(this.store).subscribe();
-    this.store.dispatch(new LoadInitialProducts(1));
+    this.store.dispatch(new LoadInitialProducts(4));
   }
 }
