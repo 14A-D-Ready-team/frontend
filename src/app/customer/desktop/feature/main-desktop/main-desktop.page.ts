@@ -15,7 +15,11 @@ import {
   of,
   startWith,
 } from "rxjs";
-import { LoadInitialProducts, LoadMoreProducts, MainDesktopState } from "./store";
+import {
+  LoadInitialProducts,
+  LoadMoreProducts,
+  MainDesktopState,
+} from "./store";
 
 @Component({
   selector: "app-main-desktop",
@@ -82,7 +86,7 @@ export class MainDesktopPage implements OnInit {
       ),
     );
   }
-  
+
   onInfinite(event: any) {
     if (
       event.target.offsetWidth + event.target.scrollLeft >=
