@@ -41,6 +41,9 @@ export class CategoryDisplayComponent implements OnInit {
   public editDisabled = false;
 
   @Input()
+  public deleteDisabled = false;
+
+  @Input()
   public action: "create" | "update" = "update";
 
   @Input()
