@@ -14,17 +14,17 @@
         >
           <h1>{{ category.name }}</h1>
 
-          <div class="product-container" (scroll)="onInfinite($event)">
+          <div class="product-container" (scroll)="onInfinite($event, category.id)">
             <div class="product-card" *ngFor="let product of vm.products">
-              <img
+              <div *ngIf="product.categoryId === category.id">
+                <img
                 src="/assets/images/product.png"
                 class="product-img"
                 alt=""
               />
               <div class="product-description">
                 <p class="product-category">
-                  Akármi
-                  <!-- {{vm.categoriesDict[product.categoryId].name}}  -->
+                  {{ category.name }}
                 </p>
                 <p class="product-name">{{product.name}}</p>
                 <p class="product-price">{{product.fullPrice}} Ft</p>

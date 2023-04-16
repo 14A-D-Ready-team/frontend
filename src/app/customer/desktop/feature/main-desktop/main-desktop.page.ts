@@ -19,6 +19,7 @@ import {
   LoadInitialProducts,
   LoadMoreProducts,
   MainDesktopState,
+  SetCategory,
 } from "./store";
 
 @Component({
@@ -87,19 +88,25 @@ export class MainDesktopPage implements OnInit {
     );
   }
 
-  onInfinite(event: any) {
+  onInfinite(event: any, categoryId: number) {
     if (
       event.target.offsetWidth + event.target.scrollLeft >=
       event.target.scrollWidth - 50
     ) {
       //this.store.dispatch(new LoadMoreProducts(this.activeCategoryId));
-      this.store.dispatch(new LoadMoreProducts(1));
+      this.store.dispatch(new LoadMoreProducts(categoryId));
     }
   }
 
   ngOnInit() {
     console.clear();
     loadCategories(this.store).subscribe();
-    this.store.dispatch(new LoadInitialProducts(4));
+    //this.store.dispatch(new SetCategory(4));
+    //this.store.dispatch(new LoadInitialProducts(4));
+
+    for (let index = 1; index <= 8; index++) {
+      //this.store.dispatch(new SetCategory(index));
+      this.store.dispatch(new LoadInitialProducts(index));
+    }
   }
 }
