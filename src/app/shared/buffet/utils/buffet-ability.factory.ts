@@ -38,7 +38,7 @@ export class BuffetAbilityFactory implements AbilityFactory {
       can(Action.Create, "Buffet");
 
       can(Action.Update, Buffet, {
-        buffetOwnerId: user.id,
+        ownerId: user.id,
       });
       can(Action.Delete, Buffet, {
         id: {

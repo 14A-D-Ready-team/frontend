@@ -25,7 +25,7 @@ export class Buffet {
   public status!: BuffetStatus;
 
   @Expose()
-  public buffetOwnerId!: number;
+  public ownerId!: number;
 
   @Expose()
   public employees!: number[];
