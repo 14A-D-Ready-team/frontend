@@ -1,4 +1,4 @@
-<ion-card button (click)="cardClick.emit()">
+<ion-card [button]="!disabled" (click)="!disabled && cardClick.emit()">
   <img alt="Buffet image" [src]="imageUrl" class="buffet-img" />
   <ion-card-header>
     <ion-card-title>{{ buffet.name }}</ion-card-title>
@@ -16,6 +16,7 @@
         fill="clear"
         color="danger"
         expand="block"
+        [disabled]="deleteDisabled"
         (click)="delete($event)"
       >
         <ion-icon slot="start" name="trash"></ion-icon>

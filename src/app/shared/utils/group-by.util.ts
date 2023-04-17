@@ -4,7 +4,9 @@ export function groupBy<T>(array: T[], key: keyof T): Dictionary<T> {
   const dict: Dictionary<T> = {};
 
   for (const item of array) {
-    dict[item[key] as any] = item;
+    if (item) {
+      dict[item[key] as any] = item;
+    }
   }
 
   return dict;

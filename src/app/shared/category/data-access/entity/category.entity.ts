@@ -10,9 +10,7 @@ export class Category {
   @Expose()
   public buffetId!: number;
 
-  constructor(id: number, name: string, buffetId: number) {
-    this.id = id;
-    this.name = name;
-    this.buffetId = buffetId;
+  constructor(data: Partial<Category> = {}) {
+    Object.assign(this, data);
   }
 }

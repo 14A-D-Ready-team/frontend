@@ -21,6 +21,12 @@ import { Buffet } from "@shared/buffet";
 })
 export class BuffetPreviewComponent implements OnInit {
   @Input()
+  public disabled = false;
+
+  @Input()
+  public deleteDisabled = false;
+
+  @Input()
   public buffet!: Buffet;
 
   @Output()

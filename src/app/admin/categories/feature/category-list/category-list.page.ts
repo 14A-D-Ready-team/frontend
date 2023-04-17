@@ -55,6 +55,10 @@ import {
 import { NoBuffetSelectedException } from "@shared/buffet/utils";
 import { ActivatedRoute } from "@angular/router";
 import { Mixin } from "ts-mixer";
+import { AbilityService } from "@casl/angular";
+import { AppAbility } from "@app/app-ability.factory";
+import { Action } from "@shared/policy";
+import { Buffet, BuffetState } from "@shared/buffet";
 
 @Component({
   selector: "app-admin-category-list",
@@ -90,8 +94,12 @@ export class CategoryListPage
   @Select(CategoryState.error)
   public error$!: Observable<any>;
 
+  @Select(BuffetState.active)
+  public activeBuffet$!: Observable<Buffet | undefined>;
+
   public vm$ = combineLatest([
     this.categories$,
+    this.activeBuffet$,
     this.creatingNew$,
     this.editedId$,
     this.updateStatus$,
@@ -99,10 +107,12 @@ export class CategoryListPage
     this.deleteStatus$,
     this.loading$,
     this.error$,
+    this.abilityService.ability$,
   ]).pipe(
     map(
       ([
         categories,
+        activeBuffet,
         creatingNew,
         editedId,
         updateStatus,
@@ -110,6 +120,7 @@ export class CategoryListPage
         deleteStatus,
         loading,
         error,
+        ability,
       ]) => ({
         categories,
         creatingNew,
@@ -120,6 +131,10 @@ export class CategoryListPage
         loading,
         error,
         noBuffetSelected: error instanceof NoBuffetSelectedException,
+        canCreateNew: ability.can(
+          Action.Create,
+          new Category({ buffetId: activeBuffet?.id }),
+        ),
       }),
     ),
   );
@@ -138,6 +153,7 @@ export class CategoryListPage
     protected modalController: ModalController,
     protected platform: Platform,
     private route: ActivatedRoute,
+    private abilityService: AbilityService<AppAbility>,
   ) {
     super();
     this.editorForm = new ClassValidatorFormGroup<CategoryEditorFormModel>(

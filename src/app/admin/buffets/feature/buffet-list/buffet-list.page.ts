@@ -23,6 +23,9 @@ import {
   SelectBuffet,
 } from "./store/buffet-list.actions";
 import { BuffetListState } from "./store/buffet-list.state";
+import { AbilityService } from "@casl/angular";
+import { AppAbility } from "@app/app-ability.factory";
+import { Action } from "@shared/policy";
 
 @Component({
   selector: "app-admin-buffet-list",
@@ -77,6 +80,7 @@ export class BuffetListPage
     protected modalController: ModalController,
     private router: Router,
     private route: ActivatedRoute,
+    private abilityService: AbilityService<AppAbility>,
   ) {
     super();
   }

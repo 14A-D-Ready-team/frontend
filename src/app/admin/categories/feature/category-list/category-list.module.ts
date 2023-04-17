@@ -18,6 +18,7 @@ import {
 } from "../../ui";
 import { ErrorCardComponent } from "@shared/exceptions/ui/ionic";
 import { AdminHeaderComponent } from "@app/admin/shell";
+import { AbilityModule } from "@casl/angular";
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { AdminHeaderComponent } from "@app/admin/shell";
     ErrorCardComponent,
     ActionInProgressPipe,
     AdminHeaderComponent,
+    AbilityModule,
   ],
   declarations: [CategoryListPage],
 })

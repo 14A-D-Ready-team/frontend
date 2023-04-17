@@ -56,7 +56,8 @@
                       [category]="category"
                       [editorForm]="categoryVm.isEditing ? editorForm : undefined"
                       [isEditing]="categoryVm.isEditing"
-                      [editDisabled]="vm.editedId != undefined"
+                      [editDisabled]="vm.editedId != undefined || !('update' | able: category)"
+                      [deleteDisabled]="!('delete' | able: category)"
                       [isLoading]="categoryVm.updating || categoryVm.deleting"
                       (editing)="onEditing(category)"
                       (editingDone)="onEditingDone($event)"
@@ -83,7 +84,7 @@
     </ion-grid>
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
       <ion-fab-button
-        [disabled]="vm.editedId != undefined || vm.creatingNew || vm.noBuffetSelected"
+        [disabled]="vm.editedId != undefined || vm.creatingNew || vm.noBuffetSelected || !vm.canCreateNew  "
         (click)="create()"
       >
         <ion-icon name="add"></ion-icon>
