@@ -38,6 +38,11 @@ export class CategoryAbilityFactory implements AbilityFactory {
       });
     }
 
-    return builder.build();
+    return builder.build({
+      detectSubjectType: item => {
+        console.log(item);
+        return item.constructor as any;
+      },
+    });
   }
 }

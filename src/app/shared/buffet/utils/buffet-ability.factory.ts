@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import {
   AbilityBuilder,
   createMongoAbility,
+  ExtractSubjectType,
   InferSubjects,
   MongoAbility,
 } from "@casl/ability";
@@ -52,6 +53,11 @@ export class BuffetAbilityFactory implements AbilityFactory {
       });
     }
 
-    return builder.build({});
+    return builder.build({
+      detectSubjectType: item => {
+        console.log(item);
+        return item.constructor as any;
+      },
+    });
   }
 }

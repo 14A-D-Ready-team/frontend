@@ -50,6 +50,7 @@ export class AppAbilityFactory implements AbilityFactory {
 
     return build({
       detectSubjectType: item => {
+        console.log(item);
         return item.constructor as ExtractSubjectType<AppAbility>;
       },
     });

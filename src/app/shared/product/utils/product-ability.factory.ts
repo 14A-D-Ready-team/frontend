@@ -3,6 +3,7 @@ import {
   AbilityBuilder,
   createMongoAbility,
   MongoAbility,
+  ExtractSubjectType,
 } from "@casl/ability";
 import { InferSubjects } from "@casl/ability/dist/types/types";
 import { AbilityFactory, Action } from "@shared/policy";
@@ -25,6 +26,11 @@ export class ProductAbilityFactory implements AbilityFactory {
       return builder.build();
     }
 
-    return builder.build();
+    return builder.build({
+      detectSubjectType: item => {
+        console.log(item);
+        return item.constructor as any;
+      },
+    });
   }
 }
