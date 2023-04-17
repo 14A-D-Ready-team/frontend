@@ -114,6 +114,6 @@ export class AdminGuard implements CanActivateChild {
       return of(true);
     }
 
-    return policyHandler(ability, route);
+    return policyHandler(ability, route, this.store);
   }
 }

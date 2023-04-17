@@ -36,6 +36,10 @@ import { groupBy } from "@shared/utils";
 import { Mixin } from "ts-mixer";
 import { DeleteConfirmMixin } from "@shared/modals";
 import { TargetedRequestStatus } from "@shared/extended-entity-state";
+import { Buffet, BuffetState } from "@shared/buffet";
+import { AppAbility } from "@app/app-ability.factory";
+import { AbilityService } from "@casl/angular";
+import { Action } from "@shared/policy";
 
 @Component({
   selector: "app-product-list",
@@ -70,6 +74,9 @@ export class ProductListPage
   @Select(ProductState.deleteStatus)
   public deleteStatus$!: Observable<TargetedRequestStatus | undefined>;
 
+  @Select(BuffetState.active)
+  public activeBuffet$!: Observable<Buffet | undefined>;
+
   public isDesktop$ = this.platform.resize.pipe(
     startWith(undefined),
     map(() => this.platform.width() >= 992),
@@ -78,6 +85,7 @@ export class ProductListPage
   public vm$ = combineLatest([
     this.products$,
     this.categories$,
+    this.activeBuffet$,
     this.loading$,
     this.categoriesLoading$,
     this.error$,
@@ -85,11 +93,13 @@ export class ProductListPage
     this.isDesktop$,
     this.categoryError$,
     this.deleteStatus$,
+    this.abilityService.ability$,
   ]).pipe(
     map(
       ([
         products,
         categories,
+        activeBuffet,
         loading,
         categoriesLoading,
         error,
@@ -97,6 +107,7 @@ export class ProductListPage
         isDesktop,
         categoryError,
         deleteStatus,
+        ability,
       ]) => ({
         products,
         categories,
@@ -109,6 +120,12 @@ export class ProductListPage
         categoryError,
         noBuffetSelected: categoryError instanceof NoBuffetSelectedException,
         deleteStatus,
+        canCreateNew:
+          !!activeBuffet &&
+          ability.can(
+            Action.Create,
+            new Product({ buffetId: activeBuffet.id }),
+          ),
       }),
     ),
   );
@@ -123,6 +140,7 @@ export class ProductListPage
     protected modalController: ModalController,
     public router: Router,
     private route: ActivatedRoute,
+    private abilityService: AbilityService<AppAbility>,
   ) {
     super();
     this.sub = route.url

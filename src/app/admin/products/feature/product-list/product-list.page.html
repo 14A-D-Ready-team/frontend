@@ -136,7 +136,7 @@
     </div>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button (click)="create()">
+      <ion-fab-button (click)="create()" [disabled]="!vm.canCreateNew">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>

@@ -29,11 +29,6 @@ export class UserAbilityFactory implements AbilityFactory {
 
     const { can } = builder;
 
-    return builder.build({
-      detectSubjectType: item => {
-        console.log(item);
-        return item.constructor as any;
-      },
-    });
+    return builder.build();
   }
 }

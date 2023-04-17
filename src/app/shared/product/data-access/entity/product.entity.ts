@@ -50,4 +50,9 @@ export class Product {
       image: null as any,
     });
   }
+
+  constructor(data: Partial<Product> = {}) {
+    // we might want to clone customizations here
+    Object.assign(this, data);
+  }
 }

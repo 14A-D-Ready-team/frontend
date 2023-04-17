@@ -53,11 +53,6 @@ export class BuffetAbilityFactory implements AbilityFactory {
       });
     }
 
-    return builder.build({
-      detectSubjectType: item => {
-        console.log(item);
-        return item.constructor as any;
-      },
-    });
+    return builder.build();
   }
 }

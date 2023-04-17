@@ -26,11 +26,24 @@ export class ProductAbilityFactory implements AbilityFactory {
       return builder.build();
     }
 
-    return builder.build({
-      detectSubjectType: item => {
-        console.log(item);
-        return item.constructor as any;
-      },
-    });
+    if (user.buffetOwner) {
+      can(Action.Create, Product, {
+        buffetId: { $in: user.buffetOwner.buffetIds },
+      });
+      can(Action.Update, Product, {
+        buffetId: { $in: user.buffetOwner.buffetIds },
+      });
+      can(Action.Delete, Product, {
+        buffetId: { $in: user.buffetOwner.buffetIds },
+      });
+    }
+
+    if (user.buffetWorker) {
+      can([Action.Create, Action.Update, Action.Delete], Product, {
+        buffetId: user.buffetWorker.buffetId,
+      });
+    }
+
+    return builder.build();
   }
 }

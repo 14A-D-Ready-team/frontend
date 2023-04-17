@@ -17,7 +17,9 @@ import { AppAbility } from "@app/app-ability.factory";
     {
       provide: Ability,
       useFactory: () =>
-        new AbilityBuilder<AppAbility>(createMongoAbility).build(),
+        new AbilityBuilder<AppAbility>(createMongoAbility).build({
+          detectSubjectType: item => item.constructor as any,
+        }),
     },
     { provide: PureAbility, useExisting: Ability },
     PolicyEffects,
