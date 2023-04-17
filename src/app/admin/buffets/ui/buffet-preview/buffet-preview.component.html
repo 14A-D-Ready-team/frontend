@@ -16,6 +16,7 @@
         fill="clear"
         color="danger"
         expand="block"
+        [disabled]="deleteDisabled"
         (click)="delete($event)"
       >
         <ion-icon slot="start" name="trash"></ion-icon>

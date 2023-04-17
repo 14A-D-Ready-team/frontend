@@ -24,6 +24,9 @@ export class BuffetPreviewComponent implements OnInit {
   public disabled = false;
 
   @Input()
+  public deleteDisabled = false;
+
+  @Input()
   public buffet!: Buffet;
 
   @Output()

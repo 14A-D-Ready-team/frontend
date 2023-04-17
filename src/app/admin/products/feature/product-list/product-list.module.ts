@@ -17,6 +17,7 @@ import { ProductFilterModule } from "../product-filter";
 import { ProductFilterState } from "../product-filter";
 import { AdminHeaderComponent } from "@app/admin/shell";
 import { MenuWrapperComponent } from "@shared/menu";
+import { AbilityModule } from "@casl/angular";
 
 @NgModule({
   declarations: [ProductListPage],
@@ -33,6 +34,7 @@ import { MenuWrapperComponent } from "@shared/menu";
     TypingOverlayComponent,
     AdminHeaderComponent,
     MenuWrapperComponent,
+    AbilityModule,
   ],
   providers: [ProductListEffects],
 })

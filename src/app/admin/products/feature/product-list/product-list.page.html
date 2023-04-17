@@ -94,6 +94,8 @@
                   !vm.categoriesMap[product.categoryId] && vm.categoriesLoading
                 "
                 [deleting]="vm.deleteStatus?.loading === true && vm.deleteStatus?.targetId === product.id"
+                [disabled]="!('update' | able: product)"
+                [deleteDisabled]="!('delete' | able: product)"
                 (delete)="delete(product)"
                 (cardClick)="router.navigate(['admin/products/details'], { queryParams: { id: product.id }})"
               ></app-admin-product-preview>

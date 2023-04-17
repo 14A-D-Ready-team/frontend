@@ -36,7 +36,6 @@ const routes: Routes = [
         if (!activeBuffet) {
           return true;
         }
-        console.log(ability);
         return ability.can(
           Action.Create,
           new Product({ buffetId: activeBuffet.id }),

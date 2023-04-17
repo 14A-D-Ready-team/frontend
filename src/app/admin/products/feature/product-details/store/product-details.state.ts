@@ -36,6 +36,7 @@ import {
   map,
   of,
   switchMap,
+  take,
   tap,
 } from "rxjs";
 import { Mixin } from "ts-mixer";
@@ -47,6 +48,7 @@ import {
   SetError,
   SetUpdatedProductData,
 } from "./product-details.actions";
+import { Action as CaslAction } from "@shared/policy";
 
 export interface ProductDetailsStateModel
   extends UpdatePageStateModel<UpdateProductDto> {
@@ -145,8 +147,19 @@ export class ProductDetailsState
         if (!product.buffetId) {
           throw new ApiException(ErrorCode.BuffetNotFoundException);
         }
-        return this.loadBuffetById(product.buffetId).pipe(
-          map(buffet => ({ product, buffet })),
+
+        return this.abilityService.ability$.pipe(
+          take(1),
+          map(ability => {
+            if (!ability.can(CaslAction.Update, product)) {
+              throw new ApiException(ErrorCode.ForbiddenException);
+            }
+          }),
+          switchMap(() =>
+            this.loadBuffetById(product.buffetId).pipe(
+              map(buffet => ({ product, buffet })),
+            ),
+          ),
         );
       }),
       switchMap(data =>
@@ -251,10 +264,6 @@ export class ProductDetailsState
   }
 
   private setActiveBuffet(buffet: Buffet) {
-    if (false) {
-      throw new ApiException(ErrorCode.ForbiddenException);
-    }
-
     return this.store.dispatch(
       new SetActive(BuffetState, buffet.id.toString()),
     );

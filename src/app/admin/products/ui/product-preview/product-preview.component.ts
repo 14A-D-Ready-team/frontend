@@ -23,6 +23,12 @@ import { environment } from "@/environments/environment";
 })
 export class ProductPreviewComponent implements OnInit {
   @Input()
+  public disabled = false;
+
+  @Input()
+  public deleteDisabled = false;
+
+  @Input()
   public product!: Product;
 
   @Input()
