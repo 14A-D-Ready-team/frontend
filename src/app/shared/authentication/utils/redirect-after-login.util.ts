@@ -20,7 +20,7 @@ export function redirectAfterLogin(
       filter(user => !!user),
       tap(() => {
         const nextUrl =
-          route.snapshot.queryParams.nextUrl || (toAdmin ? "/asd" : "/");
+          route.snapshot.queryParams.nextUrl || (toAdmin ? "/admin" : "/");
 
         const url = new URL(nextUrl, window.location.origin);
         const queryParams: Dictionary<any> = {};
