@@ -1,5 +1,4 @@
-import { VKLoginProvider } from "@abacritt/angularx-social-login";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
@@ -20,7 +19,6 @@ import {
   LoadInitialProducts,
   LoadMoreProducts,
   MainDesktopState,
-  SetCategory,
 } from "./store";
 import { Dictionary } from "@/types";
 
@@ -95,7 +93,6 @@ export class MainDesktopPage implements OnInit {
       event.target.offsetWidth + event.target.scrollLeft >=
       event.target.scrollWidth - 50
     ) {
-      //this.store.dispatch(new LoadMoreProducts(this.activeCategoryId));
       this.store.dispatch(new LoadMoreProducts(categoryId));
     }
   }
@@ -106,7 +103,6 @@ export class MainDesktopPage implements OnInit {
 
     this.categories$.subscribe(category =>
       category.forEach(c => {
-        //console.log(c.id);
         this.store.dispatch(new LoadInitialProducts(c.id));
       }),
     );

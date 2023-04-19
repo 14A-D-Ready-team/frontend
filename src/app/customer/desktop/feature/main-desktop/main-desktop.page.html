@@ -4,7 +4,7 @@
   <div class="after-login">
     <div class="greeting-container">
       <h1>
-        Üdvözöljük<span *ngIf="vm.activeUser"> {{ vm.activeUser.name }}</span>!
+        Üdvözlünk<span *ngIf="vm.activeUser"> {{ vm.activeUser.name }}</span>!
       </h1>
       <p>Válogass a(z) {{(activeBuffet$ | async)?.name}} kínálatából!</p>
       <div class="menu-container">
