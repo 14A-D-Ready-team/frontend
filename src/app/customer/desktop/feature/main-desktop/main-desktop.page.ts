@@ -104,9 +104,11 @@ export class MainDesktopPage implements OnInit {
     //this.store.dispatch(new SetCategory(4));
     //this.store.dispatch(new LoadInitialProducts(4));
 
-    this.categories$.subscribe(category => category.forEach(c => {
-      //console.log(c.id);
-      this.store.dispatch(new LoadInitialProducts(c.id));
-    }));
+    this.categories$.subscribe(category =>
+      category.forEach(c => {
+        //console.log(c.id);
+        this.store.dispatch(new LoadInitialProducts(c.id));
+      }),
+    );
   }
 }
