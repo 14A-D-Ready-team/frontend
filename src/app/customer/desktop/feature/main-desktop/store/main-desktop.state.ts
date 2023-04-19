@@ -9,7 +9,7 @@ import {
   ProductStateModel,
 } from "@shared/product";
 import { css } from "cypress/types/jquery";
-import { Dictionary } from "lodash";
+import { Dictionary, fromPairs } from "lodash";
 import {
   LoadInitialProducts,
   LoadMoreProducts,
@@ -54,44 +54,12 @@ export class MainDesktopState {
     state: MainDesktopStateModel,
     products: Dictionary<Product>,
   ) {
-    // const productIds = [];
-    // for (let index = 1; index <= 8; index++) {
-    //   const paginationState = state.paginationState[index];
-    //   if (paginationState) {
-    //     productIds.push(...paginationState.productIds);
-    //   }
-    // }
-    // return productIds.map(id => products[id]).filter(p => p);
-
-    const productDictionary = Object.values(state.paginationState).map(
-      pagination => pagination.productIds,
+    const pairs = Object.entries(state.paginationState).map(
+      ([key, value]) =>
+        [key, value.productIds.map(id => products[id])] as [string, Product[]],
     );
-    console.log(productDictionary);
 
-    // for (let i = 1; i < state.categoryArray.length; i++) {
-    //   const array: number[] = [];
-    //   productDictionary[i - 1].forEach(p => array.push(p))
-    //   products = {...products, [i]: array};
-
-    // }
-    // let productDictionary: Dictionary<Product> = {};
-    // productDictionary = {}
-
-    console.log(products);
-
-    return products;
-
-    // let productIds: number[] = [];
-
-    // for (let i = 0; i <= 8; i++) {
-    //   productIds = state.paginationState[i]?.productIds;
-    // }
-
-    // return productIds;
-
-    // return state.paginationState[state.categoryId].productIds
-    //   .map(id => products[id])
-    //   .filter(p => p);
+    return fromPairs(pairs);
   }
 
   @Action(LoadInitialProducts)
