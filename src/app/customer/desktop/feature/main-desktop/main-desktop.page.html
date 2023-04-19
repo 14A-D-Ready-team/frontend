@@ -13,7 +13,6 @@
           *ngFor="let category of vm.categories"
         >
           <h1>{{ category.name }}</h1>
-
           <div
             class="product-container"
             (scroll)="onInfinite($event, category.id)"

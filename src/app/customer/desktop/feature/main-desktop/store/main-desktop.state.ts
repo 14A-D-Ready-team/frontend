@@ -18,9 +18,6 @@ import {
 const productsLoadedPerScroll = 8;
 
 export interface MainDesktopStateModel {
-  // key: id of the category
-  // value: the pagination's data inside a category
-  //categoryId: number;
 
   paginationState: Dictionary<{
     productIds: number[];
@@ -31,7 +28,7 @@ export interface MainDesktopStateModel {
 @State<MainDesktopStateModel>({
   name: "mainDesktop",
   defaults: {
-    //categoryId: 0,
+
     paginationState: {},
   },
 })
@@ -54,33 +51,19 @@ export class MainDesktopState {
     state: MainDesktopStateModel,
     products: Dictionary<Product>,
   ) {
-    //for (let i = 1; i <= state.categoryArray.length; i++) {
-    // for (let i = 1; i <= 8; i++) {
-    //   state.paginationState[i].productIds
-    //   .map(id => products[id])
-    //   .filter(p => p);
-    // }
 
     for (let index = 1; index <= 8; index++) {
       return state.paginationState[index].productIds
-        .map(id => products[id])
-        .filter(p => p);
+        .map(id => products[id]);
     }
+
+    
 
     // return state.paginationState[state.categoryId].productIds
     //   .map(id => products[id])
     //   .filter(p => p);
 
-    //return state.paginationState;
   }
-
-  // @Action(SetCategory)
-  // public setActiveCategory(
-  //   ctx: StateContext<MainDesktopStateModel>,
-  //   action: SetCategory,
-  // ) {
-  //   ctx.patchState({categoryId: action.id});
-  // }
 
   @Action(LoadInitialProducts)
   public loadInitialProducts(

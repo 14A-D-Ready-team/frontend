@@ -1,3 +1,4 @@
+import { VKLoginProvider } from "@abacritt/angularx-social-login";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
@@ -101,8 +102,6 @@ export class MainDesktopPage implements OnInit {
   ngOnInit() {
     console.clear();
     loadCategories(this.store).subscribe();
-    //this.store.dispatch(new SetCategory(4));
-    //this.store.dispatch(new LoadInitialProducts(4));
 
     this.categories$.subscribe(category =>
       category.forEach(c => {
