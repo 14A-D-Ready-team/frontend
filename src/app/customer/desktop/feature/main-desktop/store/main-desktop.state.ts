@@ -8,6 +8,7 @@ import {
   ProductState,
   ProductStateModel,
 } from "@shared/product";
+import { css } from "cypress/types/jquery";
 import { Dictionary } from "lodash";
 import {
   LoadInitialProducts,
@@ -18,7 +19,6 @@ import {
 const productsLoadedPerScroll = 8;
 
 export interface MainDesktopStateModel {
-
   paginationState: Dictionary<{
     productIds: number[];
     remainingItems?: number;
@@ -28,7 +28,6 @@ export interface MainDesktopStateModel {
 @State<MainDesktopStateModel>({
   name: "mainDesktop",
   defaults: {
-
     paginationState: {},
   },
 })
@@ -51,18 +50,27 @@ export class MainDesktopState {
     state: MainDesktopStateModel,
     products: Dictionary<Product>,
   ) {
-
+    const productIds = [];
     for (let index = 1; index <= 8; index++) {
-      return state.paginationState[index].productIds
-        .map(id => products[id]);
+      const paginationState = state.paginationState[index];
+      if (paginationState) {
+        productIds.push(...paginationState.productIds);
+      }
     }
+    return productIds.map(id => products[id]).filter(p => p);
 
-    
+    // for (let index = 1; index <= 8; index++) {
+
+    //   state.paginationState[index].productIds
+    //     .map(id => products[id])
+    //     .filter(p => p);
+    // }
+
+    // return ;
 
     // return state.paginationState[state.categoryId].productIds
     //   .map(id => products[id])
     //   .filter(p => p);
-
   }
 
   @Action(LoadInitialProducts)
