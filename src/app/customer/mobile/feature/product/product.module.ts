@@ -17,7 +17,7 @@ import { AppRoutingModule } from "@app/app-routing.module";
     IonicModule,
     ProductPageRoutingModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [ProductPage],
 })

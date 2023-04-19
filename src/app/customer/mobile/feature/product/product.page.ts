@@ -49,19 +49,18 @@ export class ProductPage implements OnInit {
     this.finalPrice = this.activeProduct.fullPrice * this.amount;
   }
 
-  asd(option: Option){
+  asd(option: Option) {
     this.userCustomization.push(option);
     console.log(this.userCustomization);
   }
 
-  onCustomCheck(event:any, customization: Option){
-    if(event.detail.checked){
+  onCustomCheck(event: any, customization: Option) {
+    if (event.detail.checked) {
       this.userCustomization.push(customization);
       console.log(this.userCustomization);
-    }
-    else{
+    } else {
       const index = this.userCustomization.indexOf(customization);
-      this.userCustomization.splice(index,1);
+      this.userCustomization.splice(index, 1);
       console.log(this.userCustomization);
     }
   }
@@ -69,7 +68,7 @@ export class ProductPage implements OnInit {
   ngOnInit() {
     this.idFromRoute = this.route.snapshot.queryParamMap.get("productId")!;
 
-    if(this.idFromRoute){
+    if (this.idFromRoute) {
       this.products$.pipe(take(1)).subscribe(products =>
         products.forEach(product => {
           if (this.idFromRoute === product.id.toString()) {
@@ -79,7 +78,7 @@ export class ProductPage implements OnInit {
           }
         }),
       );
-  
+
       this.categories$.pipe(take(1)).subscribe(categories =>
         categories.forEach(category => {
           if (this.activeProduct.categoryId === category.id) {
@@ -87,10 +86,8 @@ export class ProductPage implements OnInit {
           }
         }),
       );
-  
+
       this.customizations = this.activeProduct.customizations;
     }
-
-
   }
 }
