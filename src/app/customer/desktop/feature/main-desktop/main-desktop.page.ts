@@ -22,6 +22,7 @@ import {
   MainDesktopState,
   SetCategory,
 } from "./store";
+import { Dictionary } from "@/types";
 
 @Component({
   selector: "app-main-desktop",
@@ -39,13 +40,13 @@ export class MainDesktopPage implements OnInit {
   public categories$!: Observable<Category[]>;
 
   @Select(MainDesktopState.shownProducts)
-  public products$!: Observable<Product[]>;
+  public products$!: Observable<Dictionary<Product[]>>;
 
   public vm$: Observable<{
     activeBuffet: Buffet | undefined;
     activeUser: User;
     categories: Category[];
-    products: Product[];
+    products: Dictionary<Product[]>;
     buffetLoading: boolean;
     resolverError: any;
   }>;
