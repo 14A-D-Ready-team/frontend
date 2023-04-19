@@ -59,7 +59,6 @@ export class MainDesktopState {
     }
     return productIds.map(id => products[id]).filter(p => p);
 
-
     // return state.paginationState[state.categoryId].productIds
     //   .map(id => products[id])
     //   .filter(p => p);
