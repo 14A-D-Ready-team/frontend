@@ -19,7 +19,6 @@ import {
 const productsLoadedPerScroll = 8;
 
 export interface MainDesktopStateModel {
-
   paginationState: Dictionary<{
     productIds: number[];
     remainingItems?: number;
