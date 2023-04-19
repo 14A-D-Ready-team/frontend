@@ -19,6 +19,9 @@ import {
 const productsLoadedPerScroll = 8;
 
 export interface MainDesktopStateModel {
+  
+  categoryArray: Category[];
+
   paginationState: Dictionary<{
     productIds: number[];
     remainingItems?: number;
@@ -28,6 +31,7 @@ export interface MainDesktopStateModel {
 @State<MainDesktopStateModel>({
   name: "mainDesktop",
   defaults: {
+    categoryArray: [],
     paginationState: {},
   },
 })
@@ -42,6 +46,7 @@ export class MainDesktopState {
     state: MainDesktopStateModel,
     categories: Category[],
   ) {
+    state.categoryArray = categories;
     return categories;
   }
 
@@ -50,15 +55,40 @@ export class MainDesktopState {
     state: MainDesktopStateModel,
     products: Dictionary<Product>,
   ) {
-    const productIds = [];
-    for (let index = 1; index <= 8; index++) {
-      const paginationState = state.paginationState[index];
-      if (paginationState) {
-        productIds.push(...paginationState.productIds);
-      }
-    }
-    return productIds.map(id => products[id]).filter(p => p);
+    // const productIds = [];
+    // for (let index = 1; index <= 8; index++) {
+    //   const paginationState = state.paginationState[index];
+    //   if (paginationState) {
+    //     productIds.push(...paginationState.productIds);
+    //   }
+    // }
+    // return productIds.map(id => products[id]).filter(p => p);
 
+    const productDictionary = Object.values(state.paginationState).map(
+      pagination => pagination.productIds,
+    );
+    console.log(productDictionary);
+
+    // for (let i = 1; i < state.categoryArray.length; i++) {
+    //   const array: number[] = [];
+    //   productDictionary[i - 1].forEach(p => array.push(p))
+    //   products = {...products, [i]: array};
+      
+    // }
+    // let productDictionary: Dictionary<Product> = {};
+    // productDictionary = {}
+
+    console.log(products);
+
+    return products;
+
+    // let productIds: number[] = [];
+
+    // for (let i = 0; i <= 8; i++) {
+    //   productIds = state.paginationState[i]?.productIds;
+    // }
+
+    // return productIds;
 
     // return state.paginationState[state.categoryId].productIds
     //   .map(id => products[id])

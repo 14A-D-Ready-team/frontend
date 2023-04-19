@@ -18,7 +18,7 @@
             (scroll)="onInfinite($event, category.id)"
           >
             <div class="product-card" *ngFor="let product of vm.products">
-              <div *ngIf="product.categoryId === category.id">
+              <div>
                 <img
                   src="/assets/images/product.png"
                   class="product-img"
