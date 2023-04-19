@@ -19,7 +19,6 @@ import {
 const productsLoadedPerScroll = 8;
 
 export interface MainDesktopStateModel {
-  categoryArray: Category[];
 
   paginationState: Dictionary<{
     productIds: number[];
@@ -30,7 +29,6 @@ export interface MainDesktopStateModel {
 @State<MainDesktopStateModel>({
   name: "mainDesktop",
   defaults: {
-    categoryArray: [],
     paginationState: {},
   },
 })
@@ -45,7 +43,6 @@ export class MainDesktopState {
     state: MainDesktopStateModel,
     categories: Category[],
   ) {
-    state.categoryArray = categories;
     return categories;
   }
 
