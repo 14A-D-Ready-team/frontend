@@ -59,14 +59,6 @@ export class MainDesktopState {
     }
     return productIds.map(id => products[id]).filter(p => p);
 
-    // for (let index = 1; index <= 8; index++) {
-
-    //   state.paginationState[index].productIds
-    //     .map(id => products[id])
-    //     .filter(p => p);
-    // }
-
-    // return ;
 
     // return state.paginationState[state.categoryId].productIds
     //   .map(id => products[id])
