@@ -18,7 +18,6 @@ import {
 const productsLoadedPerScroll = 8;
 
 export interface MainDesktopStateModel {
-
   paginationState: Dictionary<{
     productIds: number[];
     remainingItems?: number;
@@ -28,7 +27,6 @@ export interface MainDesktopStateModel {
 @State<MainDesktopStateModel>({
   name: "mainDesktop",
   defaults: {
-
     paginationState: {},
   },
 })
@@ -51,18 +49,13 @@ export class MainDesktopState {
     state: MainDesktopStateModel,
     products: Dictionary<Product>,
   ) {
-
     for (let index = 1; index <= 8; index++) {
-      return state.paginationState[index].productIds
-        .map(id => products[id]);
+      return state.paginationState[index].productIds.map(id => products[id]);
     }
-
-    
 
     // return state.paginationState[state.categoryId].productIds
     //   .map(id => products[id])
     //   .filter(p => p);
-
   }
 
   @Action(LoadInitialProducts)
