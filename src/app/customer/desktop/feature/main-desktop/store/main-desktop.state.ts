@@ -19,7 +19,6 @@ import {
 const productsLoadedPerScroll = 8;
 
 export interface MainDesktopStateModel {
-  
   categoryArray: Category[];
 
   paginationState: Dictionary<{
@@ -73,7 +72,7 @@ export class MainDesktopState {
     //   const array: number[] = [];
     //   productDictionary[i - 1].forEach(p => array.push(p))
     //   products = {...products, [i]: array};
-      
+
     // }
     // let productDictionary: Dictionary<Product> = {};
     // productDictionary = {}
