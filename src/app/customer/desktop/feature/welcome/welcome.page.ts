@@ -39,6 +39,10 @@ export class WelcomePage implements OnDestroy, AfterViewInit {
     return "";
   }
 
+  private get shouldShowModal() {
+    return /^\/(login|signup).*/.test(this.router.url);
+  }
+
   private subscription?: Subscription;
 
   segmentChanged(event: any) {
@@ -56,5 +60,11 @@ export class WelcomePage implements OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+  }
+
+  onDismiss() {
+    if (this.shouldShowModal) {
+      this.router.navigate(["/"]);
+    }
   }
 }
