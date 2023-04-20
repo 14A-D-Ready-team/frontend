@@ -6,17 +6,14 @@ import {
   Product,
   ProductActions,
   ProductState,
-  ProductStateModel,
 } from "@shared/product";
-import { css } from "cypress/types/jquery";
 import { Dictionary, fromPairs } from "lodash";
 import {
   LoadInitialProducts,
   LoadMoreProducts,
-  SetCategory,
 } from "./main-desktop.actions";
 
-const productsLoadedPerScroll = 8;
+const productsLoaded = 6;
 
 export interface MainDesktopStateModel {
   paginationState: Dictionary<{
@@ -57,6 +54,7 @@ export class MainDesktopState {
 
     return fromPairs(pairs);
   }
+
 
   @Action(LoadInitialProducts)
   public loadInitialProducts(
@@ -99,7 +97,7 @@ export class MainDesktopState {
       new ProductActions.Load(
         new FilterProductsQuery({
           categoryId: action.id,
-          take: productsLoadedPerScroll,
+          take: productsLoaded,
           skip: dict.productIds.length,
         }),
       ),

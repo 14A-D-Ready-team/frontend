@@ -15,7 +15,6 @@
           <h1>{{ category.name }}</h1>
           <div
             class="product-container"
-            (scroll)="onInfinite($event, category.id)"
           >
             <div
               class="product-card"
@@ -35,9 +34,9 @@
                 </div>
               </div>
             </div>
-            <div>
-              <button class="ready-btn">Mutass többet</button>
-            </div>
+          </div>
+          <div class="btn-container">
+            <button class="ready-btn btn" (click)="loadMoreProducts(category.id)">Mutass többet <ion-icon name="chevron-down-outline" class="down-icon"></ion-icon></button>
           </div>
         </div>
       </div>

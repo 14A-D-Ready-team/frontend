@@ -308,3 +308,20 @@
     width: $l-font;
   }
 }
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  font-weight: 500;
+  font-size: 1.5rem;
+  max-width: 17rem;
+  text-align: center;
+}
+
+.down-icon {
+  color: white;
+}

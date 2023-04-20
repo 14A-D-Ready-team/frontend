@@ -88,13 +88,8 @@ export class MainDesktopPage implements OnInit {
     );
   }
 
-  onInfinite(event: any, categoryId: number) {
-    if (
-      event.target.offsetWidth + event.target.scrollLeft >=
-      event.target.scrollWidth - 50
-    ) {
-      this.store.dispatch(new LoadMoreProducts(categoryId));
-    }
+  loadMoreProducts(categoryId: number) {
+    this.store.dispatch(new LoadMoreProducts(categoryId));
   }
 
   ngOnInit() {

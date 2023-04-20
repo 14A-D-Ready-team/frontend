@@ -3,11 +3,6 @@ export class LoadMoreProducts {
   constructor(public id: any) {}
 }
 
-export class SetCategory {
-  static readonly type = "[MainDesktop] Set Category";
-  constructor(public id: any) {}
-}
-
 export class LoadInitialProducts {
   static readonly type = "[MainDesktop] Load Initial Products";
   constructor(public id: any) {}
