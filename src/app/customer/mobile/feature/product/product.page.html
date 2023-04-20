@@ -138,10 +138,7 @@
             (name)="c.id"
           >
             <ion-item lines="none" *ngFor="let o of c.options">
-              <ion-radio
-                [value]="o"
-                (click)="radioClick(o, c.id)"
-              ></ion-radio>
+              <ion-radio [value]="o" (click)="radioClick(o, c.id)"></ion-radio>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>
             </ion-item>
           </ion-radio-group>
