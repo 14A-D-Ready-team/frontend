@@ -51,8 +51,9 @@
     }
     .product-container {
       margin: 0.5rem 0;
-      overflow-x: auto;
-      display: flex;
+      overflow-x: hidden;
+      display: grid;
+      grid-template-columns: repeat(1, 100%);
       .product-card {
         border-radius: 25px 0px 25px 25px;
         background-color: $card-background;
@@ -107,20 +108,37 @@
   }
 }
 
+@media only screen and (min-width: 650px) {
+  .product-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 50%) !important;
+  }
+}
+
+@media only screen and (min-width: 950px) {
+  .product-container {
+    display: grid !important;
+    grid-template-columns: repeat(3, 33%) !important;
+  }
+}
+
 @media only screen and (min-width: 1250px) {
   .product-container {
+    display: grid !important;
     grid-template-columns: repeat(4, 25%) !important;
   }
 }
 
 @media only screen and (min-width: 1550px) {
   .product-container {
+    display: grid !important;
     grid-template-columns: repeat(5, 20%) !important;
   }
 }
 
 @media only screen and (min-width: 1800px) {
   .product-container {
+    display: grid !important;
     grid-template-columns: repeat(6, 16.6%) !important;
   }
 }
@@ -288,32 +306,5 @@
   margin: 0 auto;
   svg {
     width: $l-font;
-  }
-}
-
-$finalHeight: 250px;
-$finalWidth: 3 * $finalHeight;
-$scrollBarHeight: 1px;
-
-.horizontal-scroll-wrapper {
-  position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  width: calc(#{$finalHeight} + #{$scrollBarHeight});
-  max-height: $finalWidth;
-  margin: 0;
-  padding-top: $scrollBarHeight;
-  background: #abc;
-  overflow-y: auto;
-  overflow-x: hidden;
-  transform: rotate(-90deg) translateY(-$finalHeight);
-  transform-origin: right top;
-  & > div {
-    display: block;
-    padding: 5px;
-    background: #cab;
-    transform: rotate(90deg);
-    transform-origin: right top;
   }
 }
