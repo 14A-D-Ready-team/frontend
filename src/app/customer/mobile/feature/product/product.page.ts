@@ -37,7 +37,11 @@ export class ProductPage implements OnInit {
 
   idFromRoute!: string;
 
-  userCustomization: any[] = [];
+  userCustomization: Option[] = [];
+
+  radioNum = 0;
+
+  anyad: any;
 
   changeAmount(add: boolean) {
     if (add) {
@@ -49,9 +53,17 @@ export class ProductPage implements OnInit {
     this.finalPrice = this.activeProduct.fullPrice * this.amount;
   }
 
+<<<<<<< Updated upstream
   asd(option: Option) {
     this.userCustomization.push(option);
     console.log(this.userCustomization);
+=======
+  asd(asd: any){
+
+  }
+
+  radioClick(value: Option, asd:any){
+>>>>>>> Stashed changes
   }
 
   onCustomCheck(event: any, customization: Option) {
@@ -64,6 +76,8 @@ export class ProductPage implements OnInit {
       console.log(this.userCustomization);
     }
   }
+
+
 
   ngOnInit() {
     this.idFromRoute = this.route.snapshot.queryParamMap.get("productId")!;
