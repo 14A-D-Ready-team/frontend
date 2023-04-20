@@ -35,10 +35,9 @@ export class ProductPage implements OnInit {
 
   finalPrice!: number;
 
-
   userCustomization: Option[] = [];
 
-  customs :Customization[] = [];
+  customs: Customization[] = [];
 
   changeAmount(add: boolean) {
     if (add) {
@@ -61,19 +60,15 @@ export class ProductPage implements OnInit {
     }
   }
 
-  onCustomRadio(event: any){
-    console.log(event.detail.value)
+  onCustomRadio(event: any) {
+    console.log(event.detail.value);
   }
 
-  onSpecRadio(customization: Customization,option: Option){
-
+  onSpecRadio(customization: Customization, option: Option) {
     const index = this.userCustomization.indexOf(option);
     this.userCustomization.splice(index, 1);
     console.log(this.customs);
-
   }
-
-
 
   ngOnInit() {
     const idFromRoute = this.route.snapshot.queryParamMap.get("productId")!;
