@@ -9,6 +9,8 @@ import { MainDesktopPageRoutingModule } from "./main-desktop-routing.module";
 
 import { MainDesktopPage } from "./main-desktop.page";
 import { NavbarModule } from "../navbar";
+import { MainDesktopState } from "./store";
+import { NgxsModule } from "@ngxs/store";
 
 @NgModule({
   imports: [
@@ -19,6 +21,7 @@ import { NavbarModule } from "../navbar";
     NavbarModule,
     LoginFormModule,
     SignupFormModule,
+    NgxsModule.forFeature([MainDesktopState]),
   ],
   declarations: [MainDesktopPage],
 })

@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Category, loadCategories } from "@shared/category";
 import { Product } from "@shared/product";
-import { loadProducts } from "@shared/product/data-access/utils";
 import { User } from "@shared/user";
 import {
   catchError,
@@ -16,7 +15,12 @@ import {
   of,
   startWith,
 } from "rxjs";
-import { MainDesktopState } from "./store";
+import {
+  LoadInitialProducts,
+  LoadMoreProducts,
+  MainDesktopState,
+} from "./store";
+import { Dictionary } from "@/types";
 
 @Component({
   selector: "app-main-desktop",
@@ -34,13 +38,13 @@ export class MainDesktopPage implements OnInit {
   public categories$!: Observable<Category[]>;
 
   @Select(MainDesktopState.shownProducts)
-  public products$!: Observable<Product[]>;
+  public products$!: Observable<Dictionary<Product[]>>;
 
   public vm$: Observable<{
     activeBuffet: Buffet | undefined;
     activeUser: User;
     categories: Category[];
-    products: Product[];
+    products: Dictionary<Product[]>;
     buffetLoading: boolean;
     resolverError: any;
   }>;
@@ -84,8 +88,18 @@ export class MainDesktopPage implements OnInit {
     );
   }
 
+  loadMoreProducts(categoryId: number) {
+    this.store.dispatch(new LoadMoreProducts(categoryId));
+  }
+
   ngOnInit() {
+    console.clear();
     loadCategories(this.store).subscribe();
-    //loadProducts(this.store).subscribe();
+
+    this.categories$.subscribe(category =>
+      category.forEach(c => {
+        this.store.dispatch(new LoadInitialProducts(c.id));
+      }),
+    );
   }
 }

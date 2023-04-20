@@ -19,7 +19,6 @@ import {
   MainPageState,
   MainPageStateModel,
   SelectCategory,
-  UnloadProducts,
 } from "./store";
 import { ActivatedRoute } from "@angular/router";
 import { IdStrategy, SetActive } from "@ngxs-labs/entity-state";
