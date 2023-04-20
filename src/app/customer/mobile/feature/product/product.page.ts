@@ -4,8 +4,8 @@ import { Select } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Category, CategoryState } from "@shared/category";
 import { Customization, Option, Product, ProductState } from "@shared/product";
-import { NumericDictionary } from "lodash";
 import { Observable, take } from "rxjs";
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 @Component({
   selector: "app-product",
@@ -35,13 +35,10 @@ export class ProductPage implements OnInit {
 
   finalPrice!: number;
 
-  idFromRoute!: string;
 
   userCustomization: Option[] = [];
 
-  radioNum = 0;
-
-  anyad: any;
+  customs :Customization[] = [];
 
   changeAmount(add: boolean) {
     if (add) {
@@ -53,39 +50,38 @@ export class ProductPage implements OnInit {
     this.finalPrice = this.activeProduct.fullPrice * this.amount;
   }
 
-<<<<<<< Updated upstream
-  asd(option: Option) {
-    this.userCustomization.push(option);
-    console.log(this.userCustomization);
-=======
-  asd(asd: any){
-
-  }
-
-  radioClick(value: Option, asd:any){
->>>>>>> Stashed changes
-  }
-
-  onCustomCheck(event: any, customization: Option) {
+  onCustomCheck(event: any, customization: Option, c: Customization) {
     if (event.detail.checked) {
       this.userCustomization.push(customization);
-      console.log(this.userCustomization);
+      this.customs.push(c);
+      console.log();
     } else {
       const index = this.userCustomization.indexOf(customization);
       this.userCustomization.splice(index, 1);
-      console.log(this.userCustomization);
     }
+  }
+
+  onCustomRadio(event: any){
+    console.log(event.detail.value)
+  }
+
+  onSpecRadio(customization: Customization,option: Option){
+
+    const index = this.userCustomization.indexOf(option);
+    this.userCustomization.splice(index, 1);
+    console.log(this.customs);
+
   }
 
 
 
   ngOnInit() {
-    this.idFromRoute = this.route.snapshot.queryParamMap.get("productId")!;
+    const idFromRoute = this.route.snapshot.queryParamMap.get("productId")!;
 
-    if (this.idFromRoute) {
+    if (idFromRoute) {
       this.products$.pipe(take(1)).subscribe(products =>
         products.forEach(product => {
-          if (this.idFromRoute === product.id.toString()) {
+          if (idFromRoute === product.id.toString()) {
             this.activeProduct = product;
             this.max = this.activeProduct.stock;
             this.finalPrice = this.activeProduct.fullPrice;

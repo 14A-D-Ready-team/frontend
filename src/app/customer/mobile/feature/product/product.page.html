@@ -120,10 +120,10 @@
         <div class="single-container" *ngFor="let c of customizations">
           <p>{{c.description}}</p>
 
-          <div class="possibilities" *ngIf="c.optionCount == 1">
+          <div class="possibilities" *ngIf="c.optionCount === 1">
             <ion-item lines="none" *ngFor="let o of c.options">
               <ion-checkbox
-                (ionChange)="onCustomCheck($event, cV.value)"
+                (ionChange)="onCustomCheck($event, cV.value, c)"
                 #cV
                 [value]="o"
               ></ion-checkbox>
@@ -133,12 +133,12 @@
 
           <ion-radio-group
             class="possibilities"
-            *ngIf="c.optionCount == 0"
-            (ionChange)="asd(c.id)"
+            *ngIf="c.optionCount === 0"
+            (ionChange)="onCustomRadio($event)"
             (name)="c.id"
           >
             <ion-item lines="none" *ngFor="let o of c.options">
-              <ion-radio [value]="o" (click)="radioClick(o, c.id)"></ion-radio>
+              <ion-radio [value]="o" (click)="onSpecRadio(c, o)"></ion-radio>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>
             </ion-item>
           </ion-radio-group>
