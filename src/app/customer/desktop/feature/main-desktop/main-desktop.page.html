@@ -13,9 +13,7 @@
           *ngFor="let category of vm.categories"
         >
           <h1>{{ category.name }}</h1>
-          <div
-            class="product-container"
-          >
+          <div class="product-container">
             <div
               class="product-card"
               *ngFor="let product of vm.products[category.id]"
@@ -36,7 +34,16 @@
             </div>
           </div>
           <div class="btn-container">
-            <button class="ready-btn btn" (click)="loadMoreProducts(category.id)">Mutass többet <ion-icon name="chevron-down-outline" class="down-icon"></ion-icon></button>
+            <button
+              class="ready-btn btn"
+              (click)="loadMoreProducts(category.id)"
+            >
+              Mutass többet
+              <ion-icon
+                name="chevron-down-outline"
+                class="down-icon"
+              ></ion-icon>
+            </button>
           </div>
         </div>
       </div>

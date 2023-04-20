@@ -8,10 +8,7 @@ import {
   ProductState,
 } from "@shared/product";
 import { Dictionary, fromPairs } from "lodash";
-import {
-  LoadInitialProducts,
-  LoadMoreProducts,
-} from "./main-desktop.actions";
+import { LoadInitialProducts, LoadMoreProducts } from "./main-desktop.actions";
 
 const productsLoaded = 6;
 
@@ -54,7 +51,6 @@ export class MainDesktopState {
 
     return fromPairs(pairs);
   }
-
 
   @Action(LoadInitialProducts)
   public loadInitialProducts(
