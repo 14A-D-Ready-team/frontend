@@ -13,9 +13,16 @@
         </button>
         <button routerLink="/login" class="ready-btn">Jelentkezz be</button>
       </div>
-      <p *ngIf="activeUser$ | async as user">
-        Bejelentkezve mint: {{user.name}}
-      </p>
+
+      <ng-container *ngIf="activeUser$ | async as user">
+        <p>Bejelentkezve mint: {{user.name}}</p>
+        <a
+          class="admin-link"
+          *ngIf="user?.admin || user?.buffetOwner || user?.buffetWorker"
+          routerLink="/admin"
+          >Tovább az admin felületre</a
+        >
+      </ng-container>
     </div>
 
     <div class="team-container">

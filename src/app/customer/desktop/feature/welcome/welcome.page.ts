@@ -24,7 +24,7 @@ export class WelcomePage implements OnDestroy, AfterViewInit {
   constructor(private route: ActivatedRoute, public router: Router) {}
 
   @Select(AuthState.user)
-  public activeUser$!: Observable<User>;
+  public activeUser$!: Observable<User | undefined>;
 
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
