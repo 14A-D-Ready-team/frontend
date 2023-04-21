@@ -95,7 +95,7 @@ export class MainDesktopPage implements OnInit {
     this.store.dispatch(new LoadMoreProducts(categoryId));
   }
 
-  getImage(productId: number){
+  getImage(productId: number) {
     return environment.api.url + "/product/" + productId + "/image";
   }
 

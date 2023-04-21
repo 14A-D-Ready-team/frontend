@@ -132,7 +132,7 @@ export class MainPage implements OnInit {
     }
   }
 
-  getImage(productId: number){
+  getImage(productId: number) {
     return environment.api.url + "/product/" + productId + "/image";
   }
 
