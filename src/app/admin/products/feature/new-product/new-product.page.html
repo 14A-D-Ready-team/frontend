@@ -10,9 +10,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" *ngIf="vm$ | async as vm">
   <ion-card>
-    <ion-card-content *ngIf="(noBuffetSelected$ | async)===false">
+    <ion-card-content *ngIf="!vm.noBuffetSelected">
       <app-admin-product-editor
         [bindedFormGroup]="form"
         [formPath]="formPath"
@@ -20,24 +20,21 @@
       ></app-admin-product-editor>
     </ion-card-content>
 
-    <ion-card-content
-      class="error-container"
-      *ngIf="(noBuffetSelected$ | async)===true"
-    >
+    <ion-card-content class="error-container" *ngIf="vm.noBuffetSelected">
       <app-error-card
         color="warning"
         icon="alert-outline"
-        [error]="categoryError$ | async"
+        [error]="vm.categoryError"
         [showRetryButton]="false"
       ></app-error-card>
     </ion-card-content>
 
     <app-admin-button-group
-      [loading]="(status$ | async)?.loading === true"
+      [loading]="vm.status?.loading === true"
       [saveDisabled]=" 
           form.invalid ||
-          (status$ | async)?.loading === true ||
-          (noBuffetSelected$ | async) === true"
+          vm.status?.loading === true ||
+          vm.noBuffetSelected"
       (save)="save()"
       (cancel)="cancel()"
     ></app-admin-button-group>

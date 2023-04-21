@@ -43,7 +43,12 @@
     >
       <ion-icon name="create-outline" slot="icon-only"></ion-icon>
     </ion-button>
-    <ion-button fill="clear" color="danger" (click)="delete.emit()">
+    <ion-button
+      fill="clear"
+      color="danger"
+      [disabled]="deleteDisabled"
+      (click)="delete.emit()"
+    >
       <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
     </ion-button>
   </div>

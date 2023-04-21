@@ -48,11 +48,7 @@ export class AppAbilityFactory implements AbilityFactory {
 
     rules.push(...(await this.getExtensionRules(user)));
 
-    return build({
-      detectSubjectType: item => {
-        return item.constructor as ExtractSubjectType<AppAbility>;
-      },
-    });
+    return build();
   }
 
   private async getExtensionRules(user: User | undefined) {

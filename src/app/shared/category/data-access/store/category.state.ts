@@ -22,7 +22,7 @@ import {
   ApiRequestStatus,
   ExtendedEntityStateModel,
 } from "@shared/extended-entity-state/utils";
-import { concat, filter, of, switchMap, tap } from "rxjs";
+import { concat, filter, Observable, of, switchMap, tap } from "rxjs";
 import { CategoryService } from "../category.service";
 import { EditCategoryDto } from "../dto";
 import { Category } from "../entity";
@@ -33,6 +33,8 @@ import {
   LoadingSucceeded,
   Load,
 } from "./category.actions";
+import { DeleteSucceeded } from "@shared/extended-entity-state/data-access/store/extended-entity.actions";
+import { fromPairs } from "lodash";
 
 export type CategoryStateModel = ExtendedEntityStateModel<Category> & {
   categoriesOfBuffets: Dictionary<number[]>;
@@ -74,7 +76,7 @@ export class CategoryState extends ExtendedEntityState<
       return [];
     }
     const ids = categoriesOfBuffets[+buffetId] || [];
-    return ids.map(id => categories[+id]);
+    return ids.map(id => categories[+id]).filter(c => c);
   }
 
   public static isAllLoaded(buffetId: number) {
@@ -170,6 +172,29 @@ export class CategoryState extends ExtendedEntityState<
               action.entity.id,
             ],
           },
+        });
+      }),
+    );
+  }
+
+  public deleteSucceeded(
+    ctx: StateContext<ExtendedEntityStateModel<Category>>,
+    action: DeleteSucceeded,
+  ): Observable<void> {
+    const castCtx = ctx as unknown as StateContext<CategoryStateModel>;
+    return super.deleteSucceeded(ctx, action).pipe(
+      tap(() => {
+        const categoriesOfBuffets = castCtx.getState().categoriesOfBuffets;
+        const pairs = Object.entries(categoriesOfBuffets).map(
+          ([key, value]) => {
+            return [key, value.filter(id => id !== action.id)] as [
+              string,
+              number[],
+            ];
+          },
+        );
+        castCtx.patchState({
+          categoriesOfBuffets: fromPairs(pairs),
         });
       }),
     );

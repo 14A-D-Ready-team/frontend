@@ -9,7 +9,7 @@ const adminRoutes: Routes = [
       showAdminMenu: true,
     },
     component: AdminShellComponent,
-    canActivate: [AdminGuard],
+    canActivateChild: [AdminGuard],
   },
   {
     path: "admin-signup",

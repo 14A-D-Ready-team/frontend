@@ -1,26 +1,15 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { Component } from "@angular/core";
+import { FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Platform, ViewWillEnter } from "@ionic/angular";
 import { Select, Store } from "@ngxs/store";
-import { BuffetState } from "@shared/buffet";
-import { NoBuffetSelectedException } from "@shared/buffet/utils";
+import { Buffet, BuffetState } from "@shared/buffet";
 import { Category, CategoryState, loadCategories } from "@shared/category";
 import { ApiRequestStatus } from "@shared/extended-entity-state/utils";
-import { CreateProductDto, ProductState } from "@shared/product";
-import { map, Observable, startWith } from "rxjs";
-import {
-  createProductEditorForm,
-  CustomizationFormModel,
-  ProductEditorFormModel,
-} from "../../utils";
-import {
-  formPath,
-  LoadPage,
-  NewProductState,
-  NewProductStateModel,
-  Save,
-} from "./store";
+import { ProductState } from "@shared/product";
+import { combineLatest, map, Observable } from "rxjs";
+import { createProductEditorForm, ProductEditorFormModel } from "../../utils";
+import { formPath, LoadPage, Save } from "./store";
 
 @Component({
   selector: "app-admin-new-product",
@@ -40,7 +29,10 @@ export class NewProductPage implements ViewWillEnter {
   @Select(CategoryState.error)
   public categoryError$!: Observable<any>;
 
-  public noBuffetSelected$: Observable<boolean>;
+  @Select(BuffetState.active)
+  public activeBuffet$!: Observable<Buffet | undefined>;
+
+  public vm$;
 
   public form: FormGroup<ProductEditorFormModel>;
 
@@ -52,8 +44,29 @@ export class NewProductPage implements ViewWillEnter {
     private platform: Platform,
   ) {
     this.form = createProductEditorForm();
-    this.noBuffetSelected$ = this.categoryError$.pipe(
-      map(error => error instanceof NoBuffetSelectedException),
+
+    this.vm$ = combineLatest([
+      this.categories$,
+      this.status$,
+      this.categoriesLoading$,
+      this.activeBuffet$,
+      this.categoryError$,
+    ]).pipe(
+      map(
+        ([
+          categories,
+          status,
+          categoriesLoading,
+          activeBuffet,
+          categoryError,
+        ]) => ({
+          categories,
+          status,
+          categoriesLoading,
+          noBuffetSelected: !activeBuffet,
+          categoryError,
+        }),
+      ),
     );
   }
 

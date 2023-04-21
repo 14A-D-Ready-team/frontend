@@ -7,7 +7,3 @@ export class LoadMoreProducts {
   static readonly type = "[MainPage] Load More Products";
   constructor(public id: any) {}
 }
-
-export class UnloadProducts {
-  static readonly type = "[MainPage] Unload Products";
-}

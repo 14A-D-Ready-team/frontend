@@ -26,6 +26,18 @@ export class CategoryAbilityFactory implements AbilityFactory {
 
     can(Action.Read, Category);
 
+    if (user?.buffetOwner) {
+      builder.can([Action.Create, Action.Update, Action.Delete], Category, {
+        buffetId: { $in: user.buffetOwner.buffetIds },
+      });
+    }
+
+    if (user?.buffetWorker) {
+      builder.can([Action.Create, Action.Update, Action.Delete], Category, {
+        buffetId: user.buffetWorker.buffetId,
+      });
+    }
+
     return builder.build();
   }
 }
