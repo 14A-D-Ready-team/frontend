@@ -17,8 +17,8 @@ export function loadBuffetById(
             ? store.dispatch(new SetActive(BuffetState, params.buffetId))
             : of(undefined),
         ),
-        catchError(error => of({ loading: false, error })),
         map(() => ({ loading: false })),
+        catchError(error => of({ loading: false, error })),
         startWith({ loading: true }),
       ),
     ),

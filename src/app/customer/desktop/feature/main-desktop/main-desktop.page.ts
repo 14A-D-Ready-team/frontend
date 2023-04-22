@@ -17,6 +17,7 @@ import {
   startWith,
 } from "rxjs";
 import { MainDesktopState } from "./store";
+import { loadBuffetById } from "@shared/buffet/utils";
 
 @Component({
   selector: "app-main-desktop",
@@ -41,28 +42,26 @@ export class MainDesktopPage implements OnInit {
     activeUser: User;
     categories: Category[];
     products: Product[];
-    buffetLoading: boolean;
-    resolverError: any;
+    buffetLoadResult: { loading: boolean; error?: any };
   }>;
 
   constructor(private store: Store, private route: ActivatedRoute) {
-    const buffetLoading$ = route.data.pipe(
-      map(() => false),
-      startWith(true),
+    const buffet: Buffet | undefined = this.store.selectSnapshot(
+      BuffetState.active,
     );
-    const resolverError$ = route.data.pipe(
-      ignoreElements(),
-      startWith(undefined),
-      catchError(err => of(err)),
-    );
+    let buffetLoadResult$: Observable<{ loading: boolean; error?: any }>;
+    if (buffet) {
+      buffetLoadResult$ = of({ loading: false });
+    } else {
+      buffetLoadResult$ = loadBuffetById(route, store);
+    }
 
     this.vm$ = combineLatest([
       this.activeBuffet$,
       this.activeUser$,
       this.categories$,
       this.products$,
-      buffetLoading$,
-      resolverError$,
+      buffetLoadResult$,
     ]).pipe(
       map(
         ([
@@ -70,15 +69,13 @@ export class MainDesktopPage implements OnInit {
           activeUser,
           categories,
           products,
-          buffetLoading,
-          resolverError,
+          buffetLoadResult,
         ]) => ({
           activeBuffet,
           activeUser,
           categories,
           products,
-          buffetLoading,
-          resolverError,
+          buffetLoadResult,
         }),
       ),
     );

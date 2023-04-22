@@ -80,7 +80,15 @@ export class MainPage implements OnInit {
     private route: ActivatedRoute,
     private productService: ProductService,
   ) {
-    const buffetLoadResult$ = loadBuffetById(route, store);
+    const buffet: Buffet | undefined = this.store.selectSnapshot(
+      BuffetState.active,
+    );
+    let buffetLoadResult$: Observable<{ loading: boolean; error?: any }>;
+    if (buffet) {
+      buffetLoadResult$ = of({ loading: false });
+    } else {
+      buffetLoadResult$ = loadBuffetById(route, store);
+    }
 
     this.vm$ = combineLatest([
       this.activeBuffet$,

@@ -151,6 +151,20 @@
             }
           }
         },
+        "serve-web": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "app:build-web"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "app:build-web:production"
+            },
+            "ci": {
+              "progress": false
+            }
+          }
+        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
