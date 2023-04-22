@@ -21,6 +21,7 @@ import {
   MainDesktopState,
 } from "./store";
 import { Dictionary } from "@/types";
+import { environment } from "@/environments/environment";
 
 @Component({
   selector: "app-main-desktop",
@@ -39,6 +40,8 @@ export class MainDesktopPage implements OnInit {
 
   @Select(MainDesktopState.shownProducts)
   public products$!: Observable<Dictionary<Product[]>>;
+
+  public url$!: Observable<Dictionary<string>>;
 
   public vm$: Observable<{
     activeBuffet: Buffet | undefined;
@@ -90,6 +93,10 @@ export class MainDesktopPage implements OnInit {
 
   loadMoreProducts(categoryId: number) {
     this.store.dispatch(new LoadMoreProducts(categoryId));
+  }
+
+  getImage(productId: number) {
+    return environment.api.url + "/product/" + productId + "/image";
   }
 
   ngOnInit() {

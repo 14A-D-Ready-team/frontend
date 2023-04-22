@@ -27,6 +27,7 @@ import { LoadMore } from "@app/customer/feature";
 import { take } from "lodash";
 import { InfiniteScrollCustomEvent } from "@ionic/angular";
 import { Dictionary } from "@/types";
+import { environment } from "@/environments/environment";
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
@@ -129,6 +130,10 @@ export class MainPage implements OnInit {
     ) {
       this.store.dispatch(new LoadMoreProducts(this.activeCategoryId));
     }
+  }
+
+  getImage(productId: number) {
+    return environment.api.url + "/product/" + productId + "/image";
   }
 
   ngOnInit() {
