@@ -1,0 +1,27 @@
+@import "/src/global.scss";
+
+* {
+  font-family: "Poppins";
+  color: black;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: white !important;
+
+  .top-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: 0.65rem 0;
+
+    .back-link {
+      position: absolute;
+      top: 25%;
+      left: 5%;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
