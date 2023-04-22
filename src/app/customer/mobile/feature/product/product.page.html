@@ -2,7 +2,7 @@
   class="container ion-page"
   *ngIf="{ 
     result: loadResult$ | async, 
-    product:  product$ | async,
+    product:  product$ | async
   } as vm"
 >
   <div class="product-image-container" *ngIf="vm.product">

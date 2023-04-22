@@ -17,9 +17,7 @@ import {
 } from "@ngxs/store";
 import { BuffetState } from "@shared/buffet";
 import { ExtendedEntityState } from "@shared/extended-entity-state";
-import {
-  ExtendedEntityStateModel,
-} from "@shared/extended-entity-state/utils";
+import { ExtendedEntityStateModel } from "@shared/extended-entity-state/utils";
 import { concat, filter, Observable, of, switchMap, tap } from "rxjs";
 import { CategoryService } from "../category.service";
 import { EditCategoryDto } from "../dto";
