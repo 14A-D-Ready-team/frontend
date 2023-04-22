@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { CartMobilePage } from './cart-mobile.page';
+import { CartMobilePage } from "./cart-mobile.page";
 
-describe('CartMobilePage', () => {
+describe("CartMobilePage", () => {
   let component: CartMobilePage;
   let fixture: ComponentFixture<CartMobilePage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CartMobilePage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [CartMobilePage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CartMobilePage);
@@ -18,7 +18,7 @@ describe('CartMobilePage', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

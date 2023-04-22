@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-import { CartMobilePage } from './cart-mobile.page';
+import { CartMobilePage } from "./cart-mobile.page";
 
 const routes: Routes = [
   {
-    path: '',
-    component: CartMobilePage
-  }
+    path: "",
+    component: CartMobilePage,
+  },
 ];
 
 @NgModule({
