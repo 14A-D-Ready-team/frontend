@@ -8,6 +8,10 @@ import { CartMobilePageRoutingModule } from "./cart-mobile-routing.module";
 
 import { CartMobilePage } from "./cart-mobile.page";
 import { CartComponent } from "@app/customer/feature/cart";
+<<<<<<< Updated upstream
+=======
+import { NavbarModule } from "@app/customer/desktop/feature/navbar";
+>>>>>>> Stashed changes
 
 @NgModule({
   imports: [
@@ -16,6 +20,10 @@ import { CartComponent } from "@app/customer/feature/cart";
     IonicModule,
     CartMobilePageRoutingModule,
     CartComponent,
+<<<<<<< Updated upstream
+=======
+    NavbarModule,
+>>>>>>> Stashed changes
   ],
   declarations: [CartMobilePage],
 })
