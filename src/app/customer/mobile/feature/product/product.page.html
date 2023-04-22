@@ -1,5 +1,11 @@
-<div class="container ion-page">
-  <div class="product-image-container">
+<div
+  class="container ion-page"
+  *ngIf="{ 
+    result: loadResult$ | async, 
+    product:  product$ | async,
+  } as vm"
+>
+  <div class="product-image-container" *ngIf="vm.product">
     <a
       routerLink="/"
       [queryParams]="{buffetId: (activeBuffet$ | async)?.id}"
@@ -25,10 +31,10 @@
     </a>
     <img src="/assets/images/product.png" alt="" />
   </div>
-  <div class="card">
+  <div class="card" *ngIf="vm.product">
     <form action="" name="productForm">
-      <p class="product-category">{{activeCategory.name}}</p>
-      <p class="product-name bold">{{activeProduct.name}}</p>
+      <p class="product-category">Kategória név</p>
+      <p class="product-name bold">{{vm.product.name}}</p>
       <div class="extra-info-container">
         <div class="prep-time">
           <svg
@@ -117,16 +123,15 @@
       </div>
 
       <div class="extras-container">
-        <div class="single-container" *ngFor="let c of customizations">
+        <div
+          class="single-container"
+          *ngFor="let c of vm.product?.customizations"
+        >
           <p>{{c.description}}</p>
 
           <div class="possibilities" *ngIf="c.optionCount === 1">
             <ion-item lines="none" *ngFor="let o of c.options">
-              <ion-checkbox
-                (ionChange)="onCustomCheck($event, cV.value, c)"
-                #cV
-                [value]="o"
-              ></ion-checkbox>
+              <ion-checkbox #cV [value]="o"></ion-checkbox>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>
             </ion-item>
           </div>
@@ -134,11 +139,10 @@
           <ion-radio-group
             class="possibilities"
             *ngIf="c.optionCount === 0"
-            (ionChange)="onCustomRadio($event)"
             (name)="c.id"
           >
             <ion-item lines="none" *ngFor="let o of c.options">
-              <ion-radio [value]="o" (click)="onSpecRadio(c, o)"></ion-radio>
+              <ion-radio [value]="o"></ion-radio>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>
             </ion-item>
           </ion-radio-group>
@@ -182,7 +186,7 @@
         </button>
         <div class="description-container">
           <p class="bold">Leírás</p>
-          <p class="description-text">{{activeProduct.description}}</p>
+          <p class="description-text">{{vm.product.description}}</p>
         </div>
       </div>
     </form>

@@ -1,10 +1,10 @@
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
 import {
+  CreateOrReplace,
   defaultEntityState,
   EntityStateModel,
   IdStrategy,
-  RemoveAll,
 } from "@ngxs-labs/entity-state";
 import {
   Action,
@@ -18,8 +18,6 @@ import {
 import { BuffetState } from "@shared/buffet";
 import { ExtendedEntityState } from "@shared/extended-entity-state";
 import {
-  TargetedRequestStatus,
-  ApiRequestStatus,
   ExtendedEntityStateModel,
 } from "@shared/extended-entity-state/utils";
 import { concat, filter, Observable, of, switchMap, tap } from "rxjs";
@@ -151,6 +149,20 @@ export class CategoryState extends ExtendedEntityState<
         [action.buffetId]: [],
       },
     });
+  }
+
+  @Action(Actions.LoadById, { cancelUncompleted: true })
+  public loadById(
+    ctx: StateContext<CategoryStateModel>,
+    action: Actions.LoadById,
+  ) {
+    return this.categoryService
+      .findOne(action.id)
+      .pipe(
+        switchMap(category =>
+          ctx.dispatch(new CreateOrReplace(CategoryState, category)),
+        ),
+      );
   }
 
   public createSucceeded(
