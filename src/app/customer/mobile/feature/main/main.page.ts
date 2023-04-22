@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input, ElementRef } from "@angular/core";
 import { Select, Store, StateContext } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
-import { Buffet, BuffetState } from "@shared/buffet";
+import { Buffet, BuffetActions, BuffetState } from "@shared/buffet";
 import { User } from "@shared/user";
 import { Category, CategoryState, loadCategories } from "@shared/category";
 import {
@@ -13,6 +13,7 @@ import {
   Observable,
   of,
   startWith,
+  switchMap,
 } from "rxjs";
 import {
   LoadMoreProducts,
@@ -28,6 +29,7 @@ import { LoadMore } from "@app/customer/feature";
 import { take } from "lodash";
 import { InfiniteScrollCustomEvent } from "@ionic/angular";
 import { Dictionary } from "@/types";
+import { loadBuffetById } from "@shared/buffet/utils";
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
@@ -70,8 +72,7 @@ export class MainPage implements OnInit {
     categories: Category[];
     categoriesDict: Dictionary<Category>;
     products: Product[];
-    buffetLoading: boolean;
-    resolverError: any;
+    buffetLoadResult: { loading: boolean; error?: any };
   }>;
 
   constructor(
@@ -79,15 +80,7 @@ export class MainPage implements OnInit {
     private route: ActivatedRoute,
     private productService: ProductService,
   ) {
-    const buffetLoading$ = route.data.pipe(
-      map(() => false),
-      startWith(true),
-    );
-    const resolverError$ = route.data.pipe(
-      ignoreElements(),
-      startWith(undefined),
-      catchError(err => of(err)),
-    );
+    const buffetLoadResult$ = loadBuffetById(route, store);
 
     this.vm$ = combineLatest([
       this.activeBuffet$,
@@ -96,8 +89,7 @@ export class MainPage implements OnInit {
       this.categories$,
       this.categoriesDict$,
       this.products$,
-      buffetLoading$,
-      resolverError$,
+      buffetLoadResult$,
     ]).pipe(
       map(
         ([
@@ -107,8 +99,7 @@ export class MainPage implements OnInit {
           categories,
           categoriesDict,
           products,
-          buffetLoading,
-          resolverError,
+          buffetLoadResult,
         ]) => ({
           activeBuffet,
           activeUser,
@@ -116,8 +107,7 @@ export class MainPage implements OnInit {
           categories,
           categoriesDict,
           products,
-          buffetLoading,
-          resolverError,
+          buffetLoadResult,
         }),
       ),
     );

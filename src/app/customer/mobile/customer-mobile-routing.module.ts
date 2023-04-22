@@ -7,9 +7,6 @@ const routes: Routes = [
     path: "",
     loadChildren: () => import("./feature/main").then(m => m.MainPageModule),
     canActivateChild: [BuffetSelectGuard],
-    resolve: {
-      buffet: BuffetSelectGuard,
-    },
   },
   {
     path: "",
