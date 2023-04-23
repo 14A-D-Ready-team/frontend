@@ -85,14 +85,20 @@
 
     <div class="product-container" (scroll)="onInfinite($event)">
       <div class="product-card" *ngFor="let product of vm.products">
-        <img src="/assets/images/product.png" class="product-img" alt="" />
+        <img [src]="getImage(product.id)" class="product-img" alt="" />
         <div class="product-description">
           <p class="product-category">
             {{vm.categoriesDict[product.categoryId].name}}
           </p>
           <p class="product-name">{{product.name}}</p>
           <p class="product-price">{{product.fullPrice}} Ft</p>
-          <button class="add-btn" routerLink="/product">+</button>
+          <button
+            class="add-btn"
+            routerLink="/product"
+            [queryParams]="{productId: product.id}"
+          >
+            +
+          </button>
         </div>
       </div>
     </div>

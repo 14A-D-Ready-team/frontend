@@ -1,4 +1,11 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Select } from "@ngxs/store";
+import { Buffet, BuffetState } from "@shared/buffet";
+import { Category, CategoryState } from "@shared/category";
+import { Customization, Option, Product, ProductState } from "@shared/product";
+import { Observable, take } from "rxjs";
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 @Component({
   selector: "app-product",
@@ -6,55 +13,31 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./product.page.scss"],
 })
 export class ProductPage implements OnInit {
-  constructor() {}
+  @Select(BuffetState.active)
+  public activeBuffet$!: Observable<Buffet>;
 
-  data = {
-    id: 1,
-    name: "Coca Cola",
-    description:
-      "Ab porro beatae dolores velit ex harum esse. Reprehenderit debitis totam ipsa iste. Unde inventore quam. Debitis itaque quaerat. Occaecati ducimus voluptatum impedit minima. Ut ducimus labore dolor nulla inventore.",
-    fullPrice: "95",
-    discountedPrice: "3820",
-    stock: 26,
-    categoryId: 1,
-    customizations: [
-      {
-        id: 1,
-        description: "Méret",
-        optionCount: 0,
-        options: [
-          {
-            id: 1,
-            name: "0,33l",
-            extraCost: "0",
-          },
-          {
-            id: 2,
-            name: "0,5l",
-            extraCost: "25",
-          },
-          {
-            id: 3,
-            name: "1,25l",
-            extraCost: "75",
-          },
-          {
-            id: 4,
-            name: "1,75l",
-            extraCost: "270",
-          },
-          {
-            id: 5,
-            name: "2,25l",
-            extraCost: "415",
-          },
-        ],
-      },
-    ],
-  };
+  @Select(ProductState.entities)
+  public products$!: Observable<Product[]>;
+
+  @Select(CategoryState.entities)
+  public categories$!: Observable<Category[]>;
+
+  constructor(private route: ActivatedRoute) {}
+
+  activeProduct!: Product;
+
+  activeCategory!: Category;
+
+  customizations!: Customization[];
 
   amount = 1;
   max = 1;
+
+  finalPrice!: number;
+
+  userCustomization: Option[] = [];
+
+  customs: Customization[] = [];
 
   changeAmount(add: boolean) {
     if (add) {
@@ -62,9 +45,54 @@ export class ProductPage implements OnInit {
     } else {
       if (this.amount > 1) this.amount--;
     }
+
+    this.finalPrice = this.activeProduct.fullPrice * this.amount;
+  }
+
+  onCustomCheck(event: any, customization: Option, c: Customization) {
+    if (event.detail.checked) {
+      this.userCustomization.push(customization);
+      this.customs.push(c);
+      console.log();
+    } else {
+      const index = this.userCustomization.indexOf(customization);
+      this.userCustomization.splice(index, 1);
+    }
+  }
+
+  onCustomRadio(event: any) {
+    console.log(event.detail.value);
+  }
+
+  onSpecRadio(customization: Customization, option: Option) {
+    const index = this.userCustomization.indexOf(option);
+    this.userCustomization.splice(index, 1);
+    console.log(this.customs);
   }
 
   ngOnInit() {
-    this.max = this.data.stock;
+    const idFromRoute = this.route.snapshot.queryParamMap.get("productId")!;
+
+    if (idFromRoute) {
+      this.products$.pipe(take(1)).subscribe(products =>
+        products.forEach(product => {
+          if (idFromRoute === product.id.toString()) {
+            this.activeProduct = product;
+            this.max = this.activeProduct.stock;
+            this.finalPrice = this.activeProduct.fullPrice;
+          }
+        }),
+      );
+
+      this.categories$.pipe(take(1)).subscribe(categories =>
+        categories.forEach(category => {
+          if (this.activeProduct.categoryId === category.id) {
+            this.activeCategory = category;
+          }
+        }),
+      );
+
+      this.customizations = this.activeProduct.customizations;
+    }
   }
 }

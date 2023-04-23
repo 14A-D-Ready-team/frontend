@@ -1,35 +1,17 @@
-import { Component, OnInit, ViewChild, Input, ElementRef } from "@angular/core";
-import { Select, Store, StateContext } from "@ngxs/store";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Select, Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
-import { Buffet, BuffetActions, BuffetState } from "@shared/buffet";
+import { Buffet, BuffetState } from "@shared/buffet";
 import { User } from "@shared/user";
 import { Category, CategoryState, loadCategories } from "@shared/category";
-import {
-  catchError,
-  combineLatest,
-  empty,
-  ignoreElements,
-  map,
-  Observable,
-  of,
-  startWith,
-  switchMap,
-} from "rxjs";
-import {
-  LoadMoreProducts,
-  MainPageState,
-  MainPageStateModel,
-  SelectCategory,
-  UnloadProducts,
-} from "./store";
+import { combineLatest, map, Observable, of } from "rxjs";
+import { LoadMoreProducts, MainPageState, SelectCategory } from "./store";
 import { ActivatedRoute } from "@angular/router";
-import { IdStrategy, SetActive } from "@ngxs-labs/entity-state";
-import { Product, ProductService, ProductState } from "@shared/product";
-import { LoadMore } from "@app/customer/feature";
-import { take } from "lodash";
-import { InfiniteScrollCustomEvent } from "@ionic/angular";
+import { Product, ProductService } from "@shared/product";
 import { Dictionary } from "@/types";
 import { loadBuffetById } from "@shared/buffet/utils";
+import { environment } from "@/environments/environment";
+
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
@@ -128,6 +110,10 @@ export class MainPage implements OnInit {
     ) {
       this.store.dispatch(new LoadMoreProducts(this.activeCategoryId));
     }
+  }
+
+  getImage(productId: number) {
+    return environment.api.url + "/product/" + productId + "/image";
   }
 
   ngOnInit() {

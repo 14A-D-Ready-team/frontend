@@ -14,7 +14,7 @@ export const environment = {
 
   /*  api: {
     url: "https://api.ready-app.hu",
-  }, */
+  },*/
 };
 
 /*
