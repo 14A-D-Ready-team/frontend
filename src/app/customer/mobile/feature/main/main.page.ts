@@ -4,7 +4,17 @@ import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { User } from "@shared/user";
 import { Category, CategoryState, loadCategories } from "@shared/category";
-import { combineLatest, map, Observable, of } from "rxjs";
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  of,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+} from "rxjs";
 import { LoadMoreProducts, MainPageState, SelectCategory } from "./store";
 import { ActivatedRoute } from "@angular/router";
 import { Product, ProductService } from "@shared/product";
@@ -17,7 +27,7 @@ import { environment } from "@/environments/environment";
   templateUrl: "./main.page.html",
   styleUrls: ["./main.page.scss"],
 })
-export class MainPage implements OnInit {
+export class MainPage {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
@@ -67,10 +77,22 @@ export class MainPage implements OnInit {
     );
     let buffetLoadResult$: Observable<{ loading: boolean; error?: any }>;
     if (buffet) {
-      buffetLoadResult$ = of({ loading: false });
+      buffetLoadResult$ = of({ loading: false }).pipe(shareReplay(1));
     } else {
-      buffetLoadResult$ = loadBuffetById(route, store);
+      buffetLoadResult$ = loadBuffetById(route, store).pipe(shareReplay(1));
     }
+
+    buffetLoadResult$
+      .pipe(
+        filter(result => !result.loading && !result.error),
+        take(1),
+        switchMap(() => loadCategories(this.store)),
+        tap(() => {
+          this.categoryInput.nativeElement.checked = true;
+          this.select(1);
+        }),
+      )
+      .subscribe();
 
     this.vm$ = combineLatest([
       this.activeBuffet$,
@@ -114,12 +136,5 @@ export class MainPage implements OnInit {
 
   getImage(productId: number) {
     return environment.api.url + "/product/" + productId + "/image";
-  }
-
-  ngOnInit() {
-    loadCategories(this.store).subscribe(() => {
-      this.categoryInput.nativeElement.checked = true;
-      this.select(1);
-    });
   }
 }

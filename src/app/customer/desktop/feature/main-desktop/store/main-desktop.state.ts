@@ -17,12 +17,14 @@ export interface MainDesktopStateModel {
     productIds: number[];
     remainingItems?: number;
   }>;
+  loading: Dictionary<boolean>;
 }
 
 @State<MainDesktopStateModel>({
   name: "mainDesktop",
   defaults: {
     paginationState: {},
+    loading: {},
   },
 })
 @Injectable()
@@ -46,7 +48,10 @@ export class MainDesktopState {
   ) {
     const pairs = Object.entries(state.paginationState).map(
       ([key, value]) =>
-        [key, value.productIds.map(id => products[id])] as [string, Product[]],
+        [key, value.productIds.map(id => products[id]).filter(p => p)] as [
+          string,
+          Product[],
+        ],
     );
 
     return fromPairs(pairs);
@@ -79,8 +84,8 @@ export class MainDesktopState {
     ctx: StateContext<MainDesktopStateModel>,
     action: LoadMoreProducts,
   ) {
-    const loading = this.store.selectSnapshot(ProductState.loading);
-    if (loading) {
+    const loadingDict = ctx.getState().loading;
+    if (loadingDict[action.id]) {
       return;
     }
 
@@ -89,6 +94,11 @@ export class MainDesktopState {
     if (productsLeft !== undefined && productsLeft <= 0) {
       return;
     }
+
+    ctx.patchState({
+      loading: { ...loadingDict, [action.id]: true },
+    });
+
     return ctx.dispatch(
       new ProductActions.Load(
         new FilterProductsQuery({
@@ -115,6 +125,7 @@ export class MainDesktopState {
     ];
     const remainingItems = action.count - productIds.length;
     ctx.patchState({
+      loading: { ...ctx.getState().loading, [categoryId]: false },
       paginationState: {
         ...dict,
         [categoryId]: { remainingItems, productIds },
