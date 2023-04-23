@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { BuffetSelectGuard } from "../utils";
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
     path: "main",
     loadChildren: () =>
       import("./feature/main-desktop").then(m => m.MainDesktopPageModule),
+    canActivateChild: [BuffetSelectGuard],
   },
   {
     path: "",
