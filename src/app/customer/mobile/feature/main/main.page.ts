@@ -1,39 +1,33 @@
-import { Component, OnInit, ViewChild, Input, ElementRef } from "@angular/core";
-import { Select, Store, StateContext } from "@ngxs/store";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Select, Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { User } from "@shared/user";
 import { Category, CategoryState, loadCategories } from "@shared/category";
 import {
-  catchError,
   combineLatest,
-  empty,
-  ignoreElements,
+  filter,
   map,
   Observable,
   of,
-  startWith,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
 } from "rxjs";
-import {
-  LoadMoreProducts,
-  MainPageState,
-  MainPageStateModel,
-  SelectCategory,
-} from "./store";
+import { LoadMoreProducts, MainPageState, SelectCategory } from "./store";
 import { ActivatedRoute } from "@angular/router";
-import { IdStrategy, SetActive } from "@ngxs-labs/entity-state";
-import { Product, ProductService, ProductState } from "@shared/product";
-import { LoadMore } from "@app/customer/feature";
-import { take } from "lodash";
-import { InfiniteScrollCustomEvent } from "@ionic/angular";
+import { Product, ProductService } from "@shared/product";
 import { Dictionary } from "@/types";
+import { loadBuffetById } from "@shared/buffet/utils";
 import { environment } from "@/environments/environment";
+
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
   styleUrls: ["./main.page.scss"],
 })
-export class MainPage implements OnInit {
+export class MainPage {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
@@ -70,8 +64,7 @@ export class MainPage implements OnInit {
     categories: Category[];
     categoriesDict: Dictionary<Category>;
     products: Product[];
-    buffetLoading: boolean;
-    resolverError: any;
+    buffetLoadResult: { loading: boolean; error?: any };
   }>;
 
   constructor(
@@ -79,15 +72,27 @@ export class MainPage implements OnInit {
     private route: ActivatedRoute,
     private productService: ProductService,
   ) {
-    const buffetLoading$ = route.data.pipe(
-      map(() => false),
-      startWith(true),
+    const buffet: Buffet | undefined = this.store.selectSnapshot(
+      BuffetState.active,
     );
-    const resolverError$ = route.data.pipe(
-      ignoreElements(),
-      startWith(undefined),
-      catchError(err => of(err)),
-    );
+    let buffetLoadResult$: Observable<{ loading: boolean; error?: any }>;
+    if (buffet) {
+      buffetLoadResult$ = of({ loading: false }).pipe(shareReplay(1));
+    } else {
+      buffetLoadResult$ = loadBuffetById(route, store).pipe(shareReplay(1));
+    }
+
+    buffetLoadResult$
+      .pipe(
+        filter(result => !result.loading && !result.error),
+        take(1),
+        switchMap(() => loadCategories(this.store)),
+        tap(() => {
+          this.categoryInput.nativeElement.checked = true;
+          this.select(1);
+        }),
+      )
+      .subscribe();
 
     this.vm$ = combineLatest([
       this.activeBuffet$,
@@ -96,8 +101,7 @@ export class MainPage implements OnInit {
       this.categories$,
       this.categoriesDict$,
       this.products$,
-      buffetLoading$,
-      resolverError$,
+      buffetLoadResult$,
     ]).pipe(
       map(
         ([
@@ -107,8 +111,7 @@ export class MainPage implements OnInit {
           categories,
           categoriesDict,
           products,
-          buffetLoading,
-          resolverError,
+          buffetLoadResult,
         ]) => ({
           activeBuffet,
           activeUser,
@@ -116,8 +119,7 @@ export class MainPage implements OnInit {
           categories,
           categoriesDict,
           products,
-          buffetLoading,
-          resolverError,
+          buffetLoadResult,
         }),
       ),
     );
@@ -134,12 +136,5 @@ export class MainPage implements OnInit {
 
   getImage(productId: number) {
     return environment.api.url + "/product/" + productId + "/image";
-  }
-
-  ngOnInit() {
-    loadCategories(this.store).subscribe(() => {
-      this.categoryInput.nativeElement.checked = true;
-      this.select(1);
-    });
   }
 }

@@ -2,7 +2,7 @@
   <app-navbar></app-navbar>
   <div
     class="before-login"
-    *ngIf="(activeUser$ | async) === undefined|| (activeBuffet$ | async) === undefined"
+    *ngIf="(activeUser$ | async) === undefined || (activeBuffet$ | async) === undefined"
   >
     <div class="login-container">
       <img src="/assets/icon/Logo.png" alt="" />
@@ -11,9 +11,18 @@
         <button id="open-select" class="ready-btn" routerLink="/buffet-select">
           Keress büfét
         </button>
-        <button id="open-login" class="ready-btn">Jelentkezz be</button>
+        <button routerLink="/login" class="ready-btn">Jelentkezz be</button>
       </div>
-      <p *ngIf="activeUser$|async as user">Bejelentkezve mint: {{user.name}}</p>
+
+      <ng-container *ngIf="activeUser$ | async as user">
+        <p>Bejelentkezve mint: {{user.name}}</p>
+        <a
+          class="admin-link"
+          *ngIf="user?.admin || user?.buffetOwner || user?.buffetWorker"
+          routerLink="/admin"
+          >Tovább az admin felületre</a
+        >
+      </ng-container>
     </div>
 
     <div class="team-container">
@@ -42,12 +51,12 @@
       class="login-modal"
       #loginModal
       id="login-modal"
-      trigger="open-login"
+      (didDismiss)="onDismiss()"
     >
       <ng-template>
         <ion-header>
           <ion-segment
-            [value]="selectedSegmentLogin"
+            [value]="activeSegment"
             (ionChange)="segmentChanged($event)"
           >
             <ion-segment-button value="login">
@@ -59,12 +68,7 @@
           </ion-segment>
         </ion-header>
 
-        <app-login-form
-          *ngIf="selectedSegmentLogin === 'login'"
-        ></app-login-form>
-        <app-signup-form
-          *ngIf="selectedSegmentLogin === 'signup'"
-        ></app-signup-form>
+        <router-outlet></router-outlet>
       </ng-template>
     </ion-modal>
   </div>

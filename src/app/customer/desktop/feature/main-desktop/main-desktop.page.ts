@@ -9,12 +9,18 @@ import { User } from "@shared/user";
 import {
   catchError,
   combineLatest,
+  filter,
   ignoreElements,
   map,
   Observable,
   of,
+  shareReplay,
   startWith,
+  switchMap,
+  take,
+  tap,
 } from "rxjs";
+import { loadBuffetById } from "@shared/buffet/utils";
 import {
   LoadInitialProducts,
   LoadMoreProducts,
@@ -47,29 +53,42 @@ export class MainDesktopPage implements OnInit {
     activeBuffet: Buffet | undefined;
     activeUser: User;
     categories: Category[];
+    buffetLoadResult: { loading: boolean; error?: any };
     products: Dictionary<Product[]>;
-    buffetLoading: boolean;
-    resolverError: any;
   }>;
 
   constructor(private store: Store, private route: ActivatedRoute) {
-    const buffetLoading$ = route.data.pipe(
-      map(() => false),
-      startWith(true),
+    const buffet: Buffet | undefined = this.store.selectSnapshot(
+      BuffetState.active,
     );
-    const resolverError$ = route.data.pipe(
-      ignoreElements(),
-      startWith(undefined),
-      catchError(err => of(err)),
-    );
+    let buffetLoadResult$: Observable<{ loading: boolean; error?: any }>;
+    if (buffet) {
+      buffetLoadResult$ = of({ loading: false }).pipe(shareReplay(1));
+    } else {
+      buffetLoadResult$ = loadBuffetById(route, store).pipe(shareReplay(1));
+    }
+
+    buffetLoadResult$
+      .pipe(
+        filter(result => !result.loading && !result.error),
+        take(1),
+        switchMap(() => loadCategories(this.store)),
+        switchMap(() => this.categories$),
+        take(1),
+        tap(categories => {
+          categories.forEach(c => {
+            this.store.dispatch(new LoadInitialProducts(c.id));
+          });
+        }),
+      )
+      .subscribe();
 
     this.vm$ = combineLatest([
       this.activeBuffet$,
       this.activeUser$,
       this.categories$,
       this.products$,
-      buffetLoading$,
-      resolverError$,
+      buffetLoadResult$,
     ]).pipe(
       map(
         ([
@@ -77,15 +96,13 @@ export class MainDesktopPage implements OnInit {
           activeUser,
           categories,
           products,
-          buffetLoading,
-          resolverError,
+          buffetLoadResult,
         ]) => ({
           activeBuffet,
           activeUser,
           categories,
           products,
-          buffetLoading,
-          resolverError,
+          buffetLoadResult,
         }),
       ),
     );
@@ -99,14 +116,5 @@ export class MainDesktopPage implements OnInit {
     return environment.api.url + "/product/" + productId + "/image";
   }
 
-  ngOnInit() {
-    console.clear();
-    loadCategories(this.store).subscribe();
-
-    this.categories$.subscribe(category =>
-      category.forEach(c => {
-        this.store.dispatch(new LoadInitialProducts(c.id));
-      }),
-    );
-  }
+  ngOnInit() {}
 }

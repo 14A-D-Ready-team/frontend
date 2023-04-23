@@ -1,14 +1,12 @@
 <div class="navbar">
-  <div class="nav-item logo">
+  <div class="nav-item logo" routerLink="/">
     <img src="/assets/icon/Logo-nolabel.png" alt="" />
   </div>
 
   <div class="nav-item">
     <a
-      [ngClass]="
-        currentPage === '/' || currentPage === '/welcome' ? 'active' : ''
-      "
-      [routerLink]="['/']"
+      [ngClass]="currentPage === '/main' ? 'active' : ''"
+      [routerLink]="['/main']"
       >Menü</a
     >
   </div>
@@ -30,7 +28,7 @@
       [ngClass]="currentPage === '/buffet-select' ? 'active' : ''"
       routerLink="/buffet-select"
       href=""
-      >Helyzet</a
+      >Büféválasztás</a
     >
   </div>
 </div>

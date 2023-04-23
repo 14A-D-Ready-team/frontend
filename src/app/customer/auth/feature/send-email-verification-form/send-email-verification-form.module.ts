@@ -9,6 +9,7 @@ import { ValidationMessageModule } from "@app/customer/ui/validation-message";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { ErrorMessagePipe } from "@shared/exceptions";
 import { RouterModule } from "@angular/router";
+import { NavigationModule } from "@shared/navigation";
 
 @NgModule({
   declarations: [SendEmailVerificationFormComponent],
@@ -22,6 +23,7 @@ import { RouterModule } from "@angular/router";
     NgxsFormPluginModule,
     ErrorMessagePipe,
     RouterModule,
+    NavigationModule,
   ],
   exports: [SendEmailVerificationFormComponent],
 })
