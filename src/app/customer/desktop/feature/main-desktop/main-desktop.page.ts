@@ -106,8 +106,6 @@ export class MainDesktopPage implements OnInit {
         }),
       ),
     );
-
-    this.categories$.subscribe(console.log);
   }
 
   loadMoreProducts(categoryId: number) {
