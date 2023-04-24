@@ -140,7 +140,6 @@
             <ion-item lines="none" *ngFor="let o of c.options">
               <ion-checkbox
                 (name)="o.id"
-                [value]="o.id"
                 [formControlName]="o.name"
               ></ion-checkbox>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>

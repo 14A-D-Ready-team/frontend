@@ -51,7 +51,6 @@ export class ProductPage implements OnInit {
     );
 
     this.form = this.fb.group({ customizations: this.fb.array([]) });
-    // this.form = this.fb.group({ customizations: new FormArray([]) });
   }
 
   get formArr() {
