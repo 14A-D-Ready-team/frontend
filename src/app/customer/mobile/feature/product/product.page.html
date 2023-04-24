@@ -135,12 +135,12 @@
           <div
             class="possibilities"
             *ngIf="c.optionCount === 1"
-            [formGroupName]="c.description"
+            [formGroupName]="c.id"
           >
             <ion-item lines="none" *ngFor="let o of c.options">
               <ion-checkbox
                 (name)="o.id"
-                [formControlName]="o.name"
+                [formControlName]="o.id"
               ></ion-checkbox>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>
             </ion-item>
@@ -149,10 +149,10 @@
           <ion-radio-group
             class="possibilities"
             *ngIf="c.optionCount === 0"
-            [formControlName]="c.description"
+            [formControlName]="c.id"
           >
             <ion-item lines="none" *ngFor="let o of c.options">
-              <ion-radio [value]="o.name"></ion-radio>
+              <ion-radio [value]="o.id"></ion-radio>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>
             </ion-item>
           </ion-radio-group>

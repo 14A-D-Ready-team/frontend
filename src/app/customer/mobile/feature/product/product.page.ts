@@ -1,13 +1,6 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from "@angular/core";
-import {
-  Form,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-} from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { CustomizationFormModel, OptionFormModel } from "@app/customer/utils";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Category, CategoryState } from "@shared/category";
@@ -17,7 +10,8 @@ import {
   ProductState,
   loadProductById,
 } from "@shared/product";
-import { Observable, map, pluck, switchMap, takeLast, tap } from "rxjs";
+import { isObject } from "lodash";
+import { Observable, switchMap } from "rxjs";
 
 @Component({
   selector: "app-product",
@@ -53,10 +47,6 @@ export class ProductPage implements OnInit {
     this.form = this.fb.group({ customizations: this.fb.array([]) });
   }
 
-  get formArr() {
-    return this.form.get("customizations") as FormArray;
-  }
-
   createControls() {
     const fA = this.customizations;
 
@@ -64,19 +54,15 @@ export class ProductPage implements OnInit {
       const formGroup = new FormGroup({});
       if (control.optionCount === 1) {
         const fG = new FormGroup({});
-        formGroup.addControl(control.description, fG);
-        for (let o of control.options) {
-          fG.addControl(o.name, new FormControl());
+        formGroup.addControl(control.id.toString(), fG);
+        for (const o of control.options) {
+          fG.addControl(o.id.toString(), new FormControl());
         }
       } else {
-        formGroup.addControl(control.description, new FormControl());
+        formGroup.addControl(control.id.toString(), new FormControl());
       }
 
       fA.push(formGroup);
-    }
-
-    for (const asd of this.customizations.controls) {
-      console.log(asd.value);
     }
   }
 
