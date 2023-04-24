@@ -63,14 +63,16 @@ export class ProductPage implements OnInit {
 
     for (const control of this.customs!) {
       const formGroup = new FormGroup({});
-      if (control.optionCount === 0) {
-        const fG = new FormArray([]);
+      if (control.optionCount === 1) {
+        const fG = new FormGroup({});
         formGroup.addControl(control.description, fG);
-
-        for (const o of control.options) {
-          fG.push(new FormControl());
+        for (let o of control.options) {
+          fG.addControl(o.name, new FormControl());
         }
+      } else {
+        formGroup.addControl(control.description, new FormControl());
       }
+
       fA.push(formGroup);
     }
 

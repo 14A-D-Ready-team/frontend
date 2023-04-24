@@ -1,4 +1,4 @@
-<!-- <div
+<div
   class="container ion-page"
   *ngIf="{ 
     result: loadResult$ | async, 
@@ -34,7 +34,7 @@
   </div>
 
   <div class="card" *ngIf="vm.product">
-    <form action="" name="productForm" [formGroup]="form">
+    <form action="" name="productForm" [formGroup]="form" (ngSubmit)="click()">
       <p class="product-category">{{vm.category?.name}}</p>
       <p class="product-name bold">{{vm.product.name}}</p>
       <div class="extra-info-container">
@@ -124,19 +124,24 @@
         </div>
       </div>
 
-      <div class="extras-container">
+      <div class="extras-container" formArrayName="customizations">
         <div
           class="single-container"
-          *ngFor="let c of vm.product?.customizations"
+          *ngFor="let c of vm.product?.customizations; let i = index"
+          [formGroupName]="i"
         >
           <p>{{c.description}}</p>
 
-          <div class="possibilities" *ngIf="c.optionCount === 1">
+          <div
+            class="possibilities"
+            *ngIf="c.optionCount === 1"
+            [formGroupName]="c.description"
+          >
             <ion-item lines="none" *ngFor="let o of c.options">
               <ion-checkbox
                 (name)="o.id"
                 [value]="o.id"
-                (formControlName)="o.name"
+                [formControlName]="o.name"
               ></ion-checkbox>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>
             </ion-item>
@@ -145,10 +150,10 @@
           <ion-radio-group
             class="possibilities"
             *ngIf="c.optionCount === 0"
-            (name)="c.id"
+            [formControlName]="c.description"
           >
             <ion-item lines="none" *ngFor="let o of c.options">
-              <ion-radio [value]="o" (formControlName)="o.name"></ion-radio>
+              <ion-radio [value]="o.name"></ion-radio>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>
             </ion-item>
           </ion-radio-group>
@@ -157,11 +162,11 @@
         <div class="price-container">
           <p class="price">{{vm.product.fullPrice}} Ft</p>
           <div class="add-amount-container">
-            <button class="minus-btn" (click)="changeAmount(false)">-</button>
+            <button class="minus-btn">-</button>
             <div class="amount-container">
-              <span>{{amount}}</span>
+              <span>1</span>
             </div>
-            <button class="plus-btn" (click)="changeAmount(true)">+</button>
+            <button class="plus-btn">+</button>
           </div>
         </div>
         <button class="order-btn">
@@ -187,7 +192,7 @@
           </svg>
           Rendelés
           <div class="amount-container">
-            <span>{{amount}}</span>
+            <span>{{1}}</span>
           </div>
         </button>
         <div class="description-container">
@@ -224,47 +229,28 @@
       <button class="ready-btn" routerLink="/">Vissza</button>
     </div>
   </div>
-</div>  -->
+</div>
 
-<!-- <form action="" [formGroup]="form">
-  <div *ngFor="let control of customs; index as i">
-    <div>
-      <p>{{control.description}}</p>
-      <ion-radio-group [formControlName]="control.description">
-        <ion-radio *ngFor="let o of control.options"></ion-radio>
-      </ion-radio-group>
-    </div>
-  </div>
-  <button type="submit">asd</button>
-</form> -->
-
-<form [formGroup]="form" action="" (ngSubmit)="click()">
+<!-- <form [formGroup]="form" action="" (ngSubmit)="click()">
   <div formArrayName="customizations">
-    <div>
-      <!-- <div *ngIf="c.optionCount === 1">
-        <p>{{c.description}}</p>
-        <div *ngFor="let o of c.options ">
-          <input type="checkbox" [formControlName]="o.name" />
-        </div>
-      </div>
-
-      <ion-radio-group *ngIf="c.optionCount === 1">
-        <ion-radio
-          *ngFor="let o of c.options"
-          [value]="o.name"
-        ></ion-radio>
-      </ion-radio-group> -->
-      <!-- <ion-radio-group
-        *ngFor="let c of customs!; let i = index"
-        [formGroupName]="i"
+    <div *ngFor="let c of customs; let i = index" [formGroupName]="i">
+      <ion-radio-group
+        *ngIf="c.optionCount === 0"
+        [formControlName]="c.description"
       >
-        <ion-radio
+        <p>{{c.description}}</p>
+        <ion-radio *ngFor="let o of c.options" [value]="o.name"></ion-radio>
+      </ion-radio-group>
+
+      <div *ngIf="c.optionCount === 1" [formGroupName]="c.description">
+        <p>{{c.description}}</p>
+        <ion-checkbox
           *ngFor="let o of c.options"
           [formControlName]="o.name"
-        ></ion-radio>
-      </ion-radio-group>
+        ></ion-checkbox>
+      </div>
     </div>
-  </div> -->
+  </div>
 
-  <!-- <button type="submit">asd</button>
+  <button type="submit">asd</button>
 </form> -->
