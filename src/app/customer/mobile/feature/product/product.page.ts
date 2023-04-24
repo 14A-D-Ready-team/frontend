@@ -50,8 +50,12 @@ export class ProductPage implements OnInit {
       }),
     );
 
-    this.form = this.fb.group({ customizations: new FormArray([]) });
+    this.form = this.fb.group({ customizations: this.fb.array([]) });
     // this.form = this.fb.group({ customizations: new FormArray([]) });
+  }
+
+  get formArr() {
+    return this.form.get("customizations") as FormArray;
   }
 
   createControls() {
@@ -59,10 +63,19 @@ export class ProductPage implements OnInit {
 
     for (const control of this.customs!) {
       const formGroup = new FormGroup({});
-      for (const o of control.options) {
-        formGroup.addControl(o.name, new FormControl());
+      if (control.optionCount === 0) {
+        const fG = new FormArray([]);
+        formGroup.addControl(control.description, fG);
+
+        for (const o of control.options) {
+          fG.push(new FormControl());
+        }
       }
       fA.push(formGroup);
+    }
+
+    for (const asd of this.customizations.controls) {
+      console.log(asd.value);
     }
   }
 

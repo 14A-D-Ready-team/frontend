@@ -240,16 +240,31 @@
 
 <form [formGroup]="form" action="" (ngSubmit)="click()">
   <div formArrayName="customizations">
-    <div *ngFor="let c of customs">
-      <input
-        type="checkbox"
-        *ngFor="let o of c.options"
-        [value]="o.id"
-        [formControlName]="o.name"
-      />
-      <p>{{c.description}}</p>
-    </div>
-  </div>
+    <div>
+      <!-- <div *ngIf="c.optionCount === 1">
+        <p>{{c.description}}</p>
+        <div *ngFor="let o of c.options ">
+          <input type="checkbox" [formControlName]="o.name" />
+        </div>
+      </div>
 
-  <button type="submit">asd</button>
-</form>
+      <ion-radio-group *ngIf="c.optionCount === 1">
+        <ion-radio
+          *ngFor="let o of c.options"
+          [value]="o.name"
+        ></ion-radio>
+      </ion-radio-group> -->
+      <!-- <ion-radio-group
+        *ngFor="let c of customs!; let i = index"
+        [formGroupName]="i"
+      >
+        <ion-radio
+          *ngFor="let o of c.options"
+          [formControlName]="o.name"
+        ></ion-radio>
+      </ion-radio-group>
+    </div>
+  </div> -->
+
+  <!-- <button type="submit">asd</button>
+</form> -->
