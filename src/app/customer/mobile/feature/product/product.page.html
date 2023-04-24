@@ -1,8 +1,9 @@
-<div
+<!-- <div
   class="container ion-page"
   *ngIf="{ 
     result: loadResult$ | async, 
-    product:  product$ | async
+    product:  product$ | async,
+    category: category$ | async
   } as vm"
 >
   <div class="product-image-container" *ngIf="vm.product">
@@ -31,9 +32,10 @@
     </a>
     <img src="/assets/images/product.png" alt="" />
   </div>
+
   <div class="card" *ngIf="vm.product">
-    <form action="" name="productForm">
-      <p class="product-category">Kategória név</p>
+    <form action="" name="productForm" [formGroup]="form">
+      <p class="product-category">{{vm.category?.name}}</p>
       <p class="product-name bold">{{vm.product.name}}</p>
       <div class="extra-info-container">
         <div class="prep-time">
@@ -131,7 +133,11 @@
 
           <div class="possibilities" *ngIf="c.optionCount === 1">
             <ion-item lines="none" *ngFor="let o of c.options">
-              <ion-checkbox #cV [value]="o"></ion-checkbox>
+              <ion-checkbox
+                (name)="o.id"
+                [value]="o.id"
+                (formControlName)="o.name"
+              ></ion-checkbox>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>
             </ion-item>
           </div>
@@ -142,14 +148,14 @@
             (name)="c.id"
           >
             <ion-item lines="none" *ngFor="let o of c.options">
-              <ion-radio [value]="o"></ion-radio>
+              <ion-radio [value]="o" (formControlName)="o.name"></ion-radio>
               <ion-label class="ion-text-wrap" text-wrap>{{o.name}}</ion-label>
             </ion-item>
           </ion-radio-group>
         </div>
 
         <div class="price-container">
-          <p class="price">{{finalPrice}} Ft</p>
+          <p class="price">{{vm.product.fullPrice}} Ft</p>
           <div class="add-amount-container">
             <button class="minus-btn" (click)="changeAmount(false)">-</button>
             <div class="amount-container">
@@ -191,4 +197,59 @@
       </div>
     </form>
   </div>
-</div>
+
+  <div class="full-container" *ngIf="vm.result?.error as error">
+    <div class="error-container">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 13.75C11.59 13.75 11.25 13.41 11.25 13V7.75C11.25 7.34 11.59 7 12 7C12.41 7 12.75 7.34 12.75 7.75V13C12.75 13.41 12.41 13.75 12 13.75Z"
+          fill="#c30b00"
+        />
+        <path
+          d="M12 17.25C11.73 17.25 11.48 17.15 11.29 16.96C11.2 16.86 11.13 16.75 11.07 16.63C11.02 16.51 11 16.38 11 16.25C11 15.99 11.11 15.73 11.29 15.54C11.66 15.17 12.34 15.17 12.71 15.54C12.89 15.73 13 15.99 13 16.25C13 16.38 12.97 16.51 12.92 16.63C12.87 16.75 12.8 16.86 12.71 16.96C12.52 17.15 12.27 17.25 12 17.25Z"
+          fill="#c30b00"
+        />
+        <path
+          d="M12.0002 22.7501C11.3302 22.7501 10.6502 22.5801 10.0502 22.2301L4.11017 18.8001C2.91017 18.1001 2.16016 16.8101 2.16016 15.4201V8.58011C2.16016 7.19011 2.91017 5.90011 4.11017 5.20011L10.0502 1.77012C11.2502 1.07012 12.7402 1.07012 13.9502 1.77012L19.8902 5.20011C21.0902 5.90011 21.8402 7.19011 21.8402 8.58011V15.4201C21.8402 16.8101 21.0902 18.1001 19.8902 18.8001L13.9502 22.2301C13.3502 22.5801 12.6702 22.7501 12.0002 22.7501ZM12.0002 2.7501C11.5902 2.7501 11.1702 2.8601 10.8002 3.0701L4.86017 6.5001C4.12017 6.9301 3.66016 7.72011 3.66016 8.58011V15.4201C3.66016 16.2701 4.12017 17.0701 4.86017 17.5001L10.8002 20.9301C11.5402 21.3601 12.4602 21.3601 13.1902 20.9301L19.1302 17.5001C19.8702 17.0701 20.3302 16.2801 20.3302 15.4201V8.58011C20.3302 7.73011 19.8702 6.9301 19.1302 6.5001L13.1902 3.0701C12.8302 2.8601 12.4102 2.7501 12.0002 2.7501Z"
+          fill="#c30b00"
+        />
+      </svg>
+      <p class="error-message">{{error | errorMessage}}</p>
+      <button class="ready-btn" routerLink="/">Vissza</button>
+    </div>
+  </div>
+</div>  -->
+
+<!-- <form action="" [formGroup]="form">
+  <div *ngFor="let control of customs; index as i">
+    <div>
+      <p>{{control.description}}</p>
+      <ion-radio-group [formControlName]="control.description">
+        <ion-radio *ngFor="let o of control.options"></ion-radio>
+      </ion-radio-group>
+    </div>
+  </div>
+  <button type="submit">asd</button>
+</form> -->
+
+<form [formGroup]="form" action="" (ngSubmit)="click()">
+  <div formArrayName="customizations">
+    <div *ngFor="let c of customs">
+      <input
+        type="checkbox"
+        *ngFor="let o of c.options"
+        [value]="o.id"
+        [formControlName]="o.name"
+      />
+      <p>{{c.description}}</p>
+    </div>
+  </div>
+
+  <button type="submit">asd</button>
+</form>

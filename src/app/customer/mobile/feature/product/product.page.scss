@@ -14,6 +14,7 @@
   overflow: hidden;
   display: grid;
   grid-template-rows: 40vh 60vh;
+  background-color: white;
 }
 
 .product-image-container {
@@ -202,6 +203,40 @@
   }
 }
 
-ion-modal {
-  --width: 100%;
+.loading-container {
+  @include flex-center(row, center);
+  width: 50vw;
+  height: 50vh;
+  position: absolute;
+  ion-spinner {
+    transform: scale(4);
+    position: absolute;
+    top: 50%;
+    color: $ready-red;
+  }
+}
+
+.full-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 4;
+  position: absolute;
+}
+.error-container {
+  @include flex-center(column, center);
+  width: 50vw;
+  height: 50vh;
+  position: absolute;
+  svg {
+    height: 250px;
+    width: 250px;
+  }
+  .error-message {
+    color: $ready-red;
+    font-size: 1.5rem;
+  }
 }

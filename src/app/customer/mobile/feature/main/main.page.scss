@@ -247,3 +247,17 @@
     color: $ready-red;
   }
 }
+
+.loading-container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 55%;
+  ion-spinner {
+    transform: scale(4);
+    position: absolute;
+    top: 50%;
+    color: $ready-red;
+  }
+}
