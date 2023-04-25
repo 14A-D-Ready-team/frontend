@@ -3,18 +3,18 @@ import { CommonModule } from "@angular/common";
 
 import { ProductRoutingModule } from "./product-routing.module";
 import { FormsModule } from "@angular/forms";
-import { IonicModule } from "@ionic/angular";
 import { NavbarModule } from "../navbar";
+import { IonicModule } from "@ionic/angular";
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
+    IonicModule,
     FormsModule,
     ProductRoutingModule,
-    IonicModule,
     NavbarModule,
     //NgxsModule.forFeature([ProductState]),
   ],
+  declarations: [],
 })
 export class ProductModule {}

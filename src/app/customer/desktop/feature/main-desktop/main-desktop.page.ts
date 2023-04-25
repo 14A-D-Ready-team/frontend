@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
@@ -57,7 +57,7 @@ export class MainDesktopPage implements OnInit {
     products: Dictionary<Product[]>;
   }>;
 
-  constructor(private store: Store, private route: ActivatedRoute) {
+  constructor(private store: Store,private router: Router, private route: ActivatedRoute) {
     const buffet: Buffet | undefined = this.store.selectSnapshot(
       BuffetState.active,
     );
@@ -114,6 +114,10 @@ export class MainDesktopPage implements OnInit {
 
   getImage(productId: number) {
     return environment.api.url + "/product/" + productId + "/image";
+  }
+
+  public openDetails() {
+    this.router.navigate(["product"]);
   }
 
   ngOnInit() {}

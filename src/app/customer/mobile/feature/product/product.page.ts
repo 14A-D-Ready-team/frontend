@@ -1,3 +1,4 @@
+import { environment } from "@/environments/environment";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Select } from "@ngxs/store";
@@ -5,7 +6,6 @@ import { Buffet, BuffetState } from "@shared/buffet";
 import { Category, CategoryState } from "@shared/category";
 import { Customization, Option, Product, ProductState } from "@shared/product";
 import { Observable, take } from "rxjs";
-import { CLIENT_RENEG_LIMIT } from "tls";
 
 @Component({
   selector: "app-product",
@@ -68,6 +68,10 @@ export class ProductPage implements OnInit {
     const index = this.userCustomization.indexOf(option);
     this.userCustomization.splice(index, 1);
     console.log(this.customs);
+  }
+
+  getImage(productId: number) {
+    return environment.api.url + "/product/" + productId + "/image";
   }
 
   ngOnInit() {
