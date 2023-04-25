@@ -96,11 +96,11 @@ export class ProductPage implements OnInit {
   public customs: Customization[] | undefined;
 
   get customizations() {
-    return this.form.controls.customizations as FormArray;
+    return this.customizationForm.controls.customizations as FormArray;
   }
 
   click() {
-    console.log(this.form);
+    console.log(this.customizationForm);
   }
 
   ngOnInit() {
