@@ -92,10 +92,7 @@ export class ProductPage implements OnInit {
     return this.form.controls.selectedOptionIds as FormArray;
   }
 
-  click() {
-  }
+  click() {}
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }
