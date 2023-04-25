@@ -3,7 +3,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
+import { loadBuffetById, loadBuffetByRoute } from "@shared/buffet/utils";
 import { Category, CategoryState } from "@shared/category";
+import { loadCategoryById } from "@shared/category/utils/load-category-by-id";
 import { OrderedProductDto } from "@shared/order";
 import {
   Customization,
@@ -16,7 +18,16 @@ import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
-import { Observable, switchMap } from "rxjs";
+import {
+  Observable,
+  catchError,
+  filter,
+  map,
+  of,
+  shareReplay,
+  startWith,
+  switchMap,
+} from "rxjs";
 interface ProductForm {
   productId: FormControl<number>;
   amount: FormControl<number>;
@@ -39,7 +50,44 @@ export class ProductPage implements OnInit {
     private store: Store,
     private fb: FormBuilder,
   ) {
-    this.loadResult$ = loadProductById(route, store);
+    this.loadResult$ = route.queryParams.pipe(
+      switchMap(params => {
+        const id = params.productId;
+        const product: Product | undefined = store.selectSnapshot(
+          ProductState.entityById(id),
+        );
+        if (!product) {
+          return loadProductById(route, store).pipe(
+            switchMap(() => store.selectOnce(ProductState.entityById(id))),
+          );
+        }
+        return store.selectOnce(ProductState.entityById(id));
+      }),
+      switchMap(product => {
+        const buffetId = product.buffetId;
+        return loadBuffetById(buffetId, store, false).pipe(map(() => buffetId));
+      }),
+      switchMap(buffetId => loadCategoryById(buffetId, store)),
+      map(() => ({ loading: false })),
+      catchError(error => of({ loading: false, error })),
+      startWith({ loading: true }),
+      shareReplay(1),
+    );
+
+    this.product$ = route.queryParams.pipe(
+      switchMap(params => {
+        return store.select(ProductState.entityById(params.productId));
+      }),
+      filter(x => !!x),
+    );
+
+    this.category$ = this.product$.pipe(
+      switchMap(p => {
+        return store.select(CategoryState.entityById(p!.categoryId));
+      }),
+      filter(x => !!x),
+    );
+    /*  
 
     this.product$ = route.queryParams.pipe(
       switchMap(params => {
@@ -51,7 +99,7 @@ export class ProductPage implements OnInit {
       switchMap(p => {
         return store.select(CategoryState.entityById(p!.categoryId));
       }),
-    );
+    ); */
 
     this.customizationForm = this.fb.group({
       customizations: this.fb.array([]),

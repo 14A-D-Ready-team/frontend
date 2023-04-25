@@ -19,7 +19,7 @@ import { LoadMoreProducts, MainPageState, SelectCategory } from "./store";
 import { ActivatedRoute } from "@angular/router";
 import { Product, ProductService } from "@shared/product";
 import { Dictionary } from "@/types";
-import { loadBuffetById } from "@shared/buffet/utils";
+import { loadBuffetByRoute } from "@shared/buffet/utils";
 import { environment } from "@/environments/environment";
 
 @Component({
@@ -79,7 +79,7 @@ export class MainPage {
     if (buffet) {
       buffetLoadResult$ = of({ loading: false }).pipe(shareReplay(1));
     } else {
-      buffetLoadResult$ = loadBuffetById(route, store).pipe(shareReplay(1));
+      buffetLoadResult$ = loadBuffetByRoute(route, store).pipe(shareReplay(1));
     }
 
     buffetLoadResult$
