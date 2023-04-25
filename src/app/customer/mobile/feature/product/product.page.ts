@@ -18,6 +18,7 @@ import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
 } from "ngx-reactive-form-class-validator";
+import { Key } from "readline";
 import {
   Observable,
   catchError,
@@ -109,6 +110,28 @@ export class ProductPage implements OnInit {
       productId: new ClassValidatorFormControl<number>(0),
       amount: new ClassValidatorFormControl<number>(1),
       selectedOptionIds: new ClassValidatorFormControl<number[]>(),
+    });
+
+    this.customizationForm.valueChanges.subscribe(c => {
+      const customizationIds: number[] = [];
+      c.customizations.forEach((customization: object) => {
+        Object.values(customization).forEach(option => {
+          if (option) {
+            if (typeof option === "object") {
+              Object.keys(option)
+                .filter(v => option[v])
+                .forEach(o => {
+                  customizationIds.push(+o);
+                });
+            } else {
+              const value = option;
+              customizationIds.push(value);
+            }
+          }
+        });
+      });
+      this.form.controls.selectedOptionIds.setValue(customizationIds);
+      console.log(this.form);
     });
   }
 
