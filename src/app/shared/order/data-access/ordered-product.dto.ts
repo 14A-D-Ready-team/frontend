@@ -12,5 +12,5 @@ export class OrderedProductDto {
 
   @Expose()
   @IsNumber({}, { each: true })
-  public selectedOptionId!: number[];
+  public selectedOptionIds!: number[];
 }

@@ -1,4 +1,3 @@
-export class SelectCategory {
-  static readonly type = "[ProductPage] Load Product Data";
-  constructor(public id: any) {}
+export class AddProduct {
+  static readonly type = "[ProductPage] Add Product";
 }

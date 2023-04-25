@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Category, CategoryState } from "@shared/category";
+import { OrderedProductDto } from "@shared/order";
 import {
   Customization,
   Product,
@@ -11,7 +12,18 @@ import {
   loadProductById,
 } from "@shared/product";
 import { isObject } from "lodash";
+import {
+  ClassValidatorFormArray,
+  ClassValidatorFormControl,
+  ClassValidatorFormGroup,
+} from "ngx-reactive-form-class-validator";
 import { Observable, switchMap } from "rxjs";
+
+interface ProductForm {
+  productId: FormControl<number>;
+  amount: FormControl<number>;
+  selectedOptionIds: FormArray<FormControl<number | null>>;
+}
 
 @Component({
   selector: "app-product",
@@ -44,29 +56,29 @@ export class ProductPage implements OnInit {
       }),
     );
 
-    this.form = this.fb.group({ customizations: this.fb.array([]) });
+    this.product$.subscribe(x => {
+      this.customs = x?.customizations;
+    });
+
+    this.form = new ClassValidatorFormGroup<ProductForm>(OrderedProductDto, {
+      productId: new ClassValidatorFormControl<number>(0),
+      amount: new ClassValidatorFormControl<number>(1),
+      selectedOptionIds: this.createControls(),
+    });
   }
 
-  createControls() {
-    const fA = this.customizations;
-
-    for (const control of this.customs!) {
-      const formGroup = new FormGroup({});
-      if (control.optionCount === 1) {
-        const fG = new FormGroup({});
-        formGroup.addControl(control.id.toString(), fG);
-        for (const o of control.options) {
-          fG.addControl(o.id.toString(), new FormControl());
-        }
-      } else {
-        formGroup.addControl(control.id.toString(), new FormControl());
+  createControls(): FormArray<FormControl<number | null>> {
+    const fA = new FormArray<FormControl<number | null>>([]);
+    for (let c of this.customs!) {
+      for (let o of c.options) {
+        const fC = new FormControl<number | null>(o.id);
+        fA.push(fC);
       }
-
-      fA.push(formGroup);
     }
+    return fA;
   }
 
-  public form: FormGroup;
+  public form!: ClassValidatorFormGroup;
 
   public loadResult$: Observable<{ loading: boolean; error?: any }>;
 
@@ -76,21 +88,14 @@ export class ProductPage implements OnInit {
 
   public customs: Customization[] | undefined;
 
-
   get customizations() {
-    return this.form.controls.customizations as FormArray;
+    return this.form.controls.selectedOptionIds as FormArray;
   }
 
   click() {
-    console.log(this.form);
   }
 
   ngOnInit() {
-    this.product$.subscribe(x => {
-      this.customs = x?.customizations;
-    });
 
-    this.createControls();
-    console.log(this.form);
   }
 }
