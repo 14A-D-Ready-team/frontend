@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { ProductRoutingModule } from './product-routing.module';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { NavbarModule } from '../navbar';
-
+import { ProductRoutingModule } from "./product-routing.module";
+import { FormsModule } from "@angular/forms";
+import { IonicModule } from "@ionic/angular";
+import { NavbarModule } from "../navbar";
 
 @NgModule({
   declarations: [],
@@ -16,6 +15,6 @@ import { NavbarModule } from '../navbar';
     IonicModule,
     NavbarModule,
     //NgxsModule.forFeature([ProductState]),
-  ]
+  ],
 })
-export class ProductModule { }
+export class ProductModule {}
