@@ -76,7 +76,6 @@ export class ProductPage implements OnInit {
 
   public customs: Customization[] | undefined;
 
-
   get customizations() {
     return this.form.controls.customizations as FormArray;
   }
