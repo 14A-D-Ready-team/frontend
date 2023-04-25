@@ -9,6 +9,7 @@ import { ErrorMessagePipe } from "@shared/exceptions";
 import { NgxsFormPluginModule } from "@ngxs/form-plugin";
 import { SendPasswordResetFormComponent } from "./send-password-reset-form.component";
 import { RouterModule } from "@angular/router";
+import { NavigationModule } from "@shared/navigation";
 
 @NgModule({
   declarations: [SendPasswordResetFormComponent],
@@ -22,6 +23,7 @@ import { RouterModule } from "@angular/router";
     NgxsFormPluginModule,
     ErrorMessagePipe,
     RouterModule,
+    NavigationModule,
   ],
   exports: [SendPasswordResetFormComponent],
 })

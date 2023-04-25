@@ -56,8 +56,8 @@
   </div>
   <!-- a büfé aktuális menü ajánlata a kategóriákkal -->
   <div class="menu-container">
-    <ion-label color="warning" *ngIf="vm.resolverError"
-      >{{vm.resolverError | errorMessage}}</ion-label
+    <ion-label color="warning" *ngIf="vm.buffetLoadResult.error as error"
+      >{{error | errorMessage}}</ion-label
     >
     <div class="category-container" #container>
       <label
@@ -88,7 +88,7 @@
         <ion-spinner></ion-spinner>
       </div>
       <div class="product-card" *ngFor="let product of vm.products">
-        <img src="/assets/images/product.png" class="product-img" alt="" />
+        <img [src]="getImage(product.id)" class="product-img" alt="" />
         <div class="product-description">
           <p class="product-category">
             {{vm.categoriesDict[product.categoryId].name}}

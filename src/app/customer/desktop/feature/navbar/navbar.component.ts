@@ -1,3 +1,4 @@
+import { platform } from "@/environments/platform";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -11,6 +12,6 @@ export class NavbarComponent implements OnInit {
   currentPage = this.router.url;
 
   ngOnInit() {
-    console.log(this.currentPage);
+    //console.log(this.currentPage);
   }
 }

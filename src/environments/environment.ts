@@ -8,12 +8,13 @@ export const environment = {
     clientId:
       "101784584402-d88n8hpcomqdhd10iolmcoh9nrco9mkl.apps.googleusercontent.com",
   },
-  // api: {
-  //   url: "http://localhost:3000",
-  // },
   api: {
-    url: "https://api.ready-app.hu",
+    url: "http://localhost:3000",
   },
+
+  /*  api: {
+    url: "https://api.ready-app.hu",
+  },*/
 };
 
 /*

@@ -144,6 +144,20 @@
           },
           "configurations": {
             "production": {
+              "browserTarget": "app:build:production"
+            },
+            "ci": {
+              "progress": false
+            }
+          }
+        },
+        "serve-web": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "app:build-web"
+          },
+          "configurations": {
+            "production": {
               "browserTarget": "app:build-web:production"
             },
             "ci": {

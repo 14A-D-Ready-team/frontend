@@ -7,5 +7,6 @@ import { BackButtonDirective } from "./back-button.directive";
   declarations: [BackButtonDirective],
   imports: [CommonModule],
   providers: [NavigationService],
+  exports: [BackButtonDirective],
 })
 export class NavigationModule {}

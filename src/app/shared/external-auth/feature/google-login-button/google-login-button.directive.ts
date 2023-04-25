@@ -32,7 +32,6 @@ export class GoogleLoginButtonDirective {
   public locale = "";
 
   constructor(el: ElementRef, socialAuthService: SocialAuthService) {
-    console.log("asd");
     socialAuthService.initState.pipe(take(1)).subscribe(() => {
       Promise.resolve(this.width).then(value => {
         if (value > "400" || (value < "200" && value !== "")) {

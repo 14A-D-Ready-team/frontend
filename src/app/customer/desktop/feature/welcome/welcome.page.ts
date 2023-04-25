@@ -1,48 +1,70 @@
-import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  AfterViewInit,
+} from "@angular/core";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { IonModal, ViewWillLeave } from "@ionic/angular";
 import { Select } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { User } from "@shared/user";
-import { Observable } from "rxjs";
+import { Observable, Subscription, filter } from "rxjs";
 
 @Component({
   selector: "app-welcome",
   templateUrl: "./welcome.page.html",
   styleUrls: ["./welcome.page.scss"],
 })
-export class WelcomePage implements OnInit, OnDestroy, ViewWillLeave {
+export class WelcomePage implements OnDestroy, AfterViewInit {
   @ViewChild("loginModal") modal!: IonModal;
 
-  selectedSegmentLogin = "login";
-
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, public router: Router) {}
 
   @Select(AuthState.user)
-  public activeUser$!: Observable<User>;
+  public activeUser$!: Observable<User | undefined>;
 
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
+  public get activeSegment() {
+    if (/^\/login.*/.test(this.router.url)) {
+      return "login";
+    }
+    if (/^\/signup.*/.test(this.router.url)) {
+      return "signup";
+    }
+    return "";
+  }
+
+  private get shouldShowModal() {
+    return /^\/(login|signup).*/.test(this.router.url);
+  }
+
+  private subscription?: Subscription;
+
   segmentChanged(event: any) {
-    this.selectedSegmentLogin = event.target.value;
+    this.router.navigate([event.target.value]);
   }
 
-  cancel() {
-    this.modal.dismiss(null, "cancel");
+  ngAfterViewInit(): void {
+    this.subscription = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        const url = this.router.url;
+        this.modal.isOpen = /^\/(login|signup).*/.test(url);
+      });
   }
 
-  ngOnInit() {
-    this.selectedSegmentLogin = "login";
-  }
   ngOnDestroy() {
-    this.modal.dismiss(null, "cancel");
-    console.log("bezárt");
+    this.subscription?.unsubscribe();
   }
 
-  ionViewWillLeave(): void {
-    this.modal.dismiss();
-    console.log("bezárt");
+  onDismiss() {
+    if (this.shouldShowModal) {
+      this.router.navigate(["/"]);
+    }
   }
 }
