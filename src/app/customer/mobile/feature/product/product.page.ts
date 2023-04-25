@@ -22,7 +22,7 @@ import { Observable, switchMap } from "rxjs";
 interface ProductForm {
   productId: FormControl<number>;
   amount: FormControl<number>;
-  selectedOptionIds: FormArray<FormControl<number | null>>;
+  selectedOptionIds: FormArray<FormGroup>;
 }
 
 @Component({
@@ -63,18 +63,20 @@ export class ProductPage implements OnInit {
     this.form = new ClassValidatorFormGroup<ProductForm>(OrderedProductDto, {
       productId: new ClassValidatorFormControl<number>(0),
       amount: new ClassValidatorFormControl<number>(1),
-      selectedOptionIds: this.createControls(),
+      selectedOptionIds: new FormArray<FormGroup>([]),
     });
   }
 
-  createControls(): FormArray<FormControl<number | null>> {
-    const fA = new FormArray<FormControl<number | null>>([]);
+  createControls(): FormArray<FormGroup> {
+    const fA = new FormArray<FormGroup>([]);
     for (let c of this.customs!) {
+      const fG = new FormGroup({});
       for (let o of c.options) {
-        const fC = new FormControl<number | null>(o.id);
-        fA.push(fC);
+        fG.addControl(o.id.toString(), new FormControl());
       }
+      fA.push(fG);
     }
+
     return fA;
   }
 
@@ -92,7 +94,17 @@ export class ProductPage implements OnInit {
     return this.form.controls.selectedOptionIds as FormArray;
   }
 
-  click() {}
+  click() {
+    this.form = new ClassValidatorFormGroup<ProductForm>(OrderedProductDto, {
+      productId: new ClassValidatorFormControl<number>(0),
+      amount: new ClassValidatorFormControl<number>(1),
+      selectedOptionIds: this.createControls(),
+    });
+
+    console.log(this.customs);
+
+    console.log(this.form);
+  }
 
   ngOnInit() {}
 }
