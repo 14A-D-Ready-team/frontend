@@ -57,7 +57,11 @@ export class MainDesktopPage implements OnInit {
     products: Dictionary<Product[]>;
   }>;
 
-  constructor(private store: Store,private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private store: Store,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
     const buffet: Buffet | undefined = this.store.selectSnapshot(
       BuffetState.active,
     );

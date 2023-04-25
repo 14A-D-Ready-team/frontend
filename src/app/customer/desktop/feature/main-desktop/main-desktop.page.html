@@ -24,7 +24,13 @@
                   <p class="product-category">{{ category.name }}</p>
                   <p class="product-name">{{product.name}}</p>
                   <p class="product-price">{{product.fullPrice}} Ft</p>
-                  <button class="add-btn"  routerLink="/product" [queryParams]="{productId: product.id}">+</button>
+                  <button
+                    class="add-btn"
+                    routerLink="/product"
+                    [queryParams]="{productId: product.id}"
+                  >
+                    +
+                  </button>
                 </div>
               </div>
             </div>
