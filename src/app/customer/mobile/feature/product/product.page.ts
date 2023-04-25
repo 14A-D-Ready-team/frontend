@@ -13,7 +13,6 @@ import {
   ProductState,
   loadProductById,
 } from "@shared/product";
-import { isObject } from "lodash";
 import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
@@ -28,6 +27,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
+  tap,
 } from "rxjs";
 interface ProductForm {
   productId: FormControl<number>;
@@ -58,22 +58,29 @@ export class ProductPage implements OnInit {
           ProductState.entityById(id),
         );
         if (!product) {
-          return loadProductById(route, store).pipe(
-            switchMap(() => store.selectOnce(ProductState.entityById(id))),
+          return loadProductById(id, store).pipe(
+            filter(x => !x.loading),
+            map(() => id),
           );
         }
-        return store.selectOnce(ProductState.entityById(id));
+        return of(id);
       }),
+      switchMap(id => store.selectOnce(ProductState.entityById(id))),
       switchMap(product => {
         const buffetId = product.buffetId;
-        return loadBuffetById(buffetId, store, false).pipe(map(() => buffetId));
+        return loadBuffetById(buffetId, store, false).pipe(
+          filter(x => !x.loading),
+          map(() => buffetId),
+        );
       }),
       switchMap(buffetId => loadCategoryById(buffetId, store)),
+      filter(x => !x.loading),
       map(() => ({ loading: false })),
       catchError(error => of({ loading: false, error })),
       startWith({ loading: true }),
       shareReplay(1),
     );
+    this.loadResult$.subscribe();
 
     this.product$ = route.queryParams.pipe(
       switchMap(params => {
@@ -88,19 +95,6 @@ export class ProductPage implements OnInit {
       }),
       filter(x => !!x),
     );
-    /*  
-
-    this.product$ = route.queryParams.pipe(
-      switchMap(params => {
-        return store.select(ProductState.entityById(params.productId));
-      }),
-    );
-
-    this.category$ = this.product$.pipe(
-      switchMap(p => {
-        return store.select(CategoryState.entityById(p!.categoryId));
-      }),
-    ); */
 
     this.customizationForm = this.fb.group({
       customizations: this.fb.array([]),
@@ -175,11 +169,12 @@ export class ProductPage implements OnInit {
   }
 
   ngOnInit() {
-    this.product$.subscribe(x => {
+    this.product$.pipe(filter((x): x is Product => !!x)).subscribe(x => {
       this.customs = x?.customizations;
+      this.form.patchValue({ productId: x.id });
+      this.createControls();
     });
 
-    this.createControls();
     console.log(this.form);
   }
 }
