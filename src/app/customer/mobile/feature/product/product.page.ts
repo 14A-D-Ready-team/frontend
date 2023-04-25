@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Category, CategoryState } from "@shared/category";
+import { OrderedProductDto } from "@shared/order";
 import {
   Customization,
   Product,
@@ -11,8 +12,16 @@ import {
   loadProductById,
 } from "@shared/product";
 import { isObject } from "lodash";
+import {
+  ClassValidatorFormControl,
+  ClassValidatorFormGroup,
+} from "ngx-reactive-form-class-validator";
 import { Observable, switchMap } from "rxjs";
-
+interface ProductForm {
+  productId: FormControl<number>;
+  amount: FormControl<number>;
+  selectedOptionIds: FormControl<number[]>;
+}
 @Component({
   selector: "app-product",
   templateUrl: "./product.page.html",
@@ -44,7 +53,15 @@ export class ProductPage implements OnInit {
       }),
     );
 
-    this.form = this.fb.group({ customizations: this.fb.array([]) });
+    this.customizationForm = this.fb.group({
+      customizations: this.fb.array([]),
+    });
+
+    this.form = new ClassValidatorFormGroup<ProductForm>(OrderedProductDto, {
+      productId: new ClassValidatorFormControl<number>(0),
+      amount: new ClassValidatorFormControl<number>(1),
+      selectedOptionIds: new ClassValidatorFormControl<number[]>(),
+    });
   }
 
   createControls() {
@@ -66,7 +83,9 @@ export class ProductPage implements OnInit {
     }
   }
 
-  public form: FormGroup;
+  public customizationForm: FormGroup;
+
+  public form: ClassValidatorFormGroup;
 
   public loadResult$: Observable<{ loading: boolean; error?: any }>;
 
@@ -75,7 +94,6 @@ export class ProductPage implements OnInit {
   public category$: Observable<Category | undefined>;
 
   public customs: Customization[] | undefined;
-
 
   get customizations() {
     return this.form.controls.customizations as FormArray;
