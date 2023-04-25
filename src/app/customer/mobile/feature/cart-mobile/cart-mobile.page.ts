@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { Select } from "@ngxs/store";
+import { Buffet, BuffetState } from "@shared/buffet";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-cart-mobile",
@@ -6,6 +9,8 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./cart-mobile.page.scss"],
 })
 export class CartMobilePage implements OnInit {
+  @Select(BuffetState.active)
+  public activeBuffet$!: Observable<Buffet>;
   constructor() {}
 
   ngOnInit() {}

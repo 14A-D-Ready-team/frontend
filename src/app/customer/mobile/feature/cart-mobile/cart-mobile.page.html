@@ -42,7 +42,12 @@
           fill="#292D32"
         />
       </svg>
-      <a href="">Menü</a>
+      <a
+        href=""
+        routerLink="/"
+        [queryParams]="{buffetId: (activeBuffet$ | async)?.id}"
+        >Menü</a
+      >
     </div>
     <div class="nav-item selected">
       <svg
