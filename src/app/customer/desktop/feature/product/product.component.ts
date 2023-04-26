@@ -48,26 +48,6 @@ export class ProductComponent implements OnInit {
     this.finalPrice = this.activeProduct.fullPrice * this.amount;
   }
 
-  onCustomCheck(event: any, customization: Option, c: Customization) {
-    if (event.detail.checked) {
-      this.userCustomization.push(customization);
-      this.customs.push(c);
-      console.log();
-    } else {
-      const index = this.userCustomization.indexOf(customization);
-      this.userCustomization.splice(index, 1);
-    }
-  }
-
-  onCustomRadio(event: any) {
-    console.log(event.detail.value);
-  }
-
-  onSpecRadio(customization: Customization, option: Option) {
-    const index = this.userCustomization.indexOf(option);
-    this.userCustomization.splice(index, 1);
-    console.log(this.customs);
-  }
 
   getImage(productId: number) {
     return environment.api.url + "/product/" + productId + "/image";
@@ -81,7 +61,12 @@ export class ProductComponent implements OnInit {
         products.forEach(product => {
           if (idFromRoute === product.id.toString()) {
             this.activeProduct = product;
-            this.max = this.activeProduct.stock;
+            if (this.activeProduct.stock > 3) {
+              this.max = 3;
+            }
+            else {
+              this.max = this.activeProduct.stock;
+            }
             this.finalPrice = this.activeProduct.fullPrice;
           }
         }),

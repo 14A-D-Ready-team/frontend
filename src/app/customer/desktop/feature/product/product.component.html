@@ -24,6 +24,7 @@
       </a>
       
     </div> -->
+  <app-navbar></app-navbar>
   <div class="card">
     <form action="" name="productForm">
       <ion-grid>
@@ -50,11 +51,7 @@
 
                   <div class="possibilities" *ngIf="c.optionCount === 1">
                     <ion-item lines="none" *ngFor="let o of c.options">
-                      <ion-checkbox
-                        (ionChange)="onCustomCheck($event, cV.value, c)"
-                        #cV
-                        [value]="o"
-                      ></ion-checkbox>
+                      <ion-checkbox></ion-checkbox>
                       <ion-label class="ion-text-wrap" text-wrap>{{
                         o.name
                       }}</ion-label>
@@ -64,14 +61,10 @@
                   <ion-radio-group
                     class="possibilities"
                     *ngIf="c.optionCount === 0"
-                    (ionChange)="onCustomRadio($event)"
                     (name)="(c.id)"
                   >
                     <ion-item lines="none" *ngFor="let o of c.options">
-                      <ion-radio
-                        [value]="o"
-                        (click)="onSpecRadio(c, o)"
-                      ></ion-radio>
+                      <ion-radio></ion-radio>
                       <ion-label class="ion-text-wrap" text-wrap>{{
                         o.name
                       }}</ion-label>
@@ -81,20 +74,20 @@
                 <div class="price-container">
                   <p class="price">{{ finalPrice }} Ft</p>
                   <div class="add-amount-container">
-                    <button class="minus-btn" (click)="changeAmount(false)">
+                    <button class="minus-btn" type="button" (click)="changeAmount(false)">
                       -
                     </button>
                     <div class="amount-container">
                       <span>{{ amount }}</span>
                     </div>
-                    <button class="plus-btn" (click)="changeAmount(true)">
+                    <button class="plus-btn" type="button" (click)="changeAmount(true)">
                       +
                     </button>
                   </div>
                 </div>
                 <div class="extras-container">
                   <div class="order">
-                    <button class="order-btn">
+                    <button class="order-btn" type="button" routerLink="/main">
                       <svg
                         width="24"
                         height="24"

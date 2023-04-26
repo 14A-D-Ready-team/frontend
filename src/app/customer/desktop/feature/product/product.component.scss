@@ -9,7 +9,7 @@
 }
 
 ion-grid {
-  height: 100vh;
+  height: calc(100vh - 4.8rem);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,15 +46,13 @@ ion-grid {
   height: 100vh;
   overflow: hidden;
   display: grid;
-  grid-template-rows: 40vh 60vh;
 }
 
 .card {
-  padding: 0.8rem 1.2rem;
-  padding-bottom: 4.5rem;
+  padding: 0rem 1.2rem;
   z-index: 1;
   width: 100vw;
-  height: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
