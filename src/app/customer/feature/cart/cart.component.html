@@ -9,11 +9,11 @@
         <p class="price">500 Ft</p>
       </div>
       <div class="buttons">
-        <button class="minus round-btn">-</button>
+        <button class="minus round-btn" (click)="changeAmount(0, -1)">-</button>
         <p class="amount">01</p>
-        <button class="plus round-btn">+</button>
+        <button class="plus round-btn" (click)="changeAmount(0, 1)">+</button>
       </div>
-      <button class="delete">
+      <button class="delete" (click)="deleteProduct(0)">
         <svg
           width="18"
           height="18"
@@ -50,5 +50,5 @@
     <p class="final-price">700 Ft</p>
   </div>
 
-  <button class="ready-btn">Fizetés</button>
+  <button class="ready-btn" (click)="order()">Fizetés</button>
 </div>
