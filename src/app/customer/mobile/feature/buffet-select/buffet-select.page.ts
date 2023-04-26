@@ -88,7 +88,5 @@ export class BuffetSelectPage implements OnInit {
 
   constructor(private store: Store) {}
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 }

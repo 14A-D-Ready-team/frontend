@@ -94,7 +94,7 @@ export class MainPage {
         tap(() => {
           this.categoryInput.nativeElement.checked = true;
           console.log();
-          this.categories$.subscribe(cat => this.initialId = cat[0].id)
+          this.categories$.subscribe(cat => (this.initialId = cat[0].id));
           this.select(this.initialId);
         }),
       )
