@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { IonicModule } from "@ionic/angular";
 
-import { ProfileMobilePage } from './profile-mobile.page';
+import { ProfileMobilePage } from "./profile-mobile.page";
 
-describe('ProfileMobilePage', () => {
+describe("ProfileMobilePage", () => {
   let component: ProfileMobilePage;
   let fixture: ComponentFixture<ProfileMobilePage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileMobilePage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [ProfileMobilePage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfileMobilePage);
@@ -18,7 +18,7 @@ describe('ProfileMobilePage', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
