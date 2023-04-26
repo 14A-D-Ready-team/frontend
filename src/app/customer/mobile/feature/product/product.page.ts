@@ -141,7 +141,9 @@ export class ProductPage implements OnInit {
           fG.addControl(o.id.toString(), new FormControl());
         }
       } else {
-        formGroup.addControl(control.id.toString(), new FormControl());
+        const fC = new FormControl();
+        fC.setValue(control.options[0].id);
+        formGroup.addControl(control.id.toString(), fC);
       }
 
       fA.push(formGroup);
@@ -165,7 +167,23 @@ export class ProductPage implements OnInit {
   }
 
   click() {
-    console.log(this.customizationForm);
+    console.log(this.form);
+  }
+
+  changeAmount(addAmount: boolean) {
+    let value = this.form.controls.amount.value;
+
+    if (addAmount) {
+      if (value < 3) {
+        let biggerValue = value + 1;
+        this.form.controls.amount.setValue(biggerValue);
+      }
+    } else {
+      if (value > 1) {
+        let lowerValue = value - 1;
+        this.form.controls.amount.setValue(lowerValue);
+      }
+    }
   }
 
   ngOnInit() {

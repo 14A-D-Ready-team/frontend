@@ -166,14 +166,24 @@
       <div class="price-container">
         <p class="price">{{vm.product.fullPrice}} Ft</p>
         <div class="add-amount-container">
-          <button class="minus-btn" type="button">-</button>
+          <button class="minus-btn" type="button" (click)="changeAmount(false)">
+            -
+          </button>
           <div class="amount-container">
-            <input type="number" class="price-input" value="1" disabled />
+            <input
+              type="number"
+              class="price-input"
+              value="1"
+              [disabled]="true"
+              formControlName="amount"
+            />
           </div>
-          <button class="plus-btn" type="button">+</button>
+          <button class="plus-btn" type="button" (click)="changeAmount(true)">
+            +
+          </button>
         </div>
       </div>
-      <button class="order-btn" type="submit">
+      <button class="order-btn" type="submit" (click)="click()">
         <svg
           width="24"
           height="24"
