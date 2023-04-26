@@ -152,7 +152,7 @@ export class CategoryState extends ExtendedEntityState<
       },
     });
   }
-
+  
   public createSucceeded(
     ctx: StateContext<EntityStateModel<Category>>,
     action: Actions.CreateSucceeded,

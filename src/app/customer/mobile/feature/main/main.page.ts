@@ -49,10 +49,13 @@ export class MainPage {
   @ViewChild("categoryInput")
   categoryInput!: ElementRef<HTMLInputElement>;
 
+  public initialId!: number;
+
   activeCategoryId = "";
 
   public select(id: number) {
     //this.store.dispatch(new UnloadProducts());
+
     this.activeCategoryId = id.toString();
     this.store.dispatch(new SelectCategory(this.activeCategoryId));
   }
@@ -87,9 +90,12 @@ export class MainPage {
         filter(result => !result.loading && !result.error),
         take(1),
         switchMap(() => loadCategories(this.store)),
+        //ITT A HIBA!!!!!!
         tap(() => {
           this.categoryInput.nativeElement.checked = true;
-          this.select(1);
+          console.log();
+          this.categories$.subscribe(cat => this.initialId = cat[0].id)
+          this.select(this.initialId);
         }),
       )
       .subscribe();
