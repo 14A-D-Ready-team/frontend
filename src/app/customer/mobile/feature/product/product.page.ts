@@ -198,7 +198,7 @@ export class ProductPage implements OnInit {
   }
 
   changeAmount(addAmount: boolean) {
-    let value = this.form.controls.amount.value;
+    const value = this.form.controls.amount.value;
     let stock: number | undefined = 1;
     this.product$.subscribe(x => {
       stock = x?.stock;
@@ -206,12 +206,12 @@ export class ProductPage implements OnInit {
 
     if (addAmount) {
       if (value < stock && value < 3) {
-        let biggerValue = value + 1;
+        const biggerValue = value + 1;
         this.form.controls.amount.setValue(biggerValue);
       }
     } else {
       if (value > 1) {
-        let lowerValue = value - 1;
+        const lowerValue = value - 1;
         this.form.controls.amount.setValue(lowerValue);
       }
     }
