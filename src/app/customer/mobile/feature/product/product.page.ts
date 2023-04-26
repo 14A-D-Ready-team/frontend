@@ -197,10 +197,6 @@ export class ProductPage implements OnInit {
     });
   }
 
-  click() {
-    console.log(this.form);
-  }
-
   changeAmount(addAmount: boolean) {
     let value = this.form.controls.amount.value;
     let stock: number | undefined = 1;
@@ -219,6 +215,10 @@ export class ProductPage implements OnInit {
         this.form.controls.amount.setValue(lowerValue);
       }
     }
+  }
+
+  addProductToCart() {
+    console.log(this.form);
   }
 
   ngOnInit() {

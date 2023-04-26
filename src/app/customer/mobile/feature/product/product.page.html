@@ -122,11 +122,7 @@
         <span>0.0</span>
       </div>
     </div>
-    <form
-      name="productForm"
-      [formGroup]="customizationForm"
-      (ngSubmit)="click()"
-    >
+    <form name="productForm" [formGroup]="customizationForm">
       <div class="extras-container" formArrayName="customizations">
         <div
           class="single-container"
@@ -185,7 +181,7 @@
           </button>
         </div>
       </div>
-      <button class="order-btn" type="submit" (click)="click()">
+      <button class="order-btn" type="submit" (click)="addProductToCart()">
         <svg
           width="24"
           height="24"
