@@ -1,12 +1,16 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
-import { Store } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
 import {
+  CartState,
   ChangeAmount,
   DeleteProduct,
   OrderProducts,
 } from "@shared/cart/data-access";
+import { OrderedProductDto } from "@shared/order";
+import { Product } from "@shared/product";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-cart",
@@ -16,6 +20,9 @@ import {
   imports: [CommonModule, IonicModule],
 })
 export class CartComponent implements OnInit {
+  @Select(CartState.products)
+  public products$!: Observable<OrderedProductDto[]>;
+
   constructor(private store: Store) {}
 
   changeAmount(index: number, value: number) {

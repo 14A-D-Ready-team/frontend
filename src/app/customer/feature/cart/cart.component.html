@@ -1,16 +1,16 @@
 <div class="cart">
   <div class="card-container">
-    <div class="card">
+    <div class="card" *ngFor="let product of products$ | async">
       <img class="card-img" src="/assets/images/product.png" alt="" />
       <div class="card-body">
         <p class="category">Melegszendvics</p>
-        <p class="name">Sonkás melegszendvics</p>
+        <p class="name">{{ product.name }}</p>
         <p class="customization">Ketchup, BBQ szósz</p>
         <p class="price">500 Ft</p>
       </div>
       <div class="buttons">
         <button class="minus round-btn" (click)="changeAmount(0, -1)">-</button>
-        <p class="amount">01</p>
+        <p class="amount">1</p>
         <button class="plus round-btn" (click)="changeAmount(0, 1)">+</button>
       </div>
       <button class="delete" (click)="deleteProduct(0)">
