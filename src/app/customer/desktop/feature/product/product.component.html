@@ -74,13 +74,21 @@
                 <div class="price-container">
                   <p class="price">{{ finalPrice }} Ft</p>
                   <div class="add-amount-container">
-                    <button class="minus-btn" type="button" (click)="changeAmount(false)">
+                    <button
+                      class="minus-btn"
+                      type="button"
+                      (click)="changeAmount(false)"
+                    >
                       -
                     </button>
                     <div class="amount-container">
                       <span>{{ amount }}</span>
                     </div>
-                    <button class="plus-btn" type="button" (click)="changeAmount(true)">
+                    <button
+                      class="plus-btn"
+                      type="button"
+                      (click)="changeAmount(true)"
+                    >
                       +
                     </button>
                   </div>

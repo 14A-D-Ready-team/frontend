@@ -48,7 +48,6 @@ export class ProductComponent implements OnInit {
     this.finalPrice = this.activeProduct.fullPrice * this.amount;
   }
 
-
   getImage(productId: number) {
     return environment.api.url + "/product/" + productId + "/image";
   }
@@ -63,8 +62,7 @@ export class ProductComponent implements OnInit {
             this.activeProduct = product;
             if (this.activeProduct.stock > 3) {
               this.max = 3;
-            }
-            else {
+            } else {
               this.max = this.activeProduct.stock;
             }
             this.finalPrice = this.activeProduct.fullPrice;

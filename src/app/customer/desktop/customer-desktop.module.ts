@@ -5,7 +5,7 @@ import { ProductComponent } from "./feature/product/product.component";
 import { NavbarModule } from "./feature/navbar/navbar.module";
 
 @NgModule({
-    declarations: [ProductComponent],
-    imports: [CommonModule, CustomerDesktopRoutingModule, NavbarModule]
+  declarations: [ProductComponent],
+  imports: [CommonModule, CustomerDesktopRoutingModule, NavbarModule],
 })
 export class CustomerDesktopModule {}
