@@ -164,7 +164,9 @@
     </form>
     <form action="" [formGroup]="form">
       <div class="price-container">
-        <p class="price">{{vm.product.fullPrice}} Ft</p>
+        <p class="price">
+          {{(vm.product.fullPrice + extraPrice) * amount }} Ft
+        </p>
         <div class="add-amount-container">
           <button class="minus-btn" type="button" (click)="changeAmount(false)">
             -
@@ -206,7 +208,7 @@
         </svg>
         Rendelés
         <div class="amount-container">
-          <span>{{1}}</span>
+          <span>{{amount}}</span>
         </div>
       </button>
       <div class="description-container">

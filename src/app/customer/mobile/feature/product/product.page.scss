@@ -248,3 +248,8 @@
     font-size: 1.5rem;
   }
 }
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

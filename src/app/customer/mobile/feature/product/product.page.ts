@@ -13,6 +13,7 @@ import {
   ProductState,
   loadProductById,
 } from "@shared/product";
+import { forEach } from "lodash";
 import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
@@ -106,27 +107,31 @@ export class ProductPage implements OnInit {
       selectedOptionIds: new ClassValidatorFormControl<number[]>(),
     });
 
-    this.customizationForm.valueChanges.subscribe(c => {
-      const customizationIds: number[] = [];
-      c.customizations.forEach((customization: object) => {
-        Object.values(customization).forEach(option => {
-          if (option) {
-            if (typeof option === "object") {
-              Object.keys(option)
-                .filter(v => option[v])
-                .forEach(o => {
-                  customizationIds.push(+o);
-                });
-            } else {
-              const value = option;
-              customizationIds.push(value);
-            }
-          }
-        });
-      });
-      this.form.controls.selectedOptionIds.setValue(customizationIds);
-      console.log(this.form);
-    });
+    this.addCustomizationToFrom();
+
+    this.calculateExtraPrice();
+  }
+
+  public customizationForm: FormGroup;
+
+  public form: ClassValidatorFormGroup;
+
+  public extraPrice = 0;
+
+  public loadResult$: Observable<{ loading: boolean; error?: any }>;
+
+  public product$: Observable<Product | undefined>;
+
+  public category$: Observable<Category | undefined>;
+
+  public customs: Customization[] | undefined;
+
+  get customizations() {
+    return this.customizationForm.controls.customizations as FormArray;
+  }
+
+  get amount() {
+    return this.form.controls.amount.value;
   }
 
   createControls() {
@@ -150,20 +155,46 @@ export class ProductPage implements OnInit {
     }
   }
 
-  public customizationForm: FormGroup;
+  addCustomizationToFrom() {
+    this.customizationForm.valueChanges.subscribe(c => {
+      const customizationIds: number[] = [];
+      c.customizations.forEach((customization: object) => {
+        Object.values(customization).forEach(option => {
+          if (option) {
+            if (typeof option === "object") {
+              Object.keys(option)
+                .filter(v => option[v])
+                .forEach(o => {
+                  customizationIds.push(+o);
+                });
+            } else {
+              const value = option;
+              customizationIds.push(value);
+            }
+          }
+        });
+      });
+      this.form.controls.selectedOptionIds.setValue(customizationIds);
+      console.log(this.form);
+    });
+  }
 
-  public form: ClassValidatorFormGroup;
-
-  public loadResult$: Observable<{ loading: boolean; error?: any }>;
-
-  public product$: Observable<Product | undefined>;
-
-  public category$: Observable<Category | undefined>;
-
-  public customs: Customization[] | undefined;
-
-  get customizations() {
-    return this.customizationForm.controls.customizations as FormArray;
+  calculateExtraPrice() {
+    this.customizationForm.valueChanges.subscribe(c => {
+      let cost = 0;
+      this.customs?.forEach(x => {
+        x.options.forEach(o => {
+          if (
+            (this.form.controls.selectedOptionIds.value as number[]).includes(
+              o.id,
+            )
+          ) {
+            cost += o.extraCost;
+          }
+        });
+      });
+      this.extraPrice = cost;
+    });
   }
 
   click() {
@@ -172,9 +203,13 @@ export class ProductPage implements OnInit {
 
   changeAmount(addAmount: boolean) {
     let value = this.form.controls.amount.value;
+    let stock: number | undefined = 1;
+    this.product$.subscribe(x => {
+      stock = x?.stock;
+    });
 
     if (addAmount) {
-      if (value < 3) {
+      if (value < stock && value < 3) {
         let biggerValue = value + 1;
         this.form.controls.amount.setValue(biggerValue);
       }
