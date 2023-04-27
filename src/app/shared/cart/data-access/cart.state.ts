@@ -1,9 +1,10 @@
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
-import { Selector, State, StateContext, StateToken } from "@ngxs/store";
+import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
 import { CreateOrderDto, OrderedProductDto } from "@shared/order";
 import { Option, Product, ProductState } from "@shared/product";
 import { flatten, join, sumBy } from "lodash";
+import { AddItem } from "./cart.actions";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CartStateModel {
@@ -58,4 +59,12 @@ export class CartState {
   }
 
   constructor() {}
+
+  @Action(AddItem)
+  public addItem(ctx: StateContext<CartStateModel>, action: AddItem) {
+    const data = ctx.getState().data;
+    ctx.patchState({
+      data: { ...data, products: [...data.products, action.item] },
+    });
+  }
 }
