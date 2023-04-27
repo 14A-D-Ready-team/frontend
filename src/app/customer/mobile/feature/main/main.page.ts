@@ -15,19 +15,25 @@ import {
   take,
   tap,
 } from "rxjs";
-import { LoadMoreProducts, MainPageState, SelectCategory } from "./store";
+import {
+  LoadMoreProducts,
+  MainPageState,
+  Reset,
+  SelectCategory,
+} from "./store";
 import { ActivatedRoute } from "@angular/router";
 import { Product, ProductService } from "@shared/product";
 import { Dictionary } from "@/types";
 import { loadBuffetById } from "@shared/buffet/utils";
 import { environment } from "@/environments/environment";
+import { ViewWillLeave } from "@ionic/angular";
 
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
   styleUrls: ["./main.page.scss"],
 })
-export class MainPage {
+export class MainPage implements ViewWillLeave {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
@@ -84,17 +90,16 @@ export class MainPage {
     } else {
       buffetLoadResult$ = loadBuffetById(route, store).pipe(shareReplay(1));
     }
-
     buffetLoadResult$
       .pipe(
         filter(result => !result.loading && !result.error),
         take(1),
         switchMap(() => loadCategories(this.store)),
-        //ITT A HIBA!!!!!!
-        tap(() => {
+        switchMap(() => this.categories$),
+        take(1),
+        tap(categories => {
           this.categoryInput.nativeElement.checked = true;
-          console.log();
-          this.categories$.subscribe(cat => (this.initialId = cat[0].id));
+          this.initialId = categories[0].id;
           this.select(this.initialId);
         }),
       )
@@ -129,6 +134,10 @@ export class MainPage {
         }),
       ),
     );
+  }
+
+  ionViewWillLeave(): void {
+    this.store.dispatch(new Reset());
   }
 
   onInfinite(event: any) {

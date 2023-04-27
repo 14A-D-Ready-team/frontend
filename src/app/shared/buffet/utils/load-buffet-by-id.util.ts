@@ -1,4 +1,12 @@
-import { Observable, catchError, map, of, startWith, switchMap } from "rxjs";
+import {
+  Observable,
+  catchError,
+  map,
+  of,
+  skip,
+  startWith,
+  switchMap,
+} from "rxjs";
 import { BuffetActions, BuffetState } from "../data-access";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngxs/store";
@@ -10,6 +18,8 @@ export function loadBuffetById(
   setAsActive = true,
 ): Observable<{ loading: boolean; error?: any }> {
   return route.queryParams.pipe(
+    // UGLY FIX
+    skip(1),
     switchMap(params =>
       store.dispatch(new BuffetActions.LoadById(params.buffetId)).pipe(
         switchMap(() =>

@@ -8,7 +8,7 @@ import {
   ProductActions,
   ProductState,
 } from "@shared/product";
-import { LoadMoreProducts, SelectCategory } from "./main-page.actions";
+import { LoadMoreProducts, Reset, SelectCategory } from "./main-page.actions";
 import { groupBy } from "@shared/utils";
 
 const productsLoadedPerScroll = 2;
@@ -136,12 +136,11 @@ export class MainPageState {
     });
   }
 
-  // * initialize paginationState for the category
-
-  // load more products
-  // * load more products of a category
-  // * productIds's length: that many products are loaded (skip)
-  // * remainingItems: the number of products left to load, server returns this with each response (PaginatedResponse)
-  // * if remainingItems is 0, then there are no more products to load
-  // * if there are more remaining than productsLoadedPerScroll, only load productsLoadedPerScroll
+  @Action(Reset)
+  public reset(ctx: StateContext<MainPageStateModel>) {
+    ctx.patchState({
+      selectedCategoryId: undefined,
+      paginationState: {},
+    });
+  }
 }
