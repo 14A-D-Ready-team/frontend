@@ -24,18 +24,33 @@ export class CartComponent implements OnInit {
   @Select(CartState.products)
   public products$!: Observable<MergedProduct[]>;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) {
+    this.setFinalPrice();
+  }
+
+  finalPrice = 0;
 
   changeAmount(index: number, value: number) {
     this.store.dispatch(new ChangeAmount(index, value));
+    this.setFinalPrice();
   }
 
   deleteProduct(index: number) {
     this.store.dispatch(new DeleteProduct(index));
+    this.setFinalPrice();
   }
 
   order() {
     this.store.dispatch(new OrderProducts());
+  }
+
+  setFinalPrice() {
+    this.finalPrice = 0;
+    this.products$.subscribe(p => {
+      p.forEach(x => {
+        this.finalPrice += x.calculatedPrice;
+      });
+    });
   }
 
   ngOnInit() {}

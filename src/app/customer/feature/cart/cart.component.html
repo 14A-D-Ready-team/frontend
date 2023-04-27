@@ -3,7 +3,6 @@
     <div class="card" *ngFor="let product of products$ | async; let i = index">
       <img class="card-img" src="/assets/images/product.png" alt="" />
       <div class="card-body">
-        <p class="category">{{ product.categoryId }}</p>
         <p class="name">{{ product.name }}</p>
         <p class="customization">
           <span>{{ product.selectedOptionNames }}</span>
@@ -47,12 +46,12 @@
       </button>
     </div>
   </div>
-  <div *ngIf="(products$ | async)!.length === 0" class="message-container">
+  <div *ngIf="(products$ | async)?.length === 0" class="message-container">
     <p>A kosarad jelenleg üres!</p>
   </div>
   <div class="final-price-container">
     <p class="text">Összesen:</p>
-    <p class="final-price">0 Ft</p>
+    <p class="final-price">{{ finalPrice }}&nbsp;Ft</p>
   </div>
 
   <button class="ready-btn" (click)="order()">Fizetés</button>

@@ -28,6 +28,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./feature/cart-mobile").then(m => m.CartMobilePageModule),
   },
+  {
+    path: "order-details",
+    loadChildren: () =>
+      import("./feature/order-details").then(m => m.OrderDetailsPageModule),
+  },
 ];
 
 @NgModule({
