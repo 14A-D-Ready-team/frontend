@@ -122,3 +122,10 @@
   position: absolute;
   bottom: 10%;
 }
+
+.message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}

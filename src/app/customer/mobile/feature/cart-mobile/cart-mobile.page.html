@@ -1,7 +1,11 @@
 <div class="container">
   <div class="top-container">
     <p style="font-weight: bold">Kosár</p>
-    <a href="" class="back-link">
+    <a
+      routerLink="/"
+      [queryParams]="{buffetId: (activeBuffet$ | async)?.id}"
+      class="back-link"
+    >
       <svg
         class="back-icon"
         width="24"
