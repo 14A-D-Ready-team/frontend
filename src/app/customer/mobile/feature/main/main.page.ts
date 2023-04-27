@@ -129,8 +129,6 @@ export class MainPage implements ViewWillLeave, ViewWillEnter {
   }
 
   ionViewWillEnter(): void {
-    this.store.dispatch(new LoadPage());
-
     this.sub = this.actions
       .pipe(
         ofActionDispatched(CategoriesLoaded),
@@ -140,6 +138,7 @@ export class MainPage implements ViewWillLeave, ViewWillEnter {
         }),
       )
       .subscribe();
+    this.store.dispatch(new LoadPage());
   }
 
   ionViewWillLeave(): void {
