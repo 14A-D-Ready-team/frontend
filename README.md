@@ -28,6 +28,19 @@ Run `npm run e2e` to execute the end-to-end tests via [Cypress](https://www.cypr
 
 Environment variables such as the API URL and Google Auth Client ID can be set in the `src/environments/environment.ts` or `src/environments/environment.prod.ts` files.
 
+## Users for testing
+
+Admin
+•	kekesi.adam@students.jedlik.eu
+•	Supa$3cr3t!!!
+Büfé tulajdonos
+•	bela123@gmail.com
+•	Jelszo123$!
+Vásárló
+•	elek@gmail.com
+•	Jelszo123$!
+
+
 ## Further help
 
 For any questions or issues, please contact the project maintainers.
