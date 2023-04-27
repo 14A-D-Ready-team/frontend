@@ -11,6 +11,7 @@ import {
   Observable,
   of,
   shareReplay,
+  Subscription,
   switchMap,
   take,
   tap,
@@ -26,14 +27,14 @@ import { Product, ProductService } from "@shared/product";
 import { Dictionary } from "@/types";
 import { loadBuffetById } from "@shared/buffet/utils";
 import { environment } from "@/environments/environment";
-import { ViewWillLeave } from "@ionic/angular";
+import { ViewWillEnter, ViewWillLeave } from "@ionic/angular";
 
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
   styleUrls: ["./main.page.scss"],
 })
-export class MainPage implements ViewWillLeave {
+export class MainPage implements ViewWillLeave, ViewWillEnter {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
@@ -76,6 +77,8 @@ export class MainPage implements ViewWillLeave {
     buffetLoadResult: { loading: boolean; error?: any };
   }>;
 
+  private sub?: Subscription;
+
   constructor(
     private store: Store,
     private route: ActivatedRoute,
@@ -90,7 +93,7 @@ export class MainPage implements ViewWillLeave {
     } else {
       buffetLoadResult$ = loadBuffetById(route, store).pipe(shareReplay(1));
     }
-    buffetLoadResult$
+    this.sub = buffetLoadResult$
       .pipe(
         filter(result => !result.loading && !result.error),
         take(1),
@@ -136,8 +139,11 @@ export class MainPage implements ViewWillLeave {
     );
   }
 
+  ionViewWillEnter(): void {}
+
   ionViewWillLeave(): void {
     this.store.dispatch(new Reset());
+    this.sub?.unsubscribe();
   }
 
   onInfinite(event: any) {

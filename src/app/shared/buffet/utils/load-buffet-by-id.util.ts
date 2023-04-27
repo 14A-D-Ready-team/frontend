@@ -6,6 +6,7 @@ import {
   skip,
   startWith,
   switchMap,
+  take,
 } from "rxjs";
 import { BuffetActions, BuffetState } from "../data-access";
 import { ActivatedRoute } from "@angular/router";
@@ -19,7 +20,7 @@ export function loadBuffetById(
 ): Observable<{ loading: boolean; error?: any }> {
   return route.queryParams.pipe(
     // UGLY FIX
-    skip(1),
+    take(1),
     switchMap(params =>
       store.dispatch(new BuffetActions.LoadById(params.buffetId)).pipe(
         switchMap(() =>
