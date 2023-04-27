@@ -4,7 +4,7 @@ import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
 import { CreateOrderDto, OrderedProductDto } from "@shared/order";
 import { Option, Product, ProductState } from "@shared/product";
 import { flatten, join, sumBy } from "lodash";
-import { AddItem, DeleteProduct } from "./cart.actions";
+import { AddItem, ChangeAmount, DeleteProduct } from "./cart.actions";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CartStateModel {
@@ -78,6 +78,23 @@ export class CartState {
       data: {
         ...data,
         products: [...data.products.filter((op, i) => i !== action.index)],
+      },
+    });
+  }
+
+  @Action(ChangeAmount)
+  public changeAmount(ctx: StateContext<CartStateModel>, action: ChangeAmount) {
+    const data = ctx.getState().data;
+    ctx.patchState({
+      data: {
+        ...data,
+        products: [
+          ...data.products.map((op, i) =>
+            i === action.index
+              ? { ...op, amount: op.amount + action.value }
+              : op,
+          ),
+        ],
       },
     });
   }
