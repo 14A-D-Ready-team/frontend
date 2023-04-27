@@ -56,7 +56,7 @@
   </div>
   <!-- a büfé aktuális menü ajánlata a kategóriákkal -->
   <div class="menu-container">
-    <ion-label color="warning" *ngIf="vm.buffetLoadResult.error as error"
+    <ion-label color="warning" *ngIf="vm.loadResult.error as error"
       >{{error | errorMessage}}</ion-label
     >
     <div class="category-container" #container>

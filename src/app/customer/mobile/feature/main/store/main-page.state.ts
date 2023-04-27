@@ -1,15 +1,25 @@
 import { Dictionary } from "@/types";
 import { Injectable } from "@angular/core";
 import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
-import { Category, CategoryState } from "@shared/category";
+import { Category, CategoryState, loadCategories } from "@shared/category";
 import {
   FilterProductsQuery,
   Product,
   ProductActions,
   ProductState,
 } from "@shared/product";
-import { LoadMoreProducts, Reset, SelectCategory } from "./main-page.actions";
+import {
+  CategoriesLoaded,
+  LoadMoreProducts,
+  LoadPage,
+  Reset,
+  SelectCategory,
+} from "./main-page.actions";
 import { groupBy } from "@shared/utils";
+import { Router } from "@angular/router";
+import { loadBuffetById } from "@shared/buffet/utils";
+import { catchError, defaultIfEmpty, of, startWith, switchMap } from "rxjs";
+import { BuffetState } from "@shared/buffet";
 
 const productsLoadedPerScroll = 2;
 
@@ -22,19 +32,24 @@ export interface MainPageStateModel {
     // undefined: nem tudjuk mennyi termék van hátra
     remainingItems?: number;
   }>;
+  loadResult: {
+    loading: boolean;
+    error?: any;
+  };
 }
 
 @State<MainPageStateModel>({
   name: "mainPage",
   defaults: {
     paginationState: {},
+    loadResult: {
+      loading: true,
+    },
   },
 })
 @Injectable()
 export class MainPageState {
-  constructor(private store: Store) {}
-
-  public static products(state: MainPageStateModel, products: Product[]) {}
+  constructor(private store: Store, private router: Router) {}
 
   @Selector([MainPageState.shownCategories])
   public static shownCategoriesDict(
@@ -50,6 +65,11 @@ export class MainPageState {
     categories: Category[],
   ) {
     return categories;
+  }
+
+  @Selector()
+  public static loadResult(state: MainPageStateModel) {
+    return state.loadResult;
   }
 
   @Selector([ProductState.entitiesMap])
@@ -142,5 +162,35 @@ export class MainPageState {
       selectedCategoryId: undefined,
       paginationState: {},
     });
+  }
+
+  @Action(LoadPage)
+  public loadPage(ctx: StateContext<MainPageStateModel>) {
+    return this.loadActiveBuffet().pipe(
+      switchMap(() =>
+        loadCategories(this.store).pipe(defaultIfEmpty(undefined)),
+      ),
+      switchMap(() => this.store.selectOnce(MainPageState.shownCategories)),
+      switchMap(categories => {
+        ctx.patchState({ loadResult: { loading: false } });
+
+        return this.store.dispatch(new CategoriesLoaded(categories));
+      }),
+      catchError(error => {
+        ctx.patchState({ loadResult: { loading: false, error } });
+
+        return of(undefined);
+      }),
+    );
+  }
+
+  private loadActiveBuffet() {
+    const buffetId = this.router.routerState.snapshot.root.queryParams.buffetId;
+    const buffet = this.store.selectSnapshot(BuffetState.active);
+    if (buffet && (buffetId === undefined || buffet.id === +buffetId)) {
+      return of(buffet);
+    }
+
+    return loadBuffetById(+buffetId, this.store, true);
   }
 }

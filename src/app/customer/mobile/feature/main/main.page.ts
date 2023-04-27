@@ -1,5 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { Select, Store } from "@ngxs/store";
+import {
+  Actions,
+  Select,
+  Store,
+  ofAction,
+  ofActionDispatched,
+} from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { User } from "@shared/user";
@@ -17,7 +23,9 @@ import {
   tap,
 } from "rxjs";
 import {
+  CategoriesLoaded,
   LoadMoreProducts,
+  LoadPage,
   MainPageState,
   Reset,
   SelectCategory,
@@ -53,10 +61,14 @@ export class MainPage implements ViewWillLeave, ViewWillEnter {
   @Select(MainPageState.shownProducts)
   public products$!: Observable<Product[]>;
 
+  @Select(MainPageState.loadResult)
+  public loadResult$!: Observable<{
+    loading: boolean;
+    error?: any;
+  }>;
+
   @ViewChild("categoryInput")
   categoryInput!: ElementRef<HTMLInputElement>;
-
-  public initialId!: number;
 
   activeCategoryId = "";
 
@@ -74,7 +86,7 @@ export class MainPage implements ViewWillLeave, ViewWillEnter {
     categories: Category[];
     categoriesDict: Dictionary<Category>;
     products: Product[];
-    buffetLoadResult: { loading: boolean; error?: any };
+    loadResult: { loading: boolean; error?: any };
   }>;
 
   private sub?: Subscription;
@@ -83,31 +95,8 @@ export class MainPage implements ViewWillLeave, ViewWillEnter {
     private store: Store,
     private route: ActivatedRoute,
     private productService: ProductService,
+    private actions: Actions,
   ) {
-    const buffet: Buffet | undefined = this.store.selectSnapshot(
-      BuffetState.active,
-    );
-    let buffetLoadResult$: Observable<{ loading: boolean; error?: any }>;
-    if (buffet) {
-      buffetLoadResult$ = of({ loading: false }).pipe(shareReplay(1));
-    } else {
-      buffetLoadResult$ = loadBuffetById(route, store).pipe(shareReplay(1));
-    }
-    this.sub = buffetLoadResult$
-      .pipe(
-        filter(result => !result.loading && !result.error),
-        take(1),
-        switchMap(() => loadCategories(this.store)),
-        switchMap(() => this.categories$),
-        take(1),
-        tap(categories => {
-          this.categoryInput.nativeElement.checked = true;
-          this.initialId = categories[0].id;
-          this.select(this.initialId);
-        }),
-      )
-      .subscribe();
-
     this.vm$ = combineLatest([
       this.activeBuffet$,
       this.activeUser$,
@@ -115,7 +104,7 @@ export class MainPage implements ViewWillLeave, ViewWillEnter {
       this.categories$,
       this.categoriesDict$,
       this.products$,
-      buffetLoadResult$,
+      this.loadResult$,
     ]).pipe(
       map(
         ([
@@ -125,7 +114,7 @@ export class MainPage implements ViewWillLeave, ViewWillEnter {
           categories,
           categoriesDict,
           products,
-          buffetLoadResult,
+          loadResult,
         ]) => ({
           activeBuffet,
           activeUser,
@@ -133,13 +122,25 @@ export class MainPage implements ViewWillLeave, ViewWillEnter {
           categories,
           categoriesDict,
           products,
-          buffetLoadResult,
+          loadResult,
         }),
       ),
     );
   }
 
-  ionViewWillEnter(): void {}
+  ionViewWillEnter(): void {
+    this.store.dispatch(new LoadPage());
+
+    this.sub = this.actions
+      .pipe(
+        ofActionDispatched(CategoriesLoaded),
+        tap(a => {
+          this.categoryInput.nativeElement.checked = true;
+          this.select(a.categories[0].id);
+        }),
+      )
+      .subscribe();
+  }
 
   ionViewWillLeave(): void {
     this.store.dispatch(new Reset());
