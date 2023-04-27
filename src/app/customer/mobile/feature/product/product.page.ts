@@ -31,6 +31,7 @@ import {
   switchMap,
   tap,
 } from "rxjs";
+
 interface ProductForm {
   productId: FormControl<number>;
   amount: FormControl<number>;
@@ -137,23 +138,23 @@ export class ProductPage implements OnInit {
   }
 
   createControls() {
-    const fA = this.customizations;
+    const formArray = this.customizations;
 
-    for (const control of this.customs!) {
-      const formGroup = new FormGroup({});
-      if (control.optionCount === 1) {
-        const fG = new FormGroup({});
-        formGroup.addControl(control.id.toString(), fG);
-        for (const o of control.options) {
-          fG.addControl(o.id.toString(), new FormControl());
+    for (const custom of this.customs!) {
+      const customsFormGroup = new FormGroup({});
+      if (custom.optionCount === 1) {
+        const checkboxGroup = new FormGroup({});
+        customsFormGroup.addControl(custom.id.toString(), checkboxGroup);
+        for (const option of custom.options) {
+          checkboxGroup.addControl(option.id.toString(), new FormControl());
         }
       } else {
-        const fC = new FormControl();
-        fC.setValue(control.options[0].id);
-        formGroup.addControl(control.id.toString(), fC);
+        const radio = new FormControl();
+        //Alapértelmezetten első kiválasztva
+        radio.setValue(custom.options[0].id);
+        customsFormGroup.addControl(custom.id.toString(), radio);
       }
-
-      fA.push(formGroup);
+      formArray.push(customsFormGroup);
     }
   }
 

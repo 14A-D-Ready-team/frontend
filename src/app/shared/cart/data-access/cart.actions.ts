@@ -14,7 +14,6 @@ export class ChangeAmount {
   constructor(public index: number, public value: number) {}
 }
 
-// product pagen a rendelés gombnál hívd meg!
 export class AddItem {
   static readonly type = "[Cart] Add Item";
 
