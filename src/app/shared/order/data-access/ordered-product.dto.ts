@@ -13,4 +13,10 @@ export class OrderedProductDto {
   @Expose()
   @IsNumber({}, { each: true })
   public selectedOptionIds!: number[];
+
+  constructor(productId: number, amount: number, selectedOptionIds: number[]) {
+    this.productId = productId;
+    this.amount = amount;
+    this.selectedOptionIds = selectedOptionIds;
+  }
 }

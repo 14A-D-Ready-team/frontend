@@ -5,12 +5,16 @@
       <div class="card-body">
         <p class="category">Melegszendvics</p>
         <p class="name">{{ product.name }}</p>
-        <p class="customization">Ketchup, BBQ szósz</p>
-        <p class="price">500 Ft</p>
+        <p class="customization">
+          <span *ngFor="let c of product.customizations">{{
+            c.description
+          }}</span>
+        </p>
+        <p class="price">{{ product.calculatedPrice }}</p>
       </div>
       <div class="buttons">
         <button class="minus round-btn" (click)="changeAmount(0, -1)">-</button>
-        <p class="amount">1</p>
+        <p class="amount">{{ product.amount }}</p>
         <button class="plus round-btn" (click)="changeAmount(0, 1)">+</button>
       </div>
       <button class="delete" (click)="deleteProduct(0)">

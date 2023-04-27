@@ -38,5 +38,7 @@ export class CartComponent implements OnInit {
     this.store.dispatch(new OrderProducts());
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.products$.subscribe(x => console.log(x[0].name));
+  }
 }

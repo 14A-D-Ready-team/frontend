@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { loadBuffetById, loadBuffetByRoute } from "@shared/buffet/utils";
+import { AddItem } from "@shared/cart/data-access";
 import { Category, CategoryState } from "@shared/category";
 import { loadCategoryById } from "@shared/category/utils/load-category-by-id";
 import { OrderedProductDto } from "@shared/order";
@@ -13,7 +14,7 @@ import {
   ProductState,
   loadProductById,
 } from "@shared/product";
-import { forEach } from "lodash";
+import { forEach, pick } from "lodash";
 import {
   ClassValidatorFormControl,
   ClassValidatorFormGroup,
@@ -49,6 +50,7 @@ export class ProductPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private store: Store,
     private fb: FormBuilder,
   ) {
@@ -218,7 +220,12 @@ export class ProductPage implements OnInit {
   }
 
   addProductToCart() {
-    console.log(this.form);
+    const pId = this.form.value.productId;
+    const amount = this.form.value.amount;
+    const selectedOptionIds = this.form.value.selectedOptionIds;
+    const product = new OrderedProductDto(pId, amount, selectedOptionIds);
+    console.log(product);
+    this.store.dispatch(new AddItem(product));
   }
 
   ngOnInit() {
