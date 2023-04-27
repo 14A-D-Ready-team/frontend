@@ -6,6 +6,7 @@ import {
   CartState,
   ChangeAmount,
   DeleteProduct,
+  MergedProduct,
   OrderProducts,
 } from "@shared/cart/data-access";
 import { OrderedProductDto } from "@shared/order";
@@ -21,7 +22,7 @@ import { Observable } from "rxjs";
 })
 export class CartComponent implements OnInit {
   @Select(CartState.products)
-  public products$!: Observable<OrderedProductDto[]>;
+  public products$!: Observable<MergedProduct[]>;
 
   constructor(private store: Store) {}
 
