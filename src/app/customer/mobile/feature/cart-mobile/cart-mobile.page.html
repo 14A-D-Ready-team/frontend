@@ -42,10 +42,7 @@
           fill="#292D32"
         />
       </svg>
-      <a
-        href=""
-        routerLink="/"
-        [queryParams]="{buffetId: (activeBuffet$ | async)?.id}"
+      <a routerLink="/" [queryParams]="{buffetId: (activeBuffet$ | async)?.id}"
         >Menü</a
       >
     </div>

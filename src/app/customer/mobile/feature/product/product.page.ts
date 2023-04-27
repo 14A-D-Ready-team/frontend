@@ -226,6 +226,7 @@ export class ProductPage implements OnInit {
     const product = new OrderedProductDto(pId, amount, selectedOptionIds);
     console.log(product);
     this.store.dispatch(new AddItem(product));
+    this.router.navigate(["cart-mobile"]);
   }
 
   ngOnInit() {

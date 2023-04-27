@@ -3,14 +3,12 @@
     <div class="card" *ngFor="let product of products$ | async">
       <img class="card-img" src="/assets/images/product.png" alt="" />
       <div class="card-body">
-        <p class="category">Melegszendvics</p>
+        <p class="category">{{ product.categoryId }}</p>
         <p class="name">{{ product.name }}</p>
         <p class="customization">
-          <span *ngFor="let c of product.customizations">{{
-            c.description
-          }}</span>
+          <span>{{ product.selectedOptionNames }}</span>
         </p>
-        <p class="price">{{ product.calculatedPrice }}</p>
+        <p class="price">{{ product.calculatedPrice }}&nbsp;Ft</p>
       </div>
       <div class="buttons">
         <button class="minus round-btn" (click)="changeAmount(0, -1)">-</button>
