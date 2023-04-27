@@ -1,3 +1,4 @@
+import { environment } from "@/environments/environment";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import {
@@ -46,6 +47,8 @@ export class BuffetSelectPage implements OnInit {
   public activeBuffet$!: Observable<Buffet>;
 
   public activeBuffetId!: number;
+
+  public env = environment;
 
   cancel() {
     this.modal.dismiss(null, "cancel");
