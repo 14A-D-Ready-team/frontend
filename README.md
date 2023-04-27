@@ -32,12 +32,19 @@ Environment variables such as the API URL and Google Auth Client ID can be set i
 
 Admin
 •	kekesi.adam@students.jedlik.eu
+
 •	Supa$3cr3t!!!
+
 Büfé tulajdonos
+
 •	bela123@gmail.com
+
 •	Jelszo123$!
+
 Vásárló
+
 •	elek@gmail.com
+
 •	Jelszo123$!
 
 
