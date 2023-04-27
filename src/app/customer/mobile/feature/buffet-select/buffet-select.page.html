@@ -43,7 +43,7 @@
               </ion-buttons>
               <ion-title slot="">Büfék</ion-title>
               <ion-buttons slot="end">
-                <ion-button (click)="confirm()" [strong]="true"
+                <ion-button (click)="confirm()" [strong]="true" id="choose-btn"
                   >Választás</ion-button
                 >
               </ion-buttons>
@@ -129,6 +129,7 @@
         routerLink="/"
         [queryParams]="{ buffetId: (activeBuffet$ | async)?.id }"
         class="ready-btn"
+        id="final-choose-btn"
       >
         Kiválasztás
       </button>
