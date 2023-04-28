@@ -165,7 +165,7 @@ export class AuthState implements NgxsOnInit {
   @Action(LogoutSucceeded)
   public logoutSucceeded(ctx: StateContext<AuthStateModel>) {
     ctx.patchState({ user: undefined, policiesUptodate: false });
-    return from(this.ngZone.run(() => this.router.navigate(["/login"])));
+    return from(this.ngZone.run(() => this.router.navigate(["/"])));
   }
 
   @Action(SessionSignin)

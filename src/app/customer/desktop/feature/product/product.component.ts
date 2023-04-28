@@ -2,17 +2,16 @@ import { environment } from "@/environments/environment";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Select } from "@ngxs/store";
-import { Buffet, BuffetState } from "@shared/buffet";
-import { Category, CategoryState } from "@shared/category";
+import { BuffetState, Buffet } from "@shared/buffet";
+import { CategoryState, Category } from "@shared/category";
 import { Customization, Option, Product, ProductState } from "@shared/product";
 import { Observable, take } from "rxjs";
 
 @Component({
-  selector: "app-product",
-  templateUrl: "./product.page.html",
-  styleUrls: ["./product.page.scss"],
+  templateUrl: "./product.component.html",
+  styleUrls: ["./product.component.scss"],
 })
-export class ProductPage implements OnInit {
+export class ProductComponent implements OnInit {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
@@ -49,27 +48,6 @@ export class ProductPage implements OnInit {
     this.finalPrice = this.activeProduct.fullPrice * this.amount;
   }
 
-  onCustomCheck(event: any, customization: Option, c: Customization) {
-    if (event.detail.checked) {
-      this.userCustomization.push(customization);
-      this.customs.push(c);
-      console.log();
-    } else {
-      const index = this.userCustomization.indexOf(customization);
-      this.userCustomization.splice(index, 1);
-    }
-  }
-
-  onCustomRadio(event: any) {
-    console.log(event.detail.value);
-  }
-
-  onSpecRadio(customization: Customization, option: Option) {
-    const index = this.userCustomization.indexOf(option);
-    this.userCustomization.splice(index, 1);
-    console.log(this.customs);
-  }
-
   getImage(productId: number) {
     return environment.api.url + "/product/" + productId + "/image";
   }
@@ -82,7 +60,11 @@ export class ProductPage implements OnInit {
         products.forEach(product => {
           if (idFromRoute === product.id.toString()) {
             this.activeProduct = product;
-            this.max = this.activeProduct.stock;
+            if (this.activeProduct.stock > 3) {
+              this.max = 3;
+            } else {
+              this.max = this.activeProduct.stock;
+            }
             this.finalPrice = this.activeProduct.fullPrice;
           }
         }),

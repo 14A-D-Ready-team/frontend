@@ -8,76 +8,75 @@
   padding: 0;
 }
 
+ion-grid {
+  height: calc(100vh - 4.8rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-div {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    border-radius: 20px;
+  }
+}
+
+.backgroud-box {
+  background-color: $card-background;
+  border-radius: 20px;
+  padding: 20px;
+
+  -webkit-box-shadow: 14px 12px 30px -16px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 14px 12px 30px -16px rgba(66, 68, 90, 1);
+  box-shadow: 14px 12px 30px -16px rgba(66, 68, 90, 1);
+}
+
+.div-margin {
+  display: block;
+  margin: 0 auto;
+}
+
 .container {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   display: grid;
-  grid-template-rows: 40vh 60vh;
-}
-
-.product-image-container {
-  position: relative;
-  a {
-    position: absolute;
-    top: 10%;
-    left: 5%;
-  }
-
-  img {
-    object-fit: fill;
-    width: 100%;
-  }
 }
 
 .card {
-  border-radius: 1rem 1rem 0px 0px;
-  padding: 0.8rem 1.2rem;
-  padding-bottom: 4.5rem;
+  padding: 0rem 1.2rem;
   z-index: 1;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  background-color: $card-background;
-
+  overflow-y: scroll;
+  background-color: white;
   p {
     margin: 0.5rem 0rem;
+    font-size: 1.5rem;
   }
-  .product-name,
+  .product-name {
+    font-size: $l-font;
+    font-weight: 600;
+    font-size: 2rem;
+    text-align: left;
+  }
+  .product-category {
+    font-size: $l-font;
+    font-weight: 400;
+    font-size: 1.3rem;
+    text-align: left;
+  }
   .price {
     font-size: $l-font;
     font-weight: 600;
-  }
-  .extra-info-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    justify-self: center;
-    .prep-time {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: center;
-      align-items: center;
-      margin: 0.5rem 0;
-      svg {
-        margin: 0 0.3rem;
-      }
-      span {
-        font-size: $s-font;
-      }
-    }
-    .star-rating {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0.5rem 0;
-      span {
-        font-size: $s-font;
-        margin: 0 0.3rem;
-      }
-    }
+    font-size: 2rem;
   }
   .extras-container {
     display: flex;
@@ -115,7 +114,7 @@
         }
 
         ion-label {
-          font-size: $s-font;
+          font-size: 1.3rem;
           width: max-content;
           word-wrap: break-word;
         }
@@ -131,6 +130,11 @@
         }
       }
     }
+    .order {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   .price-container {
@@ -142,6 +146,7 @@
     .add-amount-container {
       height: 3.6rem;
       width: calc(30vw + 2rem);
+      max-width: 20.5rem;
       min-width: 8rem;
       background-color: $ready-red;
       border-radius: 5rem;
@@ -163,6 +168,7 @@
     .description-text {
       font-size: $s-font;
       margin-bottom: 1rem;
+      font-size: 1.5rem;
     }
   }
 }
@@ -184,12 +190,10 @@
 .order-btn {
   background-color: $ready-red;
   color: white;
-  position: static;
   z-index: 20010;
   width: 90%;
-  max-width: 40rem;
+  max-width: 30rem;
   height: 3.6rem;
-  position: absolute;
   bottom: 2.5%;
   left: 50;
   display: grid;
@@ -197,6 +201,7 @@
   justify-items: center;
   align-items: center;
   border-radius: 5rem;
+  margin-top: 1rem;
   svg {
     width: $l-font;
   }
