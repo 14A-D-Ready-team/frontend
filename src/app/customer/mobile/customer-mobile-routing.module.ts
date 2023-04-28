@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () =>
       import("./feature/product").then(m => m.ProductPageModule),
   },
+  {
+    path: "profile-mobile",
+    loadChildren: () =>
+      import("./feature/profile-mobile").then(m => m.ProfileMobilePageModule),
+  },
 ];
 
 @NgModule({
