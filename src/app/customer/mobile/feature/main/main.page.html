@@ -84,7 +84,7 @@
     </div>
 
     <div class="product-container" (scroll)="onInfinite($event)">
-      <div class="loading-container" *ngIf="vm.buffetLoading">
+      <div class="loading-container" *ngIf="vm.loadResult.loading">
         <ion-spinner></ion-spinner>
       </div>
       <div class="product-card" *ngFor="let product of vm.products">

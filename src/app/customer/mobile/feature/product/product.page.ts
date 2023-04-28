@@ -2,9 +2,10 @@ import { environment } from "@/environments/environment";
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Select, Store } from "@ngxs/store";
+import { ViewWillEnter, ViewWillLeave } from "@ionic/angular";
+import { Actions, Select, Store, ofActionDispatched } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
-import { loadBuffetById, loadBuffetByRoute } from "@shared/buffet/utils";
+import { loadBuffetById } from "@shared/buffet/utils";
 import { AddItem } from "@shared/cart/data-access";
 import { Category, CategoryState } from "@shared/category";
 import { loadCategoryById } from "@shared/category/utils/load-category-by-id";
@@ -23,6 +24,7 @@ import {
 import { Key } from "readline";
 import {
   Observable,
+  Subscription,
   catchError,
   filter,
   map,
@@ -32,6 +34,7 @@ import {
   switchMap,
   tap,
 } from "rxjs";
+import { CategoriesLoaded, LoadPage, ProductPageState, Reset } from "./store";
 
 interface ProductForm {
   productId: FormControl<number>;
@@ -43,20 +46,27 @@ interface ProductForm {
   templateUrl: "./product.page.html",
   styleUrls: ["./product.page.scss"],
 })
-export class ProductPage implements OnInit {
+export class ProductPage implements OnInit, ViewWillLeave, ViewWillEnter {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
   @Select(CategoryState.entities)
   public categories$!: Observable<Category[]>;
 
+  @Select(ProductPageState.loadResult)
+  public loadResult$!: Observable<{
+    loading: boolean;
+    error?: any;
+  }>;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private store: Store,
     private fb: FormBuilder,
+    private actions: Actions,
   ) {
-    this.loadResult$ = route.queryParams.pipe(
+    /* this.loadResult$ = route.queryParams.pipe(
       switchMap(params => {
         const id = params.productId;
         const product: Product | undefined = store.selectSnapshot(
@@ -73,10 +83,7 @@ export class ProductPage implements OnInit {
       switchMap(id => store.selectOnce(ProductState.entityById(id))),
       switchMap(product => {
         const buffetId = product.buffetId;
-        return loadBuffetById(buffetId, store, false).pipe(
-          filter(x => !x.loading),
-          map(() => buffetId),
-        );
+        return loadBuffetById(buffetId, store, false).pipe(map(() => buffetId));
       }),
       switchMap(buffetId => loadCategoryById(buffetId, store)),
       filter(x => !x.loading),
@@ -84,8 +91,7 @@ export class ProductPage implements OnInit {
       catchError(error => of({ loading: false, error })),
       startWith({ loading: true }),
       shareReplay(1),
-    );
-    this.loadResult$.subscribe();
+    ); */
 
     this.product$ = route.queryParams.pipe(
       switchMap(params => {
@@ -122,13 +128,13 @@ export class ProductPage implements OnInit {
 
   public extraPrice = 0;
 
-  public loadResult$: Observable<{ loading: boolean; error?: any }>;
-
   public product$: Observable<Product | undefined>;
 
   public category$: Observable<Category | undefined>;
 
   public customs: Customization[] | undefined;
+
+  private sub?: Subscription;
 
   get customizations() {
     return this.customizationForm.controls.customizations as FormArray;
@@ -136,6 +142,15 @@ export class ProductPage implements OnInit {
 
   get amount() {
     return this.form.controls.amount.value;
+  }
+
+  ionViewWillEnter(): void {
+    this.store.dispatch(new LoadPage()).subscribe();
+  }
+
+  ionViewWillLeave(): void {
+    this.store.dispatch(new Reset()).subscribe();
+    this.sub?.unsubscribe();
   }
 
   createControls() {
