@@ -33,7 +33,6 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { Product, ProductService } from "@shared/product";
 import { Dictionary } from "@/types";
-import { loadBuffetById } from "@shared/buffet/utils";
 import { environment } from "@/environments/environment";
 import { ViewWillEnter, ViewWillLeave } from "@ionic/angular";
 
@@ -138,11 +137,11 @@ export class MainPage implements ViewWillLeave, ViewWillEnter {
         }),
       )
       .subscribe();
-    this.store.dispatch(new LoadPage());
+    this.store.dispatch(new LoadPage()).subscribe();
   }
 
   ionViewWillLeave(): void {
-    this.store.dispatch(new Reset());
+    this.store.dispatch(new Reset()).subscribe();
     this.sub?.unsubscribe();
   }
 

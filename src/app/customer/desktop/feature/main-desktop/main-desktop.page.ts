@@ -21,7 +21,6 @@ import {
   take,
   tap,
 } from "rxjs";
-import { loadBuffetById } from "@shared/buffet/utils";
 import {
   LoadInitialProducts,
   LoadMoreProducts,
@@ -92,11 +91,11 @@ export class MainDesktopPage implements OnInit, ViewWillLeave, ViewWillEnter {
   }
 
   ionViewWillEnter(): void {
-    this.store.dispatch(new LoadPage());
+    this.store.dispatch(new LoadPage()).subscribe();
   }
 
   ionViewWillLeave(): void {
-    this.store.dispatch(new Reset());
+    this.store.dispatch(new Reset()).subscribe();
     this.sub?.unsubscribe();
   }
 

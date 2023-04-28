@@ -9,6 +9,7 @@ import { ProductPageRoutingModule } from "./product-routing.module";
 import { ProductPage } from "./product.page";
 import { RouterModule } from "@angular/router";
 import { AppRoutingModule } from "@app/app-routing.module";
+import { ErrorMessagePipe } from "@shared/exceptions";
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { AppRoutingModule } from "@app/app-routing.module";
     ProductPageRoutingModule,
     RouterModule,
     ReactiveFormsModule,
+    ErrorMessagePipe,
   ],
   declarations: [ProductPage],
 })

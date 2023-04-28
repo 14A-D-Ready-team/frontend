@@ -83,6 +83,7 @@ export class LoginState {
     //rxjs c:
     //http kérés elindítása
     //ha hiba van akkor login failed, ha nincs login succeeded
+
     return this.authService.signIn(payload).pipe(
       switchMap(user => ctx.dispatch(new LoginSucceeded(user))),
       catchError(error => ctx.dispatch(new LoginFailed(error))),

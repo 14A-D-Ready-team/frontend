@@ -1,0 +1,63 @@
+@import "/src/global.scss";
+
+* {
+  font-family: "Poppins";
+  color: black;
+}
+
+.container {
+  padding-top: 2rem;
+  width: 100vw;
+  height: 100vh;
+  background-color: white !important;
+  position: relative;
+
+  .top-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: 0.65rem 0;
+
+    .back-link {
+      position: absolute;
+      top: 25%;
+      left: 5%;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .cart-container {
+    width: 100vw;
+  }
+}
+
+.navbar {
+  position: fixed;
+  bottom: 0;
+  @include flex-center(row, space-evenly);
+  height: 70px;
+  background-color: $card-background;
+  box-shadow: 0px -10px 30px -25px rgb(161, 161, 161);
+  padding: 0.5rem;
+  font-size: $s-font;
+
+  .nav-item {
+    @include flex-center(column, center);
+    a {
+      text-decoration: none;
+      color: black;
+      font-size: $s-font;
+    }
+    svg {
+      width: 1.5rem;
+      height: auto;
+      padding-bottom: 5px;
+      object-fit: contain;
+    }
+  }
+
+  .selected a {
+    color: $ready-red;
+  }
+}
