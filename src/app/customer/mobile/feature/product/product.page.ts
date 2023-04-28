@@ -1,3 +1,4 @@
+import { environment } from "@/environments/environment";
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -228,6 +229,10 @@ export class ProductPage implements OnInit {
     console.log(product);
     this.store.dispatch(new AddItem(product));
     this.router.navigate(["cart-mobile"]);
+  }
+
+  getImage(productId: number) {
+    return environment.api.url + "/product/" + productId + "/image";
   }
 
   ngOnInit() {
