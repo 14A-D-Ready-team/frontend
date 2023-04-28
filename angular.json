@@ -114,6 +114,10 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/environments/platform.ts",
+                  "with": "src/environments/platform.mobile.ts"
                 }
               ],
               "optimization": true,

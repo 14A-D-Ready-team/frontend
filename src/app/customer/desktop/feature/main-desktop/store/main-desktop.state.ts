@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { State, Store, Selector, Action, StateContext } from "@ngxs/store";
-import { CategoryState, Category } from "@shared/category";
+import { CategoryState, Category, loadCategories } from "@shared/category";
 import {
   FilterProductsQuery,
   Product,
@@ -8,7 +8,15 @@ import {
   ProductState,
 } from "@shared/product";
 import { Dictionary, fromPairs } from "lodash";
-import { LoadInitialProducts, LoadMoreProducts } from "./main-desktop.actions";
+import {
+  LoadInitialProducts,
+  LoadMoreProducts,
+  LoadPage,
+} from "./main-desktop.actions";
+import { loadBuffetById } from "@shared/buffet/utils";
+import { Router } from "@angular/router";
+import { catchError, of, startWith, switchMap, tap } from "rxjs";
+import { BuffetState } from "@shared/buffet";
 
 const productsLoaded = 6;
 
@@ -17,21 +25,26 @@ export interface MainDesktopStateModel {
     productIds: number[];
     remainingItems?: number;
   }>;
-  loading: Dictionary<boolean>;
+  loadingProducts: Dictionary<boolean>;
+  loadResult: {
+    loading: boolean;
+    error?: any;
+  };
 }
 
 @State<MainDesktopStateModel>({
   name: "mainDesktop",
   defaults: {
     paginationState: {},
-    loading: {},
+    loadingProducts: {},
+    loadResult: {
+      loading: true,
+    },
   },
 })
 @Injectable()
 export class MainDesktopState {
-  constructor(private store: Store) {}
-
-  public static products(state: MainDesktopStateModel, products: Product[]) {}
+  constructor(private store: Store, private router: Router) {}
 
   @Selector([CategoryState.categoriesOfActiveBuffet])
   public static shownCategories(
@@ -55,6 +68,11 @@ export class MainDesktopState {
     );
 
     return fromPairs(pairs);
+  }
+
+  @Selector()
+  public static loadResult(state: MainDesktopStateModel) {
+    return state.loadResult;
   }
 
   @Action(LoadInitialProducts)
@@ -84,7 +102,7 @@ export class MainDesktopState {
     ctx: StateContext<MainDesktopStateModel>,
     action: LoadMoreProducts,
   ) {
-    const loadingDict = ctx.getState().loading;
+    const loadingDict = ctx.getState().loadingProducts;
     if (loadingDict[action.id]) {
       return;
     }
@@ -96,7 +114,7 @@ export class MainDesktopState {
     }
 
     ctx.patchState({
-      loading: { ...loadingDict, [action.id]: true },
+      loadingProducts: { ...loadingDict, [action.id]: true },
     });
 
     return ctx.dispatch(
@@ -125,11 +143,43 @@ export class MainDesktopState {
     ];
     const remainingItems = action.count - productIds.length;
     ctx.patchState({
-      loading: { ...ctx.getState().loading, [categoryId]: false },
+      loadingProducts: {
+        ...ctx.getState().loadingProducts,
+        [categoryId]: false,
+      },
       paginationState: {
         ...dict,
         [categoryId]: { remainingItems, productIds },
       },
     });
+  }
+
+  @Action(LoadPage)
+  public loadPage(ctx: StateContext<MainDesktopStateModel>) {
+    return this.loadActiveBuffet().pipe(
+      switchMap(() => loadCategories(this.store).pipe(startWith(undefined))),
+      switchMap(() => this.store.selectOnce(MainDesktopState.shownCategories)),
+      tap(categories => {
+        ctx.patchState({ loadResult: { loading: false } });
+        categories.forEach(c => {
+          this.store.dispatch(new LoadInitialProducts(c.id));
+        });
+      }),
+      catchError(error => {
+        ctx.patchState({ loadResult: { loading: false, error } });
+
+        return of(undefined);
+      }),
+    );
+  }
+
+  private loadActiveBuffet() {
+    const buffetId = this.router.routerState.snapshot.root.queryParams.buffetId;
+    const buffet = this.store.selectSnapshot(BuffetState.active);
+    if (buffet && (buffetId === undefined || buffet.id === +buffetId)) {
+      return of(buffet);
+    }
+
+    return loadBuffetById(+buffetId, this.store, true);
   }
 }

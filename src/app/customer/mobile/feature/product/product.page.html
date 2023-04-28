@@ -30,7 +30,7 @@
         />
       </svg>
     </a>
-    <img [src]="getImage(activeProduct.id)" alt="" />
+    <img [src]="getImage(vm.product.id)" alt="" />
   </div>
 
   <div class="card" *ngIf="vm.product">
@@ -161,7 +161,8 @@
     <form [formGroup]="form">
       <div class="price-container">
         <p class="price">
-          {{(vm.product.discountedPrice + extraPrice) * amount }} Ft
+          {{(vm.product.discountedPrice||vm.product.fullPrice + extraPrice) *
+          amount }} Ft
         </p>
         <div class="add-amount-container">
           <button class="minus-btn" type="button" (click)="changeAmount(false)">

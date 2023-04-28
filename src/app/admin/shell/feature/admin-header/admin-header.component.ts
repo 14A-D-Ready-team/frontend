@@ -41,6 +41,10 @@ import { Buffet, BuffetState } from "@shared/buffet";
             <ion-icon name="mail-outline" slot="start"></ion-icon>
             <ion-label>Meghívó küldése</ion-label>
           </ion-item>
+          <ion-item lines="none" routerLink="/buffet-select">
+            <ion-icon name="cart-outline" slot="start"></ion-icon>
+            <ion-label>Vásárlói oldal</ion-label>
+          </ion-item>
           <ion-item
             class="user-item"
             lines="none"

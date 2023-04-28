@@ -1,5 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { Select, Store } from "@ngxs/store";
+import {
+  Actions,
+  Select,
+  Store,
+  ofAction,
+  ofActionDispatched,
+} from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { User } from "@shared/user";
@@ -11,23 +17,31 @@ import {
   Observable,
   of,
   shareReplay,
+  Subscription,
   switchMap,
   take,
   tap,
 } from "rxjs";
-import { LoadMoreProducts, MainPageState, SelectCategory } from "./store";
+import {
+  CategoriesLoaded,
+  LoadMoreProducts,
+  LoadPage,
+  MainPageState,
+  Reset,
+  SelectCategory,
+} from "./store";
 import { ActivatedRoute } from "@angular/router";
 import { Product, ProductService } from "@shared/product";
 import { Dictionary } from "@/types";
-import { loadBuffetByRoute } from "@shared/buffet/utils";
 import { environment } from "@/environments/environment";
+import { ViewWillEnter, ViewWillLeave } from "@ionic/angular";
 
 @Component({
   selector: "app-main",
   templateUrl: "./main.page.html",
   styleUrls: ["./main.page.scss"],
 })
-export class MainPage {
+export class MainPage implements ViewWillLeave, ViewWillEnter {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
@@ -46,6 +60,12 @@ export class MainPage {
   @Select(MainPageState.shownProducts)
   public products$!: Observable<Product[]>;
 
+  @Select(MainPageState.loadResult)
+  public loadResult$!: Observable<{
+    loading: boolean;
+    error?: any;
+  }>;
+
   @ViewChild("categoryInput")
   categoryInput!: ElementRef<HTMLInputElement>;
 
@@ -53,6 +73,7 @@ export class MainPage {
 
   public select(id: number) {
     //this.store.dispatch(new UnloadProducts());
+
     this.activeCategoryId = id.toString();
     this.store.dispatch(new SelectCategory(this.activeCategoryId));
   }
@@ -64,36 +85,17 @@ export class MainPage {
     categories: Category[];
     categoriesDict: Dictionary<Category>;
     products: Product[];
-    buffetLoadResult: { loading: boolean; error?: any };
+    loadResult: { loading: boolean; error?: any };
   }>;
+
+  private sub?: Subscription;
 
   constructor(
     private store: Store,
     private route: ActivatedRoute,
     private productService: ProductService,
+    private actions: Actions,
   ) {
-    const buffet: Buffet | undefined = this.store.selectSnapshot(
-      BuffetState.active,
-    );
-    let buffetLoadResult$: Observable<{ loading: boolean; error?: any }>;
-    if (buffet) {
-      buffetLoadResult$ = of({ loading: false }).pipe(shareReplay(1));
-    } else {
-      buffetLoadResult$ = loadBuffetByRoute(route, store).pipe(shareReplay(1));
-    }
-
-    buffetLoadResult$
-      .pipe(
-        filter(result => !result.loading && !result.error),
-        take(1),
-        switchMap(() => loadCategories(this.store)),
-        tap(() => {
-          this.categoryInput.nativeElement.checked = true;
-          this.select(1);
-        }),
-      )
-      .subscribe();
-
     this.vm$ = combineLatest([
       this.activeBuffet$,
       this.activeUser$,
@@ -101,7 +103,7 @@ export class MainPage {
       this.categories$,
       this.categoriesDict$,
       this.products$,
-      buffetLoadResult$,
+      this.loadResult$,
     ]).pipe(
       map(
         ([
@@ -111,7 +113,7 @@ export class MainPage {
           categories,
           categoriesDict,
           products,
-          buffetLoadResult,
+          loadResult,
         ]) => ({
           activeBuffet,
           activeUser,
@@ -119,10 +121,28 @@ export class MainPage {
           categories,
           categoriesDict,
           products,
-          buffetLoadResult,
+          loadResult,
         }),
       ),
     );
+  }
+
+  ionViewWillEnter(): void {
+    this.sub = this.actions
+      .pipe(
+        ofActionDispatched(CategoriesLoaded),
+        tap(a => {
+          this.categoryInput.nativeElement.checked = true;
+          this.select(a.categories[0].id);
+        }),
+      )
+      .subscribe();
+    this.store.dispatch(new LoadPage()).subscribe();
+  }
+
+  ionViewWillLeave(): void {
+    this.store.dispatch(new Reset()).subscribe();
+    this.sub?.unsubscribe();
   }
 
   onInfinite(event: any) {

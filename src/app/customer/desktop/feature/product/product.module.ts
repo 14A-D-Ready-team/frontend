@@ -5,6 +5,7 @@ import { ProductRoutingModule } from "./product-routing.module";
 import { FormsModule } from "@angular/forms";
 import { NavbarModule } from "../navbar";
 import { IonicModule } from "@ionic/angular";
+import { ProductComponent } from "./product.component";
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { IonicModule } from "@ionic/angular";
     NavbarModule,
     //NgxsModule.forFeature([ProductState]),
   ],
-  declarations: [],
+  declarations: [ProductComponent],
 })
 export class ProductModule {}

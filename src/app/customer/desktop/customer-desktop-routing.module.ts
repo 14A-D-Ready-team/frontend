@@ -25,8 +25,7 @@ const routes: Routes = [
   },
   {
     path: "product",
-    loadChildren: () =>
-      import("./feature/product").then(m => m.ProductRoutingModule),
+    loadChildren: () => import("./feature/product").then(m => m.ProductModule),
     canActivateChild: [BuffetSelectGuard],
   },
 ];

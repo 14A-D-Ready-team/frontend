@@ -1,3 +1,4 @@
+import { environment } from "@/environments/environment";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import {
@@ -9,6 +10,7 @@ import {
 import { SetActive } from "@ngxs-labs/entity-state";
 import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
+// import { RemoveAllCategoriesOfBuffet, ResetCategoryState } from "@shared/category/data-access/store/category.actions";
 import {
   catchError,
   combineLatest,
@@ -43,6 +45,10 @@ export class BuffetSelectPage implements OnInit {
 
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
+
+  public activeBuffetId!: number;
+
+  public env = environment;
 
   cancel() {
     this.modal.dismiss(null, "cancel");
@@ -85,7 +91,5 @@ export class BuffetSelectPage implements OnInit {
 
   constructor(private store: Store) {}
 
-  ngOnInit() {
-    // this.store.dispatch(new LoadPage());
-  }
+  ngOnInit() {}
 }

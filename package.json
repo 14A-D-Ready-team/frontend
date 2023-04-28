@@ -11,7 +11,7 @@
     "dev": "powershell scripts/dev.ps1",
     "start": "ng serve",
     "start-web": "ng run app:serve-web --port 4300",
-    "build": "ng build",
+    "build": "ng run app:build:production",
     "build-web": "ng run app:build-web:production",
     "test": "ng test --code-coverage",
     "lint": "ng lint",

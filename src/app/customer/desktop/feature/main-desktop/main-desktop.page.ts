@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Select, Store } from "@ngxs/store";
+import { Select, Store, ofActionDispatched } from "@ngxs/store";
 import { AuthState } from "@shared/authentication";
 import { Buffet, BuffetState } from "@shared/buffet";
 import { Category, loadCategories } from "@shared/category";
@@ -16,25 +16,28 @@ import {
   of,
   shareReplay,
   startWith,
+  Subscription,
   switchMap,
   take,
   tap,
 } from "rxjs";
-import { loadBuffetByRoute } from "@shared/buffet/utils";
 import {
   LoadInitialProducts,
   LoadMoreProducts,
+  LoadPage,
   MainDesktopState,
+  Reset,
 } from "./store";
 import { Dictionary } from "@/types";
 import { environment } from "@/environments/environment";
+import { ViewWillEnter, ViewWillLeave } from "@ionic/angular";
 
 @Component({
   selector: "app-main-desktop",
   templateUrl: "./main-desktop.page.html",
   styleUrls: ["./main-desktop.page.scss"],
 })
-export class MainDesktopPage implements OnInit {
+export class MainDesktopPage implements OnInit, ViewWillLeave, ViewWillEnter {
   @Select(AuthState.user)
   public activeUser$!: Observable<User>;
 
@@ -47,13 +50,21 @@ export class MainDesktopPage implements OnInit {
   @Select(MainDesktopState.shownProducts)
   public products$!: Observable<Dictionary<Product[]>>;
 
+  @Select(MainDesktopState.loadResult)
+  public loadResult$!: Observable<{
+    loading: boolean;
+    error?: any;
+  }>;
+
   public url$!: Observable<Dictionary<string>>;
+
+  private sub?: Subscription;
 
   public vm$: Observable<{
     activeBuffet: Buffet | undefined;
     activeUser: User;
     categories: Category[];
-    buffetLoadResult: { loading: boolean; error?: any };
+    loadResult: { loading: boolean; error?: any };
     products: Dictionary<Product[]>;
   }>;
 
@@ -62,54 +73,30 @@ export class MainDesktopPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
   ) {
-    const buffet: Buffet | undefined = this.store.selectSnapshot(
-      BuffetState.active,
-    );
-    let buffetLoadResult$: Observable<{ loading: boolean; error?: any }>;
-    if (buffet) {
-      buffetLoadResult$ = of({ loading: false }).pipe(shareReplay(1));
-    } else {
-      buffetLoadResult$ = loadBuffetByRoute(route, store).pipe(shareReplay(1));
-    }
-
-    buffetLoadResult$
-      .pipe(
-        filter(result => !result.loading && !result.error),
-        take(1),
-        switchMap(() => loadCategories(this.store)),
-        switchMap(() => this.categories$),
-        take(1),
-        tap(categories => {
-          categories.forEach(c => {
-            this.store.dispatch(new LoadInitialProducts(c.id));
-          });
-        }),
-      )
-      .subscribe();
-
     this.vm$ = combineLatest([
       this.activeBuffet$,
       this.activeUser$,
       this.categories$,
       this.products$,
-      buffetLoadResult$,
+      this.loadResult$,
     ]).pipe(
-      map(
-        ([
-          activeBuffet,
-          activeUser,
-          categories,
-          products,
-          buffetLoadResult,
-        ]) => ({
-          activeBuffet,
-          activeUser,
-          categories,
-          products,
-          buffetLoadResult,
-        }),
-      ),
+      map(([activeBuffet, activeUser, categories, products, loadResult]) => ({
+        activeBuffet,
+        activeUser,
+        categories,
+        products,
+        loadResult,
+      })),
     );
+  }
+
+  ionViewWillEnter(): void {
+    this.store.dispatch(new LoadPage()).subscribe();
+  }
+
+  ionViewWillLeave(): void {
+    this.store.dispatch(new Reset()).subscribe();
+    this.sub?.unsubscribe();
   }
 
   loadMoreProducts(categoryId: number) {

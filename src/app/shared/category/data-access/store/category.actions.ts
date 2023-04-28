@@ -70,3 +70,7 @@ export class RemoveAllCategoriesOfBuffet {
 
   constructor(public buffetId: number) {}
 }
+
+// export class ResetCategoryState {
+//   public static readonly type = "[Category] Reset Category State";
+// }
