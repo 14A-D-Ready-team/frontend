@@ -20,7 +20,7 @@ import {
   take,
   tap,
 } from "rxjs";
-import { loadBuffetById } from "@shared/buffet/utils";
+import { loadBuffetByRoute } from "@shared/buffet/utils";
 import {
   LoadInitialProducts,
   LoadMoreProducts,
@@ -69,7 +69,7 @@ export class MainDesktopPage implements OnInit {
     if (buffet) {
       buffetLoadResult$ = of({ loading: false }).pipe(shareReplay(1));
     } else {
-      buffetLoadResult$ = loadBuffetById(route, store).pipe(shareReplay(1));
+      buffetLoadResult$ = loadBuffetByRoute(route, store).pipe(shareReplay(1));
     }
 
     buffetLoadResult$

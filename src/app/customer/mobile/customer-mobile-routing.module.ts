@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { BuffetSelectGuard } from "../utils";
+import { BuffetSelectGuard, ProductPageGuard } from "../utils";
 
 const routes: Routes = [
   {
@@ -21,6 +21,17 @@ const routes: Routes = [
     path: "product",
     loadChildren: () =>
       import("./feature/product").then(m => m.ProductPageModule),
+    canActivateChild: [ProductPageGuard],
+  },
+  {
+    path: "cart-mobile",
+    loadChildren: () =>
+      import("./feature/cart-mobile").then(m => m.CartMobilePageModule),
+  },
+  {
+    path: "order-details",
+    loadChildren: () =>
+      import("./feature/order-details").then(m => m.OrderDetailsPageModule),
   },
   {
     path: "profile-mobile",

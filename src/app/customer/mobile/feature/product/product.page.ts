@@ -1,12 +1,43 @@
 import { environment } from "@/environments/environment";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Select } from "@ngxs/store";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Select, Store } from "@ngxs/store";
 import { Buffet, BuffetState } from "@shared/buffet";
+import { loadBuffetById, loadBuffetByRoute } from "@shared/buffet/utils";
+import { AddItem } from "@shared/cart/data-access";
 import { Category, CategoryState } from "@shared/category";
-import { Customization, Option, Product, ProductState } from "@shared/product";
-import { Observable, take } from "rxjs";
+import { loadCategoryById } from "@shared/category/utils/load-category-by-id";
+import { OrderedProductDto } from "@shared/order";
+import {
+  Customization,
+  Product,
+  ProductState,
+  loadProductById,
+} from "@shared/product";
+import { forEach, pick } from "lodash";
+import {
+  ClassValidatorFormControl,
+  ClassValidatorFormGroup,
+} from "ngx-reactive-form-class-validator";
+import { Key } from "readline";
+import {
+  Observable,
+  catchError,
+  filter,
+  map,
+  of,
+  shareReplay,
+  startWith,
+  switchMap,
+  tap,
+} from "rxjs";
 
+interface ProductForm {
+  productId: FormControl<number>;
+  amount: FormControl<number>;
+  selectedOptionIds: FormControl<number[]>;
+}
 @Component({
   selector: "app-product",
   templateUrl: "./product.page.html",
@@ -16,58 +47,188 @@ export class ProductPage implements OnInit {
   @Select(BuffetState.active)
   public activeBuffet$!: Observable<Buffet>;
 
-  @Select(ProductState.entities)
-  public products$!: Observable<Product[]>;
-
   @Select(CategoryState.entities)
   public categories$!: Observable<Category[]>;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private store: Store,
+    private fb: FormBuilder,
+  ) {
+    this.loadResult$ = route.queryParams.pipe(
+      switchMap(params => {
+        const id = params.productId;
+        const product: Product | undefined = store.selectSnapshot(
+          ProductState.entityById(id),
+        );
+        if (!product) {
+          return loadProductById(id, store).pipe(
+            filter(x => !x.loading),
+            map(() => id),
+          );
+        }
+        return of(id);
+      }),
+      switchMap(id => store.selectOnce(ProductState.entityById(id))),
+      switchMap(product => {
+        const buffetId = product.buffetId;
+        return loadBuffetById(buffetId, store, false).pipe(
+          filter(x => !x.loading),
+          map(() => buffetId),
+        );
+      }),
+      switchMap(buffetId => loadCategoryById(buffetId, store)),
+      filter(x => !x.loading),
+      map(() => ({ loading: false })),
+      catchError(error => of({ loading: false, error })),
+      startWith({ loading: true }),
+      shareReplay(1),
+    );
+    this.loadResult$.subscribe();
 
-  activeProduct!: Product;
+    this.product$ = route.queryParams.pipe(
+      switchMap(params => {
+        return store.select(ProductState.entityById(params.productId));
+      }),
+      filter(x => !!x),
+    );
 
-  activeCategory!: Category;
+    this.category$ = this.product$.pipe(
+      switchMap(p => {
+        return store.select(CategoryState.entityById(p!.categoryId));
+      }),
+      filter(x => !!x),
+    );
 
-  customizations!: Customization[];
+    this.customizationForm = this.fb.group({
+      customizations: this.fb.array([]),
+    });
 
-  amount = 1;
-  max = 1;
+    this.form = new ClassValidatorFormGroup<ProductForm>(OrderedProductDto, {
+      productId: new ClassValidatorFormControl<number>(0),
+      amount: new ClassValidatorFormControl<number>(1),
+      selectedOptionIds: new ClassValidatorFormControl<number[]>(),
+    });
 
-  finalPrice!: number;
+    this.addCustomizationToFrom();
 
-  userCustomization: Option[] = [];
+    this.calculateExtraPrice();
+  }
 
-  customs: Customization[] = [];
+  public customizationForm: FormGroup;
 
-  changeAmount(add: boolean) {
-    if (add) {
-      if (this.amount < this.max) this.amount++;
-    } else {
-      if (this.amount > 1) this.amount--;
+  public form: ClassValidatorFormGroup;
+
+  public extraPrice = 0;
+
+  public loadResult$: Observable<{ loading: boolean; error?: any }>;
+
+  public product$: Observable<Product | undefined>;
+
+  public category$: Observable<Category | undefined>;
+
+  public customs: Customization[] | undefined;
+
+  get customizations() {
+    return this.customizationForm.controls.customizations as FormArray;
+  }
+
+  get amount() {
+    return this.form.controls.amount.value;
+  }
+
+  createControls() {
+    const formArray = this.customizations;
+
+    for (const custom of this.customs!) {
+      const customsFormGroup = new FormGroup({});
+      if (custom.optionCount === 1) {
+        const checkboxGroup = new FormGroup({});
+        customsFormGroup.addControl(custom.id.toString(), checkboxGroup);
+        for (const option of custom.options) {
+          checkboxGroup.addControl(option.id.toString(), new FormControl());
+        }
+      } else {
+        const radio = new FormControl();
+        //Alapértelmezetten első kiválasztva
+        radio.setValue(custom.options[0].id);
+        customsFormGroup.addControl(custom.id.toString(), radio);
+      }
+      formArray.push(customsFormGroup);
     }
-
-    this.finalPrice = this.activeProduct.fullPrice * this.amount;
   }
 
-  onCustomCheck(event: any, customization: Option, c: Customization) {
-    if (event.detail.checked) {
-      this.userCustomization.push(customization);
-      this.customs.push(c);
-      console.log();
+  addCustomizationToFrom() {
+    this.customizationForm.valueChanges.subscribe(c => {
+      const customizationIds: number[] = [];
+      c.customizations.forEach((customization: object) => {
+        Object.values(customization).forEach(option => {
+          if (option) {
+            if (typeof option === "object") {
+              Object.keys(option)
+                .filter(v => option[v])
+                .forEach(o => {
+                  customizationIds.push(+o);
+                });
+            } else {
+              const value = option;
+              customizationIds.push(value);
+            }
+          }
+        });
+      });
+      this.form.controls.selectedOptionIds.setValue(customizationIds);
+      console.log(this.form);
+    });
+  }
+
+  calculateExtraPrice() {
+    this.customizationForm.valueChanges.subscribe(c => {
+      let cost = 0;
+      this.customs?.forEach(x => {
+        x.options.forEach(o => {
+          if (
+            (this.form.controls.selectedOptionIds.value as number[]).includes(
+              o.id,
+            )
+          ) {
+            cost += o.extraCost;
+          }
+        });
+      });
+      this.extraPrice = cost;
+    });
+  }
+
+  changeAmount(addAmount: boolean) {
+    const value = this.form.controls.amount.value;
+    let stock: number | undefined = 1;
+    this.product$.subscribe(x => {
+      stock = x?.stock;
+    });
+
+    if (addAmount) {
+      if (value < stock && value < 3) {
+        const biggerValue = value + 1;
+        this.form.controls.amount.setValue(biggerValue);
+      }
     } else {
-      const index = this.userCustomization.indexOf(customization);
-      this.userCustomization.splice(index, 1);
+      if (value > 1) {
+        const lowerValue = value - 1;
+        this.form.controls.amount.setValue(lowerValue);
+      }
     }
   }
 
-  onCustomRadio(event: any) {
-    console.log(event.detail.value);
-  }
-
-  onSpecRadio(customization: Customization, option: Option) {
-    const index = this.userCustomization.indexOf(option);
-    this.userCustomization.splice(index, 1);
-    console.log(this.customs);
+  addProductToCart() {
+    const pId = this.form.value.productId;
+    const amount = this.form.value.amount;
+    const selectedOptionIds = this.form.value.selectedOptionIds;
+    const product = new OrderedProductDto(pId, amount, selectedOptionIds);
+    console.log(product);
+    this.store.dispatch(new AddItem(product));
+    this.router.navigate(["cart-mobile"]);
   }
 
   getImage(productId: number) {
@@ -75,28 +236,12 @@ export class ProductPage implements OnInit {
   }
 
   ngOnInit() {
-    const idFromRoute = this.route.snapshot.queryParamMap.get("productId")!;
+    this.product$.pipe(filter((x): x is Product => !!x)).subscribe(x => {
+      this.customs = x?.customizations;
+      this.form.patchValue({ productId: x.id });
+      this.createControls();
+    });
 
-    if (idFromRoute) {
-      this.products$.pipe(take(1)).subscribe(products =>
-        products.forEach(product => {
-          if (idFromRoute === product.id.toString()) {
-            this.activeProduct = product;
-            this.max = this.activeProduct.stock;
-            this.finalPrice = this.activeProduct.fullPrice;
-          }
-        }),
-      );
-
-      this.categories$.pipe(take(1)).subscribe(categories =>
-        categories.forEach(category => {
-          if (this.activeProduct.categoryId === category.id) {
-            this.activeCategory = category;
-          }
-        }),
-      );
-
-      this.customizations = this.activeProduct.customizations;
-    }
+    console.log(this.form);
   }
 }

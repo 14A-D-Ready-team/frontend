@@ -18,6 +18,7 @@ import { AuthenticationModule } from "@shared/authentication";
 import { APP_ABILITY_FACTORY, PolicyModule } from "@shared/policy";
 import { AppAbilityFactory } from "./app-ability.factory";
 import { AppRoutingModule } from "./app-routing.module";
+import { CartModule } from "@shared/cart";
 
 const routeReuseStrategyProvider = {
   provide: RouteReuseStrategy,
@@ -49,6 +50,7 @@ const appAbilityFactoryProvider = {
     PolicyModule,
     BuffetModule,
     AppRoutingModule,
+    CartModule,
   ],
   providers: [routeReuseStrategyProvider, appAbilityFactoryProvider],
   bootstrap: [AppComponent],

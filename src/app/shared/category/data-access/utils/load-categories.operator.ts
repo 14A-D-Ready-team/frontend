@@ -25,3 +25,18 @@ export function loadCategories(store: Store, forceReload = false) {
     ),
   );
 }
+
+export function loadCategoriesByBuffetId(
+  id: number,
+  store: Store,
+  forceReload = false,
+) {
+  return waitForCategoryLoading(store).pipe(
+    switchMap(() => store.selectOnce(CategoryState.isAllLoaded(+id))),
+    filter(allLoaded => forceReload || !allLoaded),
+    //takeUntil(), until page is destroyed
+    switchMap(() =>
+      store.dispatch(new CategoryActions.Load(new FilterCategoriesQuery(+id))),
+    ),
+  );
+}

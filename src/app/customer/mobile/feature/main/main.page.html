@@ -48,7 +48,7 @@
   <!-- üdvözlőszöveg -->
   <div class="text-container">
     <h1>
-      Üdvözöljük<span *ngIf="vm.activeUser" class="user-name"
+      Üdvözöljük&nbsp;<span *ngIf="vm.activeUser" class="user-name"
         >{{ vm.activeUser?.name }}</span
       >!
     </h1>
@@ -84,6 +84,9 @@
     </div>
 
     <div class="product-container" (scroll)="onInfinite($event)">
+      <div class="loading-container" *ngIf="vm.buffetLoading">
+        <ion-spinner></ion-spinner>
+      </div>
       <div class="product-card" *ngFor="let product of vm.products">
         <img [src]="getImage(product.id)" class="product-img" alt="" />
         <div class="product-description">
@@ -91,7 +94,7 @@
             {{vm.categoriesDict[product.categoryId].name}}
           </p>
           <p class="product-name">{{product.name}}</p>
-          <p class="product-price">{{product.fullPrice}} Ft</p>
+          <p class="product-price">{{product.discountedPrice}} Ft</p>
           <button
             class="add-btn"
             routerLink="/product"
@@ -171,7 +174,7 @@
           fill="#292D32"
         />
       </svg>
-      <a href="">Kosár</a>
+      <a href="" routerLink="/cart-mobile">Kosár</a>
     </div>
     <div class="nav-item">
       <svg
@@ -206,7 +209,7 @@
           fill="#292D32"
         />
       </svg>
-      <a href="">Rendelés</a>
+      <a routerLink="order-details">Rendelés</a>
     </div>
     <div class="nav-item">
       <svg

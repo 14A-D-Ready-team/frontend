@@ -1,0 +1,131 @@
+@import "/src/global.scss";
+
+.cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.card {
+  margin: 0.4rem;
+  height: 100px;
+  width: 95%;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  img {
+    height: 80%;
+    aspect-ratio: 1/1;
+    width: auto;
+    border-radius: 15px;
+    object-fit: cover;
+  }
+
+  .card-body {
+    margin-left: 0.8rem;
+    width: 45%;
+    p {
+      margin: 0;
+      padding: 0;
+      font-size: 0.93rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .name {
+      color: rgba(37, 37, 28, 0.8);
+      font-weight: bold;
+    }
+    .customization,
+    .category {
+      font-size: 0.8rem;
+    }
+    .price {
+      font-weight: bold;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    .round-btn {
+      outline: none;
+      border: none;
+      height: 1.6rem;
+      width: 1.6rem;
+      margin: 0 0.4rem;
+      border-radius: 100%;
+      font-weight: 500;
+    }
+    .plus {
+      background-color: $ready-red;
+      color: white;
+    }
+
+    .minus {
+      border: 1.5px solid black;
+      background-color: transparent;
+      color: black;
+    }
+    p {
+      margin: 0 0.3rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+  }
+
+  .delete {
+    background-color: transparent;
+    position: absolute;
+    top: 10%;
+    right: 0%;
+  }
+}
+
+.final-price-container {
+  position: absolute;
+  bottom: 18%;
+  margin: 0.5rem auto;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 480px;
+  p {
+    font-weight: bold;
+    text-align: center;
+  }
+  .final-price {
+    width: 25%;
+    text-align: center;
+  }
+
+  .text {
+    width: 30%;
+    text-align: center;
+  }
+}
+
+.ready-btn {
+  position: absolute;
+  bottom: 10%;
+}
+
+.message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
