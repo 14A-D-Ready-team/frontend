@@ -118,7 +118,7 @@
   }
   .product-container {
     margin: 0.5rem 0;
-    overflow-x: auto;
+    overflow-x: scroll;
     display: flex;
     .product-card {
       border-radius: 25px 0px 25px 25px;
