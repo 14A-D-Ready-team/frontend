@@ -1,9 +1,6 @@
 <div class="desktop-background">
   <app-navbar></app-navbar>
-  <div
-    class="before-login"
-    *ngIf="(activeUser$ | async) === undefined || (activeBuffet$ | async) === undefined"
-  >
+  <div class="before-login">
     <div class="login-container">
       <img src="/assets/icon/Logo.png" alt="" />
       <p class="title">A büfé alkalmazás</p>
