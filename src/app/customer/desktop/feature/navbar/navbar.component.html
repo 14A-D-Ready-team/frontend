@@ -39,7 +39,7 @@
 
   <div class="logout" lines="none">
     <button
-      *ngIf="(activeUser$ | async) as user"
+      *ngIf="activeUser$ | async as user"
       fill="clear"
       style="background-color: transparent"
       slot="end"
