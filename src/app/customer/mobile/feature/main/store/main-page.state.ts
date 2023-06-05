@@ -21,7 +21,7 @@ import { loadBuffetById } from "@shared/buffet/utils";
 import { catchError, defaultIfEmpty, of, startWith, switchMap } from "rxjs";
 import { BuffetState } from "@shared/buffet";
 
-const productsLoadedPerScroll = 2;
+const productsLoadedPerScroll = 4;
 
 export interface MainPageStateModel {
   selectedCategoryId?: number;

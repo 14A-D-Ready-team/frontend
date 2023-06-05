@@ -161,7 +161,7 @@
     <form [formGroup]="form">
       <div class="price-container">
         <p class="price">
-          {{(vm.product.discountedPrice||vm.product.fullPrice + extraPrice) *
+          {{((vm.product.discountedPrice||vm.product.fullPrice) + extraPrice) *
           amount }} Ft
         </p>
         <div class="add-amount-container">
