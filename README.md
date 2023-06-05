@@ -6,7 +6,15 @@
 [![NGXS](https://img.shields.io/badge/NGXS-v3.7.5-green.svg)](https://www.ngxs.io/)
 [![Cypress](https://img.shields.io/badge/Cypress-v10.10.0-yellow.svg)](https://www.cypress.io/)
 
-This is the frontend of a food ordering application for buffets, called Ready!. This project is built with Angular, Ionic, and NGXS. For hosting, we're using AWS. For additional documentation, please refer to [Ready! documentation](https://docs.google.com/document/d/19URiLzB2myVWFhL0tKEixBiW8bG0VZVh).
+This is the frontend of a food ordering application for buffets, called Ready!. This project is built with Angular, Ionic, and NGXS. For hosting, we're using AWS. For additional documentation, please refer to [Ready! documentation](https://drive.google.com/file/d/1BGZt1q1ZGE9LqIauFie4dsl1p4Z6XelB/view?usp=share_link).
+
+## Website link
+
+https://www.ready-app.hu/
+
+## Website link (mobile)
+
+https://mobile.ready-app.hu/
 
 ## Development server
 
