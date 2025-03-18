@@ -9,12 +9,7 @@
 This is the frontend of a food ordering application for buffets, called Ready!. This project is built with Angular, Ionic, and NGXS. For hosting, we're using AWS. For additional documentation, please refer to [Ready! documentation](https://drive.google.com/file/d/1BGZt1q1ZGE9LqIauFie4dsl1p4Z6XelB/view?usp=share_link).
 
 ## Website link
-
-https://www.ready-app.hu/
-
-## Website link (mobile)
-
-https://mobile.ready-app.hu/
+Hosting of the project discontinued
 
 ## Development server
 
